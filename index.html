@@ -43,7 +43,7 @@
       --radius-sm: 8px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     html {
       min-height: 100%;
@@ -265,7 +265,7 @@
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       color: var(--text);
-      font-size: 0.92rem;
+      font-size: 1rem;
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     }
@@ -280,7 +280,7 @@
       color: var(--text-dark);
     }
     body.dark .add-row input:focus { background: rgba(255,255,255,0.11); }
-    .add-row input::placeholder { color: var(--muted); font-size: 0.88rem; }
+    .add-row input::placeholder { color: var(--muted); }
     body.dark .add-row input::placeholder { color: var(--muted-dark); }
 
     .btn-add {
@@ -388,7 +388,7 @@
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       color: var(--text);
-      font-size: 0.85rem;
+      font-size: 1rem;
       font-family: inherit;
       outline: none;
       resize: none;
@@ -406,17 +406,17 @@
       color: var(--text-dark);
     }
     body.dark .note-input:focus { background: rgba(255,255,255,0.09); }
-    .note-input::placeholder { color: var(--muted); font-size: 0.82rem; }
+    .note-input::placeholder { color: var(--muted); }
     body.dark .note-input::placeholder { color: var(--muted-dark); }
     .note-edit-input {
       width: 100%;
       margin-top: 4px;
-      padding: 3px 8px;
+      padding: 6px 8px;
       border-radius: var(--radius-sm);
       border: 1.5px solid var(--accent);
       background: rgba(255,255,255,0.45);
       color: var(--text);
-      font-size: 0.82rem;
+      font-size: 1rem;
       font-family: inherit;
       outline: none;
       resize: none;
@@ -439,14 +439,14 @@
     body.dark .due-input-icon { color: var(--muted-dark); }
     .due-input {
       flex: 1;
-      padding: 7px 10px;
+      padding: 10px 10px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--gl-border);
       background: rgba(255,255,255,0.22);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       color: var(--text);
-      font-size: 0.82rem;
+      font-size: 1rem;
       font-family: inherit;
       outline: none;
       transition: border-color 0.15s, box-shadow 0.15s;
@@ -478,11 +478,11 @@
     .due-edit-input {
       width: 100%;
       margin-top: 4px;
-      padding: 4px 8px;
+      padding: 6px 8px;
       border-radius: var(--radius-sm);
       border: 1.5px solid var(--accent);
       background: rgba(255,255,255,0.25);
-      font-size: 0.82rem;
+      font-size: 1rem;
       font-family: inherit;
       outline: none;
       box-shadow: 0 0 0 3px var(--accent-muted);
@@ -511,14 +511,14 @@
     body.dark .search-icon { color: var(--muted-dark); }
     .search-input {
       width: 100%;
-      padding: 8px 34px 8px 34px;
+      padding: 10px 36px 10px 36px;
       border-radius: var(--radius-sm);
       border: 1px solid rgba(255,255,255,0.30);
       background: var(--gl-subtle);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       color: var(--text);
-      font-size: 0.85rem;
+      font-size: 1rem;
       outline: none;
       transition: border-color 0.15s, background 0.15s;
     }
@@ -891,12 +891,12 @@
     /* ── Inline Edit ────────────────────────────────────────── */
     .todo-edit-input {
       width: 100%;
-      padding: 3px 8px;
+      padding: 6px 8px;
       border-radius: var(--radius-sm);
       border: 1.5px solid var(--accent);
       background: rgba(255,255,255,0.55);
       color: var(--text);
-      font-size: 0.9rem;
+      font-size: 1rem;
       outline: none;
       box-shadow: 0 0 0 3px var(--accent-muted);
     }
@@ -1241,15 +1241,80 @@
       margin-top: 7px;
     }
 
-    @media (max-width: 480px) {
+    /* ── Touch devices: always show actions & handles ───────── */
+    @media (hover: none) and (pointer: coarse) {
+      /* Actions always visible — no hover on touch */
+      .todo-actions { opacity: 1; }
+      /* Drag handle always visible */
+      .drag-handle { color: rgba(255,255,255,0.45); }
+      body.dark .drag-handle { color: rgba(255,255,255,0.25); }
+      /* Prio badge always tappable */
+      .prio-badge[data-p=""] {
+        display: inline-block;
+        background: rgba(90,100,128,0.10);
+        border-color: rgba(90,100,128,0.18);
+        color: var(--muted);
+      }
+      body.dark .prio-badge[data-p=""] {
+        background: rgba(255,255,255,0.08);
+        border-color: rgba(255,255,255,0.12);
+        color: var(--muted-dark);
+      }
+      /* Active state feedback (replaces hover) */
+      .btn-add:active        { transform: scale(0.93); background: rgba(61,90,254,0.55); }
+      .ctrl-btn:active       { background: rgba(255,255,255,0.50); color: var(--accent); }
+      body.dark .ctrl-btn:active { background: rgba(255,255,255,0.18); }
+      .filter-btn:active     { background: rgba(255,255,255,0.40); }
+      body.dark .filter-btn:active { background: rgba(255,255,255,0.12); }
+      .action-btn:active     { background: rgba(255,255,255,0.42); color: var(--accent); }
+      .action-btn.danger:active { background: var(--danger-muted); color: var(--danger); }
+      .io-btn:active         { border-color: var(--accent); color: var(--accent); }
+      .todo-item:active      { background: rgba(255,255,255,0.22); }
+      body.dark .todo-item:active { background: rgba(255,255,255,0.07); }
+    }
+
+    /* ── Mobile layout ───────────────────────────────────────── */
+    @media (max-width: 640px) {
       body {
-        padding: 16px 12px 48px;
+        padding: 16px 12px 56px;
         padding-top: max(16px, calc(env(safe-area-inset-top) + 12px));
-        padding-bottom: max(48px, calc(env(safe-area-inset-bottom) + 24px));
+        padding-bottom: max(56px, calc(env(safe-area-inset-bottom) + 24px));
         padding-left: max(12px, env(safe-area-inset-left));
         padding-right: max(12px, env(safe-area-inset-right));
       }
-      .card { padding: 16px; }
+      .card { padding: 14px 16px; }
+
+      /* Header controls: 44px touch targets */
+      .ctrl-btn { height: 44px; padding: 0 13px; }
+
+      /* Add row: 44px buttons */
+      .btn-add { width: 44px; height: 44px; }
+      .priority-cycle-btn { height: 44px; min-width: 80px; }
+
+      /* Checkbox: larger tap area via padding trick */
+      .checkbox-wrap { padding: 11px; margin: -11px; }
+
+      /* Todo items: more breathing room */
+      .todo-item { padding: 14px 10px; gap: 10px; }
+
+      /* Action buttons: 44px tap targets */
+      .action-btn { width: 44px; height: 44px; }
+
+      /* Filter buttons: 44px min height */
+      .filter-btn { padding: 11px 12px; font-size: 0.85rem; }
+
+      /* Search: larger tap area for clear button */
+      .search-clear { padding: 10px 8px; right: 2px; font-size: 1rem; }
+
+      /* IO buttons: 44px */
+      .io-btn { padding: 13px 14px; }
+
+      /* Section header: larger tap target */
+      .section-header { padding: 6px 0; cursor: pointer; }
+
+      /* History items: easier to read */
+      .history-item { padding: 12px; }
+
       .header h1 { font-size: 1.1rem; }
     }
   </style>
@@ -1390,7 +1455,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.4</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.4.1</span>
     <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -1528,6 +1593,16 @@
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
+            version: 'v1.0.4.1',
+            entries: [
+              'iOS HIG: Touch-Targets auf Mindestgröße 44×44 pt angehoben',
+              'iOS HIG: Schriftgröße in allen Eingabefeldern auf 16 px – verhindert automatisches Zoom',
+              'Touch: Aktions-Buttons immer sichtbar (kein Hover erforderlich)',
+              'Touch: Prio-Badge und Drag-Handle immer tippbar',
+              'Touch: :active-Feedback als Ersatz für Hover-States',
+            ],
+          },
+          {
             version: 'v1.0.4',
             entries: [
               '6 Theme-Presets (Flux, Ozean, Abendrot, Wald, Rose, Mono) mit Farbpaletten-Picker im Header',
@@ -1661,6 +1736,16 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.4.1',
+            entries: [
+              'iOS HIG: touch targets raised to minimum 44×44 pt',
+              'iOS HIG: input font size set to 16 px — prevents automatic zoom on focus',
+              'Touch: action buttons always visible (no hover required)',
+              'Touch: priority badge and drag handle always tappable',
+              'Touch: :active feedback replaces hover states',
+            ],
+          },
           {
             version: 'v1.0.4',
             entries: [

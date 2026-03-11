@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.4-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.4.1-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -110,6 +110,12 @@ Planned features for future versions:
 
 ## Changelog
 
+### v1.0.4.1
+- iOS HIG: touch targets raised to minimum 44×44 pt
+- iOS HIG: input font size set to 16 px — prevents automatic zoom on focus
+- Touch: action buttons always visible, priority badge and drag handle always tappable
+- Touch: :active feedback replaces hover states
+
 ### v1.0.4
 - 6 theme presets (Flux, Ocean, Sunset, Forest, Rose, Mono) with palette picker in header
 - Date format unified to ISO 8601 (YYYY-MM-DD)
@@ -177,4 +183,4 @@ Planned features for future versions:
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.4</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.4.1</p>
