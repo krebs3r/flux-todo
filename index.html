@@ -1182,7 +1182,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.2.1</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.2.2</span>
   </footer>
 
   <!-- iOS Install Banner -->
@@ -1288,6 +1288,12 @@
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
+            version: 'v1.0.2.2',
+            entries: [
+              'iOS-Installationshinweis: Banner passt sich bei Sprachwechsel automatisch an',
+            ],
+          },
+          {
             version: 'v1.0.2.1',
             entries: [
               'iOS-Installationshinweis: Banner in Safari weist auf „Zum Home-Bildschirm" hin',
@@ -1364,6 +1370,12 @@
         iosBannerHint: 'Tap Share (&#x2191;) and choose "Add to Home Screen".',
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.2.2',
+            entries: [
+              'iOS install hint: banner text updates automatically when switching language',
+            ],
+          },
           {
             version: 'v1.0.2.1',
             entries: [
@@ -1647,6 +1659,12 @@
       document.getElementById('lang-label').textContent = lang === 'de' ? 'DE' : 'EN';
       document.documentElement.lang = lang;
       save(); render();
+      const banner = document.getElementById('ios-banner');
+      if (banner && banner.style.display !== 'none') {
+        const T = t();
+        document.getElementById('ios-banner-title').textContent = T.iosBannerTitle;
+        document.getElementById('ios-banner-hint').innerHTML = T.iosBannerHint;
+      }
     }
     function applyLang() {
       document.getElementById('lang-label').textContent = lang === 'de' ? 'DE' : 'EN';
