@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Flux">
   <meta name="theme-color" content="#7eb3ff" id="theme-color-meta">
-  <script>try{var _dk=localStorage.getItem('dark')==='1';var _th=localStorage.getItem('theme')||'flux';if(_dk)document.documentElement.classList.add('dark');if(_th!=='flux')document.documentElement.classList.add('theme-'+_th);var _tc={'flux':['#7eb3ff','#0e1a5e'],'ocean':['#48cae4','#03045e'],'sunset':['#ffd166','#6e2c00'],'forest':['#74c69d','#1b4332'],'rose':['#ffb3c6','#6e1c35'],'mono':['#c5c9d0','#111827']};var _p=_tc[_th]||_tc['flux'];document.getElementById('theme-color-meta').content=_dk?_p[1]:_p[0];}catch(e){}</script>
+  <script>try{var _dk=localStorage.getItem('dark')==='1';var _th=localStorage.getItem('theme')||'flux';if(_dk)document.documentElement.classList.add('dark');if(_th!=='flux')document.documentElement.classList.add('theme-'+_th);var _tc={'flux':['#7eb3ff','#0e1a5e'],'ocean':['#48cae4','#03045e'],'sunset':['#ffd166','#6e2c00'],'forest':['#74c69d','#1b4332'],'rose':['#ffb3c6','#6e1c35'],'mono':['#c5c9d0','#111827'],'bender':['#b8c8e0','#131d2e'],'lumpi':['#e2d0b8','#221610'],'nobler':['#d0d0d8','#14141c']};var _p=_tc[_th]||_tc['flux'];document.getElementById('theme-color-meta').content=_dk?_p[1]:_p[0];}catch(e){}</script>
   <title>Flux — Deine ToDo App</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233d5afe'/%3E%3Cpolyline points='7,16 13,22 25,10' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
   <style>
@@ -70,6 +70,12 @@
     html.dark.theme-rose { background-color: #6e1c35; --bg-dark: linear-gradient(135deg, #6e1c35 0%, #3a0c1a 35%, #8e1f45 65%, #6e1c35 100%); }
     html.theme-mono { background-color: #c5c9d0; --bg: linear-gradient(135deg, #d1d5db 0%, #9ca3af 35%, #e5e7eb 65%, #d1d5db 100%); }
     html.dark.theme-mono { background-color: #111827; --bg-dark: linear-gradient(135deg, #1f2937 0%, #111827 35%, #374151 65%, #1f2937 100%); }
+    html.theme-bender { background-color: #b8c8e0; --bg: linear-gradient(135deg, #b8c8e0 0%, #8fa5c8 35%, #c8d5e8 65%, #b8c8e0 100%); }
+    html.dark.theme-bender { background-color: #131d2e; --bg-dark: linear-gradient(135deg, #131d2e 0%, #0d1520 35%, #1a2440 65%, #131d2e 100%); }
+    html.theme-lumpi { background-color: #e2d0b8; --bg: linear-gradient(135deg, #e2d0b8 0%, #c8b090 35%, #ead8c0 65%, #e2d0b8 100%); }
+    html.dark.theme-lumpi { background-color: #221610; --bg-dark: linear-gradient(135deg, #221610 0%, #160e08 35%, #2c1e12 65%, #221610 100%); }
+    html.theme-nobler { background-color: #d0d0d8; --bg: linear-gradient(135deg, #d0d0d8 0%, #b0b0bc 35%, #dcdce4 65%, #d0d0d8 100%); }
+    html.dark.theme-nobler { background-color: #14141c; --bg-dark: linear-gradient(135deg, #14141c 0%, #0c0c12 35%, #1c1c26 65%, #14141c 100%); }
 
     /* ── Theme Picker ────────────────────────────────────────── */
     .theme-picker-wrap { position: relative; }
@@ -1455,7 +1461,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.4.1</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.4.5</span>
     <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -1518,6 +1524,9 @@
       forest: { light: '#74c69d', dark: '#1b4332' },
       rose:   { light: '#ffb3c6', dark: '#6e1c35' },
       mono:   { light: '#c5c9d0', dark: '#111827' },
+      bender: { light: '#b8c8e0', dark: '#131d2e' },
+      lumpi:  { light: '#e2d0b8', dark: '#221610' },
+      nobler: { light: '#d0d0d8', dark: '#14141c' },
     };
     const SWATCH_BG = {
       flux:   'linear-gradient(135deg,#7eb3ff,#c87eff,#ff7ec8)',
@@ -1526,6 +1535,9 @@
       forest: 'linear-gradient(135deg,#74c69d,#52b788,#95d5b2)',
       rose:   'linear-gradient(135deg,#ffb3c6,#ff85a1,#fbb1bd)',
       mono:   'linear-gradient(135deg,#d1d5db,#9ca3af,#e5e7eb)',
+      bender: 'linear-gradient(135deg,#b8c8e0,#8fa5c8,#c8d5e8)',
+      lumpi:  'linear-gradient(135deg,#e2d0b8,#c8b090,#ead8c0)',
+      nobler: 'linear-gradient(135deg,#d0d0d8,#b0b0bc,#dcdce4)',
     };
 
     const SVG = {
@@ -1589,9 +1601,15 @@
         metaDueToday: 'Heute fällig',
         iosBannerTitle: 'Zum Homebildschirm hinzufügen',
         iosBannerHint: 'Tippe auf Teilen (&#x2191;) und wähle „Zum Home‑Bildschirm".',
-        themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono' },
+        themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.4.5',
+            entries: [
+              '3 neue konservative Themes: Bender (Stahlblau), Lumpi (Sand/Karamell), Nobler (Steingrau)',
+            ],
+          },
           {
             version: 'v1.0.4.1',
             entries: [
@@ -1733,9 +1751,15 @@
         metaDueToday: 'Due today',
         iosBannerTitle: 'Add to Home Screen',
         iosBannerHint: 'Tap Share (&#x2191;) and choose "Add to Home Screen".',
-        themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono' },
+        themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.4.5',
+            entries: [
+              '3 new conservative themes: Bender (steel blue), Lumpi (sand/caramel), Nobler (stone grey)',
+            ],
+          },
           {
             version: 'v1.0.4.1',
             entries: [
