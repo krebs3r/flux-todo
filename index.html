@@ -7,6 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Flux">
   <meta name="theme-color" content="#7eb3ff" id="theme-color-meta">
+  <script>try{var _d=JSON.parse(localStorage.getItem('flux_data'));if(_d&&_d.dark)document.getElementById('theme-color-meta').content='#0e1a5e';}catch(e){}</script>
   <title>Flux — Deine ToDo App</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233d5afe'/%3E%3Cpolyline points='7,16 13,22 25,10' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
   <style>
@@ -1187,7 +1188,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.2.4</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.2.5</span>
   </footer>
 
   <!-- iOS Install Banner -->
@@ -1293,6 +1294,12 @@
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
+            version: 'v1.0.2.5',
+            entries: [
+              'iOS: theme-color wird jetzt vor dem ersten Render gesetzt – kein weißer Blitz mehr an der Notch beim Laden',
+            ],
+          },
+          {
             version: 'v1.0.2.4',
             entries: [
               'Header-Icon auf einheitlichen Haken (identisch mit Favicon) aktualisiert',
@@ -1390,6 +1397,12 @@
         iosBannerHint: 'Tap Share (&#x2191;) and choose "Add to Home Screen".',
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.2.5',
+            entries: [
+              'iOS: theme-color is now set before first render — no white flash at the notch on load',
+            ],
+          },
           {
             version: 'v1.0.2.4',
             entries: [

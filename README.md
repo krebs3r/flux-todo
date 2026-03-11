@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.2.4-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.2.5-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -107,6 +107,9 @@ Planned features for future versions:
 
 ## Changelog
 
+### v1.0.2.5
+- iOS: theme-color is now set before first render — no white flash at the notch on load
+
 ### v1.0.2.4
 - Header icon updated to match favicon checkmark
 - iOS: theme-color adapts to dark mode — notch area is now correctly colored
@@ -156,4 +159,4 @@ Planned features for future versions:
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.2.4</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.2.5</p>
