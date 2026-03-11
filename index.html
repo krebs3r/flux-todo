@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Flux">
   <meta name="theme-color" content="#7eb3ff" id="theme-color-meta">
-  <script>try{var _d=JSON.parse(localStorage.getItem('flux_data'));if(_d&&_d.dark){document.documentElement.classList.add('dark');document.getElementById('theme-color-meta').content='#0e1a5e';}}catch(e){}</script>
+  <script>try{var _dk=localStorage.getItem('dark')==='1';var _th=localStorage.getItem('theme')||'flux';if(_dk)document.documentElement.classList.add('dark');if(_th!=='flux')document.documentElement.classList.add('theme-'+_th);var _tc={'flux':['#7eb3ff','#0e1a5e'],'ocean':['#48cae4','#03045e'],'sunset':['#ffd166','#6e2c00'],'forest':['#74c69d','#1b4332'],'rose':['#ffb3c6','#6e1c35'],'mono':['#c5c9d0','#111827']};var _p=_tc[_th]||_tc['flux'];document.getElementById('theme-color-meta').content=_dk?_p[1]:_p[0];}catch(e){}</script>
   <title>Flux — Deine ToDo App</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233d5afe'/%3E%3Cpolyline points='7,16 13,22 25,10' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
   <style>
@@ -50,6 +50,7 @@
       background-color: #7eb3ff;
       background-image: var(--bg);
       background-size: cover;
+      background-attachment: fixed;
       transition: background-color 0.5s, background-image 0.5s;
     }
     html.dark {
@@ -57,6 +58,45 @@
       background-image: var(--bg-dark);
       background-size: cover;
     }
+
+    /* ── Theme presets ───────────────────────────────────────── */
+    html.theme-ocean { background-color: #48cae4; --bg: linear-gradient(135deg, #48cae4 0%, #00b4d8 35%, #90e0ef 65%, #48cae4 100%); }
+    html.dark.theme-ocean { background-color: #03045e; --bg-dark: linear-gradient(135deg, #03045e 0%, #023e8a 35%, #0077b6 65%, #03045e 100%); }
+    html.theme-sunset { background-color: #ffd166; --bg: linear-gradient(135deg, #ffd166 0%, #ef8c5c 35%, #f4845f 65%, #ffd166 100%); }
+    html.dark.theme-sunset { background-color: #6e2c00; --bg-dark: linear-gradient(135deg, #6e2c00 0%, #3d0c02 35%, #8b3100 65%, #6e2c00 100%); }
+    html.theme-forest { background-color: #74c69d; --bg: linear-gradient(135deg, #74c69d 0%, #52b788 35%, #95d5b2 65%, #74c69d 100%); }
+    html.dark.theme-forest { background-color: #1b4332; --bg-dark: linear-gradient(135deg, #1b4332 0%, #081c15 35%, #2d6a4f 65%, #1b4332 100%); }
+    html.theme-rose { background-color: #ffb3c6; --bg: linear-gradient(135deg, #ffb3c6 0%, #ff85a1 35%, #fbb1bd 65%, #ffb3c6 100%); }
+    html.dark.theme-rose { background-color: #6e1c35; --bg-dark: linear-gradient(135deg, #6e1c35 0%, #3a0c1a 35%, #8e1f45 65%, #6e1c35 100%); }
+    html.theme-mono { background-color: #c5c9d0; --bg: linear-gradient(135deg, #d1d5db 0%, #9ca3af 35%, #e5e7eb 65%, #d1d5db 100%); }
+    html.dark.theme-mono { background-color: #111827; --bg-dark: linear-gradient(135deg, #1f2937 0%, #111827 35%, #374151 65%, #1f2937 100%); }
+
+    /* ── Theme Picker ────────────────────────────────────────── */
+    .theme-picker-wrap { position: relative; }
+    .theme-popover {
+      display: none;
+      position: absolute; right: 0; top: calc(100% + 8px);
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid var(--gl-border); border-radius: var(--radius);
+      box-shadow: var(--gl-shadow); padding: 10px; min-width: 196px;
+      z-index: 100;
+    }
+    .theme-popover.open { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    body.dark .theme-popover { background: rgba(12,16,52,0.88); border-color: var(--gl-border-dark); box-shadow: var(--gl-shadow-dark); }
+    .theme-swatch {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      cursor: pointer; padding: 6px 4px; border-radius: 8px; border: none; background: transparent;
+      transition: background 0.15s;
+    }
+    .theme-swatch:hover { background: rgba(255,255,255,0.40); }
+    body.dark .theme-swatch:hover { background: rgba(255,255,255,0.09); }
+    .theme-swatch.active { background: var(--accent-muted); outline: 2px solid var(--accent); outline-offset: 1px; }
+    body.dark .theme-swatch.active { background: var(--accent-muted-dark); }
+    .swatch-circle { width: 30px; height: 30px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.6); flex-shrink: 0; }
+    .swatch-label { font-size: 10px; font-weight: 600; color: var(--text); opacity: 0.8; white-space: nowrap; }
+    body.dark .swatch-label { color: var(--text-dark); }
 
     body {
       font-family: -apple-system, 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -85,6 +125,8 @@
       border: 1px solid var(--gl-border);
       border-radius: var(--radius);
       box-shadow: var(--gl-shadow);
+      position: relative;
+      z-index: 10;
     }
     body.dark .header {
       background: var(--gl-dark);
@@ -937,6 +979,10 @@
       text-align: center;
       margin-top: 8px;
       padding-bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
     .footer span {
       font-size: 0.7rem;
@@ -951,6 +997,17 @@
       color: rgba(255,255,255,0.8);
       border-color: rgba(255,255,255,0.5);
     }
+    .footer-github {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.15s;
+    }
+    .footer-github:hover { color: rgba(255,255,255,0.75); }
 
     /* ── iOS Install Banner ─────────────────────────────────── */
     .ios-banner {
@@ -1222,6 +1279,12 @@
           </svg>
           <span id="lang-label">EN</span>
         </button>
+        <div class="theme-picker-wrap" id="theme-picker-wrap">
+          <button class="ctrl-btn" id="theme-btn" onclick="toggleThemePicker()" title="Theme">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+          </button>
+          <div class="theme-popover" id="theme-popover"></div>
+        </div>
         <button class="ctrl-btn" id="dark-btn" onclick="toggleDark()">
           <span id="dark-icon"></span>
         </button>
@@ -1327,7 +1390,13 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.3</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.4</span>
+    <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+      </svg>
+      krebs3r/flux-todo
+    </a>
   </footer>
 
   <!-- iOS Install Banner -->
@@ -1377,6 +1446,23 @@
 
   <script>
     // ── SVG Icons ────────────────────────────────────────────────────────────
+    const THEMES = {
+      flux:   { light: '#7eb3ff', dark: '#0e1a5e' },
+      ocean:  { light: '#48cae4', dark: '#03045e' },
+      sunset: { light: '#ffd166', dark: '#6e2c00' },
+      forest: { light: '#74c69d', dark: '#1b4332' },
+      rose:   { light: '#ffb3c6', dark: '#6e1c35' },
+      mono:   { light: '#c5c9d0', dark: '#111827' },
+    };
+    const SWATCH_BG = {
+      flux:   'linear-gradient(135deg,#7eb3ff,#c87eff,#ff7ec8)',
+      ocean:  'linear-gradient(135deg,#48cae4,#00b4d8,#90e0ef)',
+      sunset: 'linear-gradient(135deg,#ffd166,#ef8c5c,#f4845f)',
+      forest: 'linear-gradient(135deg,#74c69d,#52b788,#95d5b2)',
+      rose:   'linear-gradient(135deg,#ffb3c6,#ff85a1,#fbb1bd)',
+      mono:   'linear-gradient(135deg,#d1d5db,#9ca3af,#e5e7eb)',
+    };
+
     const SVG = {
       moon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`,
       sun:  `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`,
@@ -1393,6 +1479,8 @@
     let currentFilter = 'open';
     let lang = 'de';
     let dark = false;
+    let currentTheme = 'flux';
+    let themePickerOpen = false;
     let dragSrcIndex = null;
     let newPriority = '';
     let searchQuery = '';
@@ -1436,8 +1524,18 @@
         metaDueToday: 'Heute fällig',
         iosBannerTitle: 'Zum Homebildschirm hinzufügen',
         iosBannerHint: 'Tippe auf Teilen (&#x2191;) und wähle „Zum Home‑Bildschirm".',
+        themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.4',
+            entries: [
+              '6 Theme-Presets (Flux, Ozean, Abendrot, Wald, Rose, Mono) mit Farbpaletten-Picker im Header',
+              'Datumsformat auf ISO 8601 (YYYY-MM-DD) vereinheitlicht',
+              'Hintergrund fixiert – Inhalt scrollt über den Gradienten',
+              'GitHub-Link mit Logo im Footer',
+            ],
+          },
           {
             version: 'v1.0.3',
             entries: [
@@ -1560,8 +1658,18 @@
         metaDueToday: 'Due today',
         iosBannerTitle: 'Add to Home Screen',
         iosBannerHint: 'Tap Share (&#x2191;) and choose "Add to Home Screen".',
+        themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.4',
+            entries: [
+              '6 theme presets (Flux, Ocean, Sunset, Forest, Rose, Mono) with palette picker in header',
+              'Date format unified to ISO 8601 (YYYY-MM-DD)',
+              'Background fixed — content scrolls over the gradient',
+              'GitHub link with logo in footer',
+            ],
+          },
           {
             version: 'v1.0.3',
             entries: [
@@ -1656,12 +1764,14 @@
       localStorage.setItem('history', JSON.stringify(history));
       localStorage.setItem('lang', lang);
       localStorage.setItem('dark', dark ? '1' : '0');
+      localStorage.setItem('theme', currentTheme);
     }
     function load() {
       try { todos = JSON.parse(localStorage.getItem('todos')) || []; } catch { todos = []; }
       try { history = JSON.parse(localStorage.getItem('history')) || []; } catch { history = []; }
       lang = localStorage.getItem('lang') || 'de';
       dark = localStorage.getItem('dark') === '1';
+      currentTheme = localStorage.getItem('theme') || 'flux';
     }
 
     // ── History helpers ──────────────────────────────────────────────────────
@@ -1670,15 +1780,14 @@
       if (history.length > 10000) history.pop();
     }
     function formatDate(ts) {
-      return new Date(ts).toLocaleString(lang === 'de' ? 'de-DE' : 'en-US', {
-        day: '2-digit', month: '2-digit', year: 'numeric',
-        hour: '2-digit', minute: '2-digit'
-      });
+      const d = new Date(ts);
+      const pad = n => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
     }
     function formatShortDate(ts) {
-      return new Date(ts).toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-US', {
-        day: '2-digit', month: '2-digit', year: 'numeric'
-      });
+      const d = new Date(ts);
+      const pad = n => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
     }
 
     function getDueClass(dueDate) {
@@ -1688,8 +1797,7 @@
       return 'due-future';
     }
     function formatDueDate(dueDate) {
-      const [y, m, d] = dueDate.split('-');
-      return lang === 'de' ? `${d}.${m}.${y}` : `${m}/${d}/${y}`;
+      return dueDate; // already YYYY-MM-DD
     }
 
     // ── CRUD ─────────────────────────────────────────────────────────────────
@@ -1919,7 +2027,8 @@
       document.body.classList.toggle('dark', dark);
       document.documentElement.classList.toggle('dark', dark);
       document.getElementById('dark-icon').innerHTML = dark ? SVG.sun : SVG.moon;
-      document.getElementById('theme-color-meta').content = dark ? '#0e1a5e' : '#7eb3ff';
+      const th = THEMES[currentTheme] || THEMES.flux;
+      document.getElementById('theme-color-meta').content = dark ? th.dark : th.light;
     }
     function toggleLang() {
       lang = lang === 'de' ? 'en' : 'de';
@@ -1936,6 +2045,34 @@
     function applyLang() {
       document.getElementById('lang-label').textContent = lang === 'de' ? 'DE' : 'EN';
       document.documentElement.lang = lang;
+    }
+
+    // ── Theme Picker ──────────────────────────────────────────────────────────
+    function applyTheme(id) {
+      currentTheme = id;
+      const html = document.documentElement;
+      Object.keys(THEMES).forEach(k => html.classList.remove('theme-' + k));
+      if (id !== 'flux') html.classList.add('theme-' + id);
+      const th = THEMES[id] || THEMES.flux;
+      document.getElementById('theme-color-meta').content = dark ? th.dark : th.light;
+    }
+    function selectTheme(id) {
+      applyTheme(id);
+      save();
+      renderThemeSwatches();
+    }
+    function toggleThemePicker() {
+      themePickerOpen = !themePickerOpen;
+      document.getElementById('theme-popover').classList.toggle('open', themePickerOpen);
+      if (themePickerOpen) renderThemeSwatches();
+    }
+    function renderThemeSwatches() {
+      const names = t().themeNames;
+      document.getElementById('theme-popover').innerHTML = Object.keys(THEMES).map(id => `
+        <button class="theme-swatch${currentTheme === id ? ' active' : ''}" onclick="selectTheme('${id}')">
+          <div class="swatch-circle" style="background:${SWATCH_BG[id]}"></div>
+          <span class="swatch-label">${names[id]}</span>
+        </button>`).join('');
     }
 
     // ── Priority ─────────────────────────────────────────────────────────────
@@ -2167,10 +2304,19 @@
     // ── Init ─────────────────────────────────────────────────────────────────
     load();
     applyDark();
+    applyTheme(currentTheme);
     applyLang();
     setupPWA();
     setupIOSBanner();
     render();
+    document.addEventListener('click', function(e) {
+      if (!themePickerOpen) return;
+      const wrap = document.getElementById('theme-picker-wrap');
+      if (wrap && !wrap.contains(e.target)) {
+        themePickerOpen = false;
+        document.getElementById('theme-popover').classList.remove('open');
+      }
+    });
   </script>
 </body>
 </html>

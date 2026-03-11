@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.3-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.4-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -110,6 +110,12 @@ Planned features for future versions:
 
 ## Changelog
 
+### v1.0.4
+- 6 theme presets (Flux, Ocean, Sunset, Forest, Rose, Mono) with palette picker in header
+- Date format unified to ISO 8601 (YYYY-MM-DD)
+- Background fixed — content scrolls over the gradient
+- GitHub link with logo in footer
+
 ### v1.0.3
 - Due dates per task — color-coded display (future / today / overdue)
 - Search field for real-time filtering of tasks (title and notes)
@@ -171,4 +177,4 @@ Planned features for future versions:
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.3</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.4</p>
