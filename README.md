@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.2.6-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.3-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -24,8 +24,11 @@
 - **Notes field** — add a longer description or details to any task
 - **Drag & drop reordering** — rearrange tasks intuitively
 - **Done state with timestamp** — mark tasks as complete, see when they were finished
+- **Due dates** — set a deadline per task, color-coded (today / overdue)
+- **Search** — real-time filtering by title and notes
 - **Filters** — view All / Open / Done tasks
 - **Full event history** — every action is logged with a timestamp (up to 10,000 entries)
+- **History usage indicator** — progress bar shows fill level of the 10,000-entry limit
 - **Export & Import** — save and restore your tasks as a JSON file
 - **Bulk delete** — clear all tasks at once, with an optional export prompt
 - **Dark mode** — toggles system-aware between light and dark
@@ -83,9 +86,9 @@ Flux works in all modern browsers that support `backdrop-filter`.
 Planned features for future versions:
 
 ### High Priority
-- [ ] **Due dates** — set a deadline per task, highlight overdue items
+- [x] **Due dates** — set a deadline per task, highlight overdue items
 - [x] **Priorities** — High / Medium / Low with color coding
-- [ ] **Search** — filter tasks by keyword in real time
+- [x] **Search** — filter tasks by keyword in real time
 - [ ] **Undo** — reverse the last action with `Ctrl+Z`
 
 ### Medium Priority
@@ -106,6 +109,11 @@ Planned features for future versions:
 ---
 
 ## Changelog
+
+### v1.0.3
+- Due dates per task — color-coded display (future / today / overdue)
+- Search field for real-time filtering of tasks (title and notes)
+- History usage counter: progress bar shows fill level of the 10,000-entry limit
 
 ### v1.0.2.6
 - iOS: explicit background-color on html element — notch area is correctly colored on first load
@@ -163,4 +171,4 @@ Planned features for future versions:
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.2.6</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.3</p>

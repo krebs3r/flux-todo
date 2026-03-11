@@ -386,6 +386,133 @@
       color: var(--text-dark);
     }
 
+    /* ── Due Date ────────────────────────────────────────────── */
+    .due-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .due-input-icon { color: var(--muted); display: flex; flex-shrink: 0; }
+    body.dark .due-input-icon { color: var(--muted-dark); }
+    .due-input {
+      flex: 1;
+      padding: 7px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gl-border);
+      background: rgba(255,255,255,0.22);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--text);
+      font-size: 0.82rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .due-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-muted);
+    }
+    body.dark .due-input {
+      background: rgba(255,255,255,0.05);
+      border-color: var(--gl-border-dark);
+      color: var(--text-dark);
+      color-scheme: dark;
+    }
+    .due-input::-webkit-calendar-picker-indicator { opacity: 0.5; cursor: pointer; }
+    .todo-due {
+      font-size: 0.72rem;
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .todo-due.due-future  { color: var(--muted); }
+    .todo-due.due-today   { color: #f57c00; font-weight: 600; }
+    .todo-due.due-overdue { color: var(--danger); font-weight: 600; }
+    body.dark .todo-due.due-future  { color: var(--muted-dark); }
+    body.dark .todo-due.due-today   { color: #ffb74d; }
+    .todo-item.overdue { box-shadow: inset 3px 0 0 var(--danger); }
+    .due-edit-input {
+      width: 100%;
+      margin-top: 4px;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--accent);
+      background: rgba(255,255,255,0.25);
+      font-size: 0.82rem;
+      font-family: inherit;
+      outline: none;
+      box-shadow: 0 0 0 3px var(--accent-muted);
+      color-scheme: light;
+    }
+    body.dark .due-edit-input {
+      background: rgba(255,255,255,0.08);
+      color: var(--text-dark);
+      color-scheme: dark;
+    }
+
+    /* ── Search ─────────────────────────────────────────────── */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 10px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+      display: flex;
+    }
+    body.dark .search-icon { color: var(--muted-dark); }
+    .search-input {
+      width: 100%;
+      padding: 8px 34px 8px 34px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.30);
+      background: var(--gl-subtle);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--text);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    body.dark .search-input {
+      background: var(--gl-subtle-dark);
+      border-color: rgba(255,255,255,0.07);
+      color: var(--text-dark);
+    }
+    .search-input::placeholder { color: var(--muted); }
+    body.dark .search-input::placeholder { color: var(--muted-dark); }
+    .search-input:focus {
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.28);
+    }
+    body.dark .search-input:focus {
+      background: rgba(255,255,255,0.08);
+    }
+    .search-clear {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 2px 4px;
+      border-radius: 4px;
+      line-height: 1;
+      display: none;
+    }
+    .search-clear.visible { display: block; }
+    .search-clear:hover { color: var(--text); }
+    body.dark .search-clear:hover { color: var(--text-dark); }
+
     /* ── Filters ────────────────────────────────────────────── */
     .filters {
       display: flex;
@@ -1113,10 +1240,19 @@
         </button>
       </div>
       <textarea class="note-input" id="new-todo-note" rows="2"></textarea>
+      <div class="due-input-row">
+        <span class="due-input-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+        <input class="due-input" type="date" id="new-todo-due" />
+      </div>
     </div>
 
     <!-- Todo List -->
     <div class="card">
+      <div class="search-wrap">
+        <span class="search-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input class="search-input" id="search-input" type="text" autocomplete="off" oninput="onSearch(this.value)" />
+        <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+      </div>
       <div class="filters" id="filters">
         <button class="filter-btn active" data-filter="open" onclick="setFilter('open')"></button>
         <button class="filter-btn" data-filter="done" onclick="setFilter('done')"></button>
@@ -1144,6 +1280,7 @@
         <div class="collapsible-inner">
           <div style="padding-top:12px">
             <div class="history-list" id="history-list"></div>
+            <div id="history-usage"></div>
           </div>
         </div>
       </div>
@@ -1190,7 +1327,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.2.6</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.3</span>
   </footer>
 
   <!-- iOS Install Banner -->
@@ -1258,6 +1395,7 @@
     let dark = false;
     let dragSrcIndex = null;
     let newPriority = '';
+    let searchQuery = '';
 
     const i18n = {
       de: {
@@ -1270,9 +1408,11 @@
         importLabel: 'Importieren',
         clearLabel: 'Verlauf löschen',
         filterAll: 'Alle', filterOpen: 'Offen', filterDone: 'Erledigt',
+        searchPlaceholder: 'Suchen …',
         stats: (d, t) => `${d} von ${t} erledigt`,
         emptyTodos: 'Keine Aufgaben vorhanden.',
         emptyHistory: 'Noch keine Einträge.',
+        historyUsage: (n) => `${n} / 10.000 Einträge`,
         badgeDone: 'Erledigt', badgeCreated: 'Erstellt',
         badgeDeleted: 'Gelöscht', badgeUndone: 'Reaktiviert',
         metaDone: 'Erledigt', metaCreated: 'Erstellt',
@@ -1291,10 +1431,21 @@
         priorityMedium: '→ Mittel',
         priorityLow: '↓ Niedrig',
         notePlaceholder: 'Notiz (optional) …',
+        metaDue: 'Fällig',
+        metaOverdue: 'Überfällig',
+        metaDueToday: 'Heute fällig',
         iosBannerTitle: 'Zum Homebildschirm hinzufügen',
         iosBannerHint: 'Tippe auf Teilen (&#x2191;) und wähle „Zum Home‑Bildschirm".',
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.3',
+            entries: [
+              'Fälligkeitsdaten pro Aufgabe – mit farbiger Hervorhebung (heute / überfällig)',
+              'Suchfeld zur Echtzeit-Filterung von Aufgaben (Titel und Notiz)',
+              'Verlaufszähler: Fortschrittsbalken zeigt Auslastung des 10.000-Einträge-Limits',
+            ],
+          },
           {
             version: 'v1.0.2.6',
             entries: [
@@ -1381,9 +1532,11 @@
         importLabel: 'Import',
         clearLabel: 'Clear History',
         filterAll: 'All', filterOpen: 'Open', filterDone: 'Done',
+        searchPlaceholder: 'Search …',
         stats: (d, t) => `${d} of ${t} completed`,
         emptyTodos: 'No tasks yet.',
         emptyHistory: 'No entries yet.',
+        historyUsage: (n) => `${n} / 10,000 entries`,
         badgeDone: 'Done', badgeCreated: 'Created',
         badgeDeleted: 'Deleted', badgeUndone: 'Reopened',
         metaDone: 'Done', metaCreated: 'Created',
@@ -1402,10 +1555,21 @@
         priorityMedium: '→ Medium',
         priorityLow: '↓ Low',
         notePlaceholder: 'Note (optional) …',
+        metaDue: 'Due',
+        metaOverdue: 'Overdue',
+        metaDueToday: 'Due today',
         iosBannerTitle: 'Add to Home Screen',
         iosBannerHint: 'Tap Share (&#x2191;) and choose "Add to Home Screen".',
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.3',
+            entries: [
+              'Due dates per task — color-coded display (future / today / overdue)',
+              'Search field for real-time filtering of tasks (title and notes)',
+              'History usage counter: progress bar shows fill level of the 10,000-entry limit',
+            ],
+          },
           {
             version: 'v1.0.2.6',
             entries: [
@@ -1517,16 +1681,29 @@
       });
     }
 
+    function getDueClass(dueDate) {
+      const today = new Date().toISOString().split('T')[0];
+      if (dueDate < today) return 'due-overdue';
+      if (dueDate === today) return 'due-today';
+      return 'due-future';
+    }
+    function formatDueDate(dueDate) {
+      const [y, m, d] = dueDate.split('-');
+      return lang === 'de' ? `${d}.${m}.${y}` : `${m}/${d}/${y}`;
+    }
+
     // ── CRUD ─────────────────────────────────────────────────────────────────
     function addTodo() {
       const input = document.getElementById('new-todo-input');
       const text = input.value.trim();
       if (!text) return;
       const noteInput = document.getElementById('new-todo-note');
-      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim() });
+      const dueInput = document.getElementById('new-todo-due');
+      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim(), dueDate: dueInput.value || '' });
       addHistory('created', text);
       input.value = '';
       noteInput.value = '';
+      dueInput.value = '';
       newPriority = '';
       updatePriorityBtn();
       save(); render();
@@ -1551,38 +1728,43 @@
       const wrap = document.querySelector(`[data-id="${id}"] .todo-text-wrap`);
       const oldText = todo.text;
       const oldNote = todo.note || '';
+      const oldDue = todo.dueDate || '';
       wrap.innerHTML = `
         <input class="todo-edit-input" value="${escHtml(oldText)}" maxlength="200" />
         <textarea class="note-edit-input" rows="2" maxlength="1000">${escHtml(oldNote)}</textarea>
+        <input class="due-edit-input" type="date" value="${oldDue}" />
       `;
-      const inp = wrap.querySelector('input');
-      const noteInp = wrap.querySelector('textarea');
+      const inp = wrap.querySelector('.todo-edit-input');
+      const noteInp = wrap.querySelector('.note-edit-input');
+      const dueInp = wrap.querySelector('.due-edit-input');
       noteInp.placeholder = t().notePlaceholder;
       inp.focus(); inp.select();
       inp.onkeydown = e => {
         if (e.key === 'Enter') { e.preventDefault(); noteInp.focus(); }
-        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote);
+        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue);
       };
       noteInp.onkeydown = e => {
-        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote);
+        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue);
       };
       const doCommit = (e) => {
         if (!wrap.contains(e.relatedTarget)) {
           wrap.removeEventListener('focusout', doCommit);
-          commitEdit(id, inp.value, oldText, noteInp.value);
+          commitEdit(id, inp.value, oldText, noteInp.value, dueInp.value);
         }
       };
       wrap.addEventListener('focusout', doCommit);
     }
-    function commitEdit(id, newText, oldText, newNote) {
+    function commitEdit(id, newText, oldText, newNote, newDue) {
       newText = newText.trim();
       if (!newText) { render(); return; }
       const todo = todos.find(t => t.id === id);
       if (!todo) return;
       const noteValue = newNote !== undefined ? newNote.trim() : (todo.note || '');
-      if (newText === oldText && noteValue === (todo.note || '')) { render(); return; }
+      const dueValue = newDue !== undefined ? newDue : (todo.dueDate || '');
+      if (newText === oldText && noteValue === (todo.note || '') && dueValue === (todo.dueDate || '')) { render(); return; }
       todo.text = newText;
       todo.note = noteValue;
+      todo.dueDate = dueValue;
       save(); render();
     }
 
@@ -1594,9 +1776,28 @@
       render();
     }
     function filteredTodos() {
-      if (currentFilter === 'open') return todos.filter(t => !t.done);
-      if (currentFilter === 'done') return todos.filter(t => t.done);
-      return todos;
+      let result = todos;
+      if (currentFilter === 'open') result = result.filter(t => !t.done);
+      else if (currentFilter === 'done') result = result.filter(t => t.done);
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        result = result.filter(t =>
+          t.text.toLowerCase().includes(q) || (t.note && t.note.toLowerCase().includes(q))
+        );
+      }
+      return result;
+    }
+    function onSearch(val) {
+      searchQuery = val.trim();
+      document.getElementById('search-clear').classList.toggle('visible', searchQuery.length > 0);
+      render();
+    }
+    function clearSearch() {
+      searchQuery = '';
+      const inp = document.getElementById('search-input');
+      if (inp) inp.value = '';
+      document.getElementById('search-clear').classList.remove('visible');
+      render();
     }
 
     // ── Drag & Drop ──────────────────────────────────────────────────────────
@@ -1809,6 +2010,8 @@
 
       const filterLabels = [T.filterOpen, T.filterDone];
       document.querySelectorAll('.filter-btn').forEach((b, i) => { b.textContent = filterLabels[i]; });
+      const searchInput = document.getElementById('search-input');
+      if (searchInput) searchInput.placeholder = T.searchPlaceholder;
 
       // Stats + progress
       const doneCount = todos.filter(t => t.done).length;
@@ -1830,13 +2033,16 @@
 
       // Todo list
       const prioLabel = { high: T.priorityHigh, medium: T.priorityMedium, low: T.priorityLow };
+      const dueLabel = { 'due-overdue': T.metaOverdue, 'due-today': T.metaDueToday, 'due-future': T.metaDue };
       const list = document.getElementById('todo-list');
       const visible = filteredTodos();
       if (!visible.length) {
         list.innerHTML = `<div class="empty-state">${SVG.inbox}<p>${T.emptyTodos}</p></div>`;
       } else {
-        list.innerHTML = visible.map(todo => `
-          <div class="todo-item${todo.done ? ' done' : ''}" data-id="${todo.id}"
+        list.innerHTML = visible.map(todo => {
+          const dc = todo.dueDate && !todo.done ? getDueClass(todo.dueDate) : '';
+          return `
+          <div class="todo-item${todo.done ? ' done' : ''}${dc === 'due-overdue' ? ' overdue' : ''}" data-id="${todo.id}"
                draggable="true"
                ondragstart="onDragStart(event,${todo.id})"
                ondragend="onDragEnd(event)"
@@ -1856,12 +2062,14 @@
                   : T.metaCreated + ': ' + formatShortDate(todo.created)
               }</div>
               ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
+              ${dc ? `<div class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</div>` : ''}
             </div>
             <div class="todo-actions">
               <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
               <button class="action-btn danger" title="${T.deleteTitle}" onclick="deleteTodo(${todo.id})">${SVG.trash}</button>
             </div>
-          </div>`).join('');
+          </div>`;
+        }).join('');
       }
 
       // History
@@ -1878,6 +2086,19 @@
             <span class="h-text">${escHtml(h.text)}</span>
             <span class="h-time">${formatDate(h.ts)}</span>
           </div>`).join('');
+      }
+      const hUsage = document.getElementById('history-usage');
+      if (history.length) {
+        const hPct = Math.min(Math.round((history.length / 10000) * 100), 100);
+        hUsage.innerHTML = `
+          <div class="stats-row" style="margin-top:8px;justify-content:flex-end">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span class="stats-text">${T.historyUsage(history.length.toLocaleString())}</span>
+              <div class="progress-bar"><div class="progress-fill" style="width:${hPct}%;background:${hPct > 80 ? 'var(--danger)' : 'var(--accent)'}"></div></div>
+            </div>
+          </div>`;
+      } else {
+        hUsage.innerHTML = '';
       }
     }
 
