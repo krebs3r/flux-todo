@@ -7,13 +7,13 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Flux">
   <meta name="theme-color" content="#7eb3ff" id="theme-color-meta">
-  <script>try{var _dk=localStorage.getItem('dark')==='1';var _th=localStorage.getItem('theme')||'flux';if(_dk)document.documentElement.classList.add('dark');if(_th!=='flux')document.documentElement.classList.add('theme-'+_th);var _tc={'flux':['#7eb3ff','#0e1a5e'],'ocean':['#48cae4','#03045e'],'sunset':['#ffd166','#6e2c00'],'forest':['#74c69d','#1b4332'],'rose':['#ffb3c6','#6e1c35'],'mono':['#c5c9d0','#111827'],'bender':['#b8c8e0','#131d2e'],'lumpi':['#e2d0b8','#221610'],'nobler':['#d0d0d8','#14141c']};var _p=_tc[_th]||_tc['flux'];document.getElementById('theme-color-meta').content=_dk?_p[1]:_p[0];}catch(e){}</script>
+  <script>try{var _dk=localStorage.getItem('dark')==='1';var _th=localStorage.getItem('theme')||'flux';if(_dk)document.documentElement.classList.add('dark');if(_th!=='flux')document.documentElement.classList.add('theme-'+_th);var _tc={'flux':['#a0c4ff','#0c1648'],'ocean':['#6dd5ed','#041530'],'sunset':['#ffd166','#2e1206'],'forest':['#74c69d','#152b20'],'rose':['#ffb3c6','#2a0e1a'],'mono':['#c5c9d0','#141618'],'bender':['#b8c8e0','#0e1828'],'lumpi':['#e2d0b8','#1c100a'],'nobler':['#d0d0d8','#10101a']};var _p=_tc[_th]||_tc['flux'];document.getElementById('theme-color-meta').content=_dk?_p[1]:_p[0];}catch(e){}</script>
   <title>Flux — Deine ToDo App</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233d5afe'/%3E%3Cpolyline points='7,16 13,22 25,10' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
   <style>
     :root {
-      --bg: linear-gradient(135deg, #7eb3ff 0%, #c87eff 35%, #ff7ec8 65%, #7eb3ff 100%);
-      --bg-dark: linear-gradient(135deg, #0e1a5e 0%, #2d0a5e 35%, #5e0a3a 65%, #0a1a5e 100%);
+      --bg: linear-gradient(to bottom, #a0c4ff 0%, #c89eff 50%, #f0a8d8 100%);
+      --bg-dark: linear-gradient(to bottom, #0c1648 0%, #1a1050 50%, #160832 100%);
       --surface: #ffffff;
       --surface-dark: #13172a;
       --text: #0f1623;
@@ -47,35 +47,35 @@
 
     html {
       min-height: 100%;
-      background-color: #7eb3ff;
+      background-color: #a0c4ff;
       background-image: var(--bg);
       background-size: cover;
       background-attachment: fixed;
       transition: background-color 0.5s, background-image 0.5s;
     }
     html.dark {
-      background-color: #0e1a5e;
+      background-color: #0c1648;
       background-image: var(--bg-dark);
       background-size: cover;
     }
 
     /* ── Theme presets ───────────────────────────────────────── */
-    html.theme-ocean { background-color: #48cae4; --bg: linear-gradient(135deg, #48cae4 0%, #00b4d8 35%, #90e0ef 65%, #48cae4 100%); }
-    html.dark.theme-ocean { background-color: #03045e; --bg-dark: linear-gradient(135deg, #03045e 0%, #023e8a 35%, #0077b6 65%, #03045e 100%); }
-    html.theme-sunset { background-color: #ffd166; --bg: linear-gradient(135deg, #ffd166 0%, #ef8c5c 35%, #f4845f 65%, #ffd166 100%); }
-    html.dark.theme-sunset { background-color: #6e2c00; --bg-dark: linear-gradient(135deg, #6e2c00 0%, #3d0c02 35%, #8b3100 65%, #6e2c00 100%); }
-    html.theme-forest { background-color: #74c69d; --bg: linear-gradient(135deg, #74c69d 0%, #52b788 35%, #95d5b2 65%, #74c69d 100%); }
-    html.dark.theme-forest { background-color: #1b4332; --bg-dark: linear-gradient(135deg, #1b4332 0%, #081c15 35%, #2d6a4f 65%, #1b4332 100%); }
-    html.theme-rose { background-color: #ffb3c6; --bg: linear-gradient(135deg, #ffb3c6 0%, #ff85a1 35%, #fbb1bd 65%, #ffb3c6 100%); }
-    html.dark.theme-rose { background-color: #6e1c35; --bg-dark: linear-gradient(135deg, #6e1c35 0%, #3a0c1a 35%, #8e1f45 65%, #6e1c35 100%); }
-    html.theme-mono { background-color: #c5c9d0; --bg: linear-gradient(135deg, #d1d5db 0%, #9ca3af 35%, #e5e7eb 65%, #d1d5db 100%); }
-    html.dark.theme-mono { background-color: #111827; --bg-dark: linear-gradient(135deg, #1f2937 0%, #111827 35%, #374151 65%, #1f2937 100%); }
-    html.theme-bender { background-color: #b8c8e0; --bg: linear-gradient(135deg, #b8c8e0 0%, #8fa5c8 35%, #c8d5e8 65%, #b8c8e0 100%); }
-    html.dark.theme-bender { background-color: #131d2e; --bg-dark: linear-gradient(135deg, #131d2e 0%, #0d1520 35%, #1a2440 65%, #131d2e 100%); }
-    html.theme-lumpi { background-color: #e2d0b8; --bg: linear-gradient(135deg, #e2d0b8 0%, #c8b090 35%, #ead8c0 65%, #e2d0b8 100%); }
-    html.dark.theme-lumpi { background-color: #221610; --bg-dark: linear-gradient(135deg, #221610 0%, #160e08 35%, #2c1e12 65%, #221610 100%); }
-    html.theme-nobler { background-color: #d0d0d8; --bg: linear-gradient(135deg, #d0d0d8 0%, #b0b0bc 35%, #dcdce4 65%, #d0d0d8 100%); }
-    html.dark.theme-nobler { background-color: #14141c; --bg-dark: linear-gradient(135deg, #14141c 0%, #0c0c12 35%, #1c1c26 65%, #14141c 100%); }
+    html.theme-ocean { background-color: #6dd5ed; --bg: linear-gradient(to bottom, #6dd5ed 0%, #48cae4 50%, #90e0ef 100%); }
+    html.dark.theme-ocean { background-color: #041530; --bg-dark: linear-gradient(to bottom, #041530 0%, #082040 50%, #0a2a52 100%); }
+    html.theme-sunset { background-color: #ffd166; --bg: linear-gradient(to bottom, #ffd166 0%, #f4a26a 50%, #f08060 100%); }
+    html.dark.theme-sunset { background-color: #2e1206; --bg-dark: linear-gradient(to bottom, #2e1206 0%, #3d1a0a 50%, #4a2210 100%); }
+    html.theme-forest { background-color: #74c69d; --bg: linear-gradient(to bottom, #74c69d 0%, #52b788 50%, #95d5b2 100%); }
+    html.dark.theme-forest { background-color: #152b20; --bg-dark: linear-gradient(to bottom, #152b20 0%, #1a3828 50%, #1e4030 100%); }
+    html.theme-rose { background-color: #ffb3c6; --bg: linear-gradient(to bottom, #ffb3c6 0%, #f892aa 50%, #ffc8d6 100%); }
+    html.dark.theme-rose { background-color: #2a0e1a; --bg-dark: linear-gradient(to bottom, #2a0e1a 0%, #381422 50%, #421828 100%); }
+    html.theme-mono { background-color: #c5c9d0; --bg: linear-gradient(to bottom, #d1d5db 0%, #b8bec8 50%, #e2e5ea 100%); }
+    html.dark.theme-mono { background-color: #141618; --bg-dark: linear-gradient(to bottom, #141618 0%, #1c1e22 50%, #22252a 100%); }
+    html.theme-bender { background-color: #b8c8e0; --bg: linear-gradient(to bottom, #b8c8e0 0%, #9ab4d4 50%, #ccdaea 100%); }
+    html.dark.theme-bender { background-color: #0e1828; --bg-dark: linear-gradient(to bottom, #0e1828 0%, #142030 50%, #182638 100%); }
+    html.theme-lumpi { background-color: #e2d0b8; --bg: linear-gradient(to bottom, #e2d0b8 0%, #d4bc9e 50%, #ecdec8 100%); }
+    html.dark.theme-lumpi { background-color: #1c100a; --bg-dark: linear-gradient(to bottom, #1c100a 0%, #24160e 50%, #2c1c12 100%); }
+    html.theme-nobler { background-color: #d0d0d8; --bg: linear-gradient(to bottom, #d0d0d8 0%, #bcbcc8 50%, #e0e0e8 100%); }
+    html.dark.theme-nobler { background-color: #10101a; --bg-dark: linear-gradient(to bottom, #10101a 0%, #16161e 50%, #1c1c26 100%); }
 
     /* ── Theme Picker ────────────────────────────────────────── */
     .theme-picker-wrap { position: relative; }
@@ -1461,7 +1461,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.4.5</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.5</span>
     <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -1518,26 +1518,26 @@
   <script>
     // ── SVG Icons ────────────────────────────────────────────────────────────
     const THEMES = {
-      flux:   { light: '#7eb3ff', dark: '#0e1a5e' },
-      ocean:  { light: '#48cae4', dark: '#03045e' },
-      sunset: { light: '#ffd166', dark: '#6e2c00' },
-      forest: { light: '#74c69d', dark: '#1b4332' },
-      rose:   { light: '#ffb3c6', dark: '#6e1c35' },
-      mono:   { light: '#c5c9d0', dark: '#111827' },
-      bender: { light: '#b8c8e0', dark: '#131d2e' },
-      lumpi:  { light: '#e2d0b8', dark: '#221610' },
-      nobler: { light: '#d0d0d8', dark: '#14141c' },
+      flux:   { light: '#a0c4ff', dark: '#0c1648' },
+      ocean:  { light: '#6dd5ed', dark: '#041530' },
+      sunset: { light: '#ffd166', dark: '#2e1206' },
+      forest: { light: '#74c69d', dark: '#152b20' },
+      rose:   { light: '#ffb3c6', dark: '#2a0e1a' },
+      mono:   { light: '#c5c9d0', dark: '#141618' },
+      bender: { light: '#b8c8e0', dark: '#0e1828' },
+      lumpi:  { light: '#e2d0b8', dark: '#1c100a' },
+      nobler: { light: '#d0d0d8', dark: '#10101a' },
     };
     const SWATCH_BG = {
-      flux:   'linear-gradient(135deg,#7eb3ff,#c87eff,#ff7ec8)',
-      ocean:  'linear-gradient(135deg,#48cae4,#00b4d8,#90e0ef)',
-      sunset: 'linear-gradient(135deg,#ffd166,#ef8c5c,#f4845f)',
-      forest: 'linear-gradient(135deg,#74c69d,#52b788,#95d5b2)',
-      rose:   'linear-gradient(135deg,#ffb3c6,#ff85a1,#fbb1bd)',
-      mono:   'linear-gradient(135deg,#d1d5db,#9ca3af,#e5e7eb)',
-      bender: 'linear-gradient(135deg,#b8c8e0,#8fa5c8,#c8d5e8)',
-      lumpi:  'linear-gradient(135deg,#e2d0b8,#c8b090,#ead8c0)',
-      nobler: 'linear-gradient(135deg,#d0d0d8,#b0b0bc,#dcdce4)',
+      flux:   'linear-gradient(to bottom,#7eb3ff,#c87eff,#ff7ec8)',
+      ocean:  'linear-gradient(to bottom,#48cae4,#00b4d8,#90e0ef)',
+      sunset: 'linear-gradient(to bottom,#ffd166,#ef8c5c,#f4845f)',
+      forest: 'linear-gradient(to bottom,#74c69d,#52b788,#95d5b2)',
+      rose:   'linear-gradient(to bottom,#ffb3c6,#ff85a1,#fbb1bd)',
+      mono:   'linear-gradient(to bottom,#d1d5db,#9ca3af,#e5e7eb)',
+      bender: 'linear-gradient(to bottom,#b8c8e0,#8fa5c8,#c8d5e8)',
+      lumpi:  'linear-gradient(to bottom,#e2d0b8,#c8b090,#ead8c0)',
+      nobler: 'linear-gradient(to bottom,#d0d0d8,#b0b0bc,#dcdce4)',
     };
 
     const SVG = {
@@ -1604,6 +1604,13 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.5',
+            entries: [
+              'Farbverlauf aller Themes von diagonal auf von oben nach unten umgestellt',
+              'Alle Verläufe geglättet – weniger harter Kontrast, engerer Helligkeitsbereich im Dark Mode',
+            ],
+          },
           {
             version: 'v1.0.4.5',
             entries: [
@@ -1754,6 +1761,13 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.5',
+            entries: [
+              'Gradient direction changed from diagonal to top-to-bottom across all themes',
+              'All gradients smoothed — reduced contrast, narrower brightness range in dark mode',
+            ],
+          },
           {
             version: 'v1.0.4.5',
             entries: [

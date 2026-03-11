@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.4.5-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.5-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -110,6 +110,10 @@ Planned features for future versions:
 
 ## Changelog
 
+### v1.0.5
+- Gradient direction changed from diagonal to top-to-bottom across all themes
+- All gradients smoothed — reduced contrast, narrower brightness range in dark mode
+
 ### v1.0.4.5
 - 3 new conservative themes: Bender (steel blue), Lumpi (sand/caramel), Nobler (stone grey)
 
@@ -186,4 +190,4 @@ Planned features for future versions:
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.4.5</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.5</p>
