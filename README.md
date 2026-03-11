@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.2-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.2.1-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -20,6 +20,8 @@
 ## Features
 
 - **Create, edit & delete tasks** — inline editing with a single click
+- **Priority levels** — High / Medium / Low with color-coded badges per task
+- **Notes field** — add a longer description or details to any task
 - **Drag & drop reordering** — rearrange tasks intuitively
 - **Done state with timestamp** — mark tasks as complete, see when they were finished
 - **Filters** — view All / Open / Done tasks
@@ -29,6 +31,9 @@
 - **Dark mode** — toggles system-aware between light and dark
 - **Language switcher** — German 🇩🇪 and English 🇬🇧
 - **Glassmorphism UI** — acrylic-style backdrop-filter effects throughout
+- **Favicon** — SVG checkmark icon matching the app design
+- **iOS PWA** — add to home screen, fullscreen mode, safe area support for Dynamic Island/notch
+- **iOS install hint** — banner in Safari guides users to add the app to their home screen
 - **No installation required** — open `index.html` in any modern browser
 
 ---
@@ -102,6 +107,9 @@ Planned features for future versions:
 
 ## Changelog
 
+### v1.0.2.1
+- iOS install hint: banner in Safari prompts users to add the app to their home screen
+
 ### v1.0.2
 - Priority levels (High / Medium / Low) with color-coded badges
 - Notes field for longer descriptions per task
@@ -136,4 +144,4 @@ Planned features for future versions:
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.2</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.2.1</p>
