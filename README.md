@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.1-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.2-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -79,13 +79,13 @@ Planned features for future versions:
 
 ### High Priority
 - [ ] **Due dates** — set a deadline per task, highlight overdue items
-- [ ] **Priorities** — High / Medium / Low with color coding
+- [x] **Priorities** — High / Medium / Low with color coding
 - [ ] **Search** — filter tasks by keyword in real time
 - [ ] **Undo** — reverse the last action with `Ctrl+Z`
 
 ### Medium Priority
 - [ ] **Tags / Labels** — custom categories for filtering
-- [ ] **Notes field** — longer description or details per task
+- [x] **Notes field** — longer description or details per task
 - [ ] **Subtasks** — nested checklist inside a task
 - [ ] **Sort options** — by date, priority, or alphabetically
 - [ ] **Keyboard shortcuts** — e.g. `N` for new task, `D` for dark mode toggle
@@ -96,19 +96,26 @@ Planned features for future versions:
 - [ ] **Pomodoro timer** — time tracking linked to a task
 - [ ] **Browser notifications** — reminders for due dates
 - [ ] **Multiple lists** — separate boards (e.g. Work / Personal / Shopping)
-- [ ] **PWA support** — installable on mobile home screen, offline-capable
+- [x] **PWA support** — installable on mobile home screen, offline-capable
 
 ---
 
 ## Changelog
 
-### v1.0.1 — 2026-03-11
+### v1.0.2
+- Priority levels (High / Medium / Low) with color-coded badges
+- Notes field for longer descriptions per task
+- Favicon as SVG checkmark matching the app design
+- iOS PWA support: add to home screen, fullscreen mode, safe area insets for Dynamic Island/notch
+- Light mode: changelog modal improved readability (higher opacity)
+
+### v1.0.1
 - Glassmorphism / acrylic design applied throughout the entire interface
 - Add button (`+`) restyled with glass look (backdrop-filter, translucent background)
 - Header logo redesigned as a glass icon with proper top alignment
 - History limit increased to 10,000 entries
 
-### v1.0.0 — 2026-03-01
+### v1.0.0
 - Initial release
 - Create, edit and delete tasks
 - Drag & drop to reorder entries
@@ -129,4 +136,4 @@ Planned features for future versions:
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.1</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.2</p>

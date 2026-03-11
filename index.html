@@ -2,8 +2,13 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Flux">
+  <meta name="theme-color" content="#3d5afe">
   <title>Flux — Deine ToDo App</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233d5afe'/%3E%3Cpolyline points='7,16 13,22 25,10' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
   <style>
     :root {
       --bg: linear-gradient(135deg, #7eb3ff 0%, #c87eff 35%, #ff7ec8 65%, #7eb3ff 100%);
@@ -46,6 +51,10 @@
       background-size: cover;
       transition: background 0.5s;
       padding: 32px 16px 64px;
+      padding-top: max(32px, calc(env(safe-area-inset-top) + 16px));
+      padding-bottom: max(64px, calc(env(safe-area-inset-bottom) + 32px));
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
       -webkit-font-smoothing: antialiased;
     }
     body.dark {
@@ -254,6 +263,119 @@
     body.dark .btn-add:hover {
       background: rgba(100,80,220,0.50);
       box-shadow: 0 6px 22px rgba(0,0,0,0.50), 0 1px 0 rgba(255,255,255,0.15) inset;
+    }
+
+    /* ── Priority ───────────────────────────────────────────── */
+    .priority-cycle-btn {
+      height: 40px;
+      padding: 0 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gl-border);
+      background: rgba(255,255,255,0.28);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.15s;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      min-width: 74px;
+    }
+    body.dark .priority-cycle-btn {
+      background: rgba(255,255,255,0.07);
+      border-color: var(--gl-border-dark);
+      color: var(--muted-dark);
+    }
+    .priority-cycle-btn[data-p="high"]   { background: rgba(229,57,53,0.12); border-color: rgba(229,57,53,0.40); color: #e53935; }
+    .priority-cycle-btn[data-p="medium"] { background: rgba(245,124,0,0.12);  border-color: rgba(245,124,0,0.40);  color: #e65100; }
+    .priority-cycle-btn[data-p="low"]    { background: rgba(56,142,60,0.12);  border-color: rgba(56,142,60,0.40);  color: #2e7d32; }
+    body.dark .priority-cycle-btn[data-p="high"]   { background: rgba(229,57,53,0.20);  color: #ef5350; }
+    body.dark .priority-cycle-btn[data-p="medium"] { background: rgba(245,124,0,0.20);  color: #f57c00; }
+    body.dark .priority-cycle-btn[data-p="low"]    { background: rgba(56,142,60,0.20);  color: #66bb6a; }
+    .prio-badge {
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 2px 7px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      flex-shrink: 0;
+      cursor: pointer;
+      user-select: none;
+      line-height: 1.4;
+      transition: opacity 0.15s, filter 0.15s;
+    }
+    .prio-badge:hover { filter: brightness(0.9); }
+    .prio-badge[data-p="high"]   { background: rgba(229,57,53,0.12); border-color: rgba(229,57,53,0.30); color: #c62828; }
+    .prio-badge[data-p="medium"] { background: rgba(245,124,0,0.12);  border-color: rgba(245,124,0,0.30);  color: #bf360c; }
+    .prio-badge[data-p="low"]    { background: rgba(56,142,60,0.12);  border-color: rgba(56,142,60,0.30);  color: #1b5e20; }
+    .prio-badge[data-p=""]       { display: none; }
+    .todo-item:hover .prio-badge[data-p=""] { display: inline-block; background: rgba(90,100,128,0.10); border-color: rgba(90,100,128,0.18); color: var(--muted); }
+    body.dark .prio-badge[data-p="high"]   { background: rgba(229,57,53,0.20); color: #ef5350; }
+    body.dark .prio-badge[data-p="medium"] { background: rgba(245,124,0,0.20); color: #f57c00; }
+    body.dark .prio-badge[data-p="low"]    { background: rgba(56,142,60,0.20); color: #66bb6a; }
+    body.dark .todo-item:hover .prio-badge[data-p=""] { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: var(--muted-dark); }
+    .todo-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 3px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    body.dark .todo-note { color: var(--muted-dark); }
+    .note-input {
+      width: 100%;
+      margin-top: 8px;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gl-border);
+      background: rgba(255,255,255,0.20);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--text);
+      font-size: 0.85rem;
+      font-family: inherit;
+      outline: none;
+      resize: none;
+      line-height: 1.5;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .note-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-muted);
+      background: rgba(255,255,255,0.35);
+    }
+    body.dark .note-input {
+      background: rgba(255,255,255,0.05);
+      border-color: var(--gl-border-dark);
+      color: var(--text-dark);
+    }
+    body.dark .note-input:focus { background: rgba(255,255,255,0.09); }
+    .note-input::placeholder { color: var(--muted); font-size: 0.82rem; }
+    body.dark .note-input::placeholder { color: var(--muted-dark); }
+    .note-edit-input {
+      width: 100%;
+      margin-top: 4px;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--accent);
+      background: rgba(255,255,255,0.45);
+      color: var(--text);
+      font-size: 0.82rem;
+      font-family: inherit;
+      outline: none;
+      resize: none;
+      line-height: 1.5;
+      box-shadow: 0 0 0 3px var(--accent-muted);
+    }
+    body.dark .note-edit-input {
+      background: rgba(255,255,255,0.08);
+      color: var(--text-dark);
     }
 
     /* ── Filters ────────────────────────────────────────────── */
@@ -756,10 +878,10 @@
     }
     .modal-backdrop.show { opacity: 1; pointer-events: all; }
     .modal {
-      background: rgba(255,255,255,0.32);
+      background: rgba(255,255,255,0.82);
       backdrop-filter: blur(28px) saturate(180%);
       -webkit-backdrop-filter: blur(28px) saturate(180%);
-      border: 1px solid rgba(255,255,255,0.52);
+      border: 1px solid rgba(255,255,255,0.70);
       border-radius: var(--radius);
       box-shadow: 0 24px 64px rgba(100,80,200,0.30), 0 1px 0 rgba(255,255,255,0.60) inset;
       width: 100%;
@@ -852,7 +974,13 @@
     }
 
     @media (max-width: 480px) {
-      body { padding: 16px 12px 48px; }
+      body {
+        padding: 16px 12px 48px;
+        padding-top: max(16px, calc(env(safe-area-inset-top) + 12px));
+        padding-bottom: max(48px, calc(env(safe-area-inset-bottom) + 24px));
+        padding-left: max(12px, env(safe-area-inset-left));
+        padding-right: max(12px, env(safe-area-inset-right));
+      }
       .card { padding: 16px; }
       .header h1 { font-size: 1.1rem; }
     }
@@ -893,12 +1021,14 @@
     <div class="card">
       <div class="add-row">
         <input type="text" id="new-todo-input" maxlength="200" onkeydown="handleKey(event)" />
+        <button class="priority-cycle-btn" id="priority-btn" data-p="" onclick="cyclePriority()"></button>
         <button class="btn-add" id="add-btn" onclick="addTodo()" title="Hinzufügen">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
             <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
           </svg>
         </button>
       </div>
+      <textarea class="note-input" id="new-todo-note" rows="2"></textarea>
     </div>
 
     <!-- Todo List -->
@@ -976,7 +1106,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.1</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.2</span>
   </footer>
 
   <!-- Confirm Modal -->
@@ -1028,6 +1158,7 @@
     let lang = 'de';
     let dark = false;
     let dragSrcIndex = null;
+    let newPriority = '';
 
     const i18n = {
       de: {
@@ -1056,10 +1187,25 @@
         toastAllCleared: 'Alle Aufgaben gelöscht',
         btnYes: 'Ja', btnNo: 'Nein',
         headerBadges: ['Lokal', 'Im Browser', 'Kein Server'],
+        priorityNone: 'Prio.',
+        priorityHigh: '↑ Hoch',
+        priorityMedium: '→ Mittel',
+        priorityLow: '↓ Niedrig',
+        notePlaceholder: 'Notiz (optional) …',
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
-            version: 'v1.0.1', date: '2026-03-11',
+            version: 'v1.0.2',
+            entries: [
+              'Prioritäten (Hoch / Mittel / Niedrig) mit farbigen Badges',
+              'Notizfeld für längere Beschreibungen pro Aufgabe',
+              'Favicon als SVG-Checkmark im App-Design',
+              'iOS PWA-Unterstützung: App zum Homebildschirm hinzufügbar, Fullscreen-Modus, sicherer Abstand für Dynamic Island/Notch',
+              'Lichtmodus: Changelog-Modal besser lesbar (höhere Deckkraft)',
+            ],
+          },
+          {
+            version: 'v1.0.1',
             entries: [
               'Glassmorphism / Acryl-Design im gesamten Interface',
               'Plus-Button im Glas-Look (backdrop-filter, transparenter Hintergrund)',
@@ -1068,7 +1214,7 @@
             ],
           },
           {
-            version: 'v1.0.0', date: '2026-03-01',
+            version: 'v1.0.0',
             entries: [
               'Aufgaben erstellen, bearbeiten und löschen',
               'Drag & Drop zum Umsortieren der Einträge',
@@ -1110,10 +1256,25 @@
         toastAllCleared: 'All tasks deleted',
         btnYes: 'Yes', btnNo: 'No',
         headerBadges: ['Local', 'Browser', 'No Server'],
+        priorityNone: 'Prio.',
+        priorityHigh: '↑ High',
+        priorityMedium: '→ Medium',
+        priorityLow: '↓ Low',
+        notePlaceholder: 'Note (optional) …',
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
-            version: 'v1.0.1', date: '2026-03-11',
+            version: 'v1.0.2',
+            entries: [
+              'Priority levels (High / Medium / Low) with color-coded badges',
+              'Notes field for longer descriptions per task',
+              'Favicon as SVG checkmark matching the app design',
+              'iOS PWA support: add to home screen, fullscreen mode, safe area insets for Dynamic Island/notch',
+              'Light mode: changelog modal improved readability (higher opacity)',
+            ],
+          },
+          {
+            version: 'v1.0.1',
             entries: [
               'Glassmorphism / acrylic design throughout the entire interface',
               'Add button styled with glass look (backdrop-filter, translucent background)',
@@ -1122,7 +1283,7 @@
             ],
           },
           {
-            version: 'v1.0.0', date: '2026-03-01',
+            version: 'v1.0.0',
             entries: [
               'Create, edit and delete tasks',
               'Drag & drop to reorder entries',
@@ -1178,9 +1339,13 @@
       const input = document.getElementById('new-todo-input');
       const text = input.value.trim();
       if (!text) return;
-      todos.unshift({ id: Date.now(), text, done: false, created: Date.now() });
+      const noteInput = document.getElementById('new-todo-note');
+      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim() });
       addHistory('created', text);
       input.value = '';
+      noteInput.value = '';
+      newPriority = '';
+      updatePriorityBtn();
       save(); render();
     }
     function toggleTodo(id) {
@@ -1201,21 +1366,40 @@
       const todo = todos.find(t => t.id === id);
       if (!todo) return;
       const wrap = document.querySelector(`[data-id="${id}"] .todo-text-wrap`);
-      const old = todo.text;
-      wrap.innerHTML = `<input class="todo-edit-input" value="${escHtml(old)}" maxlength="200" />`;
+      const oldText = todo.text;
+      const oldNote = todo.note || '';
+      wrap.innerHTML = `
+        <input class="todo-edit-input" value="${escHtml(oldText)}" maxlength="200" />
+        <textarea class="note-edit-input" rows="2" maxlength="1000">${escHtml(oldNote)}</textarea>
+      `;
       const inp = wrap.querySelector('input');
+      const noteInp = wrap.querySelector('textarea');
+      noteInp.placeholder = t().notePlaceholder;
       inp.focus(); inp.select();
-      inp.onblur = () => commitEdit(id, inp.value, old);
       inp.onkeydown = e => {
-        if (e.key === 'Enter') inp.blur();
-        if (e.key === 'Escape') { inp.value = old; inp.blur(); }
+        if (e.key === 'Enter') { e.preventDefault(); noteInp.focus(); }
+        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote);
       };
+      noteInp.onkeydown = e => {
+        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote);
+      };
+      const doCommit = (e) => {
+        if (!wrap.contains(e.relatedTarget)) {
+          wrap.removeEventListener('focusout', doCommit);
+          commitEdit(id, inp.value, oldText, noteInp.value);
+        }
+      };
+      wrap.addEventListener('focusout', doCommit);
     }
-    function commitEdit(id, newText, oldText) {
+    function commitEdit(id, newText, oldText, newNote) {
       newText = newText.trim();
-      if (!newText || newText === oldText) { render(); return; }
+      if (!newText) { render(); return; }
       const todo = todos.find(t => t.id === id);
-      if (todo) todo.text = newText;
+      if (!todo) return;
+      const noteValue = newNote !== undefined ? newNote.trim() : (todo.note || '');
+      if (newText === oldText && noteValue === (todo.note || '')) { render(); return; }
+      todo.text = newText;
+      todo.note = noteValue;
       save(); render();
     }
 
@@ -1362,6 +1546,28 @@
       document.documentElement.lang = lang;
     }
 
+    // ── Priority ─────────────────────────────────────────────────────────────
+    function cyclePriority() {
+      const cycle = ['', 'high', 'medium', 'low'];
+      newPriority = cycle[(cycle.indexOf(newPriority) + 1) % cycle.length];
+      updatePriorityBtn();
+    }
+    function updatePriorityBtn() {
+      const btn = document.getElementById('priority-btn');
+      if (!btn) return;
+      const T = t();
+      const labels = { '': T.priorityNone, high: T.priorityHigh, medium: T.priorityMedium, low: T.priorityLow };
+      btn.textContent = labels[newPriority] ?? T.priorityNone;
+      btn.dataset.p = newPriority;
+    }
+    function cycleTodoPriority(id) {
+      const todo = todos.find(t => t.id === id);
+      if (!todo) return;
+      const cycle = ['', 'high', 'medium', 'low'];
+      todo.priority = cycle[(cycle.indexOf(todo.priority || '') + 1) % cycle.length];
+      save(); render();
+    }
+
     // ── Changelog ────────────────────────────────────────────────────────────
     function openChangelog() {
       const T = t();
@@ -1369,7 +1575,7 @@
       document.getElementById('changelog-body').innerHTML = T.changelogVersions.map((v, i) => `
         <div class="changelog-version"${i > 0 ? ' style="margin-top:18px"' : ''}>
           <span class="changelog-tag">${v.version}</span>
-          <span class="changelog-date">${v.date}</span>
+          ${v.date ? `<span class="changelog-date">${v.date}</span>` : ''}
         </div>
         <ul class="changelog-list">
           ${v.entries.map(e => `<li>${e}</li>`).join('')}
@@ -1402,6 +1608,8 @@
       document.getElementById('app-claim').textContent = T.claim;
       document.getElementById('header-badges').innerHTML = T.headerBadges.map(b => `<span class="header-badge">${b}</span>`).join('');
       document.getElementById('new-todo-input').placeholder = T.placeholder;
+      updatePriorityBtn();
+      document.getElementById('new-todo-note').placeholder = T.notePlaceholder;
       document.getElementById('history-title').textContent = T.historyTitle;
       document.getElementById('io-title').textContent = T.ioTitle;
       document.getElementById('export-label').textContent = T.exportLabel;
@@ -1430,6 +1638,7 @@
       }
 
       // Todo list
+      const prioLabel = { high: T.priorityHigh, medium: T.priorityMedium, low: T.priorityLow };
       const list = document.getElementById('todo-list');
       const visible = filteredTodos();
       if (!visible.length) {
@@ -1447,6 +1656,7 @@
               <input type="checkbox" ${todo.done ? 'checked' : ''} onchange="toggleTodo(${todo.id})" />
               <span class="checkbox-box"><span class="checkbox-check">${SVG.check}</span></span>
             </label>
+            <span class="prio-badge" data-p="${todo.priority||''}" onclick="cycleTodoPriority(${todo.id})">${prioLabel[todo.priority] || '+'}</span>
             <div class="todo-text-wrap">
               <div class="todo-text">${escHtml(todo.text)}</div>
               <div class="todo-meta">${
@@ -1454,6 +1664,7 @@
                   ? T.metaDone + ': ' + formatDate(todo.completedAt)
                   : T.metaCreated + ': ' + formatShortDate(todo.created)
               }</div>
+              ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
             </div>
             <div class="todo-actions">
               <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
@@ -1479,10 +1690,51 @@
       }
     }
 
+    // ── PWA Setup ────────────────────────────────────────────────────────────
+    function setupPWA() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 192; canvas.height = 192;
+      const ctx = canvas.getContext('2d');
+      const r = 42;
+      ctx.fillStyle = '#3d5afe';
+      ctx.beginPath();
+      ctx.moveTo(r, 0); ctx.lineTo(192-r, 0);
+      ctx.quadraticCurveTo(192, 0, 192, r);
+      ctx.lineTo(192, 192-r);
+      ctx.quadraticCurveTo(192, 192, 192-r, 192);
+      ctx.lineTo(r, 192);
+      ctx.quadraticCurveTo(0, 192, 0, 192-r);
+      ctx.lineTo(0, r);
+      ctx.quadraticCurveTo(0, 0, r, 0);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = 'white'; ctx.lineWidth = 16;
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.beginPath();
+      ctx.moveTo(45, 96); ctx.lineTo(80, 132); ctx.lineTo(147, 60);
+      ctx.stroke();
+      const iconUrl = canvas.toDataURL('image/png');
+      const touchIcon = document.createElement('link');
+      touchIcon.rel = 'apple-touch-icon';
+      touchIcon.href = iconUrl;
+      document.head.appendChild(touchIcon);
+      try {
+        const manifest = { name: 'Flux — Deine ToDo App', short_name: 'Flux',
+          start_url: '.', display: 'standalone',
+          background_color: '#7eb3ff', theme_color: '#3d5afe',
+          icons: [{ src: iconUrl, sizes: '192x192', type: 'image/png' }] };
+        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+        const mlink = document.createElement('link');
+        mlink.rel = 'manifest'; mlink.href = URL.createObjectURL(blob);
+        document.head.appendChild(mlink);
+      } catch(e) {}
+    }
+
     // ── Init ─────────────────────────────────────────────────────────────────
     load();
     applyDark();
     applyLang();
+    setupPWA();
     render();
   </script>
 </body>
