@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flux — Deine ToDo App</title>
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #7eb3ff 0%, #c87eff 35%, #ff7ec8 65%, #7eb3ff 100%);
+      --bg-dark: linear-gradient(135deg, #0e1a5e 0%, #2d0a5e 35%, #5e0a3a 65%, #0a1a5e 100%);
+      --surface: #ffffff;
+      --surface-dark: #13172a;
+      --text: #0f1623;
+      --text-dark: #e8eaf6;
+      --muted: #5a6480;
+      --muted-dark: #9baad0;
+      --accent: #3d5afe;
+      --accent-hover: #2a47e6;
+      --accent-muted: rgba(61,90,254,0.12);
+      --accent-muted-dark: rgba(61,90,254,0.22);
+      --danger: #e53935;
+      --danger-muted: rgba(229,57,53,0.10);
+      /* Glass tokens */
+      --gl:            rgba(255,255,255,0.22);
+      --gl-dark:       rgba(12,16,52,0.50);
+      --gl-strong:     rgba(255,255,255,0.32);
+      --gl-strong-dark:rgba(255,255,255,0.09);
+      --gl-subtle:     rgba(255,255,255,0.12);
+      --gl-subtle-dark:rgba(255,255,255,0.05);
+      --gl-border:     rgba(255,255,255,0.50);
+      --gl-border-dark:rgba(255,255,255,0.10);
+      --gl-shadow:     0 8px 32px rgba(100,80,200,0.20), 0 1px 0 rgba(255,255,255,0.60) inset;
+      --gl-shadow-dark:0 8px 32px rgba(0,0,0,0.50),     0 1px 0 rgba(255,255,255,0.06) inset;
+      --shadow-sm: 0 2px 8px rgba(100,80,200,0.12);
+      --shadow: var(--gl-shadow);
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, 'Inter', 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      background: var(--bg) fixed;
+      background-size: cover;
+      transition: background 0.5s;
+      padding: 32px 16px 64px;
+      -webkit-font-smoothing: antialiased;
+    }
+    body.dark {
+      background: var(--bg-dark) fixed;
+      background-size: cover;
+    }
+
+    .app { max-width: 660px; margin: 0 auto; }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    .header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding: 14px 16px;
+      background: var(--gl);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid var(--gl-border);
+      border-radius: var(--radius);
+      box-shadow: var(--gl-shadow);
+    }
+    body.dark .header {
+      background: var(--gl-dark);
+      border-color: var(--gl-border-dark);
+      box-shadow: var(--gl-shadow-dark);
+    }
+    .header-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .header-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.28);
+      backdrop-filter: blur(14px) saturate(180%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.95);
+      flex-shrink: 0;
+      box-shadow: 0 4px 18px rgba(100,80,200,0.28), 0 1px 0 rgba(255,255,255,0.60) inset;
+    }
+    body.dark .header-icon {
+      background: rgba(100,80,220,0.30);
+      border-color: rgba(255,255,255,0.18);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.40), 0 1px 0 rgba(255,255,255,0.12) inset;
+    }
+    .header h1 {
+      color: var(--text);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      transition: color 0.4s;
+      line-height: 1.2;
+    }
+    body.dark .header h1 { color: var(--text-dark); }
+    .header-claim {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.01em;
+      margin-top: 1px;
+    }
+    body.dark .header-claim { color: var(--muted-dark); }
+    .header-badges {
+      display: flex;
+      gap: 5px;
+      margin-top: 5px;
+      flex-wrap: wrap;
+    }
+    .header-badge {
+      font-size: 0.63rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 2px 7px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.50);
+      color: var(--muted);
+      background: rgba(255,255,255,0.28);
+    }
+    body.dark .header-badge {
+      border-color: rgba(255,255,255,0.12);
+      color: var(--muted-dark);
+      background: rgba(255,255,255,0.07);
+    }
+
+    .header-controls { display: flex; gap: 6px; align-items: center; margin-top: 2px; }
+
+    .ctrl-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      height: 32px;
+      background: var(--gl-strong);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--gl-border);
+      color: var(--muted);
+      border-radius: var(--radius-sm);
+      padding: 0 10px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+      box-shadow: var(--shadow-sm);
+      white-space: nowrap;
+    }
+    body.dark .ctrl-btn {
+      background: var(--gl-strong-dark);
+      border-color: var(--gl-border-dark);
+      color: var(--muted-dark);
+    }
+    .ctrl-btn:hover {
+      background: rgba(255,255,255,0.50);
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-muted);
+    }
+    body.dark .ctrl-btn:hover {
+      background: rgba(255,255,255,0.14);
+      box-shadow: 0 0 0 3px var(--accent-muted-dark);
+    }
+    .ctrl-btn svg { flex-shrink: 0; }
+
+    /* ── Card ───────────────────────────────────────────────── */
+    .card {
+      background: var(--gl);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      border: 1px solid var(--gl-border);
+      border-radius: var(--radius);
+      box-shadow: var(--gl-shadow);
+      padding: 20px 24px;
+      margin-bottom: 12px;
+    }
+    body.dark .card {
+      background: var(--gl-dark);
+      border-color: var(--gl-border-dark);
+      box-shadow: var(--gl-shadow-dark);
+    }
+
+    /* ── Add Row ────────────────────────────────────────────── */
+    .add-row { display: flex; gap: 8px; }
+
+    .add-row input {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gl-border);
+      background: rgba(255,255,255,0.28);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--text);
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .add-row input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-muted);
+      background: rgba(255,255,255,0.42);
+    }
+    body.dark .add-row input {
+      background: rgba(255,255,255,0.07);
+      border-color: var(--gl-border-dark);
+      color: var(--text-dark);
+    }
+    body.dark .add-row input:focus { background: rgba(255,255,255,0.11); }
+    .add-row input::placeholder { color: var(--muted); font-size: 0.88rem; }
+    body.dark .add-row input::placeholder { color: var(--muted-dark); }
+
+    .btn-add {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(61,90,254,0.35);
+      backdrop-filter: blur(14px) saturate(180%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.50);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      box-shadow: 0 4px 18px rgba(61,90,254,0.30), 0 1px 0 rgba(255,255,255,0.55) inset;
+    }
+    .btn-add:hover {
+      background: rgba(61,90,254,0.50);
+      box-shadow: 0 6px 22px rgba(61,90,254,0.40), 0 1px 0 rgba(255,255,255,0.55) inset;
+    }
+    .btn-add:active { transform: scale(0.95); }
+    body.dark .btn-add {
+      background: rgba(100,80,220,0.35);
+      border-color: rgba(255,255,255,0.18);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.40), 0 1px 0 rgba(255,255,255,0.12) inset;
+    }
+    body.dark .btn-add:hover {
+      background: rgba(100,80,220,0.50);
+      box-shadow: 0 6px 22px rgba(0,0,0,0.50), 0 1px 0 rgba(255,255,255,0.15) inset;
+    }
+
+    /* ── Filters ────────────────────────────────────────────── */
+    .filters {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 16px;
+      background: var(--gl-subtle);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.30);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+    }
+    body.dark .filters {
+      background: var(--gl-subtle-dark);
+      border-color: rgba(255,255,255,0.07);
+    }
+    .filter-btn {
+      flex: 1;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: all 0.15s;
+    }
+    body.dark .filter-btn { color: var(--muted-dark); }
+    .filter-btn.active {
+      background: rgba(255,255,255,0.55);
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+    }
+    body.dark .filter-btn.active {
+      background: rgba(255,255,255,0.13);
+      color: var(--text-dark);
+    }
+
+    /* ── Todo List ──────────────────────────────────────────── */
+    .todo-list { display: flex; flex-direction: column; gap: 1px; }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 12px;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      cursor: default;
+      transition: background 0.15s;
+      user-select: none;
+      position: relative;
+    }
+    .todo-item:hover { background: rgba(255,255,255,0.28); }
+    body.dark .todo-item:hover { background: rgba(255,255,255,0.07); }
+    .todo-item.dragging { opacity: 0.35; cursor: grabbing; }
+    .todo-item.drag-over {
+      background: var(--accent-muted);
+      outline: 1px solid var(--accent);
+      outline-offset: -1px;
+      border-radius: var(--radius-sm);
+    }
+    body.dark .todo-item.drag-over { background: var(--accent-muted-dark); }
+
+    .drag-handle {
+      color: rgba(255,255,255,0.35);
+      flex-shrink: 0;
+      cursor: grab;
+      display: flex;
+      align-items: center;
+      transition: color 0.15s;
+    }
+    .todo-item:hover .drag-handle { color: var(--muted); }
+    body.dark .drag-handle { color: rgba(255,255,255,0.15); }
+    body.dark .todo-item:hover .drag-handle { color: var(--muted-dark); }
+
+    /* Custom checkbox */
+    .checkbox-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .checkbox-wrap input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .checkbox-box {
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      border: 1.5px solid rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.30);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    body.dark .checkbox-box { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
+    .checkbox-wrap:hover .checkbox-box { border-color: var(--accent); }
+    .checkbox-wrap input:checked ~ .checkbox-box {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .checkbox-check {
+      display: none;
+      color: #fff;
+    }
+    .checkbox-wrap input:checked ~ .checkbox-box .checkbox-check { display: block; }
+
+    .todo-text-wrap { flex: 1; min-width: 0; }
+    .todo-text {
+      font-size: 0.9rem;
+      color: var(--text);
+      word-break: break-word;
+      line-height: 1.45;
+      transition: color 0.2s;
+    }
+    body.dark .todo-text { color: var(--text-dark); }
+    .todo-item.done .todo-text {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+    body.dark .todo-item.done .todo-text { color: var(--muted-dark); }
+
+    .todo-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 2px;
+      letter-spacing: 0.01em;
+    }
+    body.dark .todo-meta { color: var(--muted-dark); }
+
+    .todo-actions {
+      display: flex;
+      gap: 2px;
+      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .todo-item:hover .todo-actions { opacity: 1; }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: none;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--muted);
+      transition: background 0.15s, color 0.15s;
+    }
+    .action-btn:hover { background: rgba(255,255,255,0.42); color: var(--accent); }
+    .action-btn.danger:hover { background: var(--danger-muted); color: var(--danger); }
+    body.dark .action-btn:hover { background: rgba(255,255,255,0.10); color: var(--accent); }
+    body.dark .action-btn.danger:hover { background: rgba(229,57,53,0.15); color: #ef5350; }
+
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.35);
+      margin: 8px 0;
+    }
+    body.dark .divider { background: rgba(255,255,255,0.08); }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 32px 0 20px;
+      color: var(--muted);
+    }
+    body.dark .empty-state { color: var(--muted-dark); }
+    .empty-state svg { opacity: 0.35; }
+    .empty-state p { font-size: 0.88rem; }
+
+    .stats-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.35);
+    }
+    body.dark .stats-row { border-color: rgba(255,255,255,0.08); }
+    .stats-text {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    body.dark .stats-text { color: var(--muted-dark); }
+    .progress-bar {
+      width: 100px;
+      height: 4px;
+      background: rgba(255,255,255,0.30);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    body.dark .progress-bar { background: rgba(255,255,255,0.10); }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    /* ── Section Header ─────────────────────────────────────── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .section-icon {
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+    }
+    body.dark .section-icon { color: var(--muted-dark); }
+    .section-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    body.dark .section-title { color: var(--muted-dark); }
+
+    /* ── History ────────────────────────────────────────────── */
+    .history-list { display: flex; flex-direction: column; gap: 1px; }
+
+    .history-item {
+      display: grid;
+      grid-template-columns: 8px auto 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s;
+    }
+    .history-item:hover { background: rgba(255,255,255,0.28); }
+    body.dark .history-item:hover { background: rgba(255,255,255,0.07); }
+
+    .h-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .h-dot-done    { background: #43a047; }
+    .h-dot-created { background: var(--accent); }
+    .h-dot-deleted { background: var(--danger); }
+    .h-dot-undone  { background: #fb8c00; }
+
+    .h-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      color: var(--muted);
+      min-width: 68px;
+    }
+    body.dark .h-label { color: var(--muted-dark); }
+
+    .h-text {
+      font-size: 0.85rem;
+      color: var(--text);
+      word-break: break-word;
+      line-height: 1.4;
+    }
+    body.dark .h-text { color: var(--text-dark); }
+
+    .h-time {
+      font-size: 0.7rem;
+      color: var(--muted);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    body.dark .h-time { color: var(--muted-dark); }
+
+    .history-empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 20px 0;
+      font-size: 0.85rem;
+    }
+    body.dark .history-empty { color: var(--muted-dark); }
+
+    /* ── IO Buttons ─────────────────────────────────────────── */
+    .io-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .io-btn {
+      flex: 1;
+      min-width: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gl-border);
+      background: rgba(255,255,255,0.20);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--text);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: all 0.15s;
+    }
+    body.dark .io-btn {
+      background: rgba(255,255,255,0.06);
+      border-color: var(--gl-border-dark);
+      color: var(--text-dark);
+    }
+    .io-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.38); }
+    body.dark .io-btn:hover { background: rgba(255,255,255,0.11); }
+    .io-btn.danger:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-muted); }
+    body.dark .io-btn.danger:hover { background: rgba(229,57,53,0.12); border-color: var(--danger); }
+    .io-btn svg { flex-shrink: 0; }
+
+    #import-file { display: none; }
+
+    /* ── Inline Edit ────────────────────────────────────────── */
+    .todo-edit-input {
+      width: 100%;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--accent);
+      background: rgba(255,255,255,0.55);
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      box-shadow: 0 0 0 3px var(--accent-muted);
+    }
+    body.dark .todo-edit-input {
+      background: rgba(255,255,255,0.10);
+      color: var(--text-dark);
+    }
+
+    /* ── Toast ──────────────────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: rgba(255,255,255,0.30);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border: 1px solid rgba(255,255,255,0.50);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 0.83rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: var(--gl-shadow);
+    }
+    body.dark .toast {
+      background: rgba(12,16,52,0.65);
+      border-color: rgba(255,255,255,0.10);
+      color: var(--text-dark);
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    .clear-all-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.72rem;
+      color: var(--muted);
+      padding: 2px 0;
+      letter-spacing: 0.02em;
+      transition: color 0.15s;
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      text-underline-offset: 2px;
+    }
+    .clear-all-btn:hover {
+      color: var(--danger);
+      text-decoration-color: var(--danger);
+    }
+    body.dark .clear-all-btn { color: var(--muted-dark); }
+    body.dark .clear-all-btn:hover { color: #ef5350; text-decoration-color: #ef5350; }
+
+    .section-header { cursor: pointer; }
+    .section-header:hover .section-title { color: var(--text); }
+    body.dark .section-header:hover .section-title { color: var(--text-dark); }
+    .chevron {
+      margin-left: auto;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      transition: transform 0.22s ease;
+    }
+    body.dark .chevron { color: var(--muted-dark); }
+    .section-header.open .chevron { transform: rotate(180deg); }
+    .collapsible {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.25s ease;
+    }
+    .collapsible.open { grid-template-rows: 1fr; }
+    .collapsible-inner { overflow: hidden; }
+
+    .footer {
+      text-align: center;
+      margin-top: 8px;
+      padding-bottom: 8px;
+    }
+    .footer span {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+      cursor: pointer;
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .footer span:hover {
+      color: rgba(255,255,255,0.8);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    /* ── Confirm Modal ──────────────────────────────────────── */
+    .confirm-modal { max-width: 360px; }
+    .confirm-body { padding: 24px 22px 20px; }
+    .confirm-message {
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+    body.dark .confirm-message { color: var(--text-dark); }
+    .confirm-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .confirm-btn {
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.40);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 0.02em;
+    }
+    .confirm-no {
+      background: rgba(255,255,255,0.25);
+      color: var(--text);
+    }
+    body.dark .confirm-no {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.10);
+      color: var(--text-dark);
+    }
+    .confirm-no:hover { background: rgba(255,255,255,0.42); }
+    body.dark .confirm-no:hover { background: rgba(255,255,255,0.12); }
+    .confirm-yes {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .confirm-yes:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+    .confirm-yes.danger {
+      background: var(--danger);
+      border-color: var(--danger);
+    }
+    .confirm-yes.danger:hover { background: #c62828; border-color: #c62828; }
+
+    /* ── Changelog Modal ────────────────────────────────────── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .modal-backdrop.show { opacity: 1; pointer-events: all; }
+    .modal {
+      background: rgba(255,255,255,0.32);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.52);
+      border-radius: var(--radius);
+      box-shadow: 0 24px 64px rgba(100,80,200,0.30), 0 1px 0 rgba(255,255,255,0.60) inset;
+      width: 100%;
+      max-width: 480px;
+      max-height: 80vh;
+      overflow-y: auto;
+      transform: translateY(16px) scale(0.98);
+      transition: transform 0.22s ease;
+    }
+    body.dark .modal {
+      background: rgba(12,16,52,0.65);
+      border-color: rgba(255,255,255,0.10);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.60), 0 1px 0 rgba(255,255,255,0.06) inset;
+    }
+    .modal-backdrop.show .modal { transform: translateY(0) scale(1); }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.30);
+    }
+    body.dark .modal-header { border-color: rgba(255,255,255,0.08); }
+    .modal-header h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.2px;
+    }
+    body.dark .modal-header h2 { color: var(--text-dark); }
+    .modal-close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: none;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--muted);
+      transition: background 0.15s, color 0.15s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.38); color: var(--text); }
+    body.dark .modal-close:hover { background: rgba(255,255,255,0.10); color: var(--text-dark); }
+    .modal-body { padding: 20px 22px 24px; }
+    .changelog-version {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .changelog-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: var(--accent-muted);
+      color: var(--accent);
+    }
+    body.dark .changelog-tag { background: var(--accent-muted-dark); }
+    .changelog-date {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    body.dark .changelog-date { color: var(--muted-dark); }
+    .changelog-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .changelog-list li {
+      display: flex;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    body.dark .changelog-list li { color: var(--text-dark); }
+    .changelog-list li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 16px 12px 48px; }
+      .card { padding: 16px; }
+      .header h1 { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <div class="header-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+        </div>
+        <div>
+          <h1 id="app-title">Flux — Deine ToDo App</h1>
+          <div class="header-claim" id="app-claim"></div>
+          <div class="header-badges" id="header-badges"></div>
+        </div>
+      </div>
+      <div class="header-controls">
+        <button class="ctrl-btn" id="lang-btn" onclick="toggleLang()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span id="lang-label">EN</span>
+        </button>
+        <button class="ctrl-btn" id="dark-btn" onclick="toggleDark()">
+          <span id="dark-icon"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Add Todo -->
+    <div class="card">
+      <div class="add-row">
+        <input type="text" id="new-todo-input" maxlength="200" onkeydown="handleKey(event)" />
+        <button class="btn-add" id="add-btn" onclick="addTodo()" title="Hinzufügen">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Todo List -->
+    <div class="card">
+      <div class="filters" id="filters">
+        <button class="filter-btn active" data-filter="open" onclick="setFilter('open')"></button>
+        <button class="filter-btn" data-filter="done" onclick="setFilter('done')"></button>
+      </div>
+      <div class="todo-list" id="todo-list"></div>
+      <div id="stats-row"></div>
+    </div>
+
+    <!-- History -->
+    <div class="card">
+      <div class="section-header" id="history-header" onclick="toggleHistory()">
+        <span class="section-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </span>
+        <span class="section-title" id="history-title"></span>
+        <span class="chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </span>
+      </div>
+      <div class="collapsible" id="history-collapsible">
+        <div class="collapsible-inner">
+          <div style="padding-top:12px">
+            <div class="history-list" id="history-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Import / Export -->
+    <div class="card">
+      <div class="section-header">
+        <span class="section-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </span>
+        <span class="section-title" id="io-title"></span>
+      </div>
+      <div class="io-row">
+        <button class="io-btn" id="export-btn" onclick="exportData()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <span id="export-label"></span>
+        </button>
+        <button class="io-btn" id="import-btn" onclick="document.getElementById('import-file').click()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span id="import-label"></span>
+        </button>
+        <button class="io-btn danger" id="clear-btn" onclick="clearHistory()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+            <path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+          </svg>
+          <span id="clear-label"></span>
+        </button>
+      </div>
+      <input type="file" id="import-file" accept=".json" onchange="importData(event)" />
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.1</span>
+  </footer>
+
+  <!-- Confirm Modal -->
+  <div class="modal-backdrop" id="confirm-backdrop">
+    <div class="modal confirm-modal">
+      <div class="confirm-body">
+        <p class="confirm-message" id="confirm-message"></p>
+        <div class="confirm-actions">
+          <button class="confirm-btn confirm-no" id="confirm-no" onclick="resolveConfirm(false)"></button>
+          <button class="confirm-btn confirm-yes" id="confirm-yes" onclick="resolveConfirm(true)"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Changelog Modal -->
+  <div class="modal-backdrop" id="changelog-backdrop" onclick="handleBackdropClick(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="changelog-heading">Changelog</h2>
+        <button class="modal-close" onclick="closeChangelog()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="changelog-body"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ── SVG Icons ────────────────────────────────────────────────────────────
+    const SVG = {
+      moon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`,
+      sun:  `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`,
+      grip: `<svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><circle cx="3" cy="2.5" r="1.3"/><circle cx="9" cy="2.5" r="1.3"/><circle cx="3" cy="7" r="1.3"/><circle cx="9" cy="7" r="1.3"/><circle cx="3" cy="11.5" r="1.3"/><circle cx="9" cy="11.5" r="1.3"/></svg>`,
+      edit: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+      trash:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`,
+      check:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+      inbox:`<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>`,
+    };
+
+    // ── State ────────────────────────────────────────────────────────────────
+    let todos = [];
+    let history = [];
+    let currentFilter = 'open';
+    let lang = 'de';
+    let dark = false;
+    let dragSrcIndex = null;
+
+    const i18n = {
+      de: {
+        appTitle: 'Flux — Deine ToDo App',
+        claim: 'Dinge im Fluss halten.',
+        placeholder: 'Neue Aufgabe hinzufügen …',
+        historyTitle: 'Verlauf',
+        ioTitle: 'Import / Export',
+        exportLabel: 'Exportieren',
+        importLabel: 'Importieren',
+        clearLabel: 'Verlauf löschen',
+        filterAll: 'Alle', filterOpen: 'Offen', filterDone: 'Erledigt',
+        stats: (d, t) => `${d} von ${t} erledigt`,
+        emptyTodos: 'Keine Aufgaben vorhanden.',
+        emptyHistory: 'Noch keine Einträge.',
+        badgeDone: 'Erledigt', badgeCreated: 'Erstellt',
+        badgeDeleted: 'Gelöscht', badgeUndone: 'Reaktiviert',
+        metaDone: 'Erledigt', metaCreated: 'Erstellt',
+        toastExported: 'Exportiert', toastImported: 'Importiert',
+        toastHistoryCleared: 'Verlauf gelöscht', toastInvalidFile: 'Ungültige Datei',
+        editTitle: 'Bearbeiten', deleteTitle: 'Löschen',
+        confirmClear: 'Verlauf wirklich löschen?',
+        clearAllBtn: 'Alle löschen',
+        confirmClearAll: 'Alle Aufgaben unwiderruflich löschen?',
+        confirmExportFirst: 'Möchtest du vorher einen Export erstellen?',
+        toastAllCleared: 'Alle Aufgaben gelöscht',
+        btnYes: 'Ja', btnNo: 'Nein',
+        headerBadges: ['Lokal', 'Im Browser', 'Kein Server'],
+        changelogHeading: 'Changelog',
+        changelogVersions: [
+          {
+            version: 'v1.0.1', date: '2026-03-11',
+            entries: [
+              'Glassmorphism / Acryl-Design im gesamten Interface',
+              'Plus-Button im Glas-Look (backdrop-filter, transparenter Hintergrund)',
+              'Header-Logo als Glas-Icon mit korrekter Ausrichtung',
+              'Verlaufslimit auf 10.000 Einträge erhöht',
+            ],
+          },
+          {
+            version: 'v1.0.0', date: '2026-03-01',
+            entries: [
+              'Aufgaben erstellen, bearbeiten und löschen',
+              'Drag & Drop zum Umsortieren der Einträge',
+              'Aufgaben als erledigt markieren mit Erledigungsdatum',
+              'Filter: Offen / Erledigt',
+              'Verlauf aller Ereignisse mit Zeitstempel',
+              'Export und Import als JSON-Datei',
+              'Alle Aufgaben auf einmal löschen (mit Export-Option)',
+              'Dark Mode',
+              'Sprachumschaltung: Deutsch / Englisch',
+              'Lokale Speicherung im Browser (kein Server erforderlich)',
+            ],
+          },
+        ],
+      },
+      en: {
+        appTitle: 'Flux — Your Todo App',
+        claim: 'Keep things in flow.',
+        placeholder: 'Add a new task …',
+        historyTitle: 'History',
+        ioTitle: 'Import / Export',
+        exportLabel: 'Export',
+        importLabel: 'Import',
+        clearLabel: 'Clear History',
+        filterAll: 'All', filterOpen: 'Open', filterDone: 'Done',
+        stats: (d, t) => `${d} of ${t} completed`,
+        emptyTodos: 'No tasks yet.',
+        emptyHistory: 'No entries yet.',
+        badgeDone: 'Done', badgeCreated: 'Created',
+        badgeDeleted: 'Deleted', badgeUndone: 'Reopened',
+        metaDone: 'Done', metaCreated: 'Created',
+        toastExported: 'Exported', toastImported: 'Imported',
+        toastHistoryCleared: 'History cleared', toastInvalidFile: 'Invalid file',
+        editTitle: 'Edit', deleteTitle: 'Delete',
+        confirmClear: 'Really clear history?',
+        clearAllBtn: 'Delete all',
+        confirmClearAll: 'Permanently delete all tasks?',
+        confirmExportFirst: 'Export your tasks first?',
+        toastAllCleared: 'All tasks deleted',
+        btnYes: 'Yes', btnNo: 'No',
+        headerBadges: ['Local', 'Browser', 'No Server'],
+        changelogHeading: 'Changelog',
+        changelogVersions: [
+          {
+            version: 'v1.0.1', date: '2026-03-11',
+            entries: [
+              'Glassmorphism / acrylic design throughout the entire interface',
+              'Add button styled with glass look (backdrop-filter, translucent background)',
+              'Header logo as glass icon with proper alignment',
+              'History limit increased to 10,000 entries',
+            ],
+          },
+          {
+            version: 'v1.0.0', date: '2026-03-01',
+            entries: [
+              'Create, edit and delete tasks',
+              'Drag & drop to reorder entries',
+              'Mark tasks as done with completion timestamp',
+              'Filter: Open / Done',
+              'Full history of all events with timestamps',
+              'Export and import as JSON file',
+              'Delete all tasks at once (with export option)',
+              'Dark mode',
+              'Language switcher: German / English',
+              'Local storage in the browser (no server required)',
+            ],
+          },
+        ],
+      }
+    };
+
+    const t = () => i18n[lang];
+
+    // ── Persistence ──────────────────────────────────────────────────────────
+    function save() {
+      localStorage.setItem('todos', JSON.stringify(todos));
+      localStorage.setItem('history', JSON.stringify(history));
+      localStorage.setItem('lang', lang);
+      localStorage.setItem('dark', dark ? '1' : '0');
+    }
+    function load() {
+      try { todos = JSON.parse(localStorage.getItem('todos')) || []; } catch { todos = []; }
+      try { history = JSON.parse(localStorage.getItem('history')) || []; } catch { history = []; }
+      lang = localStorage.getItem('lang') || 'de';
+      dark = localStorage.getItem('dark') === '1';
+    }
+
+    // ── History helpers ──────────────────────────────────────────────────────
+    function addHistory(type, text) {
+      history.unshift({ type, text, ts: Date.now() });
+      if (history.length > 10000) history.pop();
+    }
+    function formatDate(ts) {
+      return new Date(ts).toLocaleString(lang === 'de' ? 'de-DE' : 'en-US', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+    }
+    function formatShortDate(ts) {
+      return new Date(ts).toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-US', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+      });
+    }
+
+    // ── CRUD ─────────────────────────────────────────────────────────────────
+    function addTodo() {
+      const input = document.getElementById('new-todo-input');
+      const text = input.value.trim();
+      if (!text) return;
+      todos.unshift({ id: Date.now(), text, done: false, created: Date.now() });
+      addHistory('created', text);
+      input.value = '';
+      save(); render();
+    }
+    function toggleTodo(id) {
+      const todo = todos.find(t => t.id === id);
+      if (!todo) return;
+      todo.done = !todo.done;
+      if (todo.done) { todo.completedAt = Date.now(); addHistory('done', todo.text); }
+      else { delete todo.completedAt; addHistory('undone', todo.text); }
+      save(); render();
+    }
+    function deleteTodo(id) {
+      const todo = todos.find(t => t.id === id);
+      if (todo) addHistory('deleted', todo.text);
+      todos = todos.filter(t => t.id !== id);
+      save(); render();
+    }
+    function startEdit(id) {
+      const todo = todos.find(t => t.id === id);
+      if (!todo) return;
+      const wrap = document.querySelector(`[data-id="${id}"] .todo-text-wrap`);
+      const old = todo.text;
+      wrap.innerHTML = `<input class="todo-edit-input" value="${escHtml(old)}" maxlength="200" />`;
+      const inp = wrap.querySelector('input');
+      inp.focus(); inp.select();
+      inp.onblur = () => commitEdit(id, inp.value, old);
+      inp.onkeydown = e => {
+        if (e.key === 'Enter') inp.blur();
+        if (e.key === 'Escape') { inp.value = old; inp.blur(); }
+      };
+    }
+    function commitEdit(id, newText, oldText) {
+      newText = newText.trim();
+      if (!newText || newText === oldText) { render(); return; }
+      const todo = todos.find(t => t.id === id);
+      if (todo) todo.text = newText;
+      save(); render();
+    }
+
+    // ── Filter ───────────────────────────────────────────────────────────────
+    function setFilter(f) {
+      currentFilter = f;
+      document.querySelectorAll('.filter-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.filter === f));
+      render();
+    }
+    function filteredTodos() {
+      if (currentFilter === 'open') return todos.filter(t => !t.done);
+      if (currentFilter === 'done') return todos.filter(t => t.done);
+      return todos;
+    }
+
+    // ── Drag & Drop ──────────────────────────────────────────────────────────
+    function onDragStart(e, id) {
+      dragSrcIndex = todos.findIndex(t => t.id === id);
+      e.dataTransfer.effectAllowed = 'move';
+      setTimeout(() => e.target.classList.add('dragging'), 0);
+    }
+    function onDragEnd(e) {
+      e.target.classList.remove('dragging');
+      document.querySelectorAll('.todo-item').forEach(el => el.classList.remove('drag-over'));
+    }
+    function onDragOver(e, id) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      document.querySelectorAll('.todo-item').forEach(el => el.classList.remove('drag-over'));
+      const el = document.querySelector(`[data-id="${id}"]`);
+      if (el) el.classList.add('drag-over');
+    }
+    function onDrop(e, id) {
+      e.preventDefault();
+      const targetIndex = todos.findIndex(t => t.id === id);
+      if (dragSrcIndex === null || dragSrcIndex === targetIndex) return;
+      const [moved] = todos.splice(dragSrcIndex, 1);
+      todos.splice(targetIndex, 0, moved);
+      dragSrcIndex = null;
+      save(); render();
+    }
+
+    // ── Import / Export ──────────────────────────────────────────────────────
+    function exportData() {
+      const blob = new Blob([JSON.stringify({ todos, history, exportedAt: new Date().toISOString() }, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `tasks-${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      showToast(t().toastExported);
+    }
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (!Array.isArray(data.todos)) throw new Error();
+          todos = data.todos; history = data.history || [];
+          save(); render(); showToast(t().toastImported);
+        } catch { showToast(t().toastInvalidFile); }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+    let _confirmCb = null;
+    function showConfirm(message, onYes, onNo, yesIsDanger) {
+      const T = t();
+      document.getElementById('confirm-message').textContent = message;
+      document.getElementById('confirm-yes').textContent = T.btnYes;
+      document.getElementById('confirm-no').textContent = T.btnNo;
+      document.getElementById('confirm-yes').classList.toggle('danger', !!yesIsDanger);
+      document.getElementById('confirm-backdrop').classList.add('show');
+      _confirmCb = { onYes, onNo };
+    }
+    function resolveConfirm(answer) {
+      document.getElementById('confirm-backdrop').classList.remove('show');
+      const cb = _confirmCb; _confirmCb = null;
+      if (answer && cb?.onYes) cb.onYes();
+      else if (!answer && cb?.onNo) cb.onNo();
+    }
+
+    function clearAllTodos() {
+      if (!todos.length) return;
+      const T = t();
+      showConfirm(T.confirmClearAll, () => {
+        showConfirm(T.confirmExportFirst, () => {
+          exportData();
+          doDeleteAll();
+        }, () => {
+          doDeleteAll();
+        });
+      }, null, true);
+    }
+    function doDeleteAll() {
+      const T = t();
+      todos.forEach(todo => addHistory('deleted', todo.text));
+      todos = [];
+      save(); render();
+      showToast(T.toastAllCleared);
+    }
+
+    let historyOpen = false;
+    function toggleHistory() {
+      historyOpen = !historyOpen;
+      document.getElementById('history-header').classList.toggle('open', historyOpen);
+      document.getElementById('history-collapsible').classList.toggle('open', historyOpen);
+    }
+
+    function clearHistory() {
+      if (!confirm(t().confirmClear)) return;
+      history = []; save(); render(); showToast(t().toastHistoryCleared);
+    }
+
+    // ── Toast ────────────────────────────────────────────────────────────────
+    let toastTimer;
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+    }
+
+    // ── Theme / Lang ─────────────────────────────────────────────────────────
+    function toggleDark() {
+      dark = !dark; applyDark(); save();
+    }
+    function applyDark() {
+      document.body.classList.toggle('dark', dark);
+      document.getElementById('dark-icon').innerHTML = dark ? SVG.sun : SVG.moon;
+    }
+    function toggleLang() {
+      lang = lang === 'de' ? 'en' : 'de';
+      document.getElementById('lang-label').textContent = lang === 'de' ? 'DE' : 'EN';
+      document.documentElement.lang = lang;
+      save(); render();
+    }
+    function applyLang() {
+      document.getElementById('lang-label').textContent = lang === 'de' ? 'DE' : 'EN';
+      document.documentElement.lang = lang;
+    }
+
+    // ── Changelog ────────────────────────────────────────────────────────────
+    function openChangelog() {
+      const T = t();
+      document.getElementById('changelog-heading').textContent = T.changelogHeading;
+      document.getElementById('changelog-body').innerHTML = T.changelogVersions.map((v, i) => `
+        <div class="changelog-version"${i > 0 ? ' style="margin-top:18px"' : ''}>
+          <span class="changelog-tag">${v.version}</span>
+          <span class="changelog-date">${v.date}</span>
+        </div>
+        <ul class="changelog-list">
+          ${v.entries.map(e => `<li>${e}</li>`).join('')}
+        </ul>
+      `).join('');
+      document.getElementById('changelog-backdrop').classList.add('show');
+      document.addEventListener('keydown', onEscClose);
+    }
+    function closeChangelog() {
+      document.getElementById('changelog-backdrop').classList.remove('show');
+      document.removeEventListener('keydown', onEscClose);
+    }
+    function handleBackdropClick(e) {
+      if (e.target === e.currentTarget) closeChangelog();
+    }
+    function onEscClose(e) { if (e.key === 'Escape') closeChangelog(); }
+
+    // ── Utilities ────────────────────────────────────────────────────────────
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function handleKey(e) { if (e.key === 'Enter') addTodo(); }
+
+    // ── Render ───────────────────────────────────────────────────────────────
+    function render() {
+      const T = t();
+
+      document.getElementById('app-title').textContent = T.appTitle;
+      document.title = T.appTitle;
+      document.getElementById('app-claim').textContent = T.claim;
+      document.getElementById('header-badges').innerHTML = T.headerBadges.map(b => `<span class="header-badge">${b}</span>`).join('');
+      document.getElementById('new-todo-input').placeholder = T.placeholder;
+      document.getElementById('history-title').textContent = T.historyTitle;
+      document.getElementById('io-title').textContent = T.ioTitle;
+      document.getElementById('export-label').textContent = T.exportLabel;
+      document.getElementById('import-label').textContent = T.importLabel;
+      document.getElementById('clear-label').textContent = T.clearLabel;
+
+      const filterLabels = [T.filterOpen, T.filterDone];
+      document.querySelectorAll('.filter-btn').forEach((b, i) => { b.textContent = filterLabels[i]; });
+
+      // Stats + progress
+      const doneCount = todos.filter(t => t.done).length;
+      const total = todos.length;
+      const pct = total ? Math.round((doneCount / total) * 100) : 0;
+      const statsRow = document.getElementById('stats-row');
+      if (total) {
+        statsRow.innerHTML = `
+          <div class="stats-row">
+            <button class="clear-all-btn" onclick="clearAllTodos()">${T.clearAllBtn}</button>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span class="stats-text">${T.stats(doneCount, total)}</span>
+              <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+            </div>
+          </div>`;
+      } else {
+        statsRow.innerHTML = '';
+      }
+
+      // Todo list
+      const list = document.getElementById('todo-list');
+      const visible = filteredTodos();
+      if (!visible.length) {
+        list.innerHTML = `<div class="empty-state">${SVG.inbox}<p>${T.emptyTodos}</p></div>`;
+      } else {
+        list.innerHTML = visible.map(todo => `
+          <div class="todo-item${todo.done ? ' done' : ''}" data-id="${todo.id}"
+               draggable="true"
+               ondragstart="onDragStart(event,${todo.id})"
+               ondragend="onDragEnd(event)"
+               ondragover="onDragOver(event,${todo.id})"
+               ondrop="onDrop(event,${todo.id})">
+            <span class="drag-handle">${SVG.grip}</span>
+            <label class="checkbox-wrap">
+              <input type="checkbox" ${todo.done ? 'checked' : ''} onchange="toggleTodo(${todo.id})" />
+              <span class="checkbox-box"><span class="checkbox-check">${SVG.check}</span></span>
+            </label>
+            <div class="todo-text-wrap">
+              <div class="todo-text">${escHtml(todo.text)}</div>
+              <div class="todo-meta">${
+                todo.done && todo.completedAt
+                  ? T.metaDone + ': ' + formatDate(todo.completedAt)
+                  : T.metaCreated + ': ' + formatShortDate(todo.created)
+              }</div>
+            </div>
+            <div class="todo-actions">
+              <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
+              <button class="action-btn danger" title="${T.deleteTitle}" onclick="deleteTodo(${todo.id})">${SVG.trash}</button>
+            </div>
+          </div>`).join('');
+      }
+
+      // History
+      const hList = document.getElementById('history-list');
+      if (!history.length) {
+        hList.innerHTML = `<div class="history-empty">${T.emptyHistory}</div>`;
+      } else {
+        const dotClass = { done:'h-dot-done', created:'h-dot-created', deleted:'h-dot-deleted', undone:'h-dot-undone' };
+        const labelMap = { done: T.badgeDone, created: T.badgeCreated, deleted: T.badgeDeleted, undone: T.badgeUndone };
+        hList.innerHTML = history.map(h => `
+          <div class="history-item">
+            <span class="h-dot ${dotClass[h.type] || ''}"></span>
+            <span class="h-label">${labelMap[h.type] || h.type}</span>
+            <span class="h-text">${escHtml(h.text)}</span>
+            <span class="h-time">${formatDate(h.ts)}</span>
+          </div>`).join('');
+      }
+    }
+
+    // ── Init ─────────────────────────────────────────────────────────────────
+    load();
+    applyDark();
+    applyLang();
+    render();
+  </script>
+</body>
+</html>
