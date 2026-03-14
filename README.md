@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.5.1-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.5.2-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -89,26 +89,42 @@ Planned features for future versions:
 - [x] **Due dates** — set a deadline per task, highlight overdue items
 - [x] **Priorities** — High / Medium / Low with color coding
 - [x] **Search** — filter tasks by keyword in real time
-- [ ] **Undo** — reverse the last action with `Ctrl+Z`
+- [x] **Dark mode system detection** — follows OS preference on first launch
 
 ### Medium Priority
-- [ ] **Tags / Labels** — custom categories for filtering
 - [x] **Notes field** — longer description or details per task
-- [ ] **Subtasks** — nested checklist inside a task
-- [ ] **Sort options** — by date, priority, or alphabetically
-- [ ] **Keyboard shortcuts** — e.g. `N` for new task, `D` for dark mode toggle
+- [x] **Theme presets** — 9 themes with palette picker in header
 
 ### Nice to Have
-- [ ] **Statistics view** — completion rate, streaks, tasks per week
+- [ ] **Categories / Tags** — group todos (Work, Personal, Shopping…)
+- [ ] **Subtasks** — checklists within a task
+- [ ] **Drag & drop sorting** — reorder by dragging
+- [ ] **Sort options** — by priority, due date, creation date
+- [ ] **Recurring tasks** — e.g. "Every Monday: weekly report"
+- [ ] **Undo** — reverse the last action (e.g. accidental delete)
+- [ ] **Swipe gestures** — swipe left to delete, right to complete (mobile)
+- [x] **Haptic feedback** — vibration on actions (Vibration API, Android only)
+- [x] **Pull-to-refresh** — pull down to refresh (mobile)
+- [ ] **Confetti animation** — reward animation on task completion
+- [ ] **Streak counter** — "5 days in a row with all tasks done"
+- [ ] **Statistics view** — completion rate, tasks per week, streaks
 - [ ] **Focus mode** — show only the next open task
 - [ ] **Pomodoro timer** — time tracking linked to a task
 - [ ] **Browser notifications** — reminders for due dates
+- [ ] **Keyboard shortcuts** — `N` = new todo, `Esc` = close, etc.
+- [ ] **Accessibility** — ARIA labels, improved screen reader support
+- [ ] **Service Worker** — true offline PWA (currently requires internet)
+- [ ] **Cloud Sync** — optional backend sync (e.g. Firebase, Supabase)
 - [ ] **Multiple lists** — separate boards (e.g. Work / Personal / Shopping)
-- [x] **PWA support** — installable on mobile home screen, offline-capable
+- [x] **PWA support** — installable on mobile home screen
 
 ---
 
 ## Changelog
+
+### v1.0.5.2
+- Pull-to-refresh: pull down to reload the app (iOS & Android)
+- Haptic feedback on touch actions (Android, Vibration API)
 
 ### v1.0.5.1
 - Dark mode automatically follows system preference (prefers-color-scheme) on first launch
@@ -193,4 +209,4 @@ Planned features for future versions:
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.5.1</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.5.2</p>
