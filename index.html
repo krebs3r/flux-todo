@@ -515,6 +515,7 @@
       color-scheme: dark;
     }
     .due-input::-webkit-calendar-picker-indicator { opacity: 0.5; cursor: pointer; }
+    .due-input.due-time { flex: 0 1 auto; width: 110px; }
     .todo-due {
       font-size: 0.72rem;
       margin-top: 3px;
@@ -528,9 +529,14 @@
     body.dark .todo-due.due-future  { color: var(--muted-dark); }
     body.dark .todo-due.due-today   { color: #ffb74d; }
     .todo-item.overdue { box-shadow: inset 3px 0 0 var(--danger); }
-    .due-edit-input {
-      width: 100%;
+    .due-edit-row {
+      display: flex;
+      gap: 6px;
       margin-top: 4px;
+    }
+    .due-edit-input {
+      flex: 1;
+      min-width: 0;
       padding: 6px 8px;
       border-radius: var(--radius-sm);
       border: 1.5px solid var(--accent);
@@ -541,6 +547,7 @@
       box-shadow: 0 0 0 3px var(--accent-muted);
       color-scheme: light;
     }
+    .due-edit-input.due-time { flex: 0 0 auto; width: 110px; }
     body.dark .due-edit-input {
       background: rgba(255,255,255,0.08);
       color: var(--text-dark);
@@ -651,6 +658,39 @@
     /* ── Todo List ──────────────────────────────────────────── */
     .todo-list { display: flex; flex-direction: column; gap: 1px; }
 
+    /* ── Swipe container ───────────────────────────────── */
+    .swipe-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-sm);
+    }
+    .swipe-action {
+      position: absolute;
+      top: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      color: #fff;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .swipe-action.left {
+      left: 0;
+      background: #6bcb77;
+      border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    }
+    .swipe-action.right {
+      right: 0;
+      justify-content: flex-end;
+      background: #ff6b6b;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .swipe-action.visible { opacity: 1; }
+
     .todo-item {
       display: flex;
       align-items: center;
@@ -659,9 +699,10 @@
       border-radius: var(--radius-sm);
       background: transparent;
       cursor: default;
-      transition: background 0.15s;
+      transition: background 0.15s, transform 0.15s;
       user-select: none;
       position: relative;
+      will-change: transform;
     }
     .todo-item:hover { background: rgba(255,255,255,0.28); }
     body.dark .todo-item:hover { background: rgba(255,255,255,0.07); }
@@ -1411,6 +1452,9 @@
           </button>
           <div class="theme-popover" id="theme-popover"></div>
         </div>
+        <button class="ctrl-btn" id="notify-btn" onclick="toggleNotify()" title="Notifications">
+          <span id="notify-icon"></span>
+        </button>
         <button class="ctrl-btn" id="dark-btn" onclick="toggleDark()">
           <span id="dark-icon"></span>
         </button>
@@ -1419,6 +1463,10 @@
 
     <!-- Add Todo -->
     <div class="card">
+      <div class="section-header">
+        <span class="section-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        <span class="section-title" id="add-title"></span>
+      </div>
       <div class="add-row">
         <input type="text" id="new-todo-input" maxlength="200" onkeydown="handleKey(event)" />
         <button class="priority-cycle-btn" id="priority-btn" data-p="" onclick="cyclePriority()"></button>
@@ -1432,11 +1480,17 @@
       <div class="due-input-row">
         <span class="due-input-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
         <input class="due-input" type="date" id="new-todo-due" />
+        <span class="due-input-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        <input class="due-input due-time" type="time" id="new-todo-time" />
       </div>
     </div>
 
     <!-- Todo List -->
     <div class="card">
+      <div class="section-header">
+        <span class="section-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+        <span class="section-title" id="tasks-title"></span>
+      </div>
       <div class="search-wrap">
         <span class="search-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
         <input class="search-input" id="search-input" type="text" autocomplete="off" oninput="onSearch(this.value)" />
@@ -1516,7 +1570,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.5.2</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.6</span>
     <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -1603,6 +1657,8 @@
       trash:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`,
       check:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
       inbox:`<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>`,
+      bell:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`,
+      bellOff:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M18.63 13A17.89 17.89 0 0 1 18 8"/><path d="M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"/><path d="M18 8a6 6 0 0 0-9.33-5"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`,
     };
 
     // ── State ────────────────────────────────────────────────────────────────
@@ -1616,11 +1672,15 @@
     let dragSrcIndex = null;
     let newPriority = '';
     let searchQuery = '';
+    let notifyEnabled = false;
+    const notifiedIds = new Set();
 
     const i18n = {
       de: {
         appTitle: 'Flux — Deine ToDo App',
         claim: 'Dinge im Fluss halten.',
+        addTitle: 'Neue Aufgabe',
+        tasksTitle: 'Aufgaben',
         placeholder: 'Neue Aufgabe hinzufügen …',
         historyTitle: 'Verlauf',
         ioTitle: 'Import / Export',
@@ -1656,14 +1716,26 @@
         metaDueToday: 'Heute fällig',
         iosBannerTitle: 'Zum Homebildschirm hinzufügen',
         iosBannerHint: 'Tippe auf Teilen (&#x2191;) und wähle „Zum Home‑Bildschirm".',
+        notifyOn: 'Erinnerungen aktiviert',
+        notifyOff: 'Erinnerungen deaktiviert',
+        notifyDenied: 'Benachrichtigungen wurden im Browser blockiert',
+        notifyOverdue: 'Überfällig',
+        notifyDueToday: 'Heute fällig',
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
-            version: 'v1.0.5.2',
+            version: 'v1.0.6',
             entries: [
-              'Pull-to-Refresh: Nach unten ziehen zum Neuladen der App (iOS & Android)',
-              'Haptic Feedback bei Touch-Aktionen (Android, Vibration API)',
+              'Überschriften für Eingabe- und Aufgabenbereich hinzugefügt',
+              'Browser-Benachrichtigungen für fällige Aufgaben (Glocken-Button im Header)',
+              'Fälligkeitsdatum mit separater Uhrzeit-Eingabe',
+              'Datum-/Uhrzeitfelder werden bei Fokus automatisch mit aktuellem Wert befüllt',
+              'Swipe-Gesten: Links wischen zum Löschen, rechts zum Erledigen',
+              'Confetti-Animation beim Abschließen einer Aufgabe',
+              'Pull-to-Refresh: Nach unten ziehen zum Neuladen (iOS & Android)',
+              'Haptic Feedback bei Touch-Aktionen (Android)',
+              'Automatische Aktualisierung des Fälligkeitsstatus alle 60 Sekunden',
             ],
           },
           {
@@ -1791,6 +1863,8 @@
       en: {
         appTitle: 'Flux — Your Todo App',
         claim: 'Keep things in flow.',
+        addTitle: 'New Task',
+        tasksTitle: 'Tasks',
         placeholder: 'Add a new task …',
         historyTitle: 'History',
         ioTitle: 'Import / Export',
@@ -1826,14 +1900,26 @@
         metaDueToday: 'Due today',
         iosBannerTitle: 'Add to Home Screen',
         iosBannerHint: 'Tap Share (&#x2191;) and choose "Add to Home Screen".',
+        notifyOn: 'Reminders enabled',
+        notifyOff: 'Reminders disabled',
+        notifyDenied: 'Notifications are blocked in browser settings',
+        notifyOverdue: 'Overdue',
+        notifyDueToday: 'Due today',
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
-            version: 'v1.0.5.2',
+            version: 'v1.0.6',
             entries: [
-              'Pull-to-refresh: pull down to reload the app (iOS & Android)',
-              'Haptic feedback on touch actions (Android, Vibration API)',
+              'Section headings added for input and task areas',
+              'Browser notifications for due tasks (bell button in header)',
+              'Due date with separate time input',
+              'Date/time fields auto-fill with current value on focus',
+              'Swipe gestures: swipe left to delete, right to complete',
+              'Confetti animation when completing a task',
+              'Pull-to-refresh: pull down to reload (iOS & Android)',
+              'Haptic feedback on touch actions (Android)',
+              'Automatic due status refresh every 60 seconds',
             ],
           },
           {
@@ -1969,6 +2055,7 @@
       localStorage.setItem('lang', lang);
       localStorage.setItem('dark', dark ? '1' : '0');
       localStorage.setItem('theme', currentTheme);
+      localStorage.setItem('notify', notifyEnabled ? '1' : '0');
     }
     function load() {
       try { todos = JSON.parse(localStorage.getItem('todos')) || []; } catch { todos = []; }
@@ -1977,6 +2064,7 @@
       const savedDark = localStorage.getItem('dark');
       dark = savedDark !== null ? savedDark === '1' : window.matchMedia('(prefers-color-scheme: dark)').matches;
       currentTheme = localStorage.getItem('theme') || 'flux';
+      notifyEnabled = localStorage.getItem('notify') === '1' && 'Notification' in window && Notification.permission === 'granted';
     }
 
     // ── History helpers ──────────────────────────────────────────────────────
@@ -1996,13 +2084,23 @@
     }
 
     function getDueClass(dueDate) {
-      const today = new Date().toISOString().split('T')[0];
-      if (dueDate < today) return 'due-overdue';
-      if (dueDate === today) return 'due-today';
+      const now = new Date();
+      const today = now.toISOString().split('T')[0];
+      const dateOnly = dueDate.split('T')[0];
+      if (dueDate.includes('T')) {
+        const due = new Date(dueDate);
+        if (due < now) return 'due-overdue';
+        if (dateOnly === today) return 'due-today';
+        return 'due-future';
+      }
+      if (dateOnly < today) return 'due-overdue';
+      if (dateOnly === today) return 'due-today';
       return 'due-future';
     }
     function formatDueDate(dueDate) {
-      return dueDate; // already YYYY-MM-DD
+      if (!dueDate.includes('T')) return dueDate;
+      const [d, tm] = dueDate.split('T');
+      return d + ' · ' + tm;
     }
 
     // ── CRUD ─────────────────────────────────────────────────────────────────
@@ -2012,11 +2110,14 @@
       if (!text) return;
       const noteInput = document.getElementById('new-todo-note');
       const dueInput = document.getElementById('new-todo-due');
-      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim(), dueDate: dueInput.value || '' });
+      const timeInput = document.getElementById('new-todo-time');
+      const dueDate = dueInput.value ? (timeInput.value ? dueInput.value + 'T' + timeInput.value : dueInput.value) : '';
+      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim(), dueDate: dueDate });
       addHistory('created', text);
       input.value = '';
       noteInput.value = '';
       dueInput.value = '';
+      timeInput.value = '';
       newPriority = '';
       updatePriorityBtn();
       haptic('success');
@@ -2026,7 +2127,7 @@
       const todo = todos.find(t => t.id === id);
       if (!todo) return;
       todo.done = !todo.done;
-      if (todo.done) { todo.completedAt = Date.now(); addHistory('done', todo.text); }
+      if (todo.done) { todo.completedAt = Date.now(); addHistory('done', todo.text); confetti(); }
       else { delete todo.completedAt; addHistory('undone', todo.text); }
       haptic('success');
       save(); render();
@@ -2045,16 +2146,28 @@
       const oldText = todo.text;
       const oldNote = todo.note || '';
       const oldDue = todo.dueDate || '';
+      const oldDueDate = oldDue.split('T')[0] || '';
+      const oldDueTime = oldDue.includes('T') ? oldDue.split('T')[1] : '';
       wrap.innerHTML = `
         <input class="todo-edit-input" value="${escHtml(oldText)}" maxlength="200" />
         <textarea class="note-edit-input" rows="2" maxlength="1000">${escHtml(oldNote)}</textarea>
-        <input class="due-edit-input" type="date" value="${oldDue}" />
+        <div class="due-edit-row">
+          <input class="due-edit-input" type="date" value="${oldDueDate}" />
+          <input class="due-edit-input due-time" type="time" value="${oldDueTime}" />
+        </div>
       `;
       const inp = wrap.querySelector('.todo-edit-input');
       const noteInp = wrap.querySelector('.note-edit-input');
-      const dueInp = wrap.querySelector('.due-edit-input');
+      const dueDateInp = wrap.querySelector('.due-edit-input[type="date"]');
+      const dueTimeInp = wrap.querySelector('.due-edit-input[type="time"]');
       noteInp.placeholder = t().notePlaceholder;
       inp.focus(); inp.select();
+      function getEditDue() {
+        const d = dueDateInp.value;
+        if (!d) return '';
+        const tm = dueTimeInp.value;
+        return tm ? d + 'T' + tm : d;
+      }
       inp.onkeydown = e => {
         if (e.key === 'Enter') { e.preventDefault(); noteInp.focus(); }
         if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue);
@@ -2065,7 +2178,7 @@
       const doCommit = (e) => {
         if (!wrap.contains(e.relatedTarget)) {
           wrap.removeEventListener('focusout', doCommit);
-          commitEdit(id, inp.value, oldText, noteInp.value, dueInp.value);
+          commitEdit(id, inp.value, oldText, noteInp.value, getEditDue());
         }
       };
       wrap.addEventListener('focusout', doCommit);
@@ -2239,6 +2352,115 @@
       }
     }
 
+    // ── Confetti ──────────────────────────────────────────────────────────────
+    function confetti() {
+      const canvas = document.createElement('canvas');
+      canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99999';
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      document.body.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      const colors = ['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff922b','#cc5de8','#20c997','#f06595'];
+      const pieces = [];
+      for (let i = 0; i < 80; i++) {
+        pieces.push({
+          x: canvas.width * 0.5 + (Math.random() - 0.5) * canvas.width * 0.4,
+          y: canvas.height * 0.45,
+          vx: (Math.random() - 0.5) * 12,
+          vy: -Math.random() * 14 - 4,
+          w: Math.random() * 8 + 4,
+          h: Math.random() * 6 + 2,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rot: Math.random() * Math.PI * 2,
+          rv: (Math.random() - 0.5) * 0.3,
+          gravity: 0.25 + Math.random() * 0.1
+        });
+      }
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        pieces.forEach(p => {
+          p.vy += p.gravity;
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += p.rv;
+          p.vx *= 0.99;
+          if (p.y < canvas.height + 20) alive = true;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = Math.max(0, 1 - frame / 90);
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+        frame++;
+        if (alive && frame < 100) requestAnimationFrame(draw);
+        else canvas.remove();
+      }
+      requestAnimationFrame(draw);
+    }
+
+    // ── Notifications ────────────────────────────────────────────────────────
+    function applyNotifyIcon() {
+      document.getElementById('notify-icon').innerHTML = notifyEnabled ? SVG.bell : SVG.bellOff;
+      document.getElementById('notify-btn').style.opacity = notifyEnabled ? '1' : '0.5';
+    }
+    function toggleNotify() {
+      haptic('light');
+      const T = t();
+      if (!('Notification' in window)) { showToast(T.notifyDenied); return; }
+      if (notifyEnabled) {
+        notifyEnabled = false;
+        save(); applyNotifyIcon();
+        showToast(T.notifyOff);
+        return;
+      }
+      if (Notification.permission === 'granted') {
+        notifyEnabled = true;
+        save(); applyNotifyIcon();
+        showToast(T.notifyOn);
+        return;
+      }
+      if (Notification.permission === 'denied') {
+        showToast(T.notifyDenied);
+        return;
+      }
+      Notification.requestPermission().then(function(perm) {
+        if (perm === 'granted') {
+          notifyEnabled = true;
+          save(); applyNotifyIcon();
+          showToast(T.notifyOn);
+        } else {
+          showToast(T.notifyDenied);
+        }
+      });
+    }
+    function checkDueNotifications() {
+      if (!notifyEnabled || !('Notification' in window) || Notification.permission !== 'granted') return;
+      const T = t();
+      const now = new Date();
+      const today = now.toISOString().split('T')[0];
+      const icon = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><polyline points="7,16 13,22 25,10" stroke="%234d96ff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      todos.forEach(function(todo) {
+        if (todo.done || !todo.dueDate || notifiedIds.has(todo.id)) return;
+        let title = '', body = todo.text;
+        const dateOnly = todo.dueDate.split('T')[0];
+        if (todo.dueDate.includes('T')) {
+          const due = new Date(todo.dueDate);
+          if (due <= now) title = due < now ? '⚠️ ' + T.notifyOverdue : '📅 ' + T.notifyDueToday;
+        } else {
+          if (dateOnly < today) title = '⚠️ ' + T.notifyOverdue;
+          else if (dateOnly === today) title = '📅 ' + T.notifyDueToday;
+        }
+        if (title) {
+          notifiedIds.add(todo.id);
+          try { new Notification(title, { body: body, icon: icon }); } catch(e) {}
+        }
+      });
+    }
+
     // ── Theme / Lang ─────────────────────────────────────────────────────────
     function toggleDark() {
       dark = !dark; applyDark(); save(); haptic('light');
@@ -2359,6 +2581,8 @@
       document.getElementById('app-claim').textContent = T.claim;
       document.getElementById('header-badges').innerHTML = T.headerBadges.map(b => `<span class="header-badge">${b}</span>`).join('');
       document.getElementById('new-todo-input').placeholder = T.placeholder;
+      document.getElementById('add-title').textContent = T.addTitle;
+      document.getElementById('tasks-title').textContent = T.tasksTitle;
       updatePriorityBtn();
       document.getElementById('new-todo-note').placeholder = T.notePlaceholder;
       document.getElementById('history-title').textContent = T.historyTitle;
@@ -2401,31 +2625,35 @@
         list.innerHTML = visible.map(todo => {
           const dc = todo.dueDate && !todo.done ? getDueClass(todo.dueDate) : '';
           return `
-          <div class="todo-item${todo.done ? ' done' : ''}${dc === 'due-overdue' ? ' overdue' : ''}" data-id="${todo.id}"
-               draggable="true"
-               ondragstart="onDragStart(event,${todo.id})"
-               ondragend="onDragEnd(event)"
-               ondragover="onDragOver(event,${todo.id})"
-               ondrop="onDrop(event,${todo.id})">
-            <span class="drag-handle">${SVG.grip}</span>
-            <label class="checkbox-wrap">
-              <input type="checkbox" ${todo.done ? 'checked' : ''} onchange="toggleTodo(${todo.id})" />
-              <span class="checkbox-box"><span class="checkbox-check">${SVG.check}</span></span>
-            </label>
-            <span class="prio-badge" data-p="${todo.priority||''}" onclick="cycleTodoPriority(${todo.id})">${prioLabel[todo.priority] || '+'}</span>
-            <div class="todo-text-wrap">
-              <div class="todo-text">${escHtml(todo.text)}</div>
-              <div class="todo-meta">${
-                todo.done && todo.completedAt
-                  ? T.metaDone + ': ' + formatDate(todo.completedAt)
-                  : T.metaCreated + ': ' + formatShortDate(todo.created)
-              }</div>
-              ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
-              ${dc ? `<div class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</div>` : ''}
-            </div>
-            <div class="todo-actions">
-              <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
-              <button class="action-btn danger" title="${T.deleteTitle}" onclick="deleteTodo(${todo.id})">${SVG.trash}</button>
+          <div class="swipe-wrap" data-swipe-id="${todo.id}">
+            <div class="swipe-action left">${SVG.check} &nbsp;${T.metaDone}</div>
+            <div class="swipe-action right">${SVG.trash} &nbsp;${T.deleteTitle}</div>
+            <div class="todo-item${todo.done ? ' done' : ''}${dc === 'due-overdue' ? ' overdue' : ''}" data-id="${todo.id}"
+                 draggable="true"
+                 ondragstart="onDragStart(event,${todo.id})"
+                 ondragend="onDragEnd(event)"
+                 ondragover="onDragOver(event,${todo.id})"
+                 ondrop="onDrop(event,${todo.id})">
+              <span class="drag-handle">${SVG.grip}</span>
+              <label class="checkbox-wrap">
+                <input type="checkbox" ${todo.done ? 'checked' : ''} onchange="toggleTodo(${todo.id})" />
+                <span class="checkbox-box"><span class="checkbox-check">${SVG.check}</span></span>
+              </label>
+              <span class="prio-badge" data-p="${todo.priority||''}" onclick="cycleTodoPriority(${todo.id})">${prioLabel[todo.priority] || '+'}</span>
+              <div class="todo-text-wrap">
+                <div class="todo-text">${escHtml(todo.text)}</div>
+                <div class="todo-meta">${
+                  todo.done && todo.completedAt
+                    ? T.metaDone + ': ' + formatDate(todo.completedAt)
+                    : T.metaCreated + ': ' + formatShortDate(todo.created)
+                }</div>
+                ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
+                ${dc ? `<div class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</div>` : ''}
+              </div>
+              <div class="todo-actions">
+                <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
+                <button class="action-btn danger" title="${T.deleteTitle}" onclick="deleteTodo(${todo.id})">${SVG.trash}</button>
+              </div>
             </div>
           </div>`;
         }).join('');
@@ -2523,6 +2751,74 @@
       } catch(e) {}
     }
 
+    // ── Swipe Gestures ─────────────────────────────────────────────────────
+    (function() {
+      const THRESHOLD = 90;
+      let startX = 0, startY = 0, swiping = false, swipeItem = null, swipeWrap = null, dx = 0;
+
+      document.addEventListener('touchstart', function(e) {
+        const wrap = e.target.closest('.swipe-wrap');
+        if (!wrap) return;
+        const item = wrap.querySelector('.todo-item');
+        if (!item) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        swiping = false;
+        swipeWrap = wrap;
+        swipeItem = item;
+        dx = 0;
+        item.style.transition = 'none';
+      }, { passive: true });
+
+      document.addEventListener('touchmove', function(e) {
+        if (!swipeItem) return;
+        const cx = e.touches[0].clientX;
+        const cy = e.touches[0].clientY;
+        dx = cx - startX;
+        const dy = cy - startY;
+        if (!swiping && Math.abs(dy) > Math.abs(dx)) { swipeItem = null; return; }
+        if (Math.abs(dx) > 10) swiping = true;
+        if (!swiping) return;
+        swipeItem.style.transform = 'translateX(' + dx + 'px)';
+        const leftAction = swipeWrap.querySelector('.swipe-action.left');
+        const rightAction = swipeWrap.querySelector('.swipe-action.right');
+        leftAction.classList.toggle('visible', dx > 40);
+        rightAction.classList.toggle('visible', dx < -40);
+        leftAction.style.width = Math.max(0, dx) + 'px';
+        rightAction.style.width = Math.max(0, -dx) + 'px';
+      }, { passive: true });
+
+      document.addEventListener('touchend', function() {
+        if (!swipeItem || !swiping) { resetSwipe(); return; }
+        const id = parseInt(swipeWrap.dataset.swipeId);
+        if (dx > THRESHOLD) {
+          swipeItem.style.transition = 'transform 0.25s';
+          swipeItem.style.transform = 'translateX(100%)';
+          setTimeout(function() { toggleTodo(id); }, 200);
+        } else if (dx < -THRESHOLD) {
+          swipeItem.style.transition = 'transform 0.25s';
+          swipeItem.style.transform = 'translateX(-100%)';
+          setTimeout(function() { deleteTodo(id); }, 200);
+        } else {
+          swipeItem.style.transition = 'transform 0.2s';
+          swipeItem.style.transform = '';
+          const left = swipeWrap.querySelector('.swipe-action.left');
+          const right = swipeWrap.querySelector('.swipe-action.right');
+          left.classList.remove('visible'); left.style.width = '';
+          right.classList.remove('visible'); right.style.width = '';
+        }
+        swipeItem = null; swipeWrap = null; swiping = false;
+      }, { passive: true });
+
+      function resetSwipe() {
+        if (swipeItem) {
+          swipeItem.style.transition = '';
+          swipeItem.style.transform = '';
+        }
+        swipeItem = null; swipeWrap = null; swiping = false;
+      }
+    })();
+
     // ── Pull to Refresh ────────────────────────────────────────────────────
     (function() {
       const indicator = document.getElementById('pull-indicator');
@@ -2577,9 +2873,30 @@
     applyDark();
     applyTheme(currentTheme);
     applyLang();
+    applyNotifyIcon();
     setupPWA();
     setupIOSBanner();
     render();
+    checkDueNotifications();
+    setInterval(function() { render(); checkDueNotifications(); }, 60000);
+    document.getElementById('new-todo-due').addEventListener('focus', function() {
+      if (!this.value) this.value = new Date().toISOString().split('T')[0];
+    });
+    document.getElementById('new-todo-time').addEventListener('focus', function() {
+      if (!this.value) {
+        const n = new Date();
+        this.value = String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+      }
+    });
+    document.addEventListener('focusin', function(e) {
+      if (e.target.matches('.due-edit-input[type="date"]') && !e.target.value) {
+        e.target.value = new Date().toISOString().split('T')[0];
+      }
+      if (e.target.matches('.due-edit-input[type="time"]') && !e.target.value) {
+        const n = new Date();
+        e.target.value = String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+      }
+    });
     document.addEventListener('click', function(e) {
       if (!themePickerOpen) return;
       const wrap = document.getElementById('theme-picker-wrap');

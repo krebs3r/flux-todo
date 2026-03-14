@@ -3,9 +3,11 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.5.2-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.6-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
+
+---
 
 **[▶ Live Demo](https://krebs3r.github.io/flux-todo/)**
 
@@ -24,7 +26,7 @@
 - **Notes field** — add a longer description or details to any task
 - **Drag & drop reordering** — rearrange tasks intuitively
 - **Done state with timestamp** — mark tasks as complete, see when they were finished
-- **Due dates** — set a deadline per task, color-coded (today / overdue)
+- **Due dates with time** — set a deadline with date & time per task, color-coded (today / overdue)
 - **Search** — real-time filtering by title and notes
 - **Filters** — view All / Open / Done tasks
 - **Full event history** — every action is logged with a timestamp (up to 10,000 entries)
@@ -102,15 +104,15 @@ Planned features for future versions:
 - [ ] **Sort options** — by priority, due date, creation date
 - [ ] **Recurring tasks** — e.g. "Every Monday: weekly report"
 - [ ] **Undo** — reverse the last action (e.g. accidental delete)
-- [ ] **Swipe gestures** — swipe left to delete, right to complete (mobile)
+- [x] **Swipe gestures** — swipe left to delete, right to complete (mobile)
 - [x] **Haptic feedback** — vibration on actions (Vibration API, Android only)
 - [x] **Pull-to-refresh** — pull down to refresh (mobile)
-- [ ] **Confetti animation** — reward animation on task completion
+- [x] **Confetti animation** — reward animation on task completion
 - [ ] **Streak counter** — "5 days in a row with all tasks done"
 - [ ] **Statistics view** — completion rate, tasks per week, streaks
 - [ ] **Focus mode** — show only the next open task
 - [ ] **Pomodoro timer** — time tracking linked to a task
-- [ ] **Browser notifications** — reminders for due dates
+- [x] **Browser notifications** — reminders for due dates
 - [ ] **Keyboard shortcuts** — `N` = new todo, `Esc` = close, etc.
 - [ ] **Accessibility** — ARIA labels, improved screen reader support
 - [ ] **Service Worker** — true offline PWA (currently requires internet)
@@ -122,12 +124,17 @@ Planned features for future versions:
 
 ## Changelog
 
-### v1.0.5.2
-- Pull-to-refresh: pull down to reload the app (iOS & Android)
+### v1.0.6
+- Section headings added for input and task areas
+- Browser notifications for due tasks (bell button in header)
+- Due date with separate time input
+- Date/time fields auto-fill with current value on focus (Chrome fix)
+- Swipe gestures: swipe left to delete, right to complete
+- Confetti animation when completing a task
+- Pull-to-refresh: pull down to reload (iOS & Android)
 - Haptic feedback on touch actions (Android, Vibration API)
-
-### v1.0.5.1
-- Dark mode automatically follows system preference (prefers-color-scheme) on first launch
+- Automatic due status refresh every 60 seconds
+- Dark mode follows system preference on first launch
 
 ### v1.0.5
 - Gradient direction changed from diagonal to top-to-bottom across all themes
@@ -209,4 +216,4 @@ Planned features for future versions:
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.5.2</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.6</p>
