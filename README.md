@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.6-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.6.5-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -115,7 +115,7 @@ Planned features for future versions:
 - [x] **Browser notifications** — reminders for due dates
 - [ ] **Keyboard shortcuts** — `N` = new todo, `Esc` = close, etc.
 - [ ] **Accessibility** — ARIA labels, improved screen reader support
-- [ ] **Service Worker** — true offline PWA (currently requires internet)
+- [x] **Service Worker** — true offline PWA with cache
 - [ ] **Cloud Sync** — optional backend sync (e.g. Firebase, Supabase)
 - [ ] **Multiple lists** — separate boards (e.g. Work / Personal / Shopping)
 - [x] **PWA support** — installable on mobile home screen
@@ -124,7 +124,8 @@ Planned features for future versions:
 
 ## Changelog
 
-### v1.0.6
+### v1.0.6.5
+- Service Worker for true offline PWA (app works without internet)
 - Section headings added for input and task areas
 - Browser notifications for due tasks (bell button in header)
 - Due date with separate time input
@@ -216,4 +217,4 @@ Planned features for future versions:
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.6</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.6.5</p>
