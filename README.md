@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.8.3-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.9-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -122,13 +122,13 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] PWA support — installable on mobile home screen
 - [x] Drag & drop — reorder tasks
 - [x] Pomodoro timer — fullscreen focus mode linked to a task
+- [x] Sort options — by priority, due date, creation date
+- [x] Undo — reverse the last action (e.g. accidental delete)
 
 ### Planned
 - [ ] **Categories / Tags** — group todos (Work, Personal, Shopping…)
 - [ ] **Subtasks** — checklists within a task
-- [ ] **Sort options** — by priority, due date, creation date
 - [ ] **Recurring tasks** — e.g. "Every Monday: weekly report"
-- [ ] **Undo** — reverse the last action (e.g. accidental delete)
 - [ ] **Streak counter** — "5 days in a row with all tasks done"
 - [ ] **Statistics view** — completion rate, tasks per week, streaks
 - [ ] **Focus mode** — show only the next open task
@@ -140,6 +140,14 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.0.9
+- Sort options: Manual, Priority, Due Date, Created — dropdown next to filter buttons
+- Undo: toast with undo button after delete and bulk delete (5 second window)
+- Drag handles hidden when a sort other than Manual is active
+- PWA manifest: fixed invalid start_url warning in Chrome
+- Note input box-sizing fix (consistent width with other fields)
+- Pull-to-refresh spinner repositioned above the header card (no longer overlaps)
 
 ### v1.0.8.3
 - Unified spacing (8px) between all edit mode fields (note, due date, buttons)
@@ -282,4 +290,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.8.3</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.9</p>
