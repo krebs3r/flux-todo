@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.8-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.8.1-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -141,6 +141,9 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ## Changelog
 
+### v1.0.8.1
+- Priority badge always visible (no longer hidden behind hover/opacity)
+
 ### v1.0.8
 - Todo layout redesigned: text on top, badges and action buttons on a separate row below
 - Due date info shown as pill badge below the creation date
@@ -273,4 +276,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.8</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.8.1</p>
