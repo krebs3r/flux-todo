@@ -418,12 +418,11 @@
     .prio-badge[data-p="high"]   { background: rgba(229,57,53,0.12); border-color: rgba(229,57,53,0.30); color: #c62828; }
     .prio-badge[data-p="medium"] { background: rgba(245,124,0,0.12);  border-color: rgba(245,124,0,0.30);  color: #bf360c; }
     .prio-badge[data-p="low"]    { background: rgba(56,142,60,0.12);  border-color: rgba(56,142,60,0.30);  color: #1b5e20; }
-    .prio-badge[data-p=""]       { display: none; }
-    .todo-item:hover .prio-badge[data-p=""] { display: inline-block; background: rgba(90,100,128,0.10); border-color: rgba(90,100,128,0.18); color: var(--muted); }
+    .prio-badge[data-p=""]       { background: rgba(90,100,128,0.10); border-color: rgba(90,100,128,0.18); color: var(--muted); min-width: 28px; min-height: 28px; display: inline-flex; align-items: center; justify-content: center; }
     body.dark .prio-badge[data-p="high"]   { background: rgba(229,57,53,0.20); color: #ef5350; }
     body.dark .prio-badge[data-p="medium"] { background: rgba(245,124,0,0.20); color: #f57c00; }
     body.dark .prio-badge[data-p="low"]    { background: rgba(56,142,60,0.20); color: #66bb6a; }
-    body.dark .todo-item:hover .prio-badge[data-p=""] { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: var(--muted-dark); }
+    body.dark .prio-badge[data-p=""] { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: var(--muted-dark); }
     .todo-note {
       font-size: 0.78rem;
       color: var(--muted);
@@ -1525,18 +1524,9 @@
       /* Drag handle always visible */
       .drag-handle { color: rgba(255,255,255,0.45); }
       body.dark .drag-handle { color: rgba(255,255,255,0.25); }
-      /* Prio badge always tappable */
-      .prio-badge[data-p=""] {
-        display: inline-block;
-        background: rgba(90,100,128,0.10);
-        border-color: rgba(90,100,128,0.18);
-        color: var(--muted);
-      }
-      body.dark .prio-badge[data-p=""] {
-        background: rgba(255,255,255,0.08);
-        border-color: rgba(255,255,255,0.12);
-        color: var(--muted-dark);
-      }
+      /* Prio badge: larger touch target */
+      .prio-badge { min-width: 44px; min-height: 44px; padding: 6px 10px; font-size: 0.68rem; }
+      .prio-badge[data-p=""] { min-width: 44px; min-height: 44px; }
       /* Active state feedback (replaces hover) */
       .btn-add:active        { border-color: var(--accent); color: var(--accent); }
       .ctrl-btn:active       { background: rgba(255,255,255,0.50); color: var(--accent); }
@@ -1771,7 +1761,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.7</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.7.1</span>
     <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -1958,6 +1948,13 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.7.1',
+            entries: [
+              'Prioritäts-Badge nach rechts verschoben – kein Layout-Sprung mehr',
+              'Prioritäts-Badge immer sichtbar (kein Hover-Toggle)',
+            ],
+          },
           {
             version: 'v1.0.7',
             entries: [
@@ -2183,6 +2180,13 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.7.1',
+            entries: [
+              'Priority badge moved to the right — no more layout jump',
+              'Priority badge always visible (no hover toggle)',
+            ],
+          },
           {
             version: 'v1.0.7',
             entries: [
@@ -3094,7 +3098,6 @@
                 <input type="checkbox" ${todo.done ? 'checked' : ''} onchange="toggleTodo(${todo.id})" />
                 <span class="checkbox-box"><span class="checkbox-check">${SVG.check}</span></span>
               </label>
-              <span class="prio-badge" data-p="${todo.priority||''}" onclick="cycleTodoPriority(${todo.id})">${prioLabel[todo.priority] || '+'}</span>
               <div class="todo-text-wrap">
                 <div class="todo-text">${escHtml(todo.text)}</div>
                 <div class="todo-meta">${
@@ -3105,6 +3108,7 @@
                 ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
                 ${dc ? `<div class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</div>` : ''}
               </div>
+              <span class="prio-badge" data-p="${todo.priority||''}" onclick="cycleTodoPriority(${todo.id})">${prioLabel[todo.priority] || '+'}</span>
               <div class="todo-actions">
                 ${!todo.done ? `<button class="action-btn${pomodoroState && pomodoroState.taskId === todo.id ? ' pomo-active' : ''}" title="${T.pomodoroStart}" onclick="startPomodoro(${todo.id})">${SVG.timer}</button>` : ''}
                 <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
