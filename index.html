@@ -47,34 +47,32 @@
 
     html {
       min-height: 100%;
-      --bg-solid: #a0c4ff;
+      background-color: #a0c4ff;
       --bg-active: var(--bg);
-      background-color: var(--bg-solid);
       overscroll-behavior-y: contain;
     }
     html.dark {
-      --bg-solid: #0c1648;
+      background-color: #0c1648;
       --bg-active: var(--bg-dark);
-      background-color: var(--bg-solid);
     }
 
     /* ── Theme presets ───────────────────────────────────────── */
-    html.theme-ocean { --bg-solid: #6dd5ed; background-color: var(--bg-solid); --bg: linear-gradient(to bottom, #6dd5ed 0%, #48cae4 50%, #90e0ef 100%); }
-    html.dark.theme-ocean { --bg-solid: #041530; background-color: var(--bg-solid); --bg-dark: linear-gradient(to bottom, #041530 0%, #082040 50%, #0a2a52 100%); }
-    html.theme-sunset { --bg-solid: #ffd166; background-color: var(--bg-solid); --bg: linear-gradient(to bottom, #ffd166 0%, #f4a26a 50%, #f08060 100%); }
-    html.dark.theme-sunset { --bg-solid: #2e1206; background-color: var(--bg-solid); --bg-dark: linear-gradient(to bottom, #2e1206 0%, #3d1a0a 50%, #4a2210 100%); }
-    html.theme-forest { --bg-solid: #74c69d; background-color: var(--bg-solid); --bg: linear-gradient(to bottom, #74c69d 0%, #52b788 50%, #95d5b2 100%); }
-    html.dark.theme-forest { --bg-solid: #152b20; background-color: var(--bg-solid); --bg-dark: linear-gradient(to bottom, #152b20 0%, #1a3828 50%, #1e4030 100%); }
-    html.theme-rose { --bg-solid: #ffb3c6; background-color: var(--bg-solid); --bg: linear-gradient(to bottom, #ffb3c6 0%, #f892aa 50%, #ffc8d6 100%); }
-    html.dark.theme-rose { --bg-solid: #2a0e1a; background-color: var(--bg-solid); --bg-dark: linear-gradient(to bottom, #2a0e1a 0%, #381422 50%, #421828 100%); }
-    html.theme-mono { --bg-solid: #c5c9d0; background-color: var(--bg-solid); --bg: linear-gradient(to bottom, #d1d5db 0%, #b8bec8 50%, #e2e5ea 100%); }
-    html.dark.theme-mono { --bg-solid: #141618; background-color: var(--bg-solid); --bg-dark: linear-gradient(to bottom, #141618 0%, #1c1e22 50%, #22252a 100%); }
-    html.theme-bender { --bg-solid: #b8c8e0; background-color: var(--bg-solid); --bg: linear-gradient(to bottom, #b8c8e0 0%, #9ab4d4 50%, #ccdaea 100%); }
-    html.dark.theme-bender { --bg-solid: #0e1828; background-color: var(--bg-solid); --bg-dark: linear-gradient(to bottom, #0e1828 0%, #142030 50%, #182638 100%); }
-    html.theme-lumpi { --bg-solid: #e2d0b8; background-color: var(--bg-solid); --bg: linear-gradient(to bottom, #e2d0b8 0%, #d4bc9e 50%, #ecdec8 100%); }
-    html.dark.theme-lumpi { --bg-solid: #1c100a; background-color: var(--bg-solid); --bg-dark: linear-gradient(to bottom, #1c100a 0%, #24160e 50%, #2c1c12 100%); }
-    html.theme-nobler { --bg-solid: #d0d0d8; background-color: var(--bg-solid); --bg: linear-gradient(to bottom, #d0d0d8 0%, #bcbcc8 50%, #e0e0e8 100%); }
-    html.dark.theme-nobler { --bg-solid: #10101a; background-color: var(--bg-solid); --bg-dark: linear-gradient(to bottom, #10101a 0%, #16161e 50%, #1c1c26 100%); }
+    html.theme-ocean { background-color: #6dd5ed; --bg: linear-gradient(to bottom, #6dd5ed 0%, #48cae4 50%, #90e0ef 100%); }
+    html.dark.theme-ocean { background-color: #041530; --bg-dark: linear-gradient(to bottom, #041530 0%, #082040 50%, #0a2a52 100%); }
+    html.theme-sunset { background-color: #ffd166; --bg: linear-gradient(to bottom, #ffd166 0%, #f4a26a 50%, #f08060 100%); }
+    html.dark.theme-sunset { background-color: #2e1206; --bg-dark: linear-gradient(to bottom, #2e1206 0%, #3d1a0a 50%, #4a2210 100%); }
+    html.theme-forest { background-color: #74c69d; --bg: linear-gradient(to bottom, #74c69d 0%, #52b788 50%, #95d5b2 100%); }
+    html.dark.theme-forest { background-color: #152b20; --bg-dark: linear-gradient(to bottom, #152b20 0%, #1a3828 50%, #1e4030 100%); }
+    html.theme-rose { background-color: #ffb3c6; --bg: linear-gradient(to bottom, #ffb3c6 0%, #f892aa 50%, #ffc8d6 100%); }
+    html.dark.theme-rose { background-color: #2a0e1a; --bg-dark: linear-gradient(to bottom, #2a0e1a 0%, #381422 50%, #421828 100%); }
+    html.theme-mono { background-color: #c5c9d0; --bg: linear-gradient(to bottom, #d1d5db 0%, #b8bec8 50%, #e2e5ea 100%); }
+    html.dark.theme-mono { background-color: #141618; --bg-dark: linear-gradient(to bottom, #141618 0%, #1c1e22 50%, #22252a 100%); }
+    html.theme-bender { background-color: #b8c8e0; --bg: linear-gradient(to bottom, #b8c8e0 0%, #9ab4d4 50%, #ccdaea 100%); }
+    html.dark.theme-bender { background-color: #0e1828; --bg-dark: linear-gradient(to bottom, #0e1828 0%, #142030 50%, #182638 100%); }
+    html.theme-lumpi { background-color: #e2d0b8; --bg: linear-gradient(to bottom, #e2d0b8 0%, #d4bc9e 50%, #ecdec8 100%); }
+    html.dark.theme-lumpi { background-color: #1c100a; --bg-dark: linear-gradient(to bottom, #1c100a 0%, #24160e 50%, #2c1c12 100%); }
+    html.theme-nobler { background-color: #d0d0d8; --bg: linear-gradient(to bottom, #d0d0d8 0%, #bcbcc8 50%, #e0e0e8 100%); }
+    html.dark.theme-nobler { background-color: #10101a; --bg-dark: linear-gradient(to bottom, #10101a 0%, #16161e 50%, #1c1c26 100%); }
 
     /* ── Theme Picker ────────────────────────────────────────── */
     .theme-picker-wrap { position: relative; }
@@ -106,7 +104,7 @@
     body {
       font-family: -apple-system, 'Inter', 'Segoe UI', system-ui, sans-serif;
       min-height: 100dvh;
-      background-color: var(--bg-solid);
+      background-color: inherit;
       background-image: var(--bg-active);
       background-size: cover;
       background-attachment: fixed;
@@ -1721,21 +1719,9 @@
       .pomo-time-big { font-size: 3.5rem; }
       .pomo-mini { right: 12px; }
     }
-    /* ── Safari 26 toolbar tint ──────────────────────────────── */
-    .safari-tint {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 6px;
-      background-color: var(--bg-solid);
-      z-index: 99999;
-      pointer-events: none;
-    }
   </style>
 </head>
 <body>
-  <div class="safari-tint" aria-hidden="true"></div>
   <div class="pull-indicator" id="pull-indicator">
     <div class="pull-spinner">
       <svg class="pull-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2108,7 +2094,7 @@
           {
             version: 'v1.0.9.2',
             entries: [
-              'Safari 26 (macOS Tahoe): Toolbar-Farbe wird jetzt korrekt eingefärbt — Hintergrundfarbe auf body verschoben, da Safari 26 das theme-color Meta-Tag nicht mehr unterstützt',
+              'Safari 26 (macOS Tahoe): Hintergrundfarbe auf body verschoben — Safari 26 liest die Toolbar-Farbe vom body statt vom theme-color Meta-Tag',
             ],
           },
           {
@@ -2407,7 +2393,7 @@
           {
             version: 'v1.0.9.2',
             entries: [
-              'Safari 26 (macOS Tahoe): toolbar now tints correctly — moved background-color to body, as Safari 26 dropped support for the theme-color meta tag',
+              'Safari 26 (macOS Tahoe): moved background-color to body — Safari 26 derives toolbar tint from body instead of the theme-color meta tag',
             ],
           },
           {

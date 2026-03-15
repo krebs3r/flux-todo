@@ -142,7 +142,7 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ## Changelog
 
 ### v1.0.9.2
-- Safari 26 (macOS Tahoe): toolbar now tints correctly — moved background-color to body, as Safari 26 dropped support for the theme-color meta tag
+- Safari 26 (macOS Tahoe): moved background-color to body — Safari 26 derives toolbar tint from body instead of the theme-color meta tag
 
 ### v1.0.9.1
 - Sort dropdown: shortened German labels (Fälligkeit, Erstellt) — no more layout overflow on iPhone
