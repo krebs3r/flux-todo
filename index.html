@@ -1661,6 +1661,36 @@
     }
     body.dark .stat-empty { color: var(--muted-dark); }
 
+    /* ── Keyboard shortcuts help ───────────────────────────── */
+    .kb-table { width: 100%; border-collapse: collapse; }
+    .kb-table td { padding: 6px 0; vertical-align: middle; }
+    .kb-table td:first-child { width: 60px; }
+    .kb-key {
+      display: inline-block;
+      min-width: 26px;
+      padding: 2px 8px;
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.25);
+      border: 1px solid rgba(255,255,255,0.40);
+      color: var(--text);
+      line-height: 1.4;
+    }
+    body.dark .kb-key {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.14);
+      color: var(--text-dark);
+    }
+    .kb-desc {
+      font-size: 0.82rem;
+      color: var(--text);
+      padding-left: 10px;
+    }
+    body.dark .kb-desc { color: var(--text-dark); }
+
     /* ── Pomodoro Timer ─────────────────────────────────────── */
     .pomo-overlay {
       position: fixed;
@@ -1943,6 +1973,9 @@
         </div>
       </div>
       <div class="header-controls">
+        <button class="ctrl-btn" id="kb-btn" onclick="openKB()" title="Keyboard Shortcuts">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6" y2="8"/><line x1="10" y1="8" x2="10" y2="8"/><line x1="14" y1="8" x2="14" y2="8"/><line x1="18" y1="8" x2="18" y2="8"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="14" y2="12"/><line x1="18" y1="12" x2="18" y2="12"/><line x1="8" y1="16" x2="16" y2="16"/></svg>
+        </button>
         <button class="ctrl-btn" id="stats-btn" onclick="openStats()" title="Statistics">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="3" width="4" height="18"/><rect x="10" y="8" width="4" height="13"/><rect x="2" y="13" width="4" height="8"/></svg>
         </button>
@@ -2109,7 +2142,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.1.0</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.2.0</span>
     <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -2143,6 +2176,21 @@
           <button class="confirm-btn confirm-yes" id="confirm-yes" onclick="resolveConfirm(true)"></button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Keyboard Shortcuts Modal -->
+  <div class="modal-backdrop" id="kb-backdrop" onclick="handleKBBackdropClick(event)">
+    <div class="modal" style="max-width:400px">
+      <div class="modal-header">
+        <h2 id="kb-heading">Keyboard Shortcuts</h2>
+        <button class="modal-close" onclick="closeKB()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="kb-body"></div>
     </div>
   </div>
 
@@ -2323,18 +2371,39 @@
         statsLongestStreak: 'Längste Serie',
         statsNoData: 'Noch keine erledigten Aufgaben.',
         statsCompleted: 'erledigt',
+        kbHeading: 'Tastaturkürzel',
+        kbShortcuts: [
+          ['N', 'Neue Aufgabe'],
+          ['F', 'Suche'],
+          ['D', 'Dark Mode umschalten'],
+          ['S', 'Statistiken öffnen'],
+          ['1', 'Filter: Offen'],
+          ['2', 'Filter: Erledigt'],
+          ['0', 'Filter: Alle'],
+          ['Z', 'Rückgängig'],
+          ['Esc', 'Schließen / Abbrechen'],
+          ['?', 'Diese Hilfe anzeigen'],
+        ],
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.2.0',
+            entries: [
+              'Tastaturkürzel: N = neue Aufgabe, F = Suche, D = Dark Mode, S = Statistik, Z = Rückgängig, ? = Hilfe',
+              'Tastatur-Button im Header — öffnet die Shortcut-Übersicht',
+              'Tag-Autocomplete: eigenes Dropdown statt natives datalist — korrekte Positionierung auf iPhone',
+              'Statistik: Wochen-Labels als Datumsbereich (z.\u202FB. 10.–16.3.) statt einzelnem Datum',
+              'Statistik: 6 statt 8 Wochen im Balkendiagramm',
+            ],
+          },
           {
             version: 'v1.1.0',
             entries: [
               'Tags: Aufgaben mit frei definierbaren #Hashtags versehen — Autocomplete aus bestehenden Tags',
               'Tag-Filter: Aufgabenliste nach Tag filtern',
               'Tag-Badge: farbcodiert pro Tag, Klick zum Filtern',
-              'Tag-Autocomplete: eigenes Dropdown statt natives datalist — korrekte Positionierung auf iPhone',
-              'Statistik-Ansicht: Abschlussrate, Aufgaben pro Woche (6 Wochen), Serien',
-              'Statistik: Wochen-Labels als Datumsbereich (z.\u202FB. 10.–16.3.) statt einzelnem Datum',
+              'Statistik-Ansicht: Abschlussrate, Aufgaben pro Woche, aktuelle und längste Serie',
             ],
           },
           {
@@ -2644,18 +2713,39 @@
         statsLongestStreak: 'Longest Streak',
         statsNoData: 'No completed tasks yet.',
         statsCompleted: 'completed',
+        kbHeading: 'Keyboard Shortcuts',
+        kbShortcuts: [
+          ['N', 'New task'],
+          ['F', 'Search'],
+          ['D', 'Toggle dark mode'],
+          ['S', 'Open statistics'],
+          ['1', 'Filter: Open'],
+          ['2', 'Filter: Done'],
+          ['0', 'Filter: All'],
+          ['Z', 'Undo'],
+          ['Esc', 'Close / Cancel'],
+          ['?', 'Show this help'],
+        ],
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.2.0',
+            entries: [
+              'Keyboard shortcuts: N = new task, F = search, D = dark mode, S = statistics, Z = undo, ? = help',
+              'Keyboard button in header — opens shortcut overview',
+              'Tag autocomplete: custom dropdown instead of native datalist — correct positioning on iPhone',
+              'Statistics: week labels show date range (e.g. 10.\u201316.3.) instead of single date',
+              'Statistics: 6 instead of 8 weeks in bar chart',
+            ],
+          },
           {
             version: 'v1.1.0',
             entries: [
               'Tags: label tasks with custom #hashtags — autocomplete from existing tags',
               'Tag filter: filter task list by tag',
               'Tag badge: color-coded per tag, click to filter',
-              'Tag autocomplete: custom dropdown instead of native datalist — correct positioning on iPhone',
-              'Statistics view: completion rate, tasks per week (6 weeks), streaks',
-              'Statistics: week labels show date range (e.g. 10.\u201316.3.) instead of single date',
+              'Statistics view: completion rate, tasks per week, current & longest streak',
             ],
           },
           {
@@ -3857,6 +3947,62 @@
         '</div></div>';
       return completionHtml + chartHtml + streakHtml;
     }
+
+    // ── Keyboard Shortcuts ──────────────────────────────────────────────────
+    function openKB() {
+      const T = t();
+      document.getElementById('kb-heading').textContent = T.kbHeading;
+      var rows = T.kbShortcuts.map(function(s) {
+        return '<tr><td><span class="kb-key">' + escHtml(s[0]) + '</span></td><td class="kb-desc">' + escHtml(s[1]) + '</td></tr>';
+      }).join('');
+      document.getElementById('kb-body').innerHTML = '<table class="kb-table">' + rows + '</table>';
+      document.getElementById('kb-backdrop').classList.add('show');
+      document.addEventListener('keydown', onKBEscClose);
+    }
+    function closeKB() {
+      document.getElementById('kb-backdrop').classList.remove('show');
+      document.removeEventListener('keydown', onKBEscClose);
+    }
+    function handleKBBackdropClick(e) { if (e.target === e.currentTarget) closeKB(); }
+    function onKBEscClose(e) { if (e.key === 'Escape') closeKB(); }
+
+    function isModalOpen() {
+      return document.getElementById('kb-backdrop').classList.contains('show') ||
+             document.getElementById('stats-backdrop').classList.contains('show') ||
+             document.getElementById('changelog-backdrop').classList.contains('show') ||
+             (document.getElementById('pomo-overlay').style.display !== 'none' && !pomodoroMinimized);
+    }
+
+    document.addEventListener('keydown', function(e) {
+      var tag = document.activeElement && document.activeElement.tagName;
+      var isInput = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+
+      // Esc works even in inputs — closes modals/search/pomodoro
+      if (e.key === 'Escape') {
+        if (document.getElementById('kb-backdrop').classList.contains('show')) { closeKB(); return; }
+        if (document.getElementById('stats-backdrop').classList.contains('show')) { closeStats(); return; }
+        if (document.getElementById('changelog-backdrop').classList.contains('show')) { closeChangelog(); return; }
+        if (document.getElementById('pomo-overlay').style.display !== 'none' && !pomodoroMinimized) { minimizePomodoro(); return; }
+        if (themePickerOpen) { themePickerOpen = false; document.getElementById('theme-popover').classList.remove('open'); return; }
+        if (isInput) { document.activeElement.blur(); return; }
+        return;
+      }
+
+      // All other shortcuts only when no input is focused and no modal is open
+      if (isInput || isModalOpen()) return;
+
+      var key = e.key.toLowerCase();
+
+      if (key === 'n') { e.preventDefault(); document.getElementById('new-todo-input').focus(); return; }
+      if (key === 'f') { e.preventDefault(); document.getElementById('search-input').focus(); return; }
+      if (key === 'd') { e.preventDefault(); toggleDark(); return; }
+      if (key === 's') { e.preventDefault(); openStats(); return; }
+      if (key === '1') { e.preventDefault(); setFilter('open'); return; }
+      if (key === '2') { e.preventDefault(); setFilter('done'); return; }
+      if (key === '0') { e.preventDefault(); setFilter('all'); return; }
+      if (key === 'z') { e.preventDefault(); performUndo(); return; }
+      if (e.key === '?') { e.preventDefault(); openKB(); return; }
+    });
 
     // ── Utilities ────────────────────────────────────────────────────────────
     function escHtml(str) {
