@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.6.9.1-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.7-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -121,6 +121,7 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] Service Worker — true offline PWA
 - [x] PWA support — installable on mobile home screen
 - [x] Drag & drop — reorder tasks
+- [x] Pomodoro timer — fullscreen focus mode linked to a task
 
 ### Planned
 - [ ] **Categories / Tags** — group todos (Work, Personal, Shopping…)
@@ -131,7 +132,6 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [ ] **Streak counter** — "5 days in a row with all tasks done"
 - [ ] **Statistics view** — completion rate, tasks per week, streaks
 - [ ] **Focus mode** — show only the next open task
-- [ ] **Pomodoro timer** — time tracking linked to a task
 - [ ] **Keyboard shortcuts** — `N` = new todo, `Esc` = close, etc.
 - [ ] **Accessibility** — ARIA labels, improved screen reader support
 - [ ] **Cloud Sync** — optional backend sync (e.g. Firebase, Supabase)
@@ -140,6 +140,13 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.0.7
+- Pomodoro timer linked to tasks (25 min work / 5 min break / 15 min long break)
+- Fullscreen focus overlay with glassmorphism card, minimize to floating button
+- Browser notification on phase change (work ↔ break)
+- Action buttons optimized for touch devices (visible background, increased spacing)
+- Footer text readable in light mode (dark text instead of white)
 
 ### v1.0.6.9.1
 - Add button hover and active styles matched to Import/Export/Delete buttons
@@ -247,4 +254,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.6.9.1</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.7</p>

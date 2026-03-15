@@ -1084,7 +1084,7 @@
     }
     .footer span {
       font-size: 0.7rem;
-      color: rgba(255,255,255,0.45);
+      color: rgba(0,0,0,0.35);
       letter-spacing: 0.04em;
       font-variant-numeric: tabular-nums;
       cursor: pointer;
@@ -1092,20 +1092,24 @@
       transition: color 0.15s, border-color 0.15s;
     }
     .footer span:hover {
-      color: rgba(255,255,255,0.8);
-      border-color: rgba(255,255,255,0.5);
+      color: rgba(0,0,0,0.55);
+      border-color: rgba(0,0,0,0.3);
     }
+    body.dark .footer span { color: rgba(255,255,255,0.45); }
+    body.dark .footer span:hover { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.5); }
     .footer-github {
       display: inline-flex;
       align-items: center;
       gap: 5px;
       font-size: 0.7rem;
-      color: rgba(255,255,255,0.35);
+      color: rgba(0,0,0,0.30);
       text-decoration: none;
       letter-spacing: 0.04em;
       transition: color 0.15s;
     }
-    .footer-github:hover { color: rgba(255,255,255,0.75); }
+    .footer-github:hover { color: rgba(0,0,0,0.50); }
+    body.dark .footer-github { color: rgba(255,255,255,0.35); }
+    body.dark .footer-github:hover { color: rgba(255,255,255,0.75); }
 
     /* ── iOS Install Banner ─────────────────────────────────── */
     .ios-banner {
@@ -1339,10 +1343,185 @@
       margin-top: 7px;
     }
 
+    /* ── Pomodoro Timer ─────────────────────────────────────── */
+    .pomo-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(255,255,255,0.30);
+      backdrop-filter: blur(40px) saturate(160%);
+      -webkit-backdrop-filter: blur(40px) saturate(160%);
+      z-index: 4000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      padding-top: max(24px, calc(env(safe-area-inset-top) + 16px));
+      padding-bottom: max(24px, calc(env(safe-area-inset-bottom) + 16px));
+      animation: pomoFadeIn 0.3s ease;
+    }
+    body.dark .pomo-overlay { background: rgba(0,0,0,0.55); }
+    @keyframes pomoFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .pomo-card {
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 24px;
+      box-shadow: 0 24px 64px rgba(100,80,200,0.20), 0 1px 0 rgba(255,255,255,0.60) inset;
+      padding: 48px 40px;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    body.dark .pomo-card {
+      background: rgba(12,16,52,0.55);
+      border-color: rgba(255,255,255,0.10);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset;
+    }
+    .pomo-minimize {
+      position: absolute;
+      top: max(16px, calc(env(safe-area-inset-top) + 8px));
+      right: 16px;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(0,0,0,0.10);
+      border-radius: 50%;
+      background: rgba(255,255,255,0.45);
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .pomo-minimize:hover { background: rgba(255,255,255,0.65); border-color: rgba(0,0,0,0.15); }
+    body.dark .pomo-minimize { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.10); color: var(--muted-dark); }
+    body.dark .pomo-minimize:hover { background: rgba(255,255,255,0.15); }
+    .pomo-phase {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 4px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .pomo-phase.work {
+      background: var(--accent-muted);
+      color: var(--accent);
+    }
+    body.dark .pomo-phase.work { background: var(--accent-muted-dark); }
+    .pomo-phase.break {
+      background: rgba(56,142,60,0.12);
+      color: #2e7d32;
+    }
+    body.dark .pomo-phase.break {
+      background: rgba(56,142,60,0.20);
+      color: #66bb6a;
+    }
+    .pomo-task-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 16px;
+      opacity: 0.75;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    body.dark .pomo-task-name { color: var(--text-dark); }
+    .pomo-time-big {
+      font-size: 4.5rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+      letter-spacing: -2px;
+      margin: 24px 0;
+      line-height: 1;
+    }
+    body.dark .pomo-time-big { color: var(--text-dark); }
+    .pomo-dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+    .pomo-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.30);
+      transition: background 0.2s;
+    }
+    body.dark .pomo-dot { background: rgba(255,255,255,0.12); }
+    .pomo-dot.filled { background: var(--accent); }
+    .pomo-controls {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 32px;
+    }
+    .pomo-btn-big {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border: none;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .pomo-btn-big:hover { background: var(--accent-hover); }
+    .pomo-btn-big:active { transform: scale(0.95); }
+    .pomo-btn-big.danger {
+      background: var(--danger-muted);
+      color: var(--danger);
+    }
+    .pomo-btn-big.danger:hover { background: var(--danger); color: #fff; }
+    body.dark .pomo-btn-big.danger { background: rgba(229,57,53,0.15); }
+    body.dark .pomo-btn-big.danger:hover { background: var(--danger); color: #fff; }
+    /* Minimized floating button */
+    .pomo-mini {
+      position: fixed;
+      bottom: max(16px, calc(env(safe-area-inset-bottom) + 12px));
+      right: 16px;
+      height: 44px;
+      padding: 0 16px;
+      border: none;
+      border-radius: 22px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 2000;
+      box-shadow: 0 4px 20px rgba(61,90,254,0.35);
+      transition: background 0.15s;
+      animation: bannerIn 0.35s cubic-bezier(.22,1,.36,1);
+    }
+    .pomo-mini:hover { background: var(--accent-hover); }
+    .action-btn.pomo-active { color: var(--accent); }
+
     /* ── Touch devices: always show actions & handles ───────── */
     @media (hover: none) and (pointer: coarse) {
       /* Actions always visible — no hover on touch */
-      .todo-actions { opacity: 1; }
+      .todo-actions { opacity: 1; gap: 6px; }
+      .action-btn {
+        background: rgba(255,255,255,0.18);
+        border: 1px solid rgba(255,255,255,0.25);
+        border-radius: var(--radius-sm);
+      }
+      body.dark .action-btn {
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(255,255,255,0.10);
+      }
       /* Drag handle always visible */
       .drag-handle { color: rgba(255,255,255,0.45); }
       body.dark .drag-handle { color: rgba(255,255,255,0.25); }
@@ -1369,6 +1548,9 @@
       .io-btn:active         { border-color: var(--accent); color: var(--accent); }
       .todo-item:active      { background: rgba(255,255,255,0.22); }
       body.dark .todo-item:active { background: rgba(255,255,255,0.07); }
+      .pomo-btn-big:active { background: var(--accent-hover); transform: scale(0.95); }
+      .pomo-btn-big.danger:active { background: var(--danger); color: #fff; }
+      .pomo-minimize:active { background: rgba(255,255,255,0.35); }
     }
 
     /* ── Mobile layout ───────────────────────────────────────── */
@@ -1414,6 +1596,9 @@
       .history-item { padding: 12px; }
 
       .header h1 { font-size: 1.1rem; }
+      .pomo-card { padding: 40px 24px; }
+      .pomo-time-big { font-size: 3.5rem; }
+      .pomo-mini { right: 12px; }
     }
   </style>
 </head>
@@ -1536,7 +1721,7 @@
 
     <!-- Import / Export -->
     <div class="card">
-      <div class="section-header">
+      <div class="section-header" id="io-header" onclick="toggleIO()">
         <span class="section-icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -1544,7 +1729,15 @@
           </svg>
         </span>
         <span class="section-title" id="io-title"></span>
+        <span class="chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </span>
       </div>
+      <div class="collapsible" id="io-collapsible">
+      <div class="collapsible-inner">
+      <div style="padding-top:12px">
       <div class="io-row">
         <button class="io-btn" id="export-btn" onclick="exportData()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1570,12 +1763,15 @@
         </button>
       </div>
       <input type="file" id="import-file" accept=".json" onchange="importData(event)" />
+      </div>
+      </div>
+      </div>
     </div>
 
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.6.9.1</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.7</span>
     <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -1629,6 +1825,28 @@
 
   <div class="toast" id="toast"></div>
 
+  <!-- Pomodoro Fullscreen Overlay -->
+  <div class="pomo-overlay" id="pomo-overlay" style="display:none">
+    <button class="pomo-minimize" onclick="minimizePomodoro()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="pomo-card">
+      <span class="pomo-phase" id="pomo-phase"></span>
+      <div class="pomo-task-name" id="pomo-task"></div>
+      <div class="pomo-time-big" id="pomo-time">25:00</div>
+      <div class="pomo-dots" id="pomo-dots"></div>
+      <div class="pomo-controls">
+        <button class="pomo-btn-big" id="pomo-toggle" onclick="togglePomodoro()"></button>
+        <button class="pomo-btn-big danger" id="pomo-stop" onclick="stopPomodoro()"></button>
+      </div>
+    </div>
+  </div>
+  <!-- Pomodoro Mini Button (minimized) -->
+  <button class="pomo-mini" id="pomo-mini" style="display:none" onclick="maximizePomodoro()">
+    <span id="pomo-mini-icon"></span>
+    <span id="pomo-mini-time"></span>
+  </button>
+
   <script>
     // ── SVG Icons ────────────────────────────────────────────────────────────
     const THEMES = {
@@ -1664,6 +1882,10 @@
       inbox:`<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>`,
       bell:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`,
       bellOff:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M18.63 13A17.89 17.89 0 0 1 18 8"/><path d="M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"/><path d="M18 8a6 6 0 0 0-9.33-5"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`,
+      timer:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><line x1="9" y1="1" x2="15" y2="1"/><line x1="12" y1="1" x2="12" y2="4"/></svg>`,
+      pause:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="10" y1="4" x2="10" y2="20"/><line x1="14" y1="4" x2="14" y2="20"/></svg>`,
+      play:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
+      stopIcon:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`,
     };
 
     // ── State ────────────────────────────────────────────────────────────────
@@ -1689,7 +1911,7 @@
         tasksTitle: 'Aufgaben',
         placeholder: 'Neue Aufgabe hinzufügen …',
         historyTitle: 'Verlauf',
-        ioTitle: 'Import / Export',
+        ioTitle: 'Verwaltung',
         exportLabel: 'Exportieren',
         importLabel: 'Importieren',
         clearLabel: 'Verlauf löschen',
@@ -1727,12 +1949,32 @@
         notifyDenied: 'Benachrichtigungen wurden im Browser blockiert',
         notifyOverdue: 'Überfällig',
         notifyDueToday: 'Heute fällig',
+        pomodoroStart: 'Pomodoro starten',
+        pomodoroWork: 'Arbeiten',
+        pomodoroBreak: 'Pause',
+        pomodoroLongBreak: 'Lange Pause',
+        pomodoroDone: 'Pomodoro abgeschlossen! Zeit für eine Pause.',
+        pomodoroBreakOver: 'Pause vorbei! Bereit für die nächste Runde?',
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
+            version: 'v1.0.7',
+            entries: [
+              'Pomodoro-Timer: 25 Min Arbeit → 5 Min Pause → 15 Min lange Pause nach 4 Sitzungen',
+              'Pomodoro-Timer: Fullscreen-Overlay mit Glasmorphism-Karte für maximalen Fokus',
+              'Pomodoro-Timer: Minimieren zu schwebendem Button, automatischer Fullscreen bei Phasenwechsel',
+              'Pomodoro-Timer: Browser-Benachrichtigung bei Phasenwechsel',
+              'Pomodoro-Timer: Timer-Button (Wecker-Icon) an jeder offenen Aufgabe',
+              'Aktionsbuttons auf Touch-Geräten optimiert: sichtbarer Hintergrund, größerer Abstand',
+              'Footer-Text im Light Mode besser lesbar (dunkle Schrift statt weiß)',
+            ],
+          },
+          {
             version: 'v1.0.6.9.1',
             entries: [
+              'Verwaltungsbox (Import/Export/Löschen) ist per Default eingeklappt',
+              'Verwaltungsbox umbenannt: „Verwaltung" statt „Import / Export"',
               'Hover- und Active-Stil des Hinzufügen-Buttons an Import/Export/Löschen angeglichen',
             ],
           },
@@ -1894,7 +2136,7 @@
         tasksTitle: 'Tasks',
         placeholder: 'Add a new task …',
         historyTitle: 'History',
-        ioTitle: 'Import / Export',
+        ioTitle: 'Manage',
         exportLabel: 'Export',
         importLabel: 'Import',
         clearLabel: 'Clear History',
@@ -1932,12 +2174,32 @@
         notifyDenied: 'Notifications are blocked in browser settings',
         notifyOverdue: 'Overdue',
         notifyDueToday: 'Due today',
+        pomodoroStart: 'Start Pomodoro',
+        pomodoroWork: 'Work',
+        pomodoroBreak: 'Break',
+        pomodoroLongBreak: 'Long Break',
+        pomodoroDone: 'Pomodoro done! Time for a break.',
+        pomodoroBreakOver: 'Break over! Ready for the next round?',
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
+            version: 'v1.0.7',
+            entries: [
+              'Pomodoro timer: 25 min work → 5 min break → 15 min long break after 4 sessions',
+              'Pomodoro timer: fullscreen overlay with glassmorphism card for maximum focus',
+              'Pomodoro timer: minimize to floating button, auto-fullscreen on phase change',
+              'Pomodoro timer: browser notification on phase change',
+              'Pomodoro timer: timer button (alarm icon) on each open task',
+              'Action buttons optimized for touch devices: visible background, increased spacing',
+              'Footer text more readable in light mode (dark text instead of white)',
+            ],
+          },
+          {
             version: 'v1.0.6.9.1',
             entries: [
+              'Manage section (Import/Export/Delete) collapsed by default',
+              'Manage section renamed from "Import / Export" to "Manage"',
               'Add button hover and active styles matched to Import/Export/Delete buttons',
             ],
           },
@@ -2367,10 +2629,16 @@
     }
 
     let historyOpen = false;
+    let ioOpen = false;
     function toggleHistory() {
       historyOpen = !historyOpen;
       document.getElementById('history-header').classList.toggle('open', historyOpen);
       document.getElementById('history-collapsible').classList.toggle('open', historyOpen);
+    }
+    function toggleIO() {
+      ioOpen = !ioOpen;
+      document.getElementById('io-header').classList.toggle('open', ioOpen);
+      document.getElementById('io-collapsible').classList.toggle('open', ioOpen);
     }
 
     function clearHistory() {
@@ -2506,6 +2774,145 @@
           try { new Notification(title, { body: body, icon: icon }); } catch(e) {}
         }
       });
+    }
+
+    // ── Pomodoro Timer ──────────────────────────────────────────────────────
+    const POMO_WORK = 25 * 60;
+    const POMO_SHORT_BREAK = 5 * 60;
+    const POMO_LONG_BREAK = 15 * 60;
+    let pomodoroState = null;
+    let pomodoroMinimized = false;
+
+    function startPomodoro(id) {
+      const todo = todos.find(t => t.id === id);
+      if (!todo) return;
+      if (pomodoroState && pomodoroState.intervalId) clearInterval(pomodoroState.intervalId);
+      pomodoroState = {
+        taskId: id,
+        taskText: todo.text,
+        timeLeft: POMO_WORK,
+        running: true,
+        isBreak: false,
+        sessions: 0,
+        intervalId: null
+      };
+      pomodoroState.intervalId = setInterval(pomodoroTick, 1000);
+      pomodoroMinimized = false;
+      haptic('success');
+      renderPomo();
+    }
+
+    function togglePomodoro() {
+      if (!pomodoroState) return;
+      pomodoroState.running = !pomodoroState.running;
+      haptic('light');
+      if (pomodoroState.running) {
+        pomodoroState.intervalId = setInterval(pomodoroTick, 1000);
+      } else {
+        clearInterval(pomodoroState.intervalId);
+        pomodoroState.intervalId = null;
+      }
+      renderPomo();
+    }
+
+    function stopPomodoro() {
+      if (!pomodoroState) return;
+      if (pomodoroState.intervalId) clearInterval(pomodoroState.intervalId);
+      pomodoroState = null;
+      pomodoroMinimized = false;
+      haptic('warning');
+      document.getElementById('pomo-overlay').style.display = 'none';
+      document.getElementById('pomo-mini').style.display = 'none';
+    }
+
+    function minimizePomodoro() {
+      pomodoroMinimized = true;
+      haptic('light');
+      renderPomo();
+    }
+
+    function maximizePomodoro() {
+      pomodoroMinimized = false;
+      haptic('light');
+      renderPomo();
+    }
+
+    function pomodoroTick() {
+      if (!pomodoroState || !pomodoroState.running) return;
+      pomodoroState.timeLeft--;
+      if (pomodoroState.timeLeft <= 0) {
+        haptic('success');
+        if (pomodoroState.isBreak) {
+          pomodoroState.isBreak = false;
+          pomodoroState.timeLeft = POMO_WORK;
+          pomodoroNotify(t().pomodoroBreakOver);
+        } else {
+          pomodoroState.sessions++;
+          pomodoroState.isBreak = true;
+          pomodoroState.timeLeft = pomodoroState.sessions % 4 === 0 ? POMO_LONG_BREAK : POMO_SHORT_BREAK;
+          pomodoroNotify(t().pomodoroDone);
+        }
+        // Show fullscreen when phase changes
+        if (pomodoroMinimized) {
+          pomodoroMinimized = false;
+        }
+      }
+      renderPomo();
+    }
+
+    function pomodoroNotify(msg) {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        try { new Notification('Flux — Pomodoro', { body: msg }); } catch(e) {}
+      }
+    }
+
+    function renderPomo() {
+      const overlay = document.getElementById('pomo-overlay');
+      const mini = document.getElementById('pomo-mini');
+      if (!pomodoroState) {
+        overlay.style.display = 'none';
+        mini.style.display = 'none';
+        return;
+      }
+      const todo = todos.find(t => t.id === pomodoroState.taskId);
+      if (!todo) { stopPomodoro(); return; }
+
+      const T = t();
+      const mins = Math.floor(pomodoroState.timeLeft / 60);
+      const secs = pomodoroState.timeLeft % 60;
+      const timeStr = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+
+      if (pomodoroMinimized) {
+        overlay.style.display = 'none';
+        mini.style.display = 'flex';
+        document.getElementById('pomo-mini-time').textContent = timeStr;
+        document.getElementById('pomo-mini-icon').innerHTML = SVG.timer;
+        return;
+      }
+
+      overlay.style.display = 'flex';
+      mini.style.display = 'none';
+
+      const phase = document.getElementById('pomo-phase');
+      if (pomodoroState.isBreak) {
+        const isLong = pomodoroState.sessions % 4 === 0 && pomodoroState.sessions > 0;
+        phase.textContent = isLong ? T.pomodoroLongBreak : T.pomodoroBreak;
+        phase.className = 'pomo-phase break';
+      } else {
+        phase.textContent = T.pomodoroWork;
+        phase.className = 'pomo-phase work';
+      }
+      document.getElementById('pomo-task').textContent = pomodoroState.taskText;
+      document.getElementById('pomo-time').textContent = timeStr;
+
+      let filledDots = pomodoroState.sessions % 4;
+      if (filledDots === 0 && pomodoroState.sessions > 0 && pomodoroState.isBreak) filledDots = 4;
+      document.getElementById('pomo-dots').innerHTML = Array.from({length: 4}, (_, i) =>
+        '<span class="pomo-dot' + (i < filledDots ? ' filled' : '') + '"></span>'
+      ).join('');
+
+      document.getElementById('pomo-toggle').innerHTML = pomodoroState.running ? SVG.pause : SVG.play;
+      document.getElementById('pomo-stop').innerHTML = SVG.stopIcon;
     }
 
     // ── Theme / Lang ─────────────────────────────────────────────────────────
@@ -2699,6 +3106,7 @@
                 ${dc ? `<div class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</div>` : ''}
               </div>
               <div class="todo-actions">
+                ${!todo.done ? `<button class="action-btn${pomodoroState && pomodoroState.taskId === todo.id ? ' pomo-active' : ''}" title="${T.pomodoroStart}" onclick="startPomodoro(${todo.id})">${SVG.timer}</button>` : ''}
                 <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
                 <button class="action-btn danger" title="${T.deleteTitle}" onclick="deleteTodo(${todo.id})">${SVG.trash}</button>
               </div>
@@ -2735,6 +3143,7 @@
       } else {
         hUsage.innerHTML = '';
       }
+      renderPomo();
     }
 
     // ── iOS Install Banner ────────────────────────────────────────────────────
