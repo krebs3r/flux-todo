@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.9.1-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.9.2-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -140,6 +140,9 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.0.9.2
+- Safari 26 (macOS Tahoe): toolbar now tints correctly — moved background-color to body, as Safari 26 dropped support for the theme-color meta tag
 
 ### v1.0.9.1
 - Sort dropdown: shortened German labels (Fälligkeit, Erstellt) — no more layout overflow on iPhone
@@ -293,4 +296,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.9.1</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.9.2</p>
