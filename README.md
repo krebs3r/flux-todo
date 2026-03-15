@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.9.2-blueviolet)
+![Version](https://img.shields.io/badge/version-1.1.0-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -35,6 +35,8 @@
 - **History usage indicator** — progress bar shows fill level of the 10,000-entry limit
 - **Export & Import** — save and restore your tasks as a JSON file
 - **Bulk delete** — clear all tasks at once, with an optional export prompt
+- **Statistics view** — completion rate ring, tasks per week bar chart, current & longest streak
+- **Tags** — label tasks with custom #hashtags, autocomplete from existing tags, filter by tag
 
 ### Design & Themes
 - **Glassmorphism UI** — acrylic-style backdrop-filter effects throughout
@@ -124,13 +126,12 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] Pomodoro timer — fullscreen focus mode linked to a task
 - [x] Sort options — by priority, due date, creation date
 - [x] Undo — reverse the last action (e.g. accidental delete)
+- [x] Statistics view — completion rate, tasks per week, streaks
+- [x] Tags — custom #hashtags per task with autocomplete and filter
 
 ### Planned
-- [ ] **Categories / Tags** — group todos (Work, Personal, Shopping…)
 - [ ] **Subtasks** — checklists within a task
 - [ ] **Recurring tasks** — e.g. "Every Monday: weekly report"
-- [ ] **Streak counter** — "5 days in a row with all tasks done"
-- [ ] **Statistics view** — completion rate, tasks per week, streaks
 - [ ] **Focus mode** — show only the next open task
 - [ ] **Keyboard shortcuts** — `N` = new todo, `Esc` = close, etc.
 - [ ] **Accessibility** — ARIA labels, improved screen reader support
@@ -140,6 +141,14 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.1.0
+- Tags: label tasks with custom #hashtags — autocomplete from existing tags
+- Tag filter: filter task list by tag
+- Tag badge: color-coded per tag, click to filter
+- Tag autocomplete: custom dropdown instead of native datalist — correct positioning on iPhone
+- Statistics view: completion rate ring, tasks per week (6 weeks) bar chart, current & longest streak
+- Statistics: week labels show date range (e.g. 10.–16.3.) instead of single date
 
 ### v1.0.9.2
 - Safari 26 (macOS Tahoe): moved background-color to body — Safari 26 derives toolbar tint from body instead of the theme-color meta tag
@@ -296,4 +305,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.9.2</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.1.0</p>

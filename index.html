@@ -425,6 +425,94 @@
     body.dark .prio-badge[data-p="medium"] { background: rgba(245,124,0,0.20); color: #f57c00; }
     body.dark .prio-badge[data-p="low"]    { background: rgba(56,142,60,0.20); color: #66bb6a; }
     body.dark .prio-badge[data-p=""] { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: var(--muted-dark); }
+    .cat-badge {
+      font-size: 0.60rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 2px 7px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .cat-input-wrap { position: relative; margin-top: 10px; }
+    .cat-ac {
+      display: none;
+      position: absolute;
+      left: 0; right: 0; top: 100%;
+      z-index: 50;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid var(--gl-border);
+      border-top: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      max-height: 150px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .cat-ac.open { display: block; }
+    body.dark .cat-ac {
+      background: rgba(19,23,42,0.92);
+      border-color: var(--gl-border-dark);
+    }
+    .cat-ac-item {
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .cat-ac-item:hover, .cat-ac-item:active {
+      background: rgba(61,90,254,0.12);
+    }
+    body.dark .cat-ac-item { color: var(--text-dark); }
+    body.dark .cat-ac-item:hover { background: rgba(61,90,254,0.22); }
+    .cat-input {
+      width: 100%;
+      padding: 10px 14px;
+      box-sizing: border-box;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gl-border);
+      background: rgba(255,255,255,0.20);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--text);
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .cat-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-muted);
+      background: rgba(255,255,255,0.35);
+    }
+    body.dark .cat-input {
+      background: rgba(255,255,255,0.05);
+      border-color: var(--gl-border-dark);
+      color: var(--text-dark);
+    }
+    body.dark .cat-input:focus { background: rgba(255,255,255,0.09); }
+    .cat-input::placeholder { color: var(--muted); }
+    body.dark .cat-input::placeholder { color: var(--muted-dark); }
+    .cat-filter {
+      font-size: 0.75rem;
+      padding: 5px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.30);
+      background: var(--gl-subtle);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--muted);
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    body.dark .cat-filter {
+      background: var(--gl-subtle-dark);
+      border-color: rgba(255,255,255,0.07);
+      color: var(--muted-dark);
+    }
     .todo-note {
       font-size: 0.78rem;
       color: var(--muted);
@@ -1465,6 +1553,114 @@
       margin-top: 7px;
     }
 
+    /* ── Statistics Modal ───────────────────────────────────── */
+    .stat-card {
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.30);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    body.dark .stat-card {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.08);
+    }
+    .stat-card-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    body.dark .stat-card-title { color: var(--muted-dark); }
+    .stat-completion {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .stat-ring { width: 64px; height: 64px; flex-shrink: 0; }
+    .stat-ring-bg { stroke: rgba(255,255,255,0.25); }
+    body.dark .stat-ring-bg { stroke: rgba(255,255,255,0.10); }
+    .stat-ring-fill {
+      stroke: var(--accent);
+      transition: stroke-dashoffset 0.6s ease;
+    }
+    .stat-big-number {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+    body.dark .stat-big-number { color: var(--text-dark); }
+    .stat-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    body.dark .stat-sub { color: var(--muted-dark); }
+    .stat-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 100px;
+      padding-top: 8px;
+    }
+    .stat-bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 0;
+    }
+    .stat-bar {
+      width: 100%;
+      max-width: 32px;
+      border-radius: 4px 4px 0 0;
+      background: var(--accent);
+      opacity: 0.75;
+      min-height: 2px;
+    }
+    .stat-bar-label {
+      font-size: 0.56rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    body.dark .stat-bar-label { color: var(--muted-dark); }
+    .stat-bar-count {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--text);
+      text-align: center;
+    }
+    body.dark .stat-bar-count { color: var(--text-dark); }
+    .stat-streaks { display: flex; gap: 16px; }
+    .stat-streak-item { flex: 1; text-align: center; }
+    .stat-streak-number {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+    body.dark .stat-streak-number { color: var(--text-dark); }
+    .stat-streak-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    body.dark .stat-streak-label { color: var(--muted-dark); }
+    .stat-empty {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    body.dark .stat-empty { color: var(--muted-dark); }
+
     /* ── Pomodoro Timer ─────────────────────────────────────── */
     .pomo-overlay {
       position: fixed;
@@ -1747,6 +1943,9 @@
         </div>
       </div>
       <div class="header-controls">
+        <button class="ctrl-btn" id="stats-btn" onclick="openStats()" title="Statistics">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="3" width="4" height="18"/><rect x="10" y="8" width="4" height="13"/><rect x="2" y="13" width="4" height="8"/></svg>
+        </button>
         <button class="ctrl-btn" id="lang-btn" onclick="toggleLang()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
@@ -1780,6 +1979,10 @@
         <button class="priority-cycle-btn" id="priority-btn" data-p="" onclick="cyclePriority()"></button>
       </div>
       <textarea class="note-input" id="new-todo-note" rows="2"></textarea>
+      <div class="cat-input-wrap">
+        <input class="cat-input" type="text" id="new-todo-cat" maxlength="30" autocomplete="off" />
+        <div class="cat-ac" id="cat-ac"></div>
+      </div>
       <div class="due-input-row">
         <span class="due-input-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
         <input class="due-input" type="date" id="new-todo-due" />
@@ -1819,6 +2022,11 @@
             <option value="created"></option>
           </select>
         </div>
+      </div>
+      <div class="filter-sort-row" id="cat-filter-row" style="margin-top:-4px">
+        <select class="cat-filter" id="cat-filter" onchange="setCategoryFilter(this.value)">
+          <option value=""></option>
+        </select>
       </div>
       <div class="todo-list" id="todo-list"></div>
       <div id="stats-row"></div>
@@ -1901,7 +2109,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.9.2</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.1.0</span>
     <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -1935,6 +2143,21 @@
           <button class="confirm-btn confirm-yes" id="confirm-yes" onclick="resolveConfirm(true)"></button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Stats Modal -->
+  <div class="modal-backdrop" id="stats-backdrop" onclick="handleStatsBackdropClick(event)">
+    <div class="modal" style="max-width:520px">
+      <div class="modal-header">
+        <h2 id="stats-heading">Statistics</h2>
+        <button class="modal-close" onclick="closeStats()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="stats-body"></div>
     </div>
   </div>
 
@@ -2030,6 +2253,7 @@
     let newPriority = '';
     let searchQuery = '';
     let currentSort = 'manual';
+    let currentCategory = '';
     let notifyEnabled = false;
     const notifiedIds = new Set();
 
@@ -2048,6 +2272,8 @@
         clearLabel: 'Verlauf löschen',
         filterAll: 'Alle', filterOpen: 'Offen', filterDone: 'Erledigt',
         sortLabel: 'Sortieren', sortManual: 'Manuell', sortPriority: 'Priorität', sortDueDate: 'Fälligkeit', sortCreated: 'Erstellt',
+        catPlaceholder: '#Tag (optional)',
+        catAll: 'Alle Tags',
         searchPlaceholder: 'Suchen …',
         stats: (d, t) => `${d} von ${t} erledigt`,
         emptyTodos: 'Keine Aufgaben vorhanden.',
@@ -2088,9 +2314,29 @@
         pomodoroLongBreak: 'Lange Pause',
         pomodoroDone: 'Pomodoro abgeschlossen! Zeit für eine Pause.',
         pomodoroBreakOver: 'Pause vorbei! Bereit für die nächste Runde?',
+        statsHeading: 'Statistiken',
+        statsCompletionRate: 'Abschlussrate',
+        statsTasksPerWeek: 'Aufgaben pro Woche',
+        statsStreak: 'Serie',
+        statsStreakDays: (n) => n === 1 ? '1 Tag' : `${n} Tage`,
+        statsCurrentStreak: 'Aktuelle Serie',
+        statsLongestStreak: 'Längste Serie',
+        statsNoData: 'Noch keine erledigten Aufgaben.',
+        statsCompleted: 'erledigt',
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.1.0',
+            entries: [
+              'Tags: Aufgaben mit frei definierbaren #Hashtags versehen — Autocomplete aus bestehenden Tags',
+              'Tag-Filter: Aufgabenliste nach Tag filtern',
+              'Tag-Badge: farbcodiert pro Tag, Klick zum Filtern',
+              'Tag-Autocomplete: eigenes Dropdown statt natives datalist — korrekte Positionierung auf iPhone',
+              'Statistik-Ansicht: Abschlussrate, Aufgaben pro Woche (6 Wochen), Serien',
+              'Statistik: Wochen-Labels als Datumsbereich (z.\u202FB. 10.–16.3.) statt einzelnem Datum',
+            ],
+          },
           {
             version: 'v1.0.9.2',
             entries: [
@@ -2347,6 +2593,8 @@
         clearLabel: 'Clear History',
         filterAll: 'All', filterOpen: 'Open', filterDone: 'Done',
         sortLabel: 'Sort', sortManual: 'Manual', sortPriority: 'Priority', sortDueDate: 'Due Date', sortCreated: 'Created',
+        catPlaceholder: '#Tag (optional)',
+        catAll: 'All Tags',
         searchPlaceholder: 'Search …',
         stats: (d, t) => `${d} of ${t} completed`,
         emptyTodos: 'No tasks yet.',
@@ -2387,9 +2635,29 @@
         pomodoroLongBreak: 'Long Break',
         pomodoroDone: 'Pomodoro done! Time for a break.',
         pomodoroBreakOver: 'Break over! Ready for the next round?',
+        statsHeading: 'Statistics',
+        statsCompletionRate: 'Completion Rate',
+        statsTasksPerWeek: 'Tasks per Week',
+        statsStreak: 'Streak',
+        statsStreakDays: (n) => n === 1 ? '1 day' : `${n} days`,
+        statsCurrentStreak: 'Current Streak',
+        statsLongestStreak: 'Longest Streak',
+        statsNoData: 'No completed tasks yet.',
+        statsCompleted: 'completed',
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.1.0',
+            entries: [
+              'Tags: label tasks with custom #hashtags — autocomplete from existing tags',
+              'Tag filter: filter task list by tag',
+              'Tag badge: color-coded per tag, click to filter',
+              'Tag autocomplete: custom dropdown instead of native datalist — correct positioning on iPhone',
+              'Statistics view: completion rate, tasks per week (6 weeks), streaks',
+              'Statistics: week labels show date range (e.g. 10.\u201316.3.) instead of single date',
+            ],
+          },
           {
             version: 'v1.0.9.2',
             entries: [
@@ -2645,6 +2913,7 @@
       localStorage.setItem('theme', currentTheme);
       localStorage.setItem('notify', notifyEnabled ? '1' : '0');
       localStorage.setItem('sort', currentSort);
+      localStorage.setItem('catFilter', currentCategory);
     }
     function load() {
       try { todos = JSON.parse(localStorage.getItem('todos')) || []; } catch { todos = []; }
@@ -2655,6 +2924,7 @@
       currentTheme = localStorage.getItem('theme') || 'flux';
       notifyEnabled = localStorage.getItem('notify') === '1' && 'Notification' in window && Notification.permission === 'granted';
       currentSort = localStorage.getItem('sort') || 'manual';
+      currentCategory = localStorage.getItem('catFilter') || '';
     }
 
     // ── History helpers ──────────────────────────────────────────────────────
@@ -2701,14 +2971,17 @@
       const noteInput = document.getElementById('new-todo-note');
       const dueInput = document.getElementById('new-todo-due');
       const timeInput = document.getElementById('new-todo-time');
+      const catInput = document.getElementById('new-todo-cat');
       const dueDate = dueInput.value ? (timeInput.value ? dueInput.value + 'T' + timeInput.value : dueInput.value) : '';
-      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim(), dueDate: dueDate });
+      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim(), dueDate: dueDate, category: catInput.value.trim().replace(/^#/, '') });
       addHistory('created', text);
       input.value = '';
       noteInput.value = '';
       dueInput.value = '';
       timeInput.value = '';
+      catInput.value = '';
       newPriority = '';
+      currentCategory = '';
       updatePriorityBtn();
       haptic('success');
       save(); render();
@@ -2732,6 +3005,50 @@
       save(); render();
       showToast(t().deleteTitle, true);
     }
+    function catHue(str) {
+      var h = 0;
+      for (var i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
+      return ((h % 360) + 360) % 360;
+    }
+    function catStyle(tag) {
+      var h = catHue(tag);
+      if (dark) return 'background:hsla(' + h + ',60%,50%,0.20);border:1px solid hsla(' + h + ',60%,50%,0.35);color:hsl(' + h + ',70%,70%)';
+      return 'background:hsla(' + h + ',60%,45%,0.10);border:1px solid hsla(' + h + ',60%,45%,0.25);color:hsl(' + h + ',70%,35%)';
+    }
+    function getAllTags() {
+      var tags = {};
+      todos.forEach(function(t) { if (t.category) tags[t.category] = true; });
+      return Object.keys(tags).sort();
+    }
+
+    /* ── Custom tag autocomplete ── */
+    function showTagAC(input, acEl) {
+      var val = input.value.replace(/^#/, '').toLowerCase();
+      var tags = getAllTags().filter(function(t) { return !val || t.toLowerCase().indexOf(val) !== -1; });
+      if (!tags.length) { acEl.classList.remove('open'); return; }
+      acEl.innerHTML = tags.map(function(t) {
+        return '<div class="cat-ac-item" data-tag="' + escHtml(t) + '">#' + escHtml(t) + '</div>';
+      }).join('');
+      acEl.classList.add('open');
+    }
+    function bindTagAC(input, acEl) {
+      input.addEventListener('input', function() { showTagAC(input, acEl); });
+      input.addEventListener('focus', function() { showTagAC(input, acEl); });
+      acEl.addEventListener('mousedown', function(e) {
+        var item = e.target.closest('.cat-ac-item');
+        if (!item) return;
+        e.preventDefault();
+        input.value = '#' + item.getAttribute('data-tag');
+        acEl.classList.remove('open');
+      });
+      input.addEventListener('blur', function() { acEl.classList.remove('open'); });
+    }
+    (function() {
+      var inp = document.getElementById('new-todo-cat');
+      var ac = document.getElementById('cat-ac');
+      if (inp && ac) bindTagAC(inp, ac);
+    })();
+
     function startEdit(id) {
       const todo = todos.find(t => t.id === id);
       if (!todo) return;
@@ -2739,12 +3056,17 @@
       const oldText = todo.text;
       const oldNote = todo.note || '';
       const oldDue = todo.dueDate || '';
+      const oldCat = todo.category || '';
       const oldDueDate = oldDue.split('T')[0] || '';
       const oldDueTime = oldDue.includes('T') ? oldDue.split('T')[1] : '';
       const T = t();
       wrap.innerHTML = `
         <input class="todo-edit-input" value="${escHtml(oldText)}" maxlength="200" />
         <textarea class="note-edit-input" rows="2" maxlength="1000">${escHtml(oldNote)}</textarea>
+        <div class="cat-input-wrap" style="margin-top:0">
+          <input class="cat-input" type="text" id="edit-cat-${id}" value="${escHtml(oldCat)}" maxlength="30" autocomplete="off" placeholder="${T.catPlaceholder}" />
+          <div class="cat-ac" id="edit-cat-ac-${id}"></div>
+        </div>
         <div class="due-edit-row">
           <input class="due-edit-input" type="date" value="${oldDueDate}" />
           <input class="due-edit-input due-time" type="time" value="${oldDueTime}" />
@@ -2756,6 +3078,9 @@
       `;
       const inp = wrap.querySelector('.todo-edit-input');
       const noteInp = wrap.querySelector('.note-edit-input');
+      const catInp = document.getElementById('edit-cat-' + id);
+      const editCatAc = document.getElementById('edit-cat-ac-' + id);
+      if (catInp && editCatAc) bindTagAC(catInp, editCatAc);
       const dueDateInp = wrap.querySelector('.due-edit-input[type="date"]');
       const dueTimeInp = wrap.querySelector('.due-edit-input[type="time"]');
       noteInp.placeholder = T.notePlaceholder;
@@ -2768,30 +3093,32 @@
       }
       inp.onkeydown = e => {
         if (e.key === 'Enter') { e.preventDefault(); noteInp.focus(); }
-        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue);
+        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat);
       };
       noteInp.onkeydown = e => {
-        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue);
+        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat);
       };
       document.getElementById('edit-save-' + id).onclick = () => {
-        commitEdit(id, inp.value, oldText, noteInp.value, getEditDue());
+        commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value);
       };
       document.getElementById('edit-cancel-' + id).onclick = () => {
-        commitEdit(id, oldText, oldText, oldNote, oldDue);
+        commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat);
       };
     }
-    function commitEdit(id, newText, oldText, newNote, newDue) {
+    function commitEdit(id, newText, oldText, newNote, newDue, newCat) {
       newText = newText.trim();
       if (!newText) { render(); return; }
       const todo = todos.find(t => t.id === id);
       if (!todo) return;
       const noteValue = newNote !== undefined ? newNote.trim() : (todo.note || '');
       const dueValue = newDue !== undefined ? newDue : (todo.dueDate || '');
-      if (newText === oldText && noteValue === (todo.note || '') && dueValue === (todo.dueDate || '')) { render(); return; }
+      const catValue = newCat !== undefined ? newCat.trim().replace(/^#/, '') : (todo.category || '');
+      if (newText === oldText && noteValue === (todo.note || '') && dueValue === (todo.dueDate || '') && catValue === (todo.category || '')) { render(); return; }
       saveUndo();
       todo.text = newText;
       todo.note = noteValue;
       todo.dueDate = dueValue;
+      todo.category = catValue;
       save(); render();
     }
 
@@ -2808,10 +3135,16 @@
       currentSort = s;
       save(); render();
     }
+    function setCategoryFilter(c) {
+      haptic('light');
+      currentCategory = c;
+      save(); render();
+    }
     function filteredTodos() {
       let result = todos;
       if (currentFilter === 'open') result = result.filter(t => !t.done);
       else if (currentFilter === 'done') result = result.filter(t => t.done);
+      if (currentCategory) result = result.filter(t => t.category === currentCategory);
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
         result = result.filter(t =>
@@ -3349,6 +3682,182 @@
     }
     function onEscClose(e) { if (e.key === 'Escape') closeChangelog(); }
 
+    // ── Statistics ─────────────────────────────────────────────────────────
+    function openStats() {
+      const T = t();
+      document.getElementById('stats-heading').textContent = T.statsHeading;
+      document.getElementById('stats-body').innerHTML = renderStatsContent(T);
+      document.getElementById('stats-backdrop').classList.add('show');
+      document.addEventListener('keydown', onStatsEscClose);
+    }
+    function closeStats() {
+      document.getElementById('stats-backdrop').classList.remove('show');
+      document.removeEventListener('keydown', onStatsEscClose);
+    }
+    function handleStatsBackdropClick(e) {
+      if (e.target === e.currentTarget) closeStats();
+    }
+    function onStatsEscClose(e) { if (e.key === 'Escape') closeStats(); }
+
+    function computeCompletionRate() {
+      var total = todos.length;
+      if (!total) return { done: 0, total: 0, pct: 0 };
+      var done = todos.filter(function(t) { return t.done; }).length;
+      return { done: done, total: total, pct: Math.round((done / total) * 100) };
+    }
+
+    function getISOWeekKey(date) {
+      var d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+      var yearStart = new Date(d.getFullYear(), 0, 4);
+      var weekNo = 1 + Math.round(((d - yearStart) / 86400000 - 3 + (yearStart.getDay() + 6) % 7) / 7);
+      return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+    }
+
+    function getWeekLabel(date) {
+      var d = new Date(date);
+      var day = d.getDay();
+      var diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      d.setDate(diff);
+      var mon = new Date(d);
+      var sun = new Date(d);
+      sun.setDate(sun.getDate() + 6);
+      var mM = mon.getMonth() + 1;
+      var mS = sun.getMonth() + 1;
+      if (mM === mS) return mon.getDate() + '.\u2013' + sun.getDate() + '.' + mM + '.';
+      return mon.getDate() + '.' + mM + '.\u2013' + sun.getDate() + '.' + mS + '.';
+    }
+
+    function computeTasksPerWeek() {
+      var completedDates = todos
+        .filter(function(t) { return t.done && t.completedAt; })
+        .map(function(t) { return t.completedAt; });
+      var weekMap = {};
+      completedDates.forEach(function(ts) {
+        var key = getISOWeekKey(new Date(ts));
+        weekMap[key] = (weekMap[key] || 0) + 1;
+      });
+      history.forEach(function(h) {
+        if (h.type === 'done' && h.ts) {
+          var key = getISOWeekKey(new Date(h.ts));
+          if (!weekMap[key]) weekMap[key] = 0;
+        }
+      });
+      var weeks = [];
+      var now = new Date();
+      for (var i = 5; i >= 0; i--) {
+        var d = new Date(now);
+        d.setDate(d.getDate() - i * 7);
+        var key = getISOWeekKey(d);
+        if (!weeks.find(function(w) { return w.key === key; })) {
+          weeks.push({ key: key, count: weekMap[key] || 0, label: getWeekLabel(d) });
+        }
+      }
+      return weeks;
+    }
+
+    function computeStreaks() {
+      var completedDays = {};
+      todos.forEach(function(t) {
+        if (t.done && t.completedAt) {
+          var d = new Date(t.completedAt);
+          var key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+          completedDays[key] = true;
+        }
+      });
+      history.forEach(function(h) {
+        if (h.type === 'done' && h.ts) {
+          var d = new Date(h.ts);
+          var key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+          completedDays[key] = true;
+        }
+      });
+      var sortedDays = Object.keys(completedDays).sort();
+      if (!sortedDays.length) return { current: 0, longest: 0 };
+      var longestStreak = 1;
+      var streak = 1;
+      for (var i = 1; i < sortedDays.length; i++) {
+        var prev = new Date(sortedDays[i - 1]);
+        var curr = new Date(sortedDays[i]);
+        var diffDays = Math.round((curr - prev) / 86400000);
+        if (diffDays === 1) {
+          streak++;
+        } else {
+          if (streak > longestStreak) longestStreak = streak;
+          streak = 1;
+        }
+      }
+      if (streak > longestStreak) longestStreak = streak;
+      var currentStreak = 0;
+      var today = new Date();
+      var todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+      var yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+      var yesterdayStr = yesterday.getFullYear() + '-' + String(yesterday.getMonth() + 1).padStart(2, '0') + '-' + String(yesterday.getDate()).padStart(2, '0');
+      if (completedDays[todayStr] || completedDays[yesterdayStr]) {
+        var startDay = completedDays[todayStr] ? todayStr : yesterdayStr;
+        currentStreak = 1;
+        var checkDate = new Date(startDay);
+        while (true) {
+          checkDate.setDate(checkDate.getDate() - 1);
+          var checkStr = checkDate.getFullYear() + '-' + String(checkDate.getMonth() + 1).padStart(2, '0') + '-' + String(checkDate.getDate()).padStart(2, '0');
+          if (completedDays[checkStr]) { currentStreak++; } else { break; }
+        }
+      }
+      return { current: currentStreak, longest: longestStreak };
+    }
+
+    function renderStatsContent(T) {
+      var rate = computeCompletionRate();
+      if (!rate.total) return '<div class="stat-empty">' + T.statsNoData + '</div>';
+      var circumference = 2 * Math.PI * 28;
+      var offset = circumference - (rate.pct / 100) * circumference;
+      var completionHtml = '<div class="stat-card">' +
+        '<div class="stat-card-title">' + T.statsCompletionRate + '</div>' +
+        '<div class="stat-completion">' +
+          '<svg class="stat-ring" viewBox="0 0 64 64">' +
+            '<circle class="stat-ring-bg" cx="32" cy="32" r="28" fill="none" stroke-width="5"/>' +
+            '<circle class="stat-ring-fill" cx="32" cy="32" r="28" fill="none" stroke-width="5" stroke-dasharray="' + circumference + '" stroke-dashoffset="' + offset + '" stroke-linecap="round" transform="rotate(-90 32 32)"/>' +
+          '</svg>' +
+          '<div>' +
+            '<div class="stat-big-number">' + rate.pct + '%</div>' +
+            '<div class="stat-sub">' + rate.done + ' / ' + rate.total + ' ' + T.statsCompleted + '</div>' +
+          '</div>' +
+        '</div></div>';
+      var weeks = computeTasksPerWeek();
+      var chartHtml = '';
+      if (weeks.length) {
+        var maxCount = Math.max.apply(null, weeks.map(function(w) { return w.count; }).concat([1]));
+        var bars = weeks.map(function(w) {
+          var h = w.count ? Math.max((w.count / maxCount) * 80, 4) : 2;
+          return '<div class="stat-bar-col">' +
+            '<span class="stat-bar-count">' + (w.count || '') + '</span>' +
+            '<div class="stat-bar" style="height:' + h + 'px"></div>' +
+            '<span class="stat-bar-label">' + w.label + '</span></div>';
+        }).join('');
+        chartHtml = '<div class="stat-card">' +
+          '<div class="stat-card-title">' + T.statsTasksPerWeek + '</div>' +
+          '<div class="stat-chart">' + bars + '</div></div>';
+      }
+      var streaks = computeStreaks();
+      var streakHtml = '<div class="stat-card">' +
+        '<div class="stat-card-title">' + T.statsStreak + '</div>' +
+        '<div class="stat-streaks">' +
+          '<div class="stat-streak-item">' +
+            '<div class="stat-streak-number">' + streaks.current + '</div>' +
+            '<div class="stat-streak-label">' + T.statsCurrentStreak + '</div>' +
+            '<div class="stat-sub">' + T.statsStreakDays(streaks.current) + '</div>' +
+          '</div>' +
+          '<div class="stat-streak-item">' +
+            '<div class="stat-streak-number">' + streaks.longest + '</div>' +
+            '<div class="stat-streak-label">' + T.statsLongestStreak + '</div>' +
+            '<div class="stat-sub">' + T.statsStreakDays(streaks.longest) + '</div>' +
+          '</div>' +
+        '</div></div>';
+      return completionHtml + chartHtml + streakHtml;
+    }
+
     // ── Utilities ────────────────────────────────────────────────────────────
     function escHtml(str) {
       return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -3384,6 +3893,15 @@
       sortSelect.querySelectorAll('option').forEach((o, i) => { o.textContent = sortLabels[i]; });
       const searchInput = document.getElementById('search-input');
       if (searchInput) searchInput.placeholder = T.searchPlaceholder;
+
+      // Category tags
+      const allTags = getAllTags();
+      if (currentCategory && !allTags.includes(currentCategory)) { currentCategory = ''; }
+      document.getElementById('new-todo-cat').placeholder = T.catPlaceholder;
+      const catFilter = document.getElementById('cat-filter');
+      catFilter.innerHTML = `<option value="">${T.catAll}</option>` + allTags.map(t => `<option value="${escHtml(t)}"${currentCategory === t ? ' selected' : ''}>#${escHtml(t)}</option>`).join('');
+      const catFilterRow = document.getElementById('cat-filter-row');
+      catFilterRow.style.display = allTags.length ? '' : 'none';
 
       // Stats + progress
       const doneCount = todos.filter(t => t.done).length;
@@ -3442,6 +3960,7 @@
                 <div class="todo-bottom-row">
                   <div class="todo-actions-row">
                     <span class="prio-badge" data-p="${todo.priority||''}" onclick="cycleTodoPriority(${todo.id})">${prioLabel[todo.priority] || '+'}</span>
+                    ${todo.category ? `<span class="cat-badge" style="${catStyle(todo.category)}" onclick="setCategoryFilter('${escHtml(todo.category)}')">#${escHtml(todo.category)}</span>` : ''}
                     <div class="todo-actions">
                       ${!todo.done ? `<button class="action-btn${pomodoroState && pomodoroState.taskId === todo.id ? ' pomo-active' : ''}" title="${T.pomodoroStart}" onclick="startPomodoro(${todo.id})">${SVG.timer}</button>` : ''}
                       <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
