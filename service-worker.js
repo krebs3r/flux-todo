@@ -1,3 +1,17 @@
+// Flux — Service Worker
+//
+// DE: Diese Datei muss separat zur index.html existieren, da Browser
+//     Service Worker nur aus eigenständigen JS-Dateien registrieren können.
+//     Strategie: Network-first — online wird immer die aktuelle Version geladen,
+//     der Cache dient nur als Fallback für den Offline-Betrieb.
+//     Kein manuelles Versions-Update nötig.
+//
+// EN: This file must exist separately from index.html because browsers
+//     can only register Service Workers from standalone JS files.
+//     Strategy: Network-first — always serves fresh content when online,
+//     the cache is only used as a fallback for offline mode.
+//     No manual version update required.
+
 const CACHE = 'flux';
 
 self.addEventListener('install', e => {
