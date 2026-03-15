@@ -411,7 +411,9 @@
       flex-shrink: 0;
       cursor: pointer;
       user-select: none;
-      line-height: 1.4;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       transition: opacity 0.15s, filter 0.15s;
     }
     .prio-badge:hover { filter: brightness(0.9); }
@@ -426,7 +428,6 @@
     .todo-note {
       font-size: 0.78rem;
       color: var(--muted);
-      margin-top: 3px;
       line-height: 1.5;
       white-space: pre-wrap;
       word-break: break-word;
@@ -520,17 +521,24 @@
     .due-edit-input::-webkit-calendar-picker-indicator { opacity: 0; width: 100%; position: absolute; cursor: pointer; }
     .due-input.due-time { flex: 0 1 auto; width: 110px; }
     .todo-due {
-      font-size: 0.72rem;
-      margin-top: 3px;
-      display: flex;
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 2px 7px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      flex-shrink: 0;
+      display: inline-flex;
       align-items: center;
       gap: 4px;
     }
-    .todo-due.due-future  { color: var(--muted); }
-    .todo-due.due-today   { color: #f57c00; font-weight: 600; }
-    .todo-due.due-overdue { color: var(--danger); font-weight: 600; }
-    body.dark .todo-due.due-future  { color: var(--muted-dark); }
-    body.dark .todo-due.due-today   { color: #ffb74d; }
+    .todo-due.due-future  { background: rgba(90,100,128,0.10); border-color: rgba(90,100,128,0.18); color: var(--muted); }
+    .todo-due.due-today   { background: rgba(245,124,0,0.12); border-color: rgba(245,124,0,0.30); color: #e65100; }
+    .todo-due.due-overdue { background: rgba(229,57,53,0.12); border-color: rgba(229,57,53,0.30); color: #c62828; }
+    body.dark .todo-due.due-future  { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: var(--muted-dark); }
+    body.dark .todo-due.due-today   { background: rgba(245,124,0,0.20); border-color: rgba(245,124,0,0.30); color: #ffb74d; }
+    body.dark .todo-due.due-overdue { background: rgba(229,57,53,0.20); border-color: rgba(229,57,53,0.30); color: #ef5350; }
     .todo-item.overdue { box-shadow: inset 3px 0 0 var(--danger); }
     .due-edit-row {
       display: flex;
@@ -556,6 +564,33 @@
       color: var(--text-dark);
       color-scheme: dark;
     }
+    .edit-btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .edit-btn {
+      flex: 1;
+      padding: 10px 0;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gl-border);
+      background: var(--gl);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .edit-btn:hover { background: rgba(255,255,255,0.45); color: var(--text); }
+    .edit-btn.edit-save { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .edit-btn.edit-save:hover { background: var(--accent-hover); }
+    body.dark .edit-btn { background: var(--gl-dark); border-color: var(--gl-border-dark); color: var(--muted-dark); }
+    body.dark .edit-btn:hover { background: rgba(255,255,255,0.12); color: var(--text-dark); }
+    body.dark .edit-btn.edit-save { background: var(--accent); color: #fff; border-color: var(--accent); }
+    body.dark .edit-btn.edit-save:hover { background: var(--accent-hover); }
 
     /* ── Search ─────────────────────────────────────────────── */
     .search-wrap {
@@ -696,7 +731,7 @@
 
     .todo-item {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
       padding: 11px 12px;
       border-radius: var(--radius-sm);
@@ -725,6 +760,7 @@
       display: flex;
       align-items: center;
       transition: color 0.15s;
+      margin-top: 2px;
     }
     .todo-item:hover .drag-handle { color: var(--muted); }
     body.dark .drag-handle { color: rgba(255,255,255,0.15); }
@@ -737,6 +773,7 @@
       align-items: center;
       flex-shrink: 0;
       cursor: pointer;
+      margin-top: 2px;
     }
     .checkbox-wrap input[type="checkbox"] {
       position: absolute;
@@ -768,7 +805,8 @@
     }
     .checkbox-wrap input:checked ~ .checkbox-box .checkbox-check { display: block; }
 
-    .todo-text-wrap { flex: 1; min-width: 0; }
+    .todo-content { flex: 1; min-width: 0; }
+    .todo-text-wrap { display: flex; flex-direction: column; gap: 4px; }
     .todo-text {
       font-size: 0.9rem;
       color: var(--text);
@@ -786,18 +824,27 @@
     .todo-meta {
       font-size: 0.72rem;
       color: var(--muted);
-      margin-top: 3px;
       letter-spacing: 0.01em;
     }
     body.dark .todo-meta { color: var(--muted-dark); }
 
+    .todo-bottom-row {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      margin-top: 4px;
+    }
     .todo-actions {
       display: flex;
+      align-items: center;
       gap: 2px;
       flex-shrink: 0;
       opacity: 0;
       transition: opacity 0.15s;
+      width: 100%;
     }
+    .todo-actions .prio-badge { margin-right: auto; }
     .todo-item:hover .todo-actions { opacity: 1; }
 
     .action-btn {
@@ -1586,10 +1633,11 @@
       /* History items: easier to read */
       .history-item { padding: 12px; }
 
-      .header { flex-wrap: wrap; }
-      .header-left { flex: 1 1 100%; }
-      .header-controls { margin-left: auto; }
+      .header { flex-wrap: wrap; padding: 16px; gap: 14px; }
+      .header-left { flex: 1 1 100%; gap: 14px; }
+      .header-controls { margin-left: auto; gap: 8px; }
       .header h1 { font-size: 1.1rem; }
+      .header-badges { gap: 6px; margin-top: 6px; }
       .pomo-card { padding: 40px 24px; }
       .pomo-time-big { font-size: 3.5rem; }
       .pomo-mini { right: 12px; }
@@ -1765,7 +1813,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.7.2</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.8</span>
     <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -1920,7 +1968,7 @@
         metaDone: 'Erledigt', metaCreated: 'Erstellt',
         toastExported: 'Exportiert', toastImported: 'Importiert',
         toastHistoryCleared: 'Verlauf gelöscht', toastInvalidFile: 'Ungültige Datei',
-        editTitle: 'Bearbeiten', deleteTitle: 'Löschen',
+        editTitle: 'Bearbeiten', deleteTitle: 'Löschen', editSave: 'Speichern', editCancel: 'Abbrechen',
         confirmClear: 'Verlauf wirklich löschen?',
         clearAllBtn: 'Alle löschen',
         confirmClearAll: 'Alle Aufgaben unwiderruflich löschen?',
@@ -1952,6 +2000,17 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.8',
+            entries: [
+              'Todo-Layout umgebaut: Text oben, Badges und Buttons in eigener Zeile darunter',
+              'Fälligkeitsinfo als Pill-Badge unter dem Erstelldatum',
+              'Prioritäts-Badge linksbündig, Action-Buttons rechtsbündig in der unteren Zeile',
+              'Bearbeitungsmodus: Speichern- und Abbrechen-Buttons hinzugefügt',
+              'Einheitliche Abstände (4px) in allen Todo-Elementen',
+              'Header-Abstände auf Mobilgeräten verbessert',
+            ],
+          },
           {
             version: 'v1.0.7.2',
             entries: [
@@ -2165,7 +2224,7 @@
         metaDone: 'Done', metaCreated: 'Created',
         toastExported: 'Exported', toastImported: 'Imported',
         toastHistoryCleared: 'History cleared', toastInvalidFile: 'Invalid file',
-        editTitle: 'Edit', deleteTitle: 'Delete',
+        editTitle: 'Edit', deleteTitle: 'Delete', editSave: 'Save', editCancel: 'Cancel',
         confirmClear: 'Really clear history?',
         clearAllBtn: 'Delete all',
         confirmClearAll: 'Permanently delete all tasks?',
@@ -2197,6 +2256,17 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.8',
+            entries: [
+              'Todo layout redesigned: text on top, badges and action buttons on a separate row below',
+              'Due date info shown as pill badge below the creation date',
+              'Priority badge aligned left, action buttons aligned right in the bottom row',
+              'Edit mode: explicit Save and Cancel buttons',
+              'Unified spacing (4px gap) across all todo item elements',
+              'Header spacing improved on mobile',
+            ],
+          },
           {
             version: 'v1.0.7.2',
             entries: [
@@ -2491,6 +2561,7 @@
       const oldDue = todo.dueDate || '';
       const oldDueDate = oldDue.split('T')[0] || '';
       const oldDueTime = oldDue.includes('T') ? oldDue.split('T')[1] : '';
+      const T = t();
       wrap.innerHTML = `
         <input class="todo-edit-input" value="${escHtml(oldText)}" maxlength="200" />
         <textarea class="note-edit-input" rows="2" maxlength="1000">${escHtml(oldNote)}</textarea>
@@ -2498,12 +2569,16 @@
           <input class="due-edit-input" type="date" value="${oldDueDate}" />
           <input class="due-edit-input due-time" type="time" value="${oldDueTime}" />
         </div>
+        <div class="edit-btn-row">
+          <button class="edit-btn" id="edit-cancel-${id}">${T.editCancel}</button>
+          <button class="edit-btn edit-save" id="edit-save-${id}">${T.editSave}</button>
+        </div>
       `;
       const inp = wrap.querySelector('.todo-edit-input');
       const noteInp = wrap.querySelector('.note-edit-input');
       const dueDateInp = wrap.querySelector('.due-edit-input[type="date"]');
       const dueTimeInp = wrap.querySelector('.due-edit-input[type="time"]');
-      noteInp.placeholder = t().notePlaceholder;
+      noteInp.placeholder = T.notePlaceholder;
       inp.focus(); inp.select();
       function getEditDue() {
         const d = dueDateInp.value;
@@ -2518,13 +2593,12 @@
       noteInp.onkeydown = e => {
         if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue);
       };
-      const doCommit = (e) => {
-        if (!wrap.contains(e.relatedTarget)) {
-          wrap.removeEventListener('focusout', doCommit);
-          commitEdit(id, inp.value, oldText, noteInp.value, getEditDue());
-        }
+      document.getElementById('edit-save-' + id).onclick = () => {
+        commitEdit(id, inp.value, oldText, noteInp.value, getEditDue());
       };
-      wrap.addEventListener('focusout', doCommit);
+      document.getElementById('edit-cancel-' + id).onclick = () => {
+        commitEdit(id, oldText, oldText, oldNote, oldDue);
+      };
     }
     function commitEdit(id, newText, oldText, newNote, newDue) {
       newText = newText.trim();
@@ -3128,21 +3202,25 @@
                 <input type="checkbox" ${todo.done ? 'checked' : ''} onchange="toggleTodo(${todo.id})" />
                 <span class="checkbox-box"><span class="checkbox-check">${SVG.check}</span></span>
               </label>
-              <div class="todo-text-wrap">
-                <div class="todo-text">${escHtml(todo.text)}</div>
-                <div class="todo-meta">${
-                  todo.done && todo.completedAt
-                    ? T.metaDone + ': ' + formatDate(todo.completedAt)
-                    : T.metaCreated + ': ' + formatShortDate(todo.created)
-                }</div>
-                ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
-                ${dc ? `<div class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</div>` : ''}
-              </div>
-              <span class="prio-badge" data-p="${todo.priority||''}" onclick="cycleTodoPriority(${todo.id})">${prioLabel[todo.priority] || '+'}</span>
-              <div class="todo-actions">
-                ${!todo.done ? `<button class="action-btn${pomodoroState && pomodoroState.taskId === todo.id ? ' pomo-active' : ''}" title="${T.pomodoroStart}" onclick="startPomodoro(${todo.id})">${SVG.timer}</button>` : ''}
-                <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
-                <button class="action-btn danger" title="${T.deleteTitle}" onclick="deleteTodo(${todo.id})">${SVG.trash}</button>
+              <div class="todo-content">
+                <div class="todo-text-wrap">
+                  <div class="todo-text">${escHtml(todo.text)}</div>
+                  <div class="todo-meta">${
+                    todo.done && todo.completedAt
+                      ? T.metaDone + ': ' + formatDate(todo.completedAt)
+                      : T.metaCreated + ': ' + formatShortDate(todo.created)
+                  }</div>
+                  ${dc ? `<div class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</div>` : ''}
+                  ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
+                </div>
+                <div class="todo-bottom-row">
+                  <div class="todo-actions">
+                    <span class="prio-badge" data-p="${todo.priority||''}" onclick="cycleTodoPriority(${todo.id})">${prioLabel[todo.priority] || '+'}</span>
+                    ${!todo.done ? `<button class="action-btn${pomodoroState && pomodoroState.taskId === todo.id ? ' pomo-active' : ''}" title="${T.pomodoroStart}" onclick="startPomodoro(${todo.id})">${SVG.timer}</button>` : ''}
+                    <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
+                    <button class="action-btn danger" title="${T.deleteTitle}" onclick="deleteTodo(${todo.id})">${SVG.trash}</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>`;

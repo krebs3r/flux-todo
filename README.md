@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.7.2-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.8-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -22,7 +22,7 @@
 ## Features
 
 ### Core
-- **Create, edit & delete tasks** — inline editing with a single click
+- **Create, edit & delete tasks** — inline editing with Save / Cancel buttons
 - **Priority levels** — High / Medium / Low with color-coded badges per task
 - **Notes field** — add a longer description or details to any task
 - **Drag & drop reordering** — rearrange tasks intuitively
@@ -140,6 +140,14 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.0.8
+- Todo layout redesigned: text on top, badges and action buttons on a separate row below
+- Due date info shown as pill badge below the creation date
+- Priority badge aligned left, action buttons aligned right in the bottom row
+- Edit mode: explicit Save and Cancel buttons (no more guessing where to click)
+- Unified spacing (4px gap) across all todo item elements
+- Header spacing improved on mobile (more breathing room)
 
 ### v1.0.7.2
 - Header badges side by side on iPhone instead of stacked (mobile layout fix)
@@ -265,4 +273,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.7.2</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.8</p>
