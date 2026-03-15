@@ -21,24 +21,41 @@
 
 ## Features
 
+### Core
 - **Create, edit & delete tasks** — inline editing with a single click
 - **Priority levels** — High / Medium / Low with color-coded badges per task
 - **Notes field** — add a longer description or details to any task
 - **Drag & drop reordering** — rearrange tasks intuitively
 - **Done state with timestamp** — mark tasks as complete, see when they were finished
 - **Due dates with time** — set a deadline with date & time per task, color-coded (today / overdue)
+- **Browser notifications** — reminders for due and overdue tasks
 - **Search** — real-time filtering by title and notes
-- **Filters** — view All / Open / Done tasks
+- **Filters** — view Open / Done tasks
 - **Full event history** — every action is logged with a timestamp (up to 10,000 entries)
 - **History usage indicator** — progress bar shows fill level of the 10,000-entry limit
 - **Export & Import** — save and restore your tasks as a JSON file
 - **Bulk delete** — clear all tasks at once, with an optional export prompt
-- **Dark mode** — toggles system-aware between light and dark
-- **Language switcher** — German 🇩🇪 and English 🇬🇧
+
+### Design & Themes
 - **Glassmorphism UI** — acrylic-style backdrop-filter effects throughout
-- **Favicon** — SVG checkmark icon matching the app design
+- **9 theme presets** — Flux, Ocean, Sunset, Forest, Rose, Mono, Bender, Lumpi, Nobler
+- **Dark mode** — default on first launch, toggleable
+- **Smooth gradients** — top-to-bottom with fixed background
+- **Confetti animation** — reward effect when completing a task
+
+### Mobile & PWA
+- **Offline-capable PWA** — Service Worker with network-first caching
 - **iOS PWA** — add to home screen, fullscreen mode, safe area support for Dynamic Island/notch
 - **iOS install hint** — banner in Safari guides users to add the app to their home screen
+- **Swipe gestures** — swipe left to delete, right to complete
+- **Pull-to-refresh** — pull down to reload the app
+- **Haptic feedback** — vibration on touch actions (Android)
+- **iOS HIG compliant** — 44pt touch targets, 16px input font size
+
+### Localization & Accessibility
+- **Language switcher** — German 🇩🇪 and English 🇬🇧
+- **Section headings** — clear labels for input and task areas
+- **Favicon** — SVG checkmark icon matching the app design
 - **No installation required** — open `index.html` in any modern browser
 
 ---
@@ -66,59 +83,59 @@ That's it. No `npm install`, no build step, no server.
 | Styling | CSS3 (custom properties, `backdrop-filter`, CSS Grid/Flex) |
 | Logic | Vanilla JavaScript (ES6+) |
 | Storage | `localStorage` |
+| Offline | Service Worker (network-first caching) |
 | Dependencies | None |
 
 ---
 
 ## Browser Support
 
-Flux works in all modern browsers that support `backdrop-filter`.
+Flux works in all modern browsers that support `backdrop-filter`. Offline mode requires Service Worker support.
 
-| Browser | Support |
-|---|---|
-| Chrome / Edge 76+ | ✅ Full |
-| Firefox 103+ | ✅ Full |
-| Safari 14+ | ✅ Full |
-| Legacy browsers | ⚠️ Works without blur effect |
+| Browser | UI | Offline | Notifications | Haptic | Swipe |
+|---|---|---|---|---|---|
+| Chrome / Edge 76+ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| Firefox 103+ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| Safari 14+ | ✅ | ✅ | ⚠️ PWA only | ❌ | ✅ |
+| Android Chrome | ✅ | ✅ | ✅ | ✅ | ✅ |
+| iOS Safari | ✅ | ✅ | ❌ | ❌ | ✅ |
+| iOS PWA (16.4+) | ✅ | ✅ | ✅ | ❌ | ✅ |
+| Legacy browsers | ⚠️ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Roadmap
 
-Planned features for future versions:
+### Completed
+- [x] Due dates with time — deadline per task, color-coded
+- [x] Priorities — High / Medium / Low
+- [x] Search — real-time filtering
+- [x] Notes field — details per task
+- [x] 9 theme presets — palette picker in header
+- [x] Dark mode — default on first launch
+- [x] Swipe gestures — left to delete, right to complete
+- [x] Pull-to-refresh — reload on pull down
+- [x] Haptic feedback — Vibration API (Android)
+- [x] Confetti animation — reward on task completion
+- [x] Browser notifications — reminders for due dates
+- [x] Service Worker — true offline PWA
+- [x] PWA support — installable on mobile home screen
+- [x] Drag & drop — reorder tasks
 
-### High Priority
-- [x] **Due dates** — set a deadline per task, highlight overdue items
-- [x] **Priorities** — High / Medium / Low with color coding
-- [x] **Search** — filter tasks by keyword in real time
-- [x] **Dark mode system detection** — follows OS preference on first launch
-
-### Medium Priority
-- [x] **Notes field** — longer description or details per task
-- [x] **Theme presets** — 9 themes with palette picker in header
-
-### Nice to Have
+### Planned
 - [ ] **Categories / Tags** — group todos (Work, Personal, Shopping…)
 - [ ] **Subtasks** — checklists within a task
-- [ ] **Drag & drop sorting** — reorder by dragging
 - [ ] **Sort options** — by priority, due date, creation date
 - [ ] **Recurring tasks** — e.g. "Every Monday: weekly report"
 - [ ] **Undo** — reverse the last action (e.g. accidental delete)
-- [x] **Swipe gestures** — swipe left to delete, right to complete (mobile)
-- [x] **Haptic feedback** — vibration on actions (Vibration API, Android only)
-- [x] **Pull-to-refresh** — pull down to refresh (mobile)
-- [x] **Confetti animation** — reward animation on task completion
 - [ ] **Streak counter** — "5 days in a row with all tasks done"
 - [ ] **Statistics view** — completion rate, tasks per week, streaks
 - [ ] **Focus mode** — show only the next open task
 - [ ] **Pomodoro timer** — time tracking linked to a task
-- [x] **Browser notifications** — reminders for due dates
 - [ ] **Keyboard shortcuts** — `N` = new todo, `Esc` = close, etc.
 - [ ] **Accessibility** — ARIA labels, improved screen reader support
-- [x] **Service Worker** — true offline PWA with cache
 - [ ] **Cloud Sync** — optional backend sync (e.g. Firebase, Supabase)
 - [ ] **Multiple lists** — separate boards (e.g. Work / Personal / Shopping)
-- [x] **PWA support** — installable on mobile home screen
 
 ---
 
