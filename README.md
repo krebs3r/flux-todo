@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.0.6.5-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.6.9-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -124,6 +124,16 @@ Planned features for future versions:
 
 ## Changelog
 
+### v1.0.6.9
+- "No Subscription" badge added to header
+- Add button moved to full width below all input fields
+- Button design unified across the app
+- All spacing unified (10px between fields, 12px between sections)
+- Duplicate calendar/clock icons hidden in Chrome
+- Time input height matched to date field (iOS fix)
+- Edit mode spacing aligned with input fields
+- Dark mode as default on first app launch
+
 ### v1.0.6.5
 - Service Worker for true offline PWA (app works without internet)
 - Section headings added for input and task areas
@@ -217,4 +227,4 @@ Planned features for future versions:
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.6.5</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.0.6.9</p>

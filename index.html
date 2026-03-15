@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Flux">
   <meta name="theme-color" content="#7eb3ff" id="theme-color-meta">
-  <script>try{var _saved=localStorage.getItem('dark');var _dk=_saved!==null?_saved==='1':window.matchMedia('(prefers-color-scheme: dark)').matches;var _th=localStorage.getItem('theme')||'flux';if(_dk)document.documentElement.classList.add('dark');if(_th!=='flux')document.documentElement.classList.add('theme-'+_th);var _tc={'flux':['#a0c4ff','#0c1648'],'ocean':['#6dd5ed','#041530'],'sunset':['#ffd166','#2e1206'],'forest':['#74c69d','#152b20'],'rose':['#ffb3c6','#2a0e1a'],'mono':['#c5c9d0','#141618'],'bender':['#b8c8e0','#0e1828'],'lumpi':['#e2d0b8','#1c100a'],'nobler':['#d0d0d8','#10101a']};var _p=_tc[_th]||_tc['flux'];document.getElementById('theme-color-meta').content=_dk?_p[1]:_p[0];}catch(e){}</script>
+  <script>try{var _saved=localStorage.getItem('dark');var _dk=_saved!==null?_saved==='1':true;var _th=localStorage.getItem('theme')||'flux';if(_dk)document.documentElement.classList.add('dark');if(_th!=='flux')document.documentElement.classList.add('theme-'+_th);var _tc={'flux':['#a0c4ff','#0c1648'],'ocean':['#6dd5ed','#041530'],'sunset':['#ffd166','#2e1206'],'forest':['#74c69d','#152b20'],'rose':['#ffb3c6','#2a0e1a'],'mono':['#c5c9d0','#141618'],'bender':['#b8c8e0','#0e1828'],'lumpi':['#e2d0b8','#1c100a'],'nobler':['#d0d0d8','#10101a']};var _p=_tc[_th]||_tc['flux'];document.getElementById('theme-color-meta').content=_dk?_p[1]:_p[0];}catch(e){}</script>
   <title>Flux — Deine ToDo App</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233d5afe'/%3E%3Cpolyline points='7,16 13,22 25,10' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
   <style>
@@ -340,32 +340,38 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
-      background: rgba(61,90,254,0.35);
-      backdrop-filter: blur(14px) saturate(180%);
-      -webkit-backdrop-filter: blur(14px) saturate(180%);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.50);
+      gap: 7px;
+      width: 100%;
+      height: 44px;
+      margin-top: 10px;
+      background: rgba(255,255,255,0.20);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--text);
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: inherit;
+      letter-spacing: 0.02em;
+      border: 1px solid var(--gl-border);
       border-radius: var(--radius-sm);
       cursor: pointer;
-      flex-shrink: 0;
-      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
-      box-shadow: 0 4px 18px rgba(61,90,254,0.30), 0 1px 0 rgba(255,255,255,0.55) inset;
+      transition: all 0.15s;
     }
     .btn-add:hover {
-      background: rgba(61,90,254,0.50);
-      box-shadow: 0 6px 22px rgba(61,90,254,0.40), 0 1px 0 rgba(255,255,255,0.55) inset;
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(255,255,255,0.38);
     }
-    .btn-add:active { transform: scale(0.95); }
+    .btn-add:active { transform: scale(0.97); }
     body.dark .btn-add {
-      background: rgba(100,80,220,0.35);
-      border-color: rgba(255,255,255,0.18);
-      box-shadow: 0 4px 18px rgba(0,0,0,0.40), 0 1px 0 rgba(255,255,255,0.12) inset;
+      background: rgba(255,255,255,0.06);
+      border-color: var(--gl-border-dark);
+      color: var(--text-dark);
     }
     body.dark .btn-add:hover {
-      background: rgba(100,80,220,0.50);
-      box-shadow: 0 6px 22px rgba(0,0,0,0.50), 0 1px 0 rgba(255,255,255,0.15) inset;
+      background: rgba(255,255,255,0.11);
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     /* ── Priority ───────────────────────────────────────────── */
@@ -433,8 +439,8 @@
     body.dark .todo-note { color: var(--muted-dark); }
     .note-input {
       width: 100%;
-      margin-top: 8px;
-      padding: 8px 14px;
+      margin-top: 10px;
+      padding: 10px 14px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--gl-border);
       background: rgba(255,255,255,0.20);
@@ -463,8 +469,8 @@
     body.dark .note-input::placeholder { color: var(--muted-dark); }
     .note-edit-input {
       width: 100%;
-      margin-top: 4px;
-      padding: 6px 8px;
+      margin-top: 10px;
+      padding: 10px 14px;
       border-radius: var(--radius-sm);
       border: 1.5px solid var(--accent);
       background: rgba(255,255,255,0.45);
@@ -486,13 +492,14 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 8px;
+      margin-top: 10px;
     }
     .due-input-icon { color: var(--muted); display: flex; flex-shrink: 0; }
     body.dark .due-input-icon { color: var(--muted-dark); }
     .due-input {
       flex: 1;
-      padding: 10px 10px;
+      padding: 10px 14px;
+      height: 44px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--gl-border);
       background: rgba(255,255,255,0.22);
@@ -514,7 +521,8 @@
       color: var(--text-dark);
       color-scheme: dark;
     }
-    .due-input::-webkit-calendar-picker-indicator { opacity: 0.5; cursor: pointer; }
+    .due-input::-webkit-calendar-picker-indicator { opacity: 0; width: 100%; position: absolute; cursor: pointer; }
+    .due-edit-input::-webkit-calendar-picker-indicator { opacity: 0; width: 100%; position: absolute; cursor: pointer; }
     .due-input.due-time { flex: 0 1 auto; width: 110px; }
     .todo-due {
       font-size: 0.72rem;
@@ -531,13 +539,13 @@
     .todo-item.overdue { box-shadow: inset 3px 0 0 var(--danger); }
     .due-edit-row {
       display: flex;
-      gap: 6px;
-      margin-top: 4px;
+      gap: 8px;
+      margin-top: 10px;
     }
     .due-edit-input {
       flex: 1;
       min-width: 0;
-      padding: 6px 8px;
+      padding: 10px 14px;
       border-radius: var(--radius-sm);
       border: 1.5px solid var(--accent);
       background: rgba(255,255,255,0.25);
@@ -557,7 +565,7 @@
     /* ── Search ─────────────────────────────────────────────── */
     .search-wrap {
       position: relative;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     .search-icon {
       position: absolute;
@@ -619,7 +627,7 @@
     .filters {
       display: flex;
       gap: 4px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       background: var(--gl-subtle);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
@@ -783,7 +791,7 @@
     .todo-meta {
       font-size: 0.72rem;
       color: var(--muted);
-      margin-top: 2px;
+      margin-top: 3px;
       letter-spacing: 0.01em;
     }
     body.dark .todo-meta { color: var(--muted-dark); }
@@ -869,7 +877,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
     .section-icon {
       color: var(--muted);
@@ -985,7 +993,7 @@
     /* ── Inline Edit ────────────────────────────────────────── */
     .todo-edit-input {
       width: 100%;
-      padding: 6px 8px;
+      padding: 10px 14px;
       border-radius: var(--radius-sm);
       border: 1.5px solid var(--accent);
       background: rgba(255,255,255,0.55);
@@ -1355,7 +1363,7 @@
         color: var(--muted-dark);
       }
       /* Active state feedback (replaces hover) */
-      .btn-add:active        { transform: scale(0.93); background: rgba(61,90,254,0.55); }
+      .btn-add:active        { transform: scale(0.97); border-color: var(--accent); color: var(--accent); }
       .ctrl-btn:active       { background: rgba(255,255,255,0.50); color: var(--accent); }
       body.dark .ctrl-btn:active { background: rgba(255,255,255,0.18); }
       .filter-btn:active     { background: rgba(255,255,255,0.40); }
@@ -1382,7 +1390,7 @@
       .ctrl-btn { height: 44px; padding: 0 13px; }
 
       /* Add row: 44px buttons */
-      .btn-add { width: 44px; height: 44px; }
+      .btn-add { height: 48px; }
       .priority-cycle-btn { height: 44px; min-width: 80px; }
 
       /* Checkbox: larger tap area via padding trick */
@@ -1470,11 +1478,6 @@
       <div class="add-row">
         <input type="text" id="new-todo-input" maxlength="200" onkeydown="handleKey(event)" />
         <button class="priority-cycle-btn" id="priority-btn" data-p="" onclick="cyclePriority()"></button>
-        <button class="btn-add" id="add-btn" onclick="addTodo()" title="Hinzufügen">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-        </button>
       </div>
       <textarea class="note-input" id="new-todo-note" rows="2"></textarea>
       <div class="due-input-row">
@@ -1483,6 +1486,12 @@
         <span class="due-input-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
         <input class="due-input due-time" type="time" id="new-todo-time" />
       </div>
+      <button class="btn-add" id="add-btn" onclick="addTodo()" title="Hinzufügen">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        <span id="add-btn-label"></span>
+      </button>
     </div>
 
     <!-- Todo List -->
@@ -1570,7 +1579,7 @@
   </div>
 
   <footer class="footer">
-    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.6.5</span>
+    <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.0.6.9</span>
     <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -1680,6 +1689,7 @@
         appTitle: 'Flux — Deine ToDo App',
         claim: 'Dinge im Fluss halten.',
         addTitle: 'Neue Aufgabe',
+        addBtn: 'Hinzufügen',
         tasksTitle: 'Aufgaben',
         placeholder: 'Neue Aufgabe hinzufügen …',
         historyTitle: 'Verlauf',
@@ -1705,7 +1715,7 @@
         confirmExportFirst: 'Möchtest du vorher einen Export erstellen?',
         toastAllCleared: 'Alle Aufgaben gelöscht',
         btnYes: 'Ja', btnNo: 'Nein',
-        headerBadges: ['Lokal', 'Im Browser', 'Kein Server'],
+        headerBadges: ['Lokal', 'Im Browser', 'Kein Server', 'Kein Abo'],
         priorityNone: 'Prio.',
         priorityHigh: '↑ Hoch',
         priorityMedium: '→ Mittel',
@@ -1724,6 +1734,19 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.6.9',
+            entries: [
+              '„Kein Abo" Badge im Header hinzugefügt',
+              'Hinzufügen-Button über die volle Breite unter alle Eingabefelder verschoben',
+              'Button-Design vereinheitlicht (Hinzufügen = Import/Export/Löschen)',
+              'Alle Abstände in der gesamten App vereinheitlicht (10px zwischen Feldern, 12px zwischen Sektionen)',
+              'Doppelte Kalender-/Uhr-Icons in Chrome ausgeblendet',
+              'Uhrzeit-Eingabefeld auf gleiche Höhe wie Datum-Feld gesetzt (iOS-Fix)',
+              'Edit-Modus: Padding und Abstände an Eingabe-Felder angeglichen',
+              'Dark Mode als Standard beim ersten App-Start',
+            ],
+          },
           {
             version: 'v1.0.6.5',
             entries: [
@@ -1865,6 +1888,7 @@
         appTitle: 'Flux — Your Todo App',
         claim: 'Keep things in flow.',
         addTitle: 'New Task',
+        addBtn: 'Add Task',
         tasksTitle: 'Tasks',
         placeholder: 'Add a new task …',
         historyTitle: 'History',
@@ -1890,7 +1914,7 @@
         confirmExportFirst: 'Export your tasks first?',
         toastAllCleared: 'All tasks deleted',
         btnYes: 'Yes', btnNo: 'No',
-        headerBadges: ['Local', 'Browser', 'No Server'],
+        headerBadges: ['Local', 'Browser', 'No Server', 'No Subscription'],
         priorityNone: 'Prio.',
         priorityHigh: '↑ High',
         priorityMedium: '→ Medium',
@@ -1909,6 +1933,19 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.0.6.9',
+            entries: [
+              '"No Subscription" badge added to header',
+              'Add button moved to full width below all input fields',
+              'Button design unified (Add = Import/Export/Delete style)',
+              'All spacing across the entire app unified (10px between fields, 12px between sections)',
+              'Duplicate calendar/clock icons hidden in Chrome',
+              'Time input field height matched to date field (iOS fix)',
+              'Edit mode: padding and spacing aligned with input fields',
+              'Dark mode as default on first app launch',
+            ],
+          },
           {
             version: 'v1.0.6.5',
             entries: [
@@ -2064,7 +2101,7 @@
       try { history = JSON.parse(localStorage.getItem('history')) || []; } catch { history = []; }
       lang = localStorage.getItem('lang') || 'de';
       const savedDark = localStorage.getItem('dark');
-      dark = savedDark !== null ? savedDark === '1' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      dark = savedDark !== null ? savedDark === '1' : true;
       currentTheme = localStorage.getItem('theme') || 'flux';
       notifyEnabled = localStorage.getItem('notify') === '1' && 'Notification' in window && Notification.permission === 'granted';
     }
@@ -2584,6 +2621,7 @@
       document.getElementById('header-badges').innerHTML = T.headerBadges.map(b => `<span class="header-badge">${b}</span>`).join('');
       document.getElementById('new-todo-input').placeholder = T.placeholder;
       document.getElementById('add-title').textContent = T.addTitle;
+      document.getElementById('add-btn-label').textContent = T.addBtn;
       document.getElementById('tasks-title').textContent = T.tasksTitle;
       updatePriorityBtn();
       document.getElementById('new-todo-note').placeholder = T.notePlaceholder;
