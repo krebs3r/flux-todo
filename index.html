@@ -2091,6 +2091,197 @@
     .pomo-mini:hover { background: var(--accent-hover); }
     .action-btn.pomo-active { color: var(--accent); }
 
+    /* ── Focus Mode ──────────────────────────────────────────── */
+    .focus-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(255,255,255,0.30);
+      backdrop-filter: blur(40px) saturate(160%);
+      -webkit-backdrop-filter: blur(40px) saturate(160%);
+      z-index: 3999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      padding-top: max(24px, calc(env(safe-area-inset-top) + 16px));
+      padding-bottom: max(24px, calc(env(safe-area-inset-bottom) + 16px));
+      animation: focusFadeIn 0.3s ease;
+    }
+    body.dark .focus-overlay { background: rgba(0,0,0,0.55); }
+    @keyframes focusFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .focus-card {
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 24px;
+      box-shadow: 0 24px 64px rgba(100,80,200,0.20), 0 1px 0 rgba(255,255,255,0.60) inset;
+      padding: 48px 40px;
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+    }
+    body.dark .focus-card {
+      background: rgba(12,16,52,0.55);
+      border-color: rgba(255,255,255,0.10);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset;
+    }
+    .focus-close {
+      position: absolute;
+      top: max(16px, calc(env(safe-area-inset-top) + 8px));
+      right: 16px;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(0,0,0,0.10);
+      border-radius: 50%;
+      background: rgba(255,255,255,0.45);
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+    .focus-close:hover { background: rgba(255,255,255,0.65); }
+    body.dark .focus-close { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.10); color: var(--muted-dark); }
+    body.dark .focus-close:hover { background: rgba(255,255,255,0.15); }
+    .focus-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 4px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      background: var(--accent-muted);
+      color: var(--accent);
+    }
+    body.dark .focus-badge { background: var(--accent-muted-dark); }
+    .focus-task-text {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 24px 0 12px;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    body.dark .focus-task-text { color: var(--text-dark); }
+    .focus-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin: 8px 0 4px;
+      max-width: 100%;
+    }
+    .focus-meta > * {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .focus-meta .cat-badge {
+      display: inline-flex;
+      align-items: center;
+    }
+    .focus-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      background: rgba(255,255,255,0.25);
+      border: 1px solid rgba(255,255,255,0.30);
+      border-radius: 12px;
+      padding: 10px 14px;
+      text-align: left;
+      margin: 12px 0 0;
+      max-height: 120px;
+      overflow-y: auto;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+    body.dark .focus-note { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.08); color: var(--muted-dark); }
+    .focus-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .focus-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      height: 48px;
+      padding: 0 28px;
+      box-sizing: border-box;
+      border: none;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .focus-btn.primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(61,90,254,0.25);
+    }
+    .focus-btn.primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(61,90,254,0.30); }
+    .focus-btn.primary:active { transform: translateY(0); }
+    .focus-btn.secondary {
+      background: rgba(255,255,255,0.30);
+      color: var(--text);
+      border: 1px solid var(--gl-border);
+    }
+    .focus-btn.secondary:hover { background: rgba(255,255,255,0.50); }
+    body.dark .focus-btn.secondary { background: rgba(255,255,255,0.08); color: var(--text-dark); border-color: var(--gl-border-dark); }
+    body.dark .focus-btn.secondary:hover { background: rgba(255,255,255,0.14); }
+    .focus-btn.timer {
+      background: rgba(255,255,255,0.30);
+      color: var(--text);
+      border: 1px solid var(--gl-border);
+      padding: 0 16px;
+    }
+    .focus-btn.timer:hover { background: rgba(255,255,255,0.50); border-color: var(--accent); color: var(--accent); }
+    body.dark .focus-btn.timer { background: rgba(255,255,255,0.08); color: var(--text-dark); border-color: var(--gl-border-dark); }
+    body.dark .focus-btn.timer:hover { background: rgba(255,255,255,0.14); color: var(--accent); }
+    .focus-empty {
+      font-size: 1rem;
+      color: var(--muted);
+      margin: 24px 0;
+    }
+    body.dark .focus-empty { color: var(--muted-dark); }
+    .focus-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: inherit;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      background: var(--gl-subtle);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.30);
+      border-radius: 12px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .focus-trigger:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.25); }
+    body.dark .focus-trigger { background: var(--gl-subtle-dark); border-color: rgba(255,255,255,0.07); color: var(--muted-dark); }
+    body.dark .focus-trigger:hover { color: var(--accent); background: rgba(255,255,255,0.08); }
+    @media (max-width: 500px) {
+      .focus-card { padding: 40px 24px; }
+      .focus-btn { padding: 0 20px; height: 46px; font-size: 0.82rem; }
+    }
+
     /* ── Touch devices: always show actions & handles ───────── */
     @media (hover: none) and (pointer: coarse) {
       /* Actions always visible — no hover on touch */
@@ -2288,6 +2479,10 @@
           <input class="search-input" id="search-input" type="text" autocomplete="off" oninput="onSearch(this.value)" />
           <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
         </div>
+        <button class="focus-trigger" id="focus-mode-btn" onclick="enterFocusMode()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+          <span id="focus-mode-btn-label"></span>
+        </button>
         <div class="filter-sort-row">
           <div class="filters" id="filters">
             <button class="filter-btn active" data-filter="open" onclick="setFilter('open')"></button>
@@ -2377,7 +2572,7 @@
         </div>
         <input type="file" id="import-file" accept=".json" onchange="importData(event)" />
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.4.1</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.4.2</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -2499,6 +2694,24 @@
         <button class="pomo-btn-big" id="pomo-toggle" onclick="togglePomodoro()"></button>
         <button class="pomo-btn-big danger" id="pomo-stop" onclick="stopPomodoro()"></button>
       </div>
+    </div>
+  </div>
+  <!-- Focus Mode Overlay -->
+  <div class="focus-overlay" id="focus-overlay" style="display:none">
+    <button class="focus-close" onclick="exitFocusMode()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="focus-card">
+      <span class="focus-badge" id="focus-badge"></span>
+      <div class="focus-task-text" id="focus-task-text"></div>
+      <div class="focus-meta" id="focus-meta"></div>
+      <div class="focus-note" id="focus-note" style="display:none"></div>
+      <div class="focus-controls" id="focus-controls">
+        <button class="focus-btn secondary" id="focus-skip-btn" onclick="focusSkip()"></button>
+        <button class="focus-btn timer" id="focus-pomo-btn" onclick="focusStartPomo()"></button>
+        <button class="focus-btn primary" id="focus-complete-btn" onclick="focusComplete()"></button>
+      </div>
+      <div class="focus-empty" id="focus-empty" style="display:none"></div>
     </div>
   </div>
   <!-- Pomodoro Mini Button (minimized) -->
@@ -2645,6 +2858,12 @@
         pomodoroLongBreak: 'Lange Pause',
         pomodoroDone: 'Pomodoro abgeschlossen! Zeit für eine Pause.',
         pomodoroBreakOver: 'Pause vorbei! Bereit für die nächste Runde?',
+        focusModeBtn: 'Fokus-Modus',
+        focusModeTitle: 'Fokus-Modus',
+        focusModeComplete: 'Erledigt',
+        focusModeSkip: 'Überspringen',
+        focusModeExit: 'Beenden',
+        focusModeNoTasks: 'Keine offenen Aufgaben.',
         statsHeading: 'Statistiken',
         statsCompletionRate: 'Abschlussrate',
         statsTasksPerWeek: 'Aufgaben pro Woche',
@@ -2664,6 +2883,7 @@
           ['2', 'Filter: Erledigt'],
           ['0', 'Filter: Alle'],
           ['Z', 'Rückgängig'],
+          ['G', 'Fokus-Modus'],
           ['Esc', 'Schließen / Abbrechen'],
           ['[ / ]', 'Tab wechseln'],
           ['?', 'Diese Hilfe anzeigen'],
@@ -2671,6 +2891,15 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.4.2',
+            entries: [
+              'Fokus-Modus: Zeigt die wichtigste offene Aufgabe in einem Fullscreen-Overlay',
+              'Aufgaben im Fokus-Modus erledigen, überspringen oder direkt einen Pomodoro starten',
+              'Sortierung: höchste Priorität → frühestes Fälligkeitsdatum → älteste Aufgabe',
+              'Tastaturkürzel G zum Starten, Esc zum Beenden',
+            ],
+          },
           {
             version: 'v1.4.1',
             entries: [
@@ -3073,6 +3302,12 @@
         pomodoroLongBreak: 'Long Break',
         pomodoroDone: 'Pomodoro done! Time for a break.',
         pomodoroBreakOver: 'Break over! Ready for the next round?',
+        focusModeBtn: 'Focus Mode',
+        focusModeTitle: 'Focus Mode',
+        focusModeComplete: 'Complete',
+        focusModeSkip: 'Skip',
+        focusModeExit: 'Exit',
+        focusModeNoTasks: 'No open tasks.',
         statsHeading: 'Statistics',
         statsCompletionRate: 'Completion Rate',
         statsTasksPerWeek: 'Tasks per Week',
@@ -3092,6 +3327,7 @@
           ['2', 'Filter: Done'],
           ['0', 'Filter: All'],
           ['Z', 'Undo'],
+          ['G', 'Focus Mode'],
           ['Esc', 'Close / Cancel'],
           ['[ / ]', 'Switch tab'],
           ['?', 'Show this help'],
@@ -3099,6 +3335,15 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.4.2',
+            entries: [
+              'Focus Mode: shows the most important open task in a fullscreen overlay',
+              'Complete, skip or start a Pomodoro directly from Focus Mode',
+              'Sorting: highest priority → earliest due date → oldest task',
+              'Keyboard shortcut G to start, Esc to exit',
+            ],
+          },
           {
             version: 'v1.4.1',
             entries: [
@@ -4363,6 +4608,130 @@
       save(); render();
     }
 
+    // ── Focus Mode ─────────────────────────────────────────────────────────
+    var focusModeActive = false;
+    var focusSkippedIds = [];
+
+    function getNextFocusTask(skipIds) {
+      var prioOrder = { high: 0, medium: 1, low: 2, '': 3 };
+      var open = todos.filter(function(t) {
+        if (t.done || skipIds.indexOf(t.id) !== -1) return false;
+        // Exclude future recurring tasks
+        if (t.recurrence && t.dueDate && getDueClass(t.dueDate) === 'due-future') return false;
+        return true;
+      });
+      if (!open.length) return null;
+      open.sort(function(a, b) {
+        var pa = prioOrder[a.priority || ''] !== undefined ? prioOrder[a.priority || ''] : 3;
+        var pb = prioOrder[b.priority || ''] !== undefined ? prioOrder[b.priority || ''] : 3;
+        if (pa !== pb) return pa - pb;
+        if (a.dueDate && b.dueDate) {
+          var diff = new Date(a.dueDate) - new Date(b.dueDate);
+          if (diff !== 0) return diff;
+        } else if (a.dueDate) return -1;
+        else if (b.dueDate) return 1;
+        return a.created - b.created;
+      });
+      return open[0];
+    }
+
+    function enterFocusMode() {
+      haptic('medium');
+      focusModeActive = true;
+      focusSkippedIds = [];
+      renderFocusMode();
+      document.getElementById('focus-overlay').style.display = 'flex';
+    }
+
+    function exitFocusMode() {
+      haptic('light');
+      focusModeActive = false;
+      focusSkippedIds = [];
+      document.getElementById('focus-overlay').style.display = 'none';
+    }
+
+    function focusComplete() {
+      var task = getNextFocusTask(focusSkippedIds);
+      if (!task) return;
+      focusSkippedIds = focusSkippedIds.filter(function(id) { return id !== task.id; });
+      toggleTodo(task.id);
+      renderFocusMode();
+    }
+
+    function focusStartPomo() {
+      var task = getNextFocusTask(focusSkippedIds);
+      if (!task) return;
+      exitFocusMode();
+      startPomodoro(task.id);
+    }
+
+    function focusSkip() {
+      haptic('light');
+      var task = getNextFocusTask(focusSkippedIds);
+      if (!task) return;
+      focusSkippedIds.push(task.id);
+      if (!getNextFocusTask(focusSkippedIds)) focusSkippedIds = [];
+      renderFocusMode();
+    }
+
+    function renderFocusMode() {
+      var overlay = document.getElementById('focus-overlay');
+      if (!focusModeActive) return;
+      var T = t();
+      document.getElementById('focus-badge').textContent = T.focusModeTitle;
+      var task = getNextFocusTask(focusSkippedIds);
+      var emptyEl = document.getElementById('focus-empty');
+      var textEl = document.getElementById('focus-task-text');
+      var metaEl = document.getElementById('focus-meta');
+      var noteEl = document.getElementById('focus-note');
+      var ctrlEl = document.getElementById('focus-controls');
+
+      if (!task) {
+        emptyEl.textContent = T.focusModeNoTasks;
+        emptyEl.style.display = '';
+        textEl.style.display = 'none';
+        metaEl.style.display = 'none';
+        noteEl.style.display = 'none';
+        ctrlEl.style.display = 'none';
+        return;
+      }
+
+      emptyEl.style.display = 'none';
+      textEl.style.display = '';
+      textEl.textContent = task.text;
+
+      var prioLabel = { high: T.priorityHigh, medium: T.priorityMedium, low: T.priorityLow };
+      var metaHtml = '';
+      if (task.priority) {
+        metaHtml += '<span class="prio-badge" data-p="' + task.priority + '">' + prioLabel[task.priority] + '</span> ';
+      }
+      if (task.dueDate) {
+        var dc = getDueClass(task.dueDate);
+        var dueLabels = { 'due-overdue': T.metaOverdue, 'due-today': T.metaDueToday, 'due-future': T.metaDue };
+        metaHtml += '<span class="todo-due ' + dc + '">' + (dueLabels[dc] || '') + ': ' + formatDueDate(task.dueDate) + '</span>';
+      }
+      if (task.recurrence) {
+        metaHtml += ' <span class="recur-badge">' + SVG.repeat + ' ' + recurrenceLabel(task.recurrence) + '</span>';
+      }
+      if (task.category) {
+        metaHtml += ' <span class="cat-badge" style="' + catStyle(task.category) + '">#' + escHtml(task.category) + '</span>';
+      }
+      metaEl.innerHTML = metaHtml;
+      metaEl.style.display = metaHtml ? '' : 'none';
+
+      if (task.note) {
+        noteEl.textContent = task.note;
+        noteEl.style.display = '';
+      } else {
+        noteEl.style.display = 'none';
+      }
+
+      ctrlEl.style.display = '';
+      document.getElementById('focus-complete-btn').innerHTML = SVG.check + ' ' + T.focusModeComplete;
+      document.getElementById('focus-skip-btn').textContent = '⇥ ' + T.focusModeSkip;
+      document.getElementById('focus-pomo-btn').innerHTML = SVG.timer + ' ' + T.pomodoroStart;
+    }
+
     // ── Changelog ────────────────────────────────────────────────────────────
     function openChangelog() {
       const T = t();
@@ -4586,7 +4955,8 @@
       return document.getElementById('kb-backdrop').classList.contains('show') ||
              document.getElementById('stats-backdrop').classList.contains('show') ||
              document.getElementById('changelog-backdrop').classList.contains('show') ||
-             (document.getElementById('pomo-overlay').style.display !== 'none' && !pomodoroMinimized);
+             (document.getElementById('pomo-overlay').style.display !== 'none' && !pomodoroMinimized) ||
+             document.getElementById('focus-overlay').style.display !== 'none';
     }
 
     document.addEventListener('keydown', function(e) {
@@ -4598,6 +4968,7 @@
         if (document.getElementById('kb-backdrop').classList.contains('show')) { closeKB(); return; }
         if (document.getElementById('stats-backdrop').classList.contains('show')) { closeStats(); return; }
         if (document.getElementById('changelog-backdrop').classList.contains('show')) { closeChangelog(); return; }
+        if (document.getElementById('focus-overlay').style.display !== 'none') { exitFocusMode(); return; }
         if (document.getElementById('pomo-overlay').style.display !== 'none' && !pomodoroMinimized) { minimizePomodoro(); return; }
         if (themePickerOpen) { themePickerOpen = false; document.getElementById('theme-popover').classList.remove('open'); return; }
         if (isInput) { document.activeElement.blur(); return; }
@@ -4617,6 +4988,7 @@
       if (key === '2') { e.preventDefault(); switchTab('tasks'); setFilter('done'); return; }
       if (key === '0') { e.preventDefault(); switchTab('tasks'); setFilter('all'); return; }
       if (key === 'z') { e.preventDefault(); performUndo(); return; }
+      if (key === 'g') { e.preventDefault(); enterFocusMode(); return; }
       if (e.key === '[') { e.preventDefault(); cycleTabs(-1); return; }
       if (e.key === ']') { e.preventDefault(); cycleTabs(1); return; }
       if (e.key === '?') { e.preventDefault(); openKB(); return; }
@@ -4640,6 +5012,8 @@
       document.getElementById('add-title').textContent = T.addTitle;
       document.getElementById('add-btn-label').textContent = T.addBtn;
       document.getElementById('tasks-title').textContent = T.tasksTitle;
+      document.getElementById('focus-mode-btn').title = T.focusModeBtn;
+      document.getElementById('focus-mode-btn-label').textContent = T.focusModeBtn;
       updatePrioChips();
       document.getElementById('new-todo-note').placeholder = T.notePlaceholder;
       document.getElementById('details-toggle-label').textContent = T.detailsMore;
@@ -4775,6 +5149,7 @@
         hUsage.innerHTML = '';
       }
       renderPomo();
+      if (focusModeActive) renderFocusMode();
     }
 
     // ── iOS Install Banner ────────────────────────────────────────────────────
