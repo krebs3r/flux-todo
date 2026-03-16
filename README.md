@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.3.2-blueviolet)
+![Version](https://img.shields.io/badge/version-1.4.0-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -42,6 +42,7 @@
 - **Pomodoro timer** — fullscreen focus mode linked to a task (25/5/15 min cycles)
 - **Keyboard shortcuts** — N, F, D, S, Z, 1/2/0, [ ], Esc, ? — quick access without mouse
 - **Tab navigation** — bottom nav bar with 4 tabs (New, Tasks, History, Settings), Liquid Glass style
+- **Recurring tasks** — daily, weekly, biweekly, monthly — next instance auto-created on completion
 
 ### Design & Themes
 - **Glassmorphism UI** — acrylic-style backdrop-filter effects throughout
@@ -135,10 +136,10 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] Tags — custom #hashtags per task with autocomplete and filter
 - [x] Keyboard shortcuts — N, F, D, S, Z, 1/2/0, [ ], Esc, ?
 - [x] Tab navigation — bottom nav bar (New, Tasks, History, Settings)
+- [x] Recurring tasks — daily, weekly, biweekly, monthly with auto-creation
 
 ### Planned
 - [ ] **Subtasks** — checklists within a task
-- [ ] **Recurring tasks** — e.g. "Every Monday: weekly report"
 - [ ] **Focus mode** — show only the next open task
 - [ ] **Accessibility** — ARIA labels, improved screen reader support
 - [ ] **Cloud Sync** — optional backend sync (e.g. Firebase, Supabase)
@@ -147,6 +148,13 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.4.0
+- Recurring tasks: daily, weekly, biweekly or monthly — next instance auto-created on completion
+- Recurrence picker in New and Edit mode with weekday / day-of-month selection
+- Recurring tasks shown with ↻ badge and label (e.g. "Every Monday")
+- Due date and recurrence badges aligned in a single row
+- Replaced deprecated `apple-mobile-web-app-capable` meta tag
 
 ### v1.3.2
 - iOS PWA: background gradient now fills the entire physical screen — no more colored strip at the bottom
@@ -345,4 +353,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.3.2</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.4.0</p>
