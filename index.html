@@ -700,6 +700,15 @@
       color: var(--text-dark);
       color-scheme: dark;
     }
+    .todo-badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .todo-badges-row > .todo-due { margin-top: 0; }
+    .todo-badges-row > .recur-badge { margin-top: 0; }
     .recur-badge {
       font-size: 0.63rem;
       font-weight: 700;
@@ -4602,8 +4611,7 @@
                       ? T.metaDone + ': ' + formatDate(todo.completedAt)
                       : T.metaCreated + ': ' + formatShortDate(todo.created)
                   }</div>
-                  ${dc ? `<div class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</div>` : ''}
-                  ${todo.recurrence ? `<div class="recur-badge">${SVG.repeat} ${recurrenceLabel(todo.recurrence)}</div>` : ''}
+                  ${dc || todo.recurrence ? `<div class="todo-badges-row">${dc ? `<span class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</span>` : ''}${todo.recurrence ? `<span class="recur-badge">${SVG.repeat} ${recurrenceLabel(todo.recurrence)}</span>` : ''}</div>` : ''}
                   ${todo.category ? `<div class="todo-cat-row"><span class="cat-badge" style="${catStyle(todo.category)}" onclick="setCategoryFilter('${escHtml(todo.category)}')">#${escHtml(todo.category)}</span></div>` : ''}
                   ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
                 </div>
