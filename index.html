@@ -666,6 +666,60 @@
     body.dark .todo-due.due-today   { background: rgba(245,124,0,0.20); border-color: rgba(245,124,0,0.30); color: #ffb74d; }
     body.dark .todo-due.due-overdue { background: rgba(229,57,53,0.20); border-color: rgba(229,57,53,0.30); color: #ef5350; }
     .todo-item.overdue { box-shadow: inset 3px 0 0 var(--danger); }
+    .recur-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .recur-select {
+      flex: 1;
+      padding: 10px 14px;
+      height: 44px;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gl-border);
+      background: rgba(255,255,255,0.22);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--text);
+      font-size: 0.85rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .recur-select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-muted);
+    }
+    body.dark .recur-select {
+      background: rgba(255,255,255,0.05);
+      border-color: var(--gl-border-dark);
+      color: var(--text-dark);
+      color-scheme: dark;
+    }
+    .recur-badge {
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-top: 4px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(61,90,254,0.10);
+      border: 1px solid rgba(61,90,254,0.25);
+      color: var(--accent);
+    }
+    body.dark .recur-badge {
+      background: rgba(61,90,254,0.18);
+      border-color: rgba(61,90,254,0.30);
+      color: #82b1ff;
+    }
     .due-edit-row {
       display: flex;
       gap: 8px;
@@ -1144,6 +1198,7 @@
     .h-dot-created { background: var(--accent); }
     .h-dot-deleted { background: var(--danger); }
     .h-dot-undone  { background: #fb8c00; }
+    .h-dot-recurring { background: var(--accent); }
 
     .h-label {
       font-size: 0.7rem;
@@ -2137,6 +2192,13 @@
           <span class="due-input-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
           <input class="due-input due-time" type="time" id="new-todo-time" />
         </div>
+        <div class="recur-input-row">
+          <span class="due-input-icon" id="recur-icon-label"></span>
+          <select class="recur-select" id="new-todo-recur" onchange="onRecurChange('new')">
+            <option value=""></option>
+          </select>
+          <select class="recur-select" id="new-todo-recur-detail" style="display:none"></select>
+        </div>
         <button class="btn-add" id="add-btn" onclick="addTodo()" title="Hinzufügen">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
             <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
@@ -2416,6 +2478,7 @@
       pause:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="10" y1="4" x2="10" y2="20"/><line x1="14" y1="4" x2="14" y2="20"/></svg>`,
       play:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
       stopIcon:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`,
+      repeat:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>`,
     };
 
     // ── State ────────────────────────────────────────────────────────────────
@@ -2491,6 +2554,21 @@
         notifyDenied: 'Benachrichtigungen wurden im Browser blockiert',
         notifyOverdue: 'Überfällig',
         notifyDueToday: 'Heute fällig',
+        recurNone: 'Nicht wiederholen',
+        recurDaily: 'Täglich',
+        recurWeekly: 'Wöchentlich',
+        recurBiweekly: 'Alle 2 Wochen',
+        recurMonthly: 'Monatlich',
+        recurDayNames: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+        recurDayNamesFull: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+        recurLabelDaily: 'Jeden Tag',
+        recurLabelWeekly: (day) => `Jeden ${day}`,
+        recurLabelBiweekly: (day) => `Alle 2 Wo., ${day}`,
+        recurLabelMonthlyDay: (d) => `Monatlich am ${d}.`,
+        recurLabelMonthlyLast: 'Monatlich am letzten Tag',
+        recurMonthlyLast: 'Letzter Tag',
+        badgeRecurring: 'Wiederholt',
+        historyRecurring: 'Nächste Wiederholung erstellt',
         pomodoroStart: 'Pomodoro starten',
         pomodoroWork: 'Arbeiten',
         pomodoroBreak: 'Pause',
@@ -2880,6 +2958,21 @@
         notifyDenied: 'Notifications are blocked in browser settings',
         notifyOverdue: 'Overdue',
         notifyDueToday: 'Due today',
+        recurNone: 'No repeat',
+        recurDaily: 'Daily',
+        recurWeekly: 'Weekly',
+        recurBiweekly: 'Every 2 weeks',
+        recurMonthly: 'Monthly',
+        recurDayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        recurDayNamesFull: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        recurLabelDaily: 'Every day',
+        recurLabelWeekly: (day) => `Every ${day}`,
+        recurLabelBiweekly: (day) => `Every 2 wks, ${day}`,
+        recurLabelMonthlyDay: (d) => `Monthly on the ${d}${ordSuffix(d)}`,
+        recurLabelMonthlyLast: 'Monthly on the last day',
+        recurMonthlyLast: 'Last day',
+        badgeRecurring: 'Recurring',
+        historyRecurring: 'Next recurrence created',
         pomodoroStart: 'Start Pomodoro',
         pomodoroWork: 'Work',
         pomodoroBreak: 'Break',
@@ -3279,6 +3372,121 @@
       return d + ' · ' + tm;
     }
 
+    // ── Recurring tasks ────────────────────────────────────────────────────
+    function ordSuffix(n) {
+      var s = ['th','st','nd','rd'], v = n % 100;
+      return s[(v - 20) % 10] || s[v] || s[0];
+    }
+    function getNextOccurrence(recurrence, currentDueDate) {
+      if (!recurrence || !currentDueDate) return '';
+      var dateOnly = currentDueDate.split('T')[0];
+      var timePart = currentDueDate.includes('T') ? currentDueDate.split('T')[1] : '';
+      var parts = dateOnly.split('-');
+      var d = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+      var type = recurrence.split(':')[0];
+      var param = recurrence.split(':')[1];
+      function advance(dt) {
+        if (type === 'daily') { dt.setDate(dt.getDate() + 1); }
+        else if (type === 'weekly') { dt.setDate(dt.getDate() + 7); }
+        else if (type === 'biweekly') { dt.setDate(dt.getDate() + 14); }
+        else if (type === 'monthly') {
+          var m = dt.getMonth() + 1, y = dt.getFullYear();
+          if (m > 11) { m = 0; y++; }
+          if (param === 'last') { dt.setTime(new Date(y, m + 1, 0).getTime()); }
+          else { var mx = new Date(y, m + 1, 0).getDate(); dt.setTime(new Date(y, m, Math.min(parseInt(param,10), mx)).getTime()); }
+        }
+      }
+      advance(d);
+      // Advance past today if result is overdue
+      var today = new Date(); today.setHours(0,0,0,0);
+      var safety = 0;
+      while (d < today && safety < 400) { advance(d); safety++; }
+      var iso = formatDateISO(d);
+      return timePart ? iso + 'T' + timePart : iso;
+    }
+    function formatDateISO(d) {
+      var y = d.getFullYear();
+      var m = String(d.getMonth() + 1).padStart(2, '0');
+      var day = String(d.getDate()).padStart(2, '0');
+      return y + '-' + m + '-' + day;
+    }
+    function recurrenceLabel(recurrence) {
+      if (!recurrence) return '';
+      var T = t();
+      var type = recurrence.split(':')[0];
+      var param = recurrence.split(':')[1];
+      if (type === 'daily') return T.recurLabelDaily;
+      if (type === 'weekly') return T.recurLabelWeekly(T.recurDayNamesFull[parseInt(param, 10)]);
+      if (type === 'biweekly') return T.recurLabelBiweekly(T.recurDayNamesFull[parseInt(param, 10)]);
+      if (type === 'monthly') {
+        if (param === 'last') return T.recurLabelMonthlyLast;
+        return T.recurLabelMonthlyDay(parseInt(param, 10));
+      }
+      return '';
+    }
+    function onRecurChange(prefix) {
+      var sel = document.getElementById(prefix + '-todo-recur');
+      var detail = document.getElementById(prefix + '-todo-recur-detail');
+      var val = sel.value;
+      var T = t();
+      if (val === 'weekly' || val === 'biweekly') {
+        detail.style.display = '';
+        detail.innerHTML = T.recurDayNames.map(function(name, i) {
+          return '<option value="' + i + '">' + name + '</option>';
+        }).join('');
+        // Default to due date's day
+        var dueInput = document.getElementById(prefix + '-todo-due');
+        if (dueInput && dueInput.value) {
+          var p = dueInput.value.split('-');
+          var dayOfWeek = new Date(+p[0], +p[1]-1, +p[2]).getDay();
+          detail.value = dayOfWeek;
+        }
+      } else if (val === 'monthly') {
+        detail.style.display = '';
+        var opts = '';
+        for (var i = 1; i <= 31; i++) opts += '<option value="' + i + '">' + i + '.</option>';
+        opts += '<option value="last">' + T.recurMonthlyLast + '</option>';
+        detail.innerHTML = opts;
+        var dueInput2 = document.getElementById(prefix + '-todo-due');
+        if (dueInput2 && dueInput2.value) {
+          detail.value = parseInt(dueInput2.value.split('-')[2], 10);
+        }
+      } else {
+        detail.style.display = 'none';
+        detail.innerHTML = '';
+      }
+      // Auto-fill due date if empty and recurrence selected
+      if (val) {
+        var dueInp = document.getElementById(prefix + '-todo-due');
+        if (dueInp && !dueInp.value) {
+          dueInp.value = formatDateISO(new Date());
+          if (val === 'weekly' || val === 'biweekly') {
+            detail.value = new Date().getDay();
+          } else if (val === 'monthly') {
+            detail.value = new Date().getDate();
+          }
+        }
+      }
+    }
+    function getRecurValue(prefix) {
+      var sel = document.getElementById(prefix + '-todo-recur');
+      if (!sel) return '';
+      var val = sel.value;
+      if (!val) return '';
+      if (val === 'daily') return 'daily';
+      var detail = document.getElementById(prefix + '-todo-recur-detail');
+      return val + ':' + (detail ? detail.value : '0');
+    }
+    function populateRecurSelect(prefix, T) {
+      var sel = document.getElementById(prefix + '-todo-recur');
+      if (!sel) return;
+      sel.innerHTML = '<option value="">' + T.recurNone + '</option>'
+        + '<option value="daily">' + T.recurDaily + '</option>'
+        + '<option value="weekly">' + T.recurWeekly + '</option>'
+        + '<option value="biweekly">' + T.recurBiweekly + '</option>'
+        + '<option value="monthly">' + T.recurMonthly + '</option>';
+    }
+
     // ── CRUD ─────────────────────────────────────────────────────────────────
     function addTodo() {
       const input = document.getElementById('new-todo-input');
@@ -3289,13 +3497,16 @@
       const timeInput = document.getElementById('new-todo-time');
       const catInput = document.getElementById('new-todo-cat');
       const dueDate = dueInput.value ? (timeInput.value ? dueInput.value + 'T' + timeInput.value : dueInput.value) : '';
-      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim(), dueDate: dueDate, category: catInput.value.trim().replace(/^#/, '') });
+      const recur = getRecurValue('new');
+      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim(), dueDate: dueDate, category: catInput.value.trim().replace(/^#/, ''), recurrence: recur });
       addHistory('created', text);
       input.value = '';
       noteInput.value = '';
       dueInput.value = '';
       timeInput.value = '';
       catInput.value = '';
+      document.getElementById('new-todo-recur').value = '';
+      document.getElementById('new-todo-recur-detail').style.display = 'none';
       newPriority = '';
       currentCategory = '';
       updatePriorityBtn();
@@ -3308,8 +3519,32 @@
       const todo = todos.find(t => t.id === id);
       if (!todo) return;
       todo.done = !todo.done;
-      if (todo.done) { todo.completedAt = Date.now(); addHistory('done', todo.text); confetti(); }
-      else { delete todo.completedAt; addHistory('undone', todo.text); }
+      if (todo.done) {
+        todo.completedAt = Date.now();
+        addHistory('done', todo.text);
+        confetti();
+        // Create next recurring instance
+        if (todo.recurrence && todo.dueDate) {
+          var nextDue = getNextOccurrence(todo.recurrence, todo.dueDate);
+          if (nextDue) {
+            todos.unshift({
+              id: Date.now() + 1,
+              text: todo.text,
+              done: false,
+              created: Date.now(),
+              priority: todo.priority,
+              note: todo.note,
+              dueDate: nextDue,
+              category: todo.category,
+              recurrence: todo.recurrence
+            });
+            addHistory('recurring', todo.text);
+          }
+        }
+      } else {
+        delete todo.completedAt;
+        addHistory('undone', todo.text);
+      }
       haptic('success');
       save(); render();
     }
@@ -3374,6 +3609,7 @@
       const oldNote = todo.note || '';
       const oldDue = todo.dueDate || '';
       const oldCat = todo.category || '';
+      const oldRecur = todo.recurrence || '';
       const oldDueDate = oldDue.split('T')[0] || '';
       const oldDueTime = oldDue.includes('T') ? oldDue.split('T')[1] : '';
       const T = t();
@@ -3385,8 +3621,19 @@
           <div class="cat-ac" id="edit-cat-ac-${id}"></div>
         </div>
         <div class="due-edit-row">
-          <input class="due-edit-input" type="date" value="${oldDueDate}" />
+          <input class="due-edit-input" type="date" id="edit-todo-due" value="${oldDueDate}" />
           <input class="due-edit-input due-time" type="time" value="${oldDueTime}" />
+        </div>
+        <div class="recur-input-row">
+          <span class="due-input-icon">${SVG.repeat}</span>
+          <select class="recur-select" id="edit-todo-recur" onchange="onRecurChange('edit')">
+            <option value="">${T.recurNone}</option>
+            <option value="daily">${T.recurDaily}</option>
+            <option value="weekly">${T.recurWeekly}</option>
+            <option value="biweekly">${T.recurBiweekly}</option>
+            <option value="monthly">${T.recurMonthly}</option>
+          </select>
+          <select class="recur-select" id="edit-todo-recur-detail" style="display:none"></select>
         </div>
         <div class="edit-btn-row">
           <button class="edit-btn" id="edit-cancel-${id}">${T.editCancel}</button>
@@ -3401,6 +3648,16 @@
       const dueDateInp = wrap.querySelector('.due-edit-input[type="date"]');
       const dueTimeInp = wrap.querySelector('.due-edit-input[type="time"]');
       noteInp.placeholder = T.notePlaceholder;
+      // Restore recurrence state
+      if (oldRecur) {
+        var rType = oldRecur.split(':')[0];
+        var rParam = oldRecur.split(':')[1];
+        document.getElementById('edit-todo-recur').value = rType;
+        onRecurChange('edit');
+        if (rParam !== undefined) {
+          document.getElementById('edit-todo-recur-detail').value = rParam;
+        }
+      }
       inp.focus(); inp.select();
       function getEditDue() {
         const d = dueDateInp.value;
@@ -3410,19 +3667,19 @@
       }
       inp.onkeydown = e => {
         if (e.key === 'Enter') { e.preventDefault(); noteInp.focus(); }
-        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat);
+        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur);
       };
       noteInp.onkeydown = e => {
-        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat);
+        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur);
       };
       document.getElementById('edit-save-' + id).onclick = () => {
-        commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value);
+        commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value, getRecurValue('edit'));
       };
       document.getElementById('edit-cancel-' + id).onclick = () => {
-        commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat);
+        commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur);
       };
     }
-    function commitEdit(id, newText, oldText, newNote, newDue, newCat) {
+    function commitEdit(id, newText, oldText, newNote, newDue, newCat, newRecur) {
       newText = newText.trim();
       if (!newText) { render(); return; }
       const todo = todos.find(t => t.id === id);
@@ -3430,12 +3687,14 @@
       const noteValue = newNote !== undefined ? newNote.trim() : (todo.note || '');
       const dueValue = newDue !== undefined ? newDue : (todo.dueDate || '');
       const catValue = newCat !== undefined ? newCat.trim().replace(/^#/, '') : (todo.category || '');
-      if (newText === oldText && noteValue === (todo.note || '') && dueValue === (todo.dueDate || '') && catValue === (todo.category || '')) { render(); return; }
+      const recurValue = newRecur !== undefined ? newRecur : (todo.recurrence || '');
+      if (newText === oldText && noteValue === (todo.note || '') && dueValue === (todo.dueDate || '') && catValue === (todo.category || '') && recurValue === (todo.recurrence || '')) { render(); return; }
       saveUndo();
       todo.text = newText;
       todo.note = noteValue;
       todo.dueDate = dueValue;
       todo.category = catValue;
+      todo.recurrence = recurValue;
       save(); render();
     }
 
@@ -4260,6 +4519,8 @@
       document.getElementById('tasks-title').textContent = T.tasksTitle;
       updatePriorityBtn();
       document.getElementById('new-todo-note').placeholder = T.notePlaceholder;
+      document.getElementById('recur-icon-label').innerHTML = SVG.repeat;
+      populateRecurSelect('new', T);
       document.getElementById('history-title').textContent = T.historyTitle;
       document.getElementById('io-title').textContent = T.ioTitle;
       document.getElementById('export-label').textContent = T.exportLabel;
@@ -4342,6 +4603,7 @@
                       : T.metaCreated + ': ' + formatShortDate(todo.created)
                   }</div>
                   ${dc ? `<div class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</div>` : ''}
+                  ${todo.recurrence ? `<div class="recur-badge">${SVG.repeat} ${recurrenceLabel(todo.recurrence)}</div>` : ''}
                   ${todo.category ? `<div class="todo-cat-row"><span class="cat-badge" style="${catStyle(todo.category)}" onclick="setCategoryFilter('${escHtml(todo.category)}')">#${escHtml(todo.category)}</span></div>` : ''}
                   ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
                 </div>
@@ -4366,8 +4628,8 @@
       if (!history.length) {
         hList.innerHTML = `<div class="history-empty">${T.emptyHistory}</div>`;
       } else {
-        const dotClass = { done:'h-dot-done', created:'h-dot-created', deleted:'h-dot-deleted', undone:'h-dot-undone' };
-        const labelMap = { done: T.badgeDone, created: T.badgeCreated, deleted: T.badgeDeleted, undone: T.badgeUndone };
+        const dotClass = { done:'h-dot-done', created:'h-dot-created', deleted:'h-dot-deleted', undone:'h-dot-undone', recurring:'h-dot-recurring' };
+        const labelMap = { done: T.badgeDone, created: T.badgeCreated, deleted: T.badgeDeleted, undone: T.badgeUndone, recurring: T.badgeRecurring };
         hList.innerHTML = history.map(h => `
           <div class="history-item">
             <span class="h-dot ${dotClass[h.type] || ''}"></span>
