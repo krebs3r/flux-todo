@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.3.0-blueviolet)
+![Version](https://img.shields.io/badge/version-1.3.1-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -147,6 +147,12 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.3.1
+- Tab bar more transparent in Liquid Glass style — content scrolls smoothly behind it
+- Scrolling now works anywhere on the page (not just over the content area)
+- Background gradient without visible edges between content and navigation
+- Service Worker no longer registered when opened locally (file://)
 
 ### v1.3.0
 - Tab navigation: bottom nav bar with 4 tabs (New, Tasks, History, Settings)
@@ -329,4 +335,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.3.0</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.3.1</p>
