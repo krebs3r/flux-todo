@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.3.1.1-blueviolet)
+![Version](https://img.shields.io/badge/version-1.3.2-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -41,7 +41,7 @@
 - **Undo** — reverse the last action with a 5-second toast
 - **Pomodoro timer** — fullscreen focus mode linked to a task (25/5/15 min cycles)
 - **Keyboard shortcuts** — N, F, D, S, Z, 1/2/0, [ ], Esc, ? — quick access without mouse
-- **Tab navigation** — bottom nav bar with 4 tabs (New, Tasks, History, Settings)
+- **Tab navigation** — bottom nav bar with 4 tabs (New, Tasks, History, Settings), Liquid Glass style
 
 ### Design & Themes
 - **Glassmorphism UI** — acrylic-style backdrop-filter effects throughout
@@ -52,7 +52,7 @@
 
 ### Mobile & PWA
 - **Offline-capable PWA** — Service Worker with network-first caching
-- **iOS PWA** — add to home screen, fullscreen mode, safe area support for Dynamic Island/notch
+- **iOS PWA** — add to home screen, true fullscreen (no gaps), safe area support for Dynamic Island/notch
 - **iOS install hint** — banner in Safari guides users to add the app to their home screen
 - **Swipe gestures** — swipe left to delete, right to complete
 - **Pull-to-refresh** — pull down to reload the app
@@ -147,6 +147,13 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.3.2
+- iOS PWA: background gradient now fills the entire physical screen — no more colored strip at the bottom
+- iOS PWA: tab bar icons no longer clipped on Face ID iPhones
+- Tab bar constrained to content width with rounded corners on desktop
+- Background color of all themes matched to gradient end value (seamless transition)
+- PWA manifest background_color dynamically adapted to theme and dark mode
 
 ### v1.3.1.1
 - iOS PWA: background gradient now fills the entire screen (no empty area below the tab bar)
@@ -338,4 +345,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.3.1.1</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.3.2</p>
