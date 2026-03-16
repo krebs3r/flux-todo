@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.4.1-blueviolet)
+![Version](https://img.shields.io/badge/version-1.4.2-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -43,6 +43,7 @@
 - **Keyboard shortcuts** — N, F, D, S, Z, 1/2/0, [ ], Esc, ? — quick access without mouse
 - **Tab navigation** — bottom nav bar with 4 tabs (New, Tasks, History, Settings), Liquid Glass style
 - **Recurring tasks** — daily, weekly, biweekly, monthly — next instance auto-created on completion
+- **Focus mode** — fullscreen overlay with the most important task, complete/skip/start Pomodoro
 
 ### Design & Themes
 - **Glassmorphism UI** — acrylic-style backdrop-filter effects throughout
@@ -137,10 +138,10 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] Keyboard shortcuts — N, F, D, S, Z, 1/2/0, [ ], Esc, ?
 - [x] Tab navigation — bottom nav bar (New, Tasks, History, Settings)
 - [x] Recurring tasks — daily, weekly, biweekly, monthly with auto-creation
+- [x] Focus mode — fullscreen overlay showing the most important task, with complete/skip/Pomodoro
 
 ### Planned
 - [ ] **Subtasks** — checklists within a task
-- [ ] **Focus mode** — show only the next open task
 - [ ] **Accessibility** — ARIA labels, improved screen reader support
 - [ ] **Cloud Sync** — optional backend sync (e.g. Firebase, Supabase)
 - [ ] **Multiple lists** — separate boards (e.g. Work / Personal / Shopping)
@@ -148,6 +149,12 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.4.2
+- Focus Mode: fullscreen overlay showing the most important open task
+- Complete, skip or start a Pomodoro directly from Focus Mode
+- Task sorting: highest priority → earliest due date → oldest task
+- Keyboard shortcut `G` to start, `Esc` to exit
 
 ### v1.4.1
 - New form design: hero input with larger, pill-shaped styling
