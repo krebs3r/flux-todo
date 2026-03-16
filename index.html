@@ -700,6 +700,26 @@
       color: var(--text-dark);
       color-scheme: dark;
     }
+    .todo-item.recurring-future { opacity: 0.45; }
+    .todo-item.recurring-future:hover, .todo-item.recurring-future:focus-within { opacity: 0.75; }
+    .recur-scheduled-badge {
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 2px 7px;
+      border-radius: 20px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      background: rgba(90,100,128,0.12);
+      border: 1px solid rgba(90,100,128,0.22);
+      color: var(--muted);
+    }
+    body.dark .recur-scheduled-badge {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.12);
+      color: var(--muted-dark);
+    }
     .todo-badges-row {
       display: flex;
       flex-wrap: wrap;
@@ -2577,6 +2597,7 @@
         recurLabelMonthlyLast: 'Monatlich am letzten Tag',
         recurMonthlyLast: 'Letzter Tag',
         badgeRecurring: 'Wiederholt',
+        recurScheduled: 'Geplant',
         historyRecurring: 'Nächste Wiederholung erstellt',
         pomodoroStart: 'Pomodoro starten',
         pomodoroWork: 'Arbeiten',
@@ -2991,6 +3012,7 @@
         recurLabelMonthlyLast: 'Monthly on the last day',
         recurMonthlyLast: 'Last day',
         badgeRecurring: 'Recurring',
+        recurScheduled: 'Scheduled',
         historyRecurring: 'Next recurrence created',
         pomodoroStart: 'Start Pomodoro',
         pomodoroWork: 'Work',
@@ -4608,11 +4630,12 @@
       } else {
         list.innerHTML = visible.map(todo => {
           const dc = todo.dueDate && !todo.done ? getDueClass(todo.dueDate) : '';
+          const isRecurFuture = !todo.done && todo.recurrence && dc === 'due-future';
           return `
           <div class="swipe-wrap" data-swipe-id="${todo.id}">
             <div class="swipe-action left">${SVG.check} &nbsp;${T.metaDone}</div>
             <div class="swipe-action right">${SVG.trash} &nbsp;${T.deleteTitle}</div>
-            <div class="todo-item${todo.done ? ' done' : ''}${dc === 'due-overdue' ? ' overdue' : ''}" data-id="${todo.id}"
+            <div class="todo-item${todo.done ? ' done' : ''}${dc === 'due-overdue' ? ' overdue' : ''}${isRecurFuture ? ' recurring-future' : ''}" data-id="${todo.id}"
                  ${currentSort === 'manual' ? 'draggable="true"' : ''}
                  ${currentSort === 'manual' ? `ondragstart="onDragStart(event,${todo.id})"
                  ondragend="onDragEnd(event)"
@@ -4631,7 +4654,7 @@
                       ? T.metaDone + ': ' + formatDate(todo.completedAt)
                       : T.metaCreated + ': ' + formatShortDate(todo.created)
                   }</div>
-                  ${dc || todo.recurrence ? `<div class="todo-badges-row">${dc ? `<span class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</span>` : ''}${todo.recurrence ? `<span class="recur-badge">${SVG.repeat} ${recurrenceLabel(todo.recurrence)}</span>` : ''}</div>` : ''}
+                  ${dc || todo.recurrence ? `<div class="todo-badges-row">${isRecurFuture ? `<span class="recur-scheduled-badge">${T.recurScheduled}</span>` : ''}${dc ? `<span class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</span>` : ''}${todo.recurrence ? `<span class="recur-badge">${SVG.repeat} ${recurrenceLabel(todo.recurrence)}</span>` : ''}</div>` : ''}
                   ${todo.category ? `<div class="todo-cat-row"><span class="cat-badge" style="${catStyle(todo.category)}" onclick="setCategoryFilter('${escHtml(todo.category)}')">#${escHtml(todo.category)}</span></div>` : ''}
                   ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
                 </div>
