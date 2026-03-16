@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.2.0-blueviolet)
+![Version](https://img.shields.io/badge/version-1.3.0-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -37,7 +37,11 @@
 - **Bulk delete** — clear all tasks at once, with an optional export prompt
 - **Statistics view** — completion rate ring, tasks per week bar chart, current & longest streak
 - **Tags** — label tasks with custom #hashtags, autocomplete from existing tags, filter by tag
-- **Keyboard shortcuts** — N, F, D, S, Z, 1/2/0, Esc, ? — quick access without mouse
+- **Sort options** — manual, priority, due date, creation date
+- **Undo** — reverse the last action with a 5-second toast
+- **Pomodoro timer** — fullscreen focus mode linked to a task (25/5/15 min cycles)
+- **Keyboard shortcuts** — N, F, D, S, Z, 1/2/0, [ ], Esc, ? — quick access without mouse
+- **Tab navigation** — bottom nav bar with 4 tabs (New, Tasks, History, Settings)
 
 ### Design & Themes
 - **Glassmorphism UI** — acrylic-style backdrop-filter effects throughout
@@ -129,7 +133,8 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] Undo — reverse the last action (e.g. accidental delete)
 - [x] Statistics view — completion rate, tasks per week, streaks
 - [x] Tags — custom #hashtags per task with autocomplete and filter
-- [x] Keyboard shortcuts — N, F, D, S, Z, 1/2/0, Esc, ?
+- [x] Keyboard shortcuts — N, F, D, S, Z, 1/2/0, [ ], Esc, ?
+- [x] Tab navigation — bottom nav bar (New, Tasks, History, Settings)
 
 ### Planned
 - [ ] **Subtasks** — checklists within a task
@@ -142,6 +147,19 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.3.0
+- Tab navigation: bottom nav bar with 4 tabs (New, Tasks, History, Settings)
+- Glassmorphism tab bar in iOS style with rounded corners, matched to content width
+- Safe area support for iOS (Home Indicator, Dynamic Island)
+- Auto-switch to Tasks tab after adding a todo
+- History and Settings as separate tabs — no more collapsing needed
+- Delete all button in Settings tab
+- Footer (version, GitHub) moved into Settings tab
+- Gear icon for the Settings tab
+- Keyboard shortcuts: [ / ] to switch tabs
+- Keyboard shortcuts auto-switch to the correct tab (e.g. N opens New tab)
+- Tag badge moved below creation date — no more layout overflow with long tags
 
 ### v1.2.0
 - Keyboard shortcuts: N = new task, F = search, D = dark mode, S = statistics, Z = undo, ? = help
@@ -311,4 +329,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.2.0</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.3.0</p>
