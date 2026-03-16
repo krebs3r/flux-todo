@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.4.0-blueviolet)
+![Version](https://img.shields.io/badge/version-1.4.1-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -148,6 +148,16 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.4.1
+- New form design: hero input with larger, pill-shaped styling
+- Priority selection as inline chip row (High / Medium / Low) instead of cycling button
+- Optional fields (note & tag) behind collapsible "Details" toggle — less clutter
+- Date, time and recurrence in compact 2-column grid layout
+- Add button with accent color and hover lift effect
+- Recurrence select with improved placeholder text ("Repeat …")
+- Future recurring tasks dimmed (45% opacity) with "Scheduled" badge
+- Consistent rounded corners (12px) across all tabs for Liquid Glass consistency
 
 ### v1.4.0
 - Recurring tasks: daily, weekly, biweekly or monthly — next instance auto-created on completion
