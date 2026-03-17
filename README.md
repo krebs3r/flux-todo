@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.4.5-blueviolet)
+![Version](https://img.shields.io/badge/version-1.4.6-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -25,14 +25,15 @@
 - **Create, edit & delete tasks** — inline editing with Save / Cancel buttons
 - **Priority levels** — High / Medium / Low with color-coded badges per task
 - **Notes field** — add a longer description or details to any task
+- **Subtasks** — checklists within a task, with progress badge
 - **Drag & drop reordering** — rearrange tasks intuitively
 - **Done state with timestamp** — mark tasks as complete, see when they were finished
 - **Due dates with time** — set a deadline with date & time per task, color-coded (today / overdue)
 - **Browser notifications** — reminders for due and overdue tasks
 - **Search** — real-time filtering by title and notes
 - **Filters** — view Open / Done tasks
-- **Full event history** — every action is logged with a timestamp (up to 10,000 entries)
-- **History usage indicator** — progress bar shows fill level of the 10,000-entry limit
+- **Full event history** — every action is logged with a timestamp (up to 100,000 entries)
+- **History usage indicator** — progress bar shows fill level of the 100,000-entry limit
 - **Export & Import** — save and restore your tasks as a JSON file
 - **Bulk delete** — clear all tasks at once, with an optional export prompt
 - **Statistics view** — completion rate ring, tasks per week bar chart, current & longest streak
@@ -141,7 +142,7 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] Focus mode — fullscreen overlay showing the most important task, with complete/skip/Pomodoro
 
 ### Planned
-- [ ] **Subtasks** — checklists within a task
+- [x] **Subtasks** — checklists within a task
 - [ ] **Accessibility** — ARIA labels, improved screen reader support
 - [ ] **Cloud Sync** — optional backend sync (e.g. Firebase, Supabase)
 - [ ] **Multiple lists** — separate boards (e.g. Work / Personal / Shopping)
@@ -150,7 +151,14 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ## Changelog
 
-### v1.4.5
+### v1.4.6
+- Subtasks — add checklists within a task, toggle individual items, progress badge (e.g. 2/5)
+- Subtask editor in edit mode — add, remove and modify subtasks inline
+- Recurring tasks carry over subtasks (reset to unchecked)
+- History limit increased from 10,000 to 100,000 entries
+- Font-size consistency: all input fields unified to 0.88rem
+
+### v1.4.5 (previous)
 - Design consistency refactor: unified border-radius across all elements (3-tier system: 8px / 12px / 20px)
 - Unified all CSS transitions to 0.2s for smoother, consistent animations
 - New design tokens `--gl-border-subtle` / `--gl-border-subtle-dark` for secondary borders
@@ -339,7 +347,7 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ### v1.0.3
 - Due dates per task — color-coded display (future / today / overdue)
 - Search field for real-time filtering of tasks (title and notes)
-- History usage counter: progress bar shows fill level of the 10,000-entry limit
+- History usage counter: progress bar shows fill level of the 100,000-entry limit
 
 ### v1.0.2.6
 - iOS: explicit background-color on html element — notch area is correctly colored on first load
@@ -374,7 +382,7 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - Glassmorphism / acrylic design applied throughout the entire interface
 - Add button (`+`) restyled with glass look (backdrop-filter, translucent background)
 - Header logo redesigned as a glass icon with proper top alignment
-- History limit increased to 10,000 entries
+- History limit increased to 100,000 entries
 
 ### v1.0.0
 - Initial release
@@ -397,4 +405,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.4.5</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.4.6</p>
