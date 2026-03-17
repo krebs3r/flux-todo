@@ -154,6 +154,8 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ### v1.4.8
 - Settings: unified spacing between all elements
 - Settings: "Manage tags" text color matched to other buttons
+
+### v1.4.7
 - Focus mode button: height matched to other buttons (38px / 44px mobile)
 - Font-size consistency: all input fields and buttons unified
 
