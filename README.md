@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.4.6-blueviolet)
+![Version](https://img.shields.io/badge/version-1.4.7-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -151,12 +151,13 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ## Changelog
 
-### v1.4.6
+### v1.4.7
 - Subtasks — add checklists within a task, toggle individual items, progress badge (e.g. 2/5)
 - Subtask editor in edit mode — add, remove and modify subtasks inline
 - Recurring tasks carry over subtasks (reset to unchecked)
 - History limit increased from 10,000 to 100,000 entries
-- Font-size consistency: all input fields unified to 0.88rem
+- Font-size consistency: all input fields and buttons unified
+- Focus mode button: height matched to other buttons (44px mobile)
 
 ### v1.4.5 (previous)
 - Design consistency refactor: unified border-radius across all elements (3-tier system: 8px / 12px / 20px)
@@ -405,4 +406,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.4.6</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.4.7</p>
