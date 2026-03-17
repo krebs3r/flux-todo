@@ -154,6 +154,7 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - Details toggle styled as segmented control — matches filter button (Offen/Erledigt) appearance
 - Toggle highlights with glass background when open, transparent when closed
 - Removed conflicting hover color overrides on details toggle
+- Date and time fields show placeholder labels on iOS (previously blank)
 
 ### v1.4.2
 - Focus Mode: fullscreen overlay showing the most important open task
