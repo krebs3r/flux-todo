@@ -56,6 +56,7 @@
     }
     html.dark {
       background-color: #160832;
+      color-scheme: dark;
       --bg-active: var(--bg-dark);
     }
 
@@ -109,7 +110,8 @@
       height: 100%;
       width: 100%;
       margin: 0;
-      background-color: inherit;
+      background-color: #f0a8d8;
+      color-scheme: light;
       background-image: var(--bg-active);
       background-size: 100% 100%;
       padding: 0;
@@ -2788,6 +2790,18 @@
       lumpi:  { light: '#e2d0b8', dark: '#1c100a' },
       nobler: { light: '#d0d0d8', dark: '#10101a' },
     };
+    /* Gradient-end colors — used for body background so Android navbar picks up the color */
+    const THEME_BG = {
+      flux:   { light: '#f0a8d8', dark: '#160832' },
+      ocean:  { light: '#90e0ef', dark: '#0a2a52' },
+      sunset: { light: '#f08060', dark: '#4a2210' },
+      forest: { light: '#95d5b2', dark: '#1e4030' },
+      rose:   { light: '#ffc8d6', dark: '#421828' },
+      mono:   { light: '#e2e5ea', dark: '#22252a' },
+      bender: { light: '#ccdaea', dark: '#182638' },
+      lumpi:  { light: '#ecdec8', dark: '#2c1c12' },
+      nobler: { light: '#e0e0e8', dark: '#1c1c26' },
+    };
     const SWATCH_BG = {
       flux:   'linear-gradient(to bottom,#7eb3ff,#c87eff,#ff7ec8)',
       ocean:  'linear-gradient(to bottom,#48cae4,#00b4d8,#90e0ef)',
@@ -4601,12 +4615,17 @@
     function toggleDark() {
       dark = !dark; applyDark(); save(); haptic('light');
     }
+    function updateNavbarColor() {
+      const bg = THEME_BG[currentTheme] || THEME_BG.flux;
+      document.body.style.backgroundColor = dark ? bg.dark : bg.light;
+    }
     function applyDark() {
       document.body.classList.toggle('dark', dark);
       document.documentElement.classList.toggle('dark', dark);
       document.getElementById('dark-icon').innerHTML = dark ? SVG.sun : SVG.moon;
       const th = THEMES[currentTheme] || THEMES.flux;
       document.getElementById('theme-color-meta').content = dark ? th.dark : th.light;
+      updateNavbarColor();
     }
     function toggleLang() {
       haptic('light');
@@ -4634,6 +4653,7 @@
       if (id !== 'flux') html.classList.add('theme-' + id);
       const th = THEMES[id] || THEMES.flux;
       document.getElementById('theme-color-meta').content = dark ? th.dark : th.light;
+      updateNavbarColor();
     }
     function selectTheme(id) {
       applyTheme(id);
@@ -5295,6 +5315,7 @@
         var bgPair = bgColors[themeName] || bgColors.flux;
         const manifest = { name: 'Flux — Deine ToDo App', short_name: 'Flux',
           start_url: location.href, display: 'standalone',
+          display_override: ['window-controls-overlay', 'standalone'],
           background_color: isDark ? bgPair[1] : bgPair[0], theme_color: isDark ? bgPair[1] : bgPair[0],
           icons: [{ src: iconUrl, sizes: '192x192', type: 'image/png' }] };
         const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
