@@ -152,14 +152,16 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ## Changelog
 
 ### v1.4.7
+- Focus mode button: height matched to other buttons (38px / 44px mobile)
+- Font-size consistency: all input fields and buttons unified
+
+### v1.4.6
 - Subtasks — add checklists within a task, toggle individual items, progress badge (e.g. 2/5)
 - Subtask editor in edit mode — add, remove and modify subtasks inline
 - Recurring tasks carry over subtasks (reset to unchecked)
 - History limit increased from 10,000 to 100,000 entries
-- Font-size consistency: all input fields and buttons unified
-- Focus mode button: height matched to other buttons (44px mobile)
 
-### v1.4.5 (previous)
+### v1.4.5
 - Design consistency refactor: unified border-radius across all elements (3-tier system: 8px / 12px / 20px)
 - Unified all CSS transitions to 0.2s for smoother, consistent animations
 - New design tokens `--gl-border-subtle` / `--gl-border-subtle-dark` for secondary borders
