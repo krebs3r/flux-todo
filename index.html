@@ -437,6 +437,28 @@
       color-scheme: dark;
     }
     .form-field::-webkit-calendar-picker-indicator { opacity: 0; width: 100%; position: absolute; cursor: pointer; }
+    .form-field-wrap {
+      position: relative;
+    }
+    .form-field-wrap .form-field {
+      position: relative;
+      z-index: 1;
+    }
+    .form-field-label {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--muted);
+      font-size: 0.88rem;
+      z-index: 2;
+      transition: opacity 0.15s;
+    }
+    body.dark .form-field-label { color: var(--muted-dark); }
+    .form-field-wrap .form-field.has-value ~ .form-field-label {
+      opacity: 0;
+    }
     #new-todo-recur { grid-column: 1 / -1; }
     #new-todo-recur-detail { grid-column: 1 / -1; }
 
@@ -2465,8 +2487,14 @@
           <button class="prio-chip" data-p="low" onclick="setPriority('low')"></button>
         </div>
         <div class="form-grid">
-          <input class="form-field" type="date" id="new-todo-due" />
-          <input class="form-field" type="time" id="new-todo-time" />
+          <div class="form-field-wrap">
+            <input class="form-field" type="date" id="new-todo-due" />
+            <span class="form-field-label" id="new-todo-due-label"></span>
+          </div>
+          <div class="form-field-wrap">
+            <input class="form-field" type="time" id="new-todo-time" />
+            <span class="form-field-label" id="new-todo-time-label"></span>
+          </div>
           <select class="form-field" id="new-todo-recur" onchange="onRecurChange('new')">
             <option value=""></option>
           </select>
@@ -2853,6 +2881,8 @@
         priorityLow: '↓ Niedrig',
         notePlaceholder: 'Notiz (optional) …',
         detailsMore: 'Notiz & Tag',
+        formDate: 'Datum …',
+        formTime: 'Uhrzeit …',
         metaDue: 'Fällig',
         metaOverdue: 'Überfällig',
         metaDueToday: 'Heute fällig',
@@ -2923,6 +2953,7 @@
             entries: [
               'Details-Toggle im Segmented-Control-Style — passt jetzt zum Filter-Button-Design (Offen/Erledigt)',
               'Toggle hebt sich mit Glass-Hintergrund hervor wenn geöffnet',
+              'Datums- und Uhrzeitfelder zeigen jetzt Platzhalter-Labels auf iOS',
             ],
           },
           {
@@ -3304,6 +3335,8 @@
         priorityLow: '↓ Low',
         notePlaceholder: 'Note (optional) …',
         detailsMore: 'Note & Tag',
+        formDate: 'Date …',
+        formTime: 'Time …',
         metaDue: 'Due',
         metaOverdue: 'Overdue',
         metaDueToday: 'Due today',
@@ -3374,6 +3407,7 @@
             entries: [
               'Details toggle styled as segmented control — matches filter button (Open/Done) appearance',
               'Toggle highlights with glass background when open',
+              'Date and time fields now show placeholder labels on iOS',
             ],
           },
           {
@@ -3912,6 +3946,7 @@
       newPriority = '';
       currentCategory = '';
       updatePrioChips();
+      updateFieldLabels();
       haptic('success');
       save(); render();
       switchTab('tasks');
@@ -4634,6 +4669,12 @@
         c.classList.toggle('active', c.dataset.p === newPriority);
       });
     }
+    function updateFieldLabels() {
+      var due = document.getElementById('new-todo-due');
+      var time = document.getElementById('new-todo-time');
+      due.classList.toggle('has-value', !!due.value);
+      time.classList.toggle('has-value', !!time.value);
+    }
     function toggleFormDetails() {
       var d = document.getElementById('form-details');
       var c = document.getElementById('details-chevron');
@@ -5059,6 +5100,9 @@
       updatePrioChips();
       document.getElementById('new-todo-note').placeholder = T.notePlaceholder;
       document.getElementById('details-toggle-label').textContent = T.detailsMore;
+      document.getElementById('new-todo-due-label').textContent = T.formDate;
+      document.getElementById('new-todo-time-label').textContent = T.formTime;
+      updateFieldLabels();
       populateRecurSelect('new', T);
       document.getElementById('history-title').textContent = T.historyTitle;
       document.getElementById('io-title').textContent = T.ioTitle;
@@ -5396,13 +5440,17 @@
     setInterval(function() { render(); checkDueNotifications(); }, 60000);
     document.getElementById('new-todo-due').addEventListener('focus', function() {
       if (!this.value) this.value = new Date().toISOString().split('T')[0];
+      updateFieldLabels();
     });
     document.getElementById('new-todo-time').addEventListener('focus', function() {
       if (!this.value) {
         const n = new Date();
         this.value = String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
       }
+      updateFieldLabels();
     });
+    document.getElementById('new-todo-due').addEventListener('change', updateFieldLabels);
+    document.getElementById('new-todo-time').addEventListener('change', updateFieldLabels);
     document.addEventListener('focusin', function(e) {
       if (e.target.matches('.due-edit-input[type="date"]') && !e.target.value) {
         e.target.value = new Date().toISOString().split('T')[0];
