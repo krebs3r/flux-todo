@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.4.4-blueviolet)
+![Version](https://img.shields.io/badge/version-1.4.5-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -150,7 +150,19 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ## Changelog
 
-### v1.4.4
+### v1.4.5
+- Design consistency refactor: unified border-radius across all elements (3-tier system: 8px / 12px / 20px)
+- Unified all CSS transitions to 0.2s for smoother, consistent animations
+- New design tokens `--gl-border-subtle` / `--gl-border-subtle-dark` for secondary borders
+- Font-size standardization: 4-tier system (0.63 / 0.72 / 0.82 / 0.88rem)
+- Touch optimization: active-state feedback for all interactive elements (details toggle, focus mode, tag manager, modals, tab bar, theme picker, confirm dialogs)
+- Touch targets: 44px minimum for cat-filter, scheduled header, tab buttons, modal close, sort select
+- Empty state illustrations with SVG icons for tasks and history
+- Tag character counter with warning indicator near limit
+- Touch drag & drop: long-press on handle to reorder tasks on mobile
+- Recurrence select: placeholder text now correctly uses muted color
+
+### v1.4.4 (previous)
 - Tag Manager in Settings — rename or remove tags from all tasks at once
 - Scheduled recurring tasks moved to collapsible "Scheduled" section (no longer cluttering the main list)
 - Chrome: date/time fields show clean placeholder labels instead of native "dd.mm.yyyy"
@@ -159,7 +171,7 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - Safari compatibility: added -webkit-user-select and -webkit-backdrop-filter prefixes
 - Confirm dialog: long text now wraps correctly instead of overflowing
 
-### v1.4.3 (previous)
+### v1.4.3
 - Details toggle styled as segmented control — matches filter button (Offen/Erledigt) appearance
 - Toggle highlights with glass background when open, transparent when closed
 - Removed conflicting hover color overrides on details toggle
@@ -385,4 +397,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.4.4</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.4.5</p>
