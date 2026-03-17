@@ -2622,9 +2622,10 @@
       gap: 6px;
       width: 100%;
       padding: 8px 12px;
+      min-height: 38px;
       margin-bottom: 12px;
       box-sizing: border-box;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 600;
       font-family: inherit;
       letter-spacing: 0.02em;
@@ -2728,6 +2729,7 @@
       .form-field { height: 44px; }
       .hero-input { padding: 16px 18px; font-size: 1.08rem; }
       .details-toggle { min-height: 44px; }
+      .focus-trigger { min-height: 44px; }
       .cat-input { padding: 12px 14px; }
       .search-input { padding: 12px 36px 12px 36px; }
       .confirm-btn { padding: 12px 18px; }
@@ -3002,7 +3004,7 @@
           <div id="tag-manager-list"></div>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.4.6</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.4.7</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -3351,13 +3353,14 @@
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
-            version: 'v1.4.6',
+            version: 'v1.4.7',
             entries: [
               'Teilaufgaben — Checklisten innerhalb einer Aufgabe mit Fortschritts-Badge',
               'Teilaufgaben-Editor im Bearbeitungsmodus — hinzufügen, entfernen, ändern',
               'Wiederkehrende Aufgaben übernehmen Teilaufgaben (zurückgesetzt auf offen)',
               'Verlaufslimit von 10.000 auf 100.000 Einträge erhöht',
-              'Schriftgrößen-Konsistenz: alle Eingabefelder einheitlich auf 0.88rem',
+              'Schriftgrößen-Konsistenz: alle Eingabefelder und Buttons einheitlich',
+              'Fokus-Modus-Button: Höhe an andere Buttons angeglichen (44px mobil)',
             ],
           },
           {
@@ -3853,13 +3856,14 @@
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
-            version: 'v1.4.6',
+            version: 'v1.4.7',
             entries: [
               'Subtasks — checklists within a task with progress badge (e.g. 2/5)',
               'Subtask editor in edit mode — add, remove and modify subtasks inline',
               'Recurring tasks carry over subtasks (reset to unchecked)',
               'History limit increased from 10,000 to 100,000 entries',
-              'Font-size consistency: all input fields unified to 0.88rem',
+              'Font-size consistency: all input fields and buttons unified',
+              'Focus mode button: height matched to other buttons (44px mobile)',
             ],
           },
           {
