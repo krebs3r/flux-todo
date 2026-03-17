@@ -84,8 +84,8 @@
       display: none;
       position: absolute; right: 0; top: calc(100% + 8px);
       background: rgba(255,255,255,0.75);
-      backdrop-filter: blur(18px) saturate(160%);
       -webkit-backdrop-filter: blur(18px) saturate(160%);
+      backdrop-filter: blur(18px) saturate(160%);
       border: 1px solid var(--gl-border); border-radius: var(--radius);
       box-shadow: var(--gl-shadow); padding: 10px; min-width: 196px;
       z-index: 100;
@@ -126,7 +126,6 @@
       width: 100%;
       flex: 1;
       overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
       padding-top: max(32px, calc(env(safe-area-inset-top) + 16px));
       padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 16px);
       padding-left: max(16px, env(safe-area-inset-left));
@@ -162,8 +161,8 @@
       height: 36px;
       border-radius: 50%;
       background: rgba(255,255,255,0.25);
-      backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(255,255,255,0.3);
       display: flex;
       align-items: center;
@@ -197,8 +196,8 @@
       margin-bottom: 24px;
       padding: 14px 16px;
       background: var(--gl);
-      backdrop-filter: blur(18px) saturate(160%);
       -webkit-backdrop-filter: blur(18px) saturate(160%);
+      backdrop-filter: blur(18px) saturate(160%);
       border: 1px solid var(--gl-border);
       border-radius: var(--radius);
       box-shadow: var(--gl-shadow);
@@ -219,8 +218,8 @@
       width: 44px;
       height: 44px;
       background: rgba(255,255,255,0.28);
-      backdrop-filter: blur(14px) saturate(180%);
       -webkit-backdrop-filter: blur(14px) saturate(180%);
+      backdrop-filter: blur(14px) saturate(180%);
       border: 1px solid rgba(255,255,255,0.55);
       border-radius: 12px;
       display: flex;
@@ -282,8 +281,8 @@
       gap: 5px;
       height: 32px;
       background: var(--gl-strong);
-      backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
       border: 1px solid var(--gl-border);
       color: var(--muted);
       border-radius: 10px;
@@ -316,8 +315,8 @@
     /* ── Card ───────────────────────────────────────────────── */
     .card {
       background: var(--gl);
-      backdrop-filter: blur(20px) saturate(160%);
       -webkit-backdrop-filter: blur(20px) saturate(160%);
+      backdrop-filter: blur(20px) saturate(160%);
       border: 1px solid var(--gl-border);
       border-radius: var(--radius);
       box-shadow: var(--gl-shadow);
@@ -343,8 +342,8 @@
       border-radius: 16px;
       border: 1px solid var(--gl-border);
       background: rgba(255,255,255,0.28);
-      backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
       color: var(--text);
       font-size: 1.05rem;
       font-family: inherit;
@@ -378,8 +377,8 @@
       border-radius: 20px;
       border: 1px solid var(--gl-border);
       background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       color: var(--muted);
       font-size: 0.72rem;
       font-weight: 600;
@@ -420,8 +419,8 @@
       border-radius: 12px;
       border: 1px solid var(--gl-border);
       background: rgba(255,255,255,0.18);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       color: var(--text);
       font-size: 0.88rem;
       font-family: inherit;
@@ -439,6 +438,9 @@
       color-scheme: dark;
     }
     .form-field::-webkit-calendar-picker-indicator { opacity: 0; width: 100%; position: absolute; cursor: pointer; }
+    /* Hide native placeholder text (e.g. "tt.mm.jjjj") when no value is set */
+    .form-field-wrap .form-field:not(.has-value) { color: transparent; }
+    .form-field-wrap .form-field:not(.has-value)::-webkit-datetime-edit { color: transparent; }
     .form-field-wrap {
       position: relative;
     }
@@ -461,6 +463,8 @@
     .form-field-wrap .form-field.has-value ~ .form-field-label {
       opacity: 0;
     }
+    .form-field-wrap .form-field.has-value { color: var(--text); }
+    body.dark .form-field-wrap .form-field.has-value { color: var(--text-dark); }
     #new-todo-recur { grid-column: 1 / -1; }
     #new-todo-recur-detail { grid-column: 1 / -1; }
 
@@ -468,8 +472,8 @@
     .details-toggle-wrap {
       margin-top: 8px;
       background: var(--gl-subtle);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       border: 1px solid rgba(255,255,255,0.30);
       border-radius: 12px;
       padding: 3px;
@@ -555,6 +559,7 @@
       white-space: nowrap;
       flex-shrink: 0;
       cursor: pointer;
+      -webkit-user-select: none;
       user-select: none;
       display: inline-flex;
       align-items: center;
@@ -593,14 +598,13 @@
       left: 0; right: 0; top: 100%;
       z-index: 50;
       background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(18px) saturate(160%);
       -webkit-backdrop-filter: blur(18px) saturate(160%);
+      backdrop-filter: blur(18px) saturate(160%);
       border: 1px solid var(--gl-border);
       border-top: none;
       border-radius: 0 0 12px 12px;
       max-height: 150px;
       overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
     }
     .cat-ac.open { display: block; }
     body.dark .cat-ac {
@@ -625,8 +629,8 @@
       border-radius: 12px;
       border: 1px solid var(--gl-border);
       background: rgba(255,255,255,0.20);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       color: var(--text);
       font-size: 1rem;
       font-family: inherit;
@@ -652,8 +656,8 @@
       border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.30);
       background: var(--gl-subtle);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       color: var(--muted);
       cursor: pointer;
       -webkit-appearance: none;
@@ -681,8 +685,8 @@
       border-radius: 12px;
       border: 1px solid var(--gl-border);
       background: rgba(255,255,255,0.20);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       color: var(--text);
       font-size: 1rem;
       font-family: inherit;
@@ -757,8 +761,8 @@
       border-radius: 12px;
       border: 1px solid var(--gl-border);
       background: rgba(255,255,255,0.22);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       color: var(--text);
       font-size: 0.85rem;
       font-family: inherit;
@@ -795,6 +799,68 @@
       border-color: rgba(255,255,255,0.12);
       color: var(--muted-dark);
     }
+
+    /* ── Scheduled (recurring-future) collapsible section ── */
+    .scheduled-section {
+      margin-top: 16px;
+    }
+    .scheduled-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 14px;
+      min-height: 44px;
+      background: var(--gl-subtle);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.30);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      outline: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    body.dark .scheduled-header {
+      background: var(--gl-subtle-dark);
+      border-color: rgba(255,255,255,0.07);
+      color: var(--muted-dark);
+    }
+    .scheduled-header:hover, .scheduled-header:active {
+      background: rgba(255,255,255,0.55);
+      color: var(--text);
+    }
+    body.dark .scheduled-header:hover, body.dark .scheduled-header:active {
+      background: rgba(255,255,255,0.10);
+      color: var(--text-dark);
+    }
+    .scheduled-chevron {
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .scheduled-chevron.open {
+      transform: rotate(180deg);
+    }
+    .scheduled-count {
+      margin-left: auto;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(90,100,128,0.12);
+      border: 1px solid rgba(90,100,128,0.18);
+    }
+    body.dark .scheduled-count {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.12);
+    }
+    .scheduled-body {
+      margin-top: 8px;
+    }
+
     .todo-badges-row {
       display: flex;
       flex-wrap: wrap;
@@ -871,8 +937,8 @@
       border-radius: 10px;
       border: 1px solid var(--gl-border);
       background: var(--gl);
-      backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
       color: var(--muted);
       font-size: 0.82rem;
       font-weight: 600;
@@ -909,8 +975,8 @@
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,0.30);
       background: var(--gl-subtle);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       color: var(--text);
       font-size: 1rem;
       outline: none;
@@ -955,8 +1021,8 @@
       gap: 4px;
       margin-bottom: 12px;
       background: var(--gl-subtle);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       border: 1px solid rgba(255,255,255,0.30);
       border-radius: 12px;
       padding: 3px;
@@ -1010,14 +1076,14 @@
     }
     body.dark .sort-label { color: var(--muted-dark); }
     .sort-select {
-      appearance: none;
       -webkit-appearance: none;
+      appearance: none;
       padding: 7px 28px 7px 12px;
       border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.30);
       background: var(--gl-subtle);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       color: var(--text);
       font-size: 0.78rem;
       font-weight: 600;
@@ -1082,6 +1148,7 @@
       background: transparent;
       cursor: default;
       transition: background 0.15s, transform 0.15s;
+      -webkit-user-select: none;
       user-select: none;
       position: relative;
       will-change: transform;
@@ -1360,8 +1427,8 @@
       border-radius: 12px;
       border: 1px solid var(--gl-border);
       background: rgba(255,255,255,0.20);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       color: var(--text);
       font-size: 0.82rem;
       font-weight: 600;
@@ -1381,6 +1448,70 @@
     .io-btn svg { flex-shrink: 0; }
 
     #import-file { display: none; }
+
+    /* ── Tag Manager ───────────────────────────────────────── */
+    #tag-manager-body { margin-top: 10px; }
+    .tag-manager-empty {
+      color: var(--muted);
+      font-size: 0.82rem;
+      padding: 8px 0;
+    }
+    body.dark .tag-manager-empty { color: var(--muted-dark); }
+    .tag-manager-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    body.dark .tag-manager-item { border-bottom-color: rgba(255,255,255,0.06); }
+    .tag-manager-item:last-child { border-bottom: none; }
+    .tag-manager-name {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tag-manager-badge {
+      font-size: 0.85rem;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 140px;
+    }
+    .tag-manager-count {
+      font-size: 0.7rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    body.dark .tag-manager-count { color: var(--muted-dark); }
+    .tag-manager-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .tag-mgr-btn {
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--gl-border);
+      background: rgba(255,255,255,0.18);
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      min-height: 32px;
+    }
+    body.dark .tag-mgr-btn {
+      background: rgba(255,255,255,0.05);
+      border-color: var(--gl-border-dark);
+      color: var(--muted-dark);
+    }
+    .tag-mgr-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .tag-mgr-btn.danger:hover { border-color: var(--danger); color: var(--danger); }
 
     /* ── Inline Edit ────────────────────────────────────────── */
     .todo-edit-input {
@@ -1406,8 +1537,8 @@
       left: 50%;
       transform: translateX(-50%) translateY(60px);
       background: rgba(255,255,255,0.30);
-      backdrop-filter: blur(16px) saturate(160%);
       -webkit-backdrop-filter: blur(16px) saturate(160%);
+      backdrop-filter: blur(16px) saturate(160%);
       border: 1px solid rgba(255,255,255,0.50);
       color: var(--text);
       padding: 10px 20px;
@@ -1526,8 +1657,8 @@
       bottom: calc(64px + env(safe-area-inset-bottom, 0px));
       left: 16px; right: 16px;
       background: rgba(255,255,255,0.72);
-      backdrop-filter: blur(24px) saturate(1.6);
       -webkit-backdrop-filter: blur(24px) saturate(1.6);
+      backdrop-filter: blur(24px) saturate(1.6);
       border: 1px solid rgba(255,255,255,0.55);
       border-radius: 16px;
       box-shadow: 0 8px 32px rgba(61,90,254,0.18), 0 1px 0 rgba(255,255,255,0.7) inset;
@@ -1604,6 +1735,8 @@
       color: var(--text);
       line-height: 1.55;
       margin-bottom: 20px;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
     body.dark .confirm-message { color: var(--text-dark); }
     .confirm-actions { display: flex; gap: 8px; justify-content: flex-end; }
@@ -1645,6 +1778,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.45);
+      -webkit-backdrop-filter: blur(4px);
       backdrop-filter: blur(4px);
       z-index: 500;
       display: flex;
@@ -1658,8 +1792,8 @@
     .modal-backdrop.show { opacity: 1; pointer-events: all; }
     .modal {
       background: rgba(255,255,255,0.82);
-      backdrop-filter: blur(28px) saturate(180%);
       -webkit-backdrop-filter: blur(28px) saturate(180%);
+      backdrop-filter: blur(28px) saturate(180%);
       border: 1px solid rgba(255,255,255,0.70);
       border-radius: var(--radius);
       box-shadow: 0 24px 64px rgba(100,80,200,0.30), 0 1px 0 rgba(255,255,255,0.60) inset;
@@ -1901,8 +2035,8 @@
       align-items: flex-start;
       height: calc(56px + env(safe-area-inset-bottom, 0px));
       background: rgba(255,255,255,0.35);
-      backdrop-filter: blur(32px) saturate(180%);
       -webkit-backdrop-filter: blur(32px) saturate(180%);
+      backdrop-filter: blur(32px) saturate(180%);
       border-top: 1px solid var(--gl-border);
       box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
       z-index: 200;
@@ -1978,8 +2112,8 @@
       position: fixed;
       inset: 0;
       background: rgba(255,255,255,0.30);
-      backdrop-filter: blur(40px) saturate(160%);
       -webkit-backdrop-filter: blur(40px) saturate(160%);
+      backdrop-filter: blur(40px) saturate(160%);
       z-index: 4000;
       display: flex;
       align-items: center;
@@ -1993,8 +2127,8 @@
     @keyframes pomoFadeIn { from { opacity: 0; } to { opacity: 1; } }
     .pomo-card {
       background: rgba(255,255,255,0.72);
-      backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
+      backdrop-filter: blur(20px) saturate(180%);
       border: 1px solid rgba(255,255,255,0.55);
       border-radius: 24px;
       box-shadow: 0 24px 64px rgba(100,80,200,0.20), 0 1px 0 rgba(255,255,255,0.60) inset;
@@ -2145,8 +2279,8 @@
       position: fixed;
       inset: 0;
       background: rgba(255,255,255,0.30);
-      backdrop-filter: blur(40px) saturate(160%);
       -webkit-backdrop-filter: blur(40px) saturate(160%);
+      backdrop-filter: blur(40px) saturate(160%);
       z-index: 3999;
       display: flex;
       align-items: center;
@@ -2160,8 +2294,8 @@
     @keyframes focusFadeIn { from { opacity: 0; } to { opacity: 1; } }
     .focus-card {
       background: rgba(255,255,255,0.72);
-      backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
+      backdrop-filter: blur(20px) saturate(180%);
       border: 1px solid rgba(255,255,255,0.55);
       border-radius: 24px;
       box-shadow: 0 24px 64px rgba(100,80,200,0.20), 0 1px 0 rgba(255,255,255,0.60) inset;
@@ -2315,8 +2449,8 @@
       letter-spacing: 0.02em;
       white-space: nowrap;
       background: var(--gl-subtle);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       border: 1px solid rgba(255,255,255,0.30);
       border-radius: 12px;
       color: var(--muted);
@@ -2469,7 +2603,7 @@
         <button class="ctrl-btn" id="notify-btn" onclick="toggleNotify()" title="Notifications">
           <span id="notify-icon"></span>
         </button>
-        <button class="ctrl-btn" id="dark-btn" onclick="toggleDark()">
+        <button class="ctrl-btn" id="dark-btn" onclick="toggleDark()" aria-label="Toggle dark mode">
           <span id="dark-icon"></span>
         </button>
       </div>
@@ -2533,21 +2667,21 @@
         </div>
         <div class="search-wrap">
           <span class="search-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
-          <input class="search-input" id="search-input" type="text" autocomplete="off" oninput="onSearch(this.value)" />
+          <input class="search-input" id="search-input" type="text" autocomplete="off" oninput="onSearch(this.value)" aria-label="Search tasks" />
           <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
         </div>
-        <button class="focus-trigger" id="focus-mode-btn" onclick="enterFocusMode()">
+        <button class="focus-trigger" id="focus-mode-btn" onclick="enterFocusMode()" aria-label="Focus Mode">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
           <span id="focus-mode-btn-label"></span>
         </button>
         <div class="filter-sort-row">
           <div class="filters" id="filters">
-            <button class="filter-btn active" data-filter="open" onclick="setFilter('open')"></button>
-            <button class="filter-btn" data-filter="done" onclick="setFilter('done')"></button>
+            <button class="filter-btn active" data-filter="open" onclick="setFilter('open')" aria-label="Open tasks"></button>
+            <button class="filter-btn" data-filter="done" onclick="setFilter('done')" aria-label="Done tasks"></button>
           </div>
           <div class="sort-row">
             <label class="sort-label" id="sort-label"></label>
-            <select class="sort-select" id="sort-select" onchange="setSort(this.value)">
+            <select class="sort-select" id="sort-select" onchange="setSort(this.value)" aria-label="Sort order">
               <option value="manual"></option>
               <option value="priority"></option>
               <option value="dueDate"></option>
@@ -2556,7 +2690,7 @@
           </div>
         </div>
         <div class="filter-sort-row" id="cat-filter-row" style="margin-top:-4px">
-          <select class="cat-filter" id="cat-filter" onchange="setCategoryFilter(this.value)">
+          <select class="cat-filter" id="cat-filter" onchange="setCategoryFilter(this.value)" aria-label="Category filter">
             <option value=""></option>
           </select>
         </div>
@@ -2628,8 +2762,17 @@
           </button>
         </div>
         <input type="file" id="import-file" accept=".json" onchange="importData(event)" />
+        <div class="details-toggle-wrap" style="margin-top:12px">
+          <button class="details-toggle" id="tag-manager-toggle" onclick="toggleTagManager()">
+            <svg class="details-chevron" id="tag-manager-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            <span id="tag-manager-title"></span>
+          </button>
+        </div>
+        <div id="tag-manager-body" style="display:none">
+          <div id="tag-manager-list"></div>
+        </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.4.3</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.4.4</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -2644,19 +2787,19 @@
 
   <!-- Tab Bar -->
   <nav class="tab-bar" id="tab-bar">
-    <button class="tab-btn" data-tab="new" onclick="switchTab('new')">
+    <button class="tab-btn" data-tab="new" onclick="switchTab('new')" aria-label="New task">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       <span class="tab-label" id="tab-label-new"></span>
     </button>
-    <button class="tab-btn active" data-tab="tasks" onclick="switchTab('tasks')">
+    <button class="tab-btn active" data-tab="tasks" onclick="switchTab('tasks')" aria-label="Tasks">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       <span class="tab-label" id="tab-label-tasks"></span>
     </button>
-    <button class="tab-btn" data-tab="history" onclick="switchTab('history')">
+    <button class="tab-btn" data-tab="history" onclick="switchTab('history')" aria-label="History">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       <span class="tab-label" id="tab-label-history"></span>
     </button>
-    <button class="tab-btn" data-tab="manage" onclick="switchTab('manage')">
+    <button class="tab-btn" data-tab="manage" onclick="switchTab('manage')" aria-label="Settings">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       <span class="tab-label" id="tab-label-manage"></span>
     </button>
@@ -2683,8 +2826,8 @@
       <div class="confirm-body">
         <p class="confirm-message" id="confirm-message"></p>
         <div class="confirm-actions">
-          <button class="confirm-btn confirm-no" id="confirm-no" onclick="resolveConfirm(false)"></button>
-          <button class="confirm-btn confirm-yes" id="confirm-yes" onclick="resolveConfirm(true)"></button>
+          <button class="confirm-btn confirm-no" id="confirm-no" onclick="resolveConfirm(false)" aria-label="Cancel"></button>
+          <button class="confirm-btn confirm-yes" id="confirm-yes" onclick="resolveConfirm(true)" aria-label="Confirm"></button>
         </div>
       </div>
     </div>
@@ -2695,7 +2838,7 @@
     <div class="modal" style="max-width:400px">
       <div class="modal-header">
         <h2 id="kb-heading">Keyboard Shortcuts</h2>
-        <button class="modal-close" onclick="closeKB()">
+        <button class="modal-close" onclick="closeKB()" aria-label="Close">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
@@ -2710,7 +2853,7 @@
     <div class="modal" style="max-width:520px">
       <div class="modal-header">
         <h2 id="stats-heading">Statistics</h2>
-        <button class="modal-close" onclick="closeStats()">
+        <button class="modal-close" onclick="closeStats()" aria-label="Close">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
@@ -2725,7 +2868,7 @@
     <div class="modal">
       <div class="modal-header">
         <h2 id="changelog-heading">Changelog</h2>
-        <button class="modal-close" onclick="closeChangelog()">
+        <button class="modal-close" onclick="closeChangelog()" aria-label="Close">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
@@ -2870,6 +3013,13 @@
         tabHistory: 'Verlauf',
         tabManage: 'Einstellungen',
         deleteAllLabel: 'Alle löschen',
+        tagManagerTitle: 'Tags verwalten',
+        tagManagerEmpty: 'Keine Tags vorhanden.',
+        tagManagerRename: 'Umbenennen',
+        tagManagerDelete: 'Löschen',
+        tagManagerDeleteConfirm: (tag, count) => `Tag "#${tag}" von ${count} Aufgabe${count === 1 ? '' : 'n'} entfernen?`,
+        tagManagerRenamePrompt: 'Neuer Name für Tag:',
+        tagManagerCount: (n) => `${n} Aufgabe${n === 1 ? '' : 'n'}`,
         searchPlaceholder: 'Suchen …',
         stats: (d, t) => `${d} von ${t} erledigt`,
         emptyTodos: 'Keine Aufgaben vorhanden.',
@@ -2922,6 +3072,7 @@
         recurMonthlyLast: 'Letzter Tag',
         badgeRecurring: 'Wiederholt',
         recurScheduled: 'Geplant',
+        scheduledSection: 'Geplant',
         historyRecurring: 'Nächste Wiederholung erstellt',
         pomodoroStart: 'Pomodoro starten',
         pomodoroWork: 'Arbeiten',
@@ -2962,6 +3113,18 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.4.4',
+            entries: [
+              'Tag-Manager in den Einstellungen — Tags umbenennen oder von allen Aufgaben entfernen',
+              'Geplante wiederkehrende Aufgaben in eigener kollabierbarer Sektion „Geplant"',
+              'Chrome: Datums-/Uhrzeitfelder zeigen jetzt saubere Platzhalter statt „tt.mm.jjjj"',
+              'Android: Navigationsleiste färbt sich passend zum App-Theme (auch Xiaomi/MIUI)',
+              'Accessibility: ARIA-Labels für Buttons, Formulare und Modals',
+              'Safari-Fix: -webkit-user-select und -webkit-backdrop-filter ergänzt',
+              'Confirm-Dialog: Langer Text bricht jetzt korrekt um',
+            ],
+          },
           {
             version: 'v1.4.3',
             entries: [
@@ -3324,6 +3487,13 @@
         tabHistory: 'History',
         tabManage: 'Settings',
         deleteAllLabel: 'Delete all',
+        tagManagerTitle: 'Tags',
+        tagManagerEmpty: 'No tags yet.',
+        tagManagerRename: 'Rename',
+        tagManagerDelete: 'Delete',
+        tagManagerDeleteConfirm: (tag, count) => `Remove tag "#${tag}" from ${count} task${count === 1 ? '' : 's'}?`,
+        tagManagerRenamePrompt: 'New name for tag:',
+        tagManagerCount: (n) => `${n} task${n === 1 ? '' : 's'}`,
         searchPlaceholder: 'Search …',
         stats: (d, t) => `${d} of ${t} completed`,
         emptyTodos: 'No tasks yet.',
@@ -3376,6 +3546,7 @@
         recurMonthlyLast: 'Last day',
         badgeRecurring: 'Recurring',
         recurScheduled: 'Scheduled',
+        scheduledSection: 'Scheduled',
         historyRecurring: 'Next recurrence created',
         pomodoroStart: 'Start Pomodoro',
         pomodoroWork: 'Work',
@@ -3416,6 +3587,18 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.4.4',
+            entries: [
+              'Tag Manager in Settings — rename or remove tags from all tasks',
+              'Scheduled recurring tasks moved to collapsible "Scheduled" section',
+              'Chrome: date/time fields now show clean placeholders instead of native format',
+              'Android: navigation bar color matches app theme (including Xiaomi/MIUI)',
+              'Accessibility: ARIA labels for buttons, forms and modals',
+              'Safari fix: added -webkit-user-select and -webkit-backdrop-filter prefixes',
+              'Confirm dialog: long text now wraps correctly',
+            ],
+          },
           {
             version: 'v1.4.3',
             entries: [
@@ -4022,6 +4205,61 @@
       var tags = {};
       todos.forEach(function(t) { if (t.category) tags[t.category] = true; });
       return Object.keys(tags).sort();
+    }
+    function getTagCounts() {
+      var counts = {};
+      todos.forEach(function(t) {
+        if (t.category) counts[t.category] = (counts[t.category] || 0) + 1;
+      });
+      return counts;
+    }
+    function renderTagManager() {
+      var T = t();
+      document.getElementById('tag-manager-title').textContent = T.tagManagerTitle;
+      var el = document.getElementById('tag-manager-list');
+      var counts = getTagCounts();
+      var tags = Object.keys(counts).sort();
+      if (!tags.length) {
+        el.innerHTML = '<div class="tag-manager-empty">' + T.tagManagerEmpty + '</div>';
+        return;
+      }
+      el.innerHTML = tags.map(function(tag) {
+        return '<div class="tag-manager-item">' +
+          '<div class="tag-manager-name">' +
+            '<span class="cat-badge" style="' + catStyle(tag) + '">#' + escHtml(tag) + '</span>' +
+            '<span class="tag-manager-count">' + T.tagManagerCount(counts[tag]) + '</span>' +
+          '</div>' +
+          '<div class="tag-manager-actions">' +
+            '<button class="tag-mgr-btn" onclick="renameTag(\'' + escHtml(tag).replace(/'/g, "\\'") + '\')">' + T.tagManagerRename + '</button>' +
+            '<button class="tag-mgr-btn danger" onclick="deleteTag(\'' + escHtml(tag).replace(/'/g, "\\'") + '\')">' + T.tagManagerDelete + '</button>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+    function renameTag(oldTag) {
+      var T = t();
+      var newTag = prompt(T.tagManagerRenamePrompt, oldTag);
+      if (!newTag || !newTag.trim()) return;
+      newTag = newTag.trim().replace(/^#/, '');
+      if (newTag === oldTag) return;
+      saveUndo();
+      var changed = 0;
+      todos.forEach(function(todo) {
+        if (todo.category === oldTag) { todo.category = newTag; changed++; }
+      });
+      if (changed) { save(); render(); haptic('success'); }
+    }
+    function deleteTag(tag) {
+      var T = t();
+      var count = todos.filter(function(todo) { return todo.category === tag; }).length;
+      showConfirm(T.tagManagerDeleteConfirm(tag, count), function() {
+        saveUndo();
+        todos.forEach(function(todo) {
+          if (todo.category === tag) todo.category = '';
+        });
+        if (currentCategory === tag) currentCategory = '';
+        save(); render(); haptic('success');
+      }, null, true);
     }
 
     /* ── Custom tag autocomplete ── */
@@ -4703,6 +4941,22 @@
       c.classList.toggle('open', show);
       document.getElementById('details-toggle').classList.toggle('open', show);
     }
+    function toggleTagManager() {
+      var body = document.getElementById('tag-manager-body');
+      var chevron = document.getElementById('tag-manager-chevron');
+      var btn = document.getElementById('tag-manager-toggle');
+      var show = body.style.display === 'none';
+      body.style.display = show ? '' : 'none';
+      chevron.classList.toggle('open', show);
+      btn.classList.toggle('open', show);
+    }
+    function toggleScheduledSection() {
+      scheduledSectionOpen = !scheduledSectionOpen;
+      var body = document.getElementById('scheduled-body');
+      var chevron = document.getElementById('scheduled-chevron');
+      if (body) body.style.display = scheduledSectionOpen ? '' : 'none';
+      if (chevron) chevron.classList.toggle('open', scheduledSectionOpen);
+    }
     function cycleTodoPriority(id) {
       const todo = todos.find(t => t.id === id);
       if (!todo) return;
@@ -4712,6 +4966,7 @@
     }
 
     // ── Focus Mode ─────────────────────────────────────────────────────────
+    var scheduledSectionOpen = false;
     var focusModeActive = false;
     var focusSkippedIds = [];
 
@@ -5126,6 +5381,7 @@
       populateRecurSelect('new', T);
       document.getElementById('history-title').textContent = T.historyTitle;
       document.getElementById('io-title').textContent = T.ioTitle;
+      renderTagManager();
       document.getElementById('export-label').textContent = T.exportLabel;
       document.getElementById('import-label').textContent = T.importLabel;
       document.getElementById('clear-label').textContent = T.clearLabel;
@@ -5177,13 +5433,11 @@
       const dueLabel = { 'due-overdue': T.metaOverdue, 'due-today': T.metaDueToday, 'due-future': T.metaDue };
       const list = document.getElementById('todo-list');
       const visible = filteredTodos();
-      if (!visible.length) {
-        list.innerHTML = `<div class="empty-state">${SVG.inbox}<p>${T.emptyTodos}</p></div>`;
-      } else {
-        list.innerHTML = visible.map(todo => {
-          const dc = todo.dueDate && !todo.done ? getDueClass(todo.dueDate) : '';
-          const isRecurFuture = !todo.done && todo.recurrence && dc === 'due-future';
-          return `
+
+      function renderTodoItem(todo) {
+        const dc = todo.dueDate && !todo.done ? getDueClass(todo.dueDate) : '';
+        const isRecurFuture = !todo.done && todo.recurrence && dc === 'due-future';
+        return `
           <div class="swipe-wrap" data-swipe-id="${todo.id}">
             <div class="swipe-action left">${SVG.check} &nbsp;${T.metaDone}</div>
             <div class="swipe-action right">${SVG.trash} &nbsp;${T.deleteTitle}</div>
@@ -5223,7 +5477,39 @@
               </div>
             </div>
           </div>`;
-        }).join('');
+      }
+
+      if (!visible.length) {
+        list.innerHTML = `<div class="empty-state">${SVG.inbox}<p>${T.emptyTodos}</p></div>`;
+      } else {
+        // Split into active and scheduled (recurring-future) tasks
+        const active = [];
+        const scheduled = [];
+        visible.forEach(todo => {
+          const dc = todo.dueDate && !todo.done ? getDueClass(todo.dueDate) : '';
+          if (!todo.done && todo.recurrence && dc === 'due-future') {
+            scheduled.push(todo);
+          } else {
+            active.push(todo);
+          }
+        });
+
+        let html = active.map(renderTodoItem).join('');
+
+        if (scheduled.length) {
+          html += `<div class="scheduled-section">
+            <button class="scheduled-header" onclick="toggleScheduledSection()">
+              <svg class="scheduled-chevron${scheduledSectionOpen ? ' open' : ''}" id="scheduled-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              <span>${T.scheduledSection}</span>
+              <span class="scheduled-count">${scheduled.length}</span>
+            </button>
+            <div class="scheduled-body" id="scheduled-body" style="${scheduledSectionOpen ? '' : 'display:none'}">
+              ${scheduled.map(renderTodoItem).join('')}
+            </div>
+          </div>`;
+        }
+
+        list.innerHTML = html;
       }
 
       // History

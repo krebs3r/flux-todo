@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.4.3-blueviolet)
+![Version](https://img.shields.io/badge/version-1.4.4-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -36,7 +36,7 @@
 - **Export & Import** — save and restore your tasks as a JSON file
 - **Bulk delete** — clear all tasks at once, with an optional export prompt
 - **Statistics view** — completion rate ring, tasks per week bar chart, current & longest streak
-- **Tags** — label tasks with custom #hashtags, autocomplete from existing tags, filter by tag
+- **Tags** — label tasks with custom #hashtags, autocomplete from existing tags, filter by tag, manage/rename/delete in settings
 - **Sort options** — manual, priority, due date, creation date
 - **Undo** — reverse the last action with a 5-second toast
 - **Pomodoro timer** — fullscreen focus mode linked to a task (25/5/15 min cycles)
@@ -150,7 +150,16 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ## Changelog
 
-### v1.4.3
+### v1.4.4
+- Tag Manager in Settings — rename or remove tags from all tasks at once
+- Scheduled recurring tasks moved to collapsible "Scheduled" section (no longer cluttering the main list)
+- Chrome: date/time fields show clean placeholder labels instead of native "dd.mm.yyyy"
+- Android: navigation bar color matches app theme (including Xiaomi/MIUI browsers)
+- Accessibility: ARIA labels for all buttons, form elements and modals
+- Safari compatibility: added -webkit-user-select and -webkit-backdrop-filter prefixes
+- Confirm dialog: long text now wraps correctly instead of overflowing
+
+### v1.4.3 (previous)
 - Details toggle styled as segmented control — matches filter button (Offen/Erledigt) appearance
 - Toggle highlights with glass background when open, transparent when closed
 - Removed conflicting hover color overrides on details toggle
@@ -376,4 +385,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.4.3</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.4.4</p>
