@@ -6,13 +6,13 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Flux">
-  <meta name="theme-color" content="#7eb3ff" id="theme-color-meta">
-  <script>try{var _saved=localStorage.getItem('dark');var _dk=_saved!==null?_saved==='1':true;var _th=localStorage.getItem('theme')||'flux';if(_dk)document.documentElement.classList.add('dark');if(_th!=='flux')document.documentElement.classList.add('theme-'+_th);var _tc={'flux':['#a0c4ff','#0c1648'],'ocean':['#6dd5ed','#041530'],'sunset':['#ffd166','#2e1206'],'forest':['#74c69d','#152b20'],'rose':['#ffb3c6','#2a0e1a'],'mono':['#c5c9d0','#141618'],'bender':['#b8c8e0','#0e1828'],'lumpi':['#e2d0b8','#1c100a'],'nobler':['#d0d0d8','#10101a']};var _p=_tc[_th]||_tc['flux'];document.getElementById('theme-color-meta').content=_dk?_p[1]:_p[0];}catch(e){}</script>
+  <meta name="theme-color" content="#c8d6e5" id="theme-color-meta">
+  <script>try{var _saved=localStorage.getItem('dark');var _dk=_saved!==null?_saved==='1':window.matchMedia('(prefers-color-scheme:dark)').matches;var _th=localStorage.getItem('theme')||'flux';if(_dk)document.documentElement.classList.add('dark');if(_th!=='flux')document.documentElement.classList.add('theme-'+_th);var _tc={'flux':['#c8d6e5','#0c1648'],'ocean':['#6dd5ed','#041530'],'sunset':['#ffd166','#2e1206'],'forest':['#74c69d','#152b20'],'rose':['#ffb3c6','#2a0e1a'],'mono':['#c5c9d0','#141618'],'bender':['#b8c8e0','#0e1828'],'lumpi':['#e2d0b8','#1c100a'],'nobler':['#d0d0d8','#10101a']};var _p=_tc[_th]||_tc['flux'];document.getElementById('theme-color-meta').content=_dk?_p[1]:_p[0];}catch(e){}</script>
   <title>Flux — Deine ToDo App</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233d5afe'/%3E%3Cpolyline points='7,16 13,22 25,10' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
   <style>
     :root {
-      --bg: linear-gradient(to bottom, #a0c4ff 0%, #c89eff 50%, #f0a8d8 100%);
+      --bg: linear-gradient(to bottom, #c8d6e5 0%, #b8c8dc 50%, #a8b8d0 100%);
       --bg-dark: linear-gradient(to bottom, #0c1648 0%, #1a1050 50%, #160832 100%);
       --surface: #ffffff;
       --surface-dark: #13172a;
@@ -37,9 +37,9 @@
       --gl-border-dark:rgba(255,255,255,0.10);
       --gl-border-subtle: rgba(255,255,255,0.30);
       --gl-border-subtle-dark: rgba(255,255,255,0.08);
-      --gl-shadow:     0 8px 32px rgba(100,80,200,0.20), 0 1px 0 rgba(255,255,255,0.60) inset;
+      --gl-shadow:     0 8px 32px rgba(80,100,140,0.18), 0 1px 0 rgba(255,255,255,0.60) inset;
       --gl-shadow-dark:0 8px 32px rgba(0,0,0,0.50),     0 1px 0 rgba(255,255,255,0.06) inset;
-      --shadow-sm: 0 2px 8px rgba(100,80,200,0.12);
+      --shadow-sm: 0 2px 8px rgba(80,100,140,0.10);
       --shadow: var(--gl-shadow);
       --radius: 14px;
       --radius-sm: 8px;
@@ -50,7 +50,7 @@
     html {
       height: 100%;
       min-height: calc(100% + env(safe-area-inset-top, 0px));
-      background-color: #f0a8d8;
+      background-color: #a8b8d0;
       --bg-active: var(--bg);
       background-image: var(--bg-active);
       background-size: 100% calc(100% + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));
@@ -84,7 +84,7 @@
     .theme-picker-wrap { position: relative; }
     .theme-popover {
       display: none;
-      position: absolute; right: 0; top: calc(100% + 8px);
+      position: absolute; left: 50%; top: calc(100% + 8px); transform: translateX(-50%);
       background: rgba(255,255,255,0.75);
       -webkit-backdrop-filter: blur(18px) saturate(160%);
       backdrop-filter: blur(18px) saturate(160%);
@@ -370,7 +370,7 @@
     .prio-chips {
       display: flex;
       gap: 6px;
-      margin-top: 10px;
+      margin-top: 8px;
     }
     .prio-chip {
       flex: 1;
@@ -382,7 +382,7 @@
       -webkit-backdrop-filter: blur(8px);
       backdrop-filter: blur(8px);
       color: var(--muted);
-      font-size: 0.72rem;
+      font-size: 0.82rem;
       font-weight: 600;
       font-family: inherit;
       cursor: pointer;
@@ -404,12 +404,85 @@
     body.dark .prio-chip.active[data-p="medium"] { background: rgba(245,124,0,0.25); color: #f57c00; }
     body.dark .prio-chip.active[data-p="low"]    { background: rgba(56,142,60,0.25); color: #66bb6a; }
 
+    /* ── Board Bar ─────────────────────────────────────────── */
+    .board-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .board-bar::-webkit-scrollbar { display: none; }
+    .board-chip {
+      flex-shrink: 0;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 20px;
+      border: 1px solid var(--gl-border);
+      background: rgba(255,255,255,0.15);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .board-chip:hover { background: rgba(255,255,255,0.30); }
+    body.dark .board-chip {
+      background: rgba(255,255,255,0.06);
+      border-color: var(--gl-border-dark);
+      color: var(--text-dark);
+    }
+    body.dark .board-chip:hover { background: rgba(255,255,255,0.11); }
+    .board-chip.active {
+      background: rgba(var(--accent-rgb, 100,100,100), 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    body.dark .board-chip.active {
+      background: rgba(255,255,255,0.11);
+      color: var(--text-dark);
+      border-color: var(--gl-border-dark);
+    }
+    .board-count {
+      font-size: 0.62rem;
+      opacity: 0.6;
+      font-weight: 500;
+    }
+    .board-add-btn {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px dashed var(--gl-border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .board-add-btn:hover { border-color: var(--accent); color: var(--accent); }
+    body.dark .board-add-btn { border-color: var(--gl-border-dark); color: var(--muted-dark); }
+    body.dark .board-add-btn:hover { border-color: var(--accent); color: var(--accent); }
+
     /* ── Form Grid ──────────────────────────────────────────── */
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 8px;
-      margin-top: 10px;
+      margin-top: 8px;
     }
     .form-field {
       width: 100%;
@@ -492,14 +565,14 @@
       justify-content: center;
       gap: 6px;
       width: 100%;
-      padding: 8px 12px;
+      padding: 9px 14px;
       min-height: 38px;
       box-sizing: border-box;
       background: transparent;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       color: var(--text);
-      font-size: 0.82rem;
+      font-size: 0.88rem;
       font-weight: 600;
       font-family: inherit;
       letter-spacing: 0.02em;
@@ -519,7 +592,7 @@
     }
     .details-chevron { transition: transform 0.2s; }
     .details-chevron.open { transform: rotate(180deg); }
-    .form-details { margin-top: 4px; }
+    .form-details { margin-top: 8px; }
 
     /* ── Add Button (Accent) ────────────────────────────────── */
     .btn-add {
@@ -529,7 +602,7 @@
       gap: 7px;
       width: 100%;
       height: 46px;
-      margin-top: 12px;
+      margin-top: 8px;
       background: var(--accent);
       color: #fff;
       font-size: 0.85rem;
@@ -2633,21 +2706,98 @@
       font-family: inherit;
       letter-spacing: 0.02em;
       white-space: nowrap;
-      background: var(--gl-subtle);
+      background: rgba(255,255,255,0.20);
       -webkit-backdrop-filter: blur(8px);
       backdrop-filter: blur(8px);
-      border: 1px solid var(--gl-border-subtle);
+      border: 1px solid var(--gl-border);
       border-radius: 12px;
-      color: var(--muted);
+      color: var(--text);
       cursor: pointer;
       transition: all 0.2s;
     }
-    .focus-trigger:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.25); }
-    body.dark .focus-trigger { background: var(--gl-subtle-dark); border-color: var(--gl-border-subtle-dark); color: var(--muted-dark); }
-    body.dark .focus-trigger:hover { color: var(--accent); background: rgba(255,255,255,0.08); }
+    .focus-trigger:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.38); }
+    body.dark .focus-trigger { background: rgba(255,255,255,0.06); border-color: var(--gl-border-dark); color: var(--text-dark); }
+    body.dark .focus-trigger:hover { background: rgba(255,255,255,0.11); }
     @media (max-width: 500px) {
       .focus-card { padding: 40px 24px; }
       .focus-btn { padding: 0 20px; height: 46px; font-size: 0.82rem; }
+    }
+
+    /* ── Calendar View ────────────────────────────────────────── */
+    .calendar-nav {
+      display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px;
+    }
+    .calendar-nav-btn {
+      background: var(--gl-subtle); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      border: 1px solid var(--gl-border-subtle); border-radius: 8px;
+      width: 36px; height: 36px; font-size: 1.2rem;
+      color: var(--text); cursor: pointer; transition: all 0.2s;
+    }
+    body.dark .calendar-nav-btn { background: var(--gl-subtle-dark); border-color: var(--gl-border-subtle-dark); color: var(--text-dark); }
+    .calendar-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .calendar-month-label {
+      font-size: 0.9rem; font-weight: 700; color: var(--text); min-width: 150px; text-align: center;
+    }
+    body.dark .calendar-month-label { color: var(--text-dark); }
+    .calendar-today-btn {
+      font-size: 0.72rem; font-weight: 600; padding: 4px 10px;
+      background: var(--accent-muted); color: var(--accent);
+      border: none; border-radius: 8px; cursor: pointer;
+    }
+    body.dark .calendar-today-btn { background: var(--accent-muted-dark); }
+    .calendar-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;
+    }
+    .calendar-day-header {
+      text-align: center; font-size: 0.7rem; font-weight: 700;
+      color: var(--muted); padding: 4px 0;
+    }
+    body.dark .calendar-day-header { color: var(--muted-dark); }
+    .calendar-day {
+      aspect-ratio: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-start;
+      padding: 4px 2px; border-radius: 8px;
+      cursor: pointer; transition: background 0.15s;
+      position: relative; min-height: 44px;
+    }
+    .calendar-day:hover { background: var(--gl-subtle); }
+    body.dark .calendar-day:hover { background: var(--gl-subtle-dark); }
+    .calendar-day.today {
+      background: var(--accent-muted); font-weight: 700;
+    }
+    body.dark .calendar-day.today { background: var(--accent-muted-dark); }
+    .calendar-day.other-month { opacity: 0.3; }
+    .calendar-day-num {
+      font-size: 0.78rem; font-weight: 600; color: var(--text); line-height: 1;
+    }
+    body.dark .calendar-day-num { color: var(--text-dark); }
+    .calendar-dots {
+      display: flex; gap: 2px; margin-top: 3px; flex-wrap: wrap; justify-content: center;
+    }
+    .calendar-dot {
+      width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+    }
+    .calendar-dot.overdue { background: var(--danger, #ff6b6b); }
+    .calendar-dot.done { background: var(--muted); opacity: 0.45; }
+    .calday-task {
+      display: flex; align-items: center; gap: 8px; padding: 10px 0;
+      border-bottom: 1px solid var(--gl-border-subtle);
+    }
+    .calday-task:last-child { border-bottom: none; }
+    .calday-meta {
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 4px;
+    }
+    .calday-meta .cat-badge {
+      max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .calday-actions { display: flex; gap: 4px; flex-shrink: 0; margin-left: auto; }
+    .calday-actions .action-btn { width: 30px; height: 30px; font-size: 0.7rem; }
+    .calday-time { font-size: 0.72rem; color: var(--muted); }
+    body.dark .calday-time { color: var(--muted-dark); }
+    @media (max-width: 500px) {
+      .calendar-day { min-height: 38px; }
+      .calendar-day-num { font-size: 0.72rem; }
+      .calendar-dot { width: 4px; height: 4px; }
     }
 
     /* ── Touch devices: always show actions & handles ───────── */
@@ -2901,15 +3051,25 @@
           <span class="section-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
           <span class="section-title" id="tasks-title"></span>
         </div>
+        <div class="board-bar" id="board-bar">
+          <div id="board-chips" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+          <button class="board-add-btn" onclick="addBoard()" title="+">+</button>
+        </div>
         <div class="search-wrap">
           <span class="search-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
           <input class="search-input" id="search-input" type="text" autocomplete="off" oninput="onSearch(this.value)" aria-label="Search tasks" />
           <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
         </div>
-        <button class="focus-trigger" id="focus-mode-btn" onclick="enterFocusMode()" aria-label="Focus Mode">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
-          <span id="focus-mode-btn-label"></span>
-        </button>
+        <div style="display:flex;gap:6px">
+          <button class="focus-trigger" id="focus-mode-btn" onclick="enterFocusMode()" aria-label="Focus Mode">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+            <span id="focus-mode-btn-label"></span>
+          </button>
+          <button class="focus-trigger" id="calendar-toggle-btn" onclick="toggleCalendarView()" aria-label="Calendar">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="calendar-toggle-label"></span>
+          </button>
+        </div>
         <div class="filter-sort-row">
           <div class="filters" id="filters">
             <button class="filter-btn active" data-filter="open" onclick="setFilter('open')" aria-label="Open tasks"></button>
@@ -2929,6 +3089,15 @@
           <select class="cat-filter" id="cat-filter" onchange="setCategoryFilter(this.value)" aria-label="Category filter">
             <option value=""></option>
           </select>
+        </div>
+        <div id="calendar-container" style="display:none">
+          <div class="calendar-nav">
+            <button class="calendar-nav-btn" onclick="calendarPrev()">‹</button>
+            <span class="calendar-month-label" id="calendar-month-label"></span>
+            <button class="calendar-nav-btn" onclick="calendarNext()">›</button>
+            <button class="calendar-today-btn" onclick="calendarGoToday()" id="calendar-today-btn"></button>
+          </div>
+          <div class="calendar-grid" id="calendar-grid"></div>
         </div>
         <div class="todo-list" id="todo-list"></div>
         <div id="stats-row"></div>
@@ -3007,14 +3176,25 @@
         <div id="tag-manager-body" style="display:none">
           <div id="tag-manager-list"></div>
         </div>
+        <div class="io-row" style="margin-top:8px">
+          <button class="io-btn" id="download-app-btn" onclick="downloadApp()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span id="download-app-label"></span>
+          </button>
+        </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.4.9.1</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.0</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
             </svg>
             krebs3r/flux-todo
           </a>
+          <p id="footer-disclaimer" style="font-size:.75rem;opacity:.55;line-height:1.5;margin:12px 0 0"></p>
+
         </div>
       </div>
     </div>
@@ -3099,6 +3279,21 @@
     </div>
   </div>
 
+  <!-- Calendar Day Modal -->
+  <div class="modal-backdrop" id="calday-backdrop" onclick="handleCalDayBackdropClick(event)">
+    <div class="modal" style="max-width:480px">
+      <div class="modal-header">
+        <h2 id="calday-heading"></h2>
+        <button class="modal-close" onclick="closeCalDay()" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="calday-body"></div>
+    </div>
+  </div>
+
   <!-- Changelog Modal -->
   <div class="modal-backdrop" id="changelog-backdrop" onclick="handleBackdropClick(event)">
     <div class="modal">
@@ -3159,7 +3354,7 @@
   <script>
     // ── SVG Icons ────────────────────────────────────────────────────────────
     const THEMES = {
-      flux:   { light: '#a0c4ff', dark: '#0c1648' },
+      flux:   { light: '#c8d6e5', dark: '#0c1648' },
       ocean:  { light: '#6dd5ed', dark: '#041530' },
       sunset: { light: '#ffd166', dark: '#2e1206' },
       forest: { light: '#74c69d', dark: '#152b20' },
@@ -3171,7 +3366,7 @@
     };
     /* Gradient-end colors — used for body background so Android navbar picks up the color */
     const THEME_BG = {
-      flux:   { light: '#f0a8d8', dark: '#160832' },
+      flux:   { light: '#a8b8d0', dark: '#160832' },
       ocean:  { light: '#90e0ef', dark: '#0a2a52' },
       sunset: { light: '#f08060', dark: '#4a2210' },
       forest: { light: '#95d5b2', dark: '#1e4030' },
@@ -3182,7 +3377,7 @@
       nobler: { light: '#e0e0e8', dark: '#1c1c26' },
     };
     const SWATCH_BG = {
-      flux:   'linear-gradient(to bottom,#7eb3ff,#c87eff,#ff7ec8)',
+      flux:   'linear-gradient(to bottom,#c8d6e5,#b0bfd4,#a8b8d0)',
       ocean:  'linear-gradient(to bottom,#48cae4,#00b4d8,#90e0ef)',
       sunset: 'linear-gradient(to bottom,#ffd166,#ef8c5c,#f4845f)',
       forest: 'linear-gradient(to bottom,#74c69d,#52b788,#95d5b2)',
@@ -3212,6 +3407,8 @@
     };
 
     // ── State ────────────────────────────────────────────────────────────────
+    let boards = [];
+    let currentBoardId = null;
     let todos = [];
     let history = [];
     let currentFilter = 'open';
@@ -3220,7 +3417,7 @@
     let currentTheme = 'flux';
     let themePickerOpen = false;
     let dragSrcIndex = null;
-    var touchDragActive = false;
+    let touchDragActive = false;
     let newPriority = '';
     let searchQuery = '';
     let currentSort = 'manual';
@@ -3251,6 +3448,15 @@
         tabHistory: 'Verlauf',
         tabManage: 'Einstellungen',
         deleteAllLabel: 'Alle löschen',
+        downloadAppLabel: 'App lokal speichern',
+        boardDefault: 'Inbox',
+        boardAddPrompt: 'Name für neues Board:',
+        boardRenamePrompt: 'Board umbenennen:',
+        boardDeleteConfirm: 'Board „%NAME%" mit %COUNT% Aufgabe(n) löschen?',
+        boardDeleteLast: 'Das letzte Board kann nicht gelöscht werden.',
+        moveToBoardLabel: 'Verschieben nach:',
+        moveToBoardCurrent: '(aktuelles Board)',
+        moveToBoardDone: 'Aufgabe nach „%NAME%" verschoben',
         tagManagerTitle: 'Tags verwalten',
         tagManagerEmpty: 'Keine Tags vorhanden.',
         tagManagerRename: 'Umbenennen',
@@ -3349,13 +3555,37 @@
           ['0', 'Filter: Alle'],
           ['Z', 'Rückgängig'],
           ['G', 'Fokus-Modus'],
+          ['C', 'Kalender'],
+          ['B', 'Nächstes Board'],
           ['Esc', 'Schließen / Abbrechen'],
           ['[ / ]', 'Tab wechseln'],
           ['?', 'Diese Hilfe anzeigen'],
         ],
+        calendarBtn: 'Kalender',
+        calendarListBtn: 'Liste',
+        calendarToday: 'Heute',
+        calendarNoTasks: 'Keine Aufgaben an diesem Tag.',
+        footerDisclaimer: 'Privates Open-Source-Projekt.<br>Keine Daten werden serverseitig gespeichert.<br>Hosting über GitHub Pages – es gelten deren <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Datenschutzbestimmungen</a>.',
+        calendarMonthNames: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+        calendarDayNamesShort: ['Mo','Di','Mi','Do','Fr','Sa','So'],
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.0',
+            entries: [
+              'Mehrere Listen / Boards — „Arbeit", „Privat", „Einkauf" als separate Bereiche',
+              'Kalenderansicht — Tasks mit Fälligkeitsdatum auf einem Wochen-/Monatskalender',
+              'Aufgaben zwischen Boards verschieben — neues Dropdown im Bearbeiten-Modus',
+              'Board-Namen auf 20 Zeichen begrenzt',
+              'Standard-Board umbenannt: „Allgemein" → „Inbox"',
+              'Dark Mode: Board-Chips, Fokus-Modus & Kalender-Buttons an Einstellungs-Buttons angeglichen',
+              'Dark Mode: Hover nur noch dezent aufgehellt (kein blauer Akzent mehr)',
+              'Theme-Popover zentriert unter dem Button (kein Überlauf auf kleinen Screens)',
+              'Schriftgrößen vereinheitlicht: Prioritäts-Chips, Details-Toggle und Formularfelder auf 0.88rem',
+              'Einstellungen: Button-Abstände und Padding vereinheitlicht',
+            ],
+          },
           {
             version: 'v1.4.9.1',
             entries: [
@@ -3782,6 +4012,15 @@
         tabHistory: 'History',
         tabManage: 'Settings',
         deleteAllLabel: 'Delete all',
+        downloadAppLabel: 'Save app locally',
+        boardDefault: 'Inbox',
+        boardAddPrompt: 'Name for new board:',
+        boardRenamePrompt: 'Rename board:',
+        boardDeleteConfirm: 'Delete board "%NAME%" with %COUNT% task(s)?',
+        boardDeleteLast: 'Cannot delete the last board.',
+        moveToBoardLabel: 'Move to:',
+        moveToBoardCurrent: '(current board)',
+        moveToBoardDone: 'Task moved to "%NAME%"',
         tagManagerTitle: 'Tags',
         tagManagerEmpty: 'No tags yet.',
         tagManagerRename: 'Rename',
@@ -3880,13 +4119,37 @@
           ['0', 'Filter: All'],
           ['Z', 'Undo'],
           ['G', 'Focus Mode'],
+          ['C', 'Calendar'],
+          ['B', 'Next board'],
           ['Esc', 'Close / Cancel'],
           ['[ / ]', 'Switch tab'],
           ['?', 'Show this help'],
         ],
+        calendarBtn: 'Calendar',
+        calendarListBtn: 'List',
+        calendarToday: 'Today',
+        calendarNoTasks: 'No tasks on this day.',
+        footerDisclaimer: 'Private open-source project.<br>No data is stored server-side.<br>Hosted on GitHub Pages – their <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">privacy policy</a> applies.',
+        calendarMonthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+        calendarDayNamesShort: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.0',
+            entries: [
+              'Multiple lists / boards — "Work", "Personal", "Shopping" as separate areas',
+              'Calendar view — tasks with due dates on a weekly/monthly calendar',
+              'Move tasks between boards — new dropdown in edit mode',
+              'Board names limited to 20 characters',
+              'Default board renamed: "General" → "Inbox"',
+              'Dark mode: board chips, focus mode & calendar buttons matched to settings buttons',
+              'Dark mode: hover now subtly brightens (no more blue accent)',
+              'Theme popover centered below button (no overflow on small screens)',
+              'Font sizes unified: priority chips, details toggle and form fields set to 0.88rem',
+              'Settings: button spacing and padding unified',
+            ],
+          },
           {
             version: 'v1.4.9.1',
             entries: [
@@ -4297,11 +4560,17 @@
     const t = () => i18n[lang];
 
     // ── Persistence ──────────────────────────────────────────────────────────
+    function activateBoard(boardId) {
+      currentBoardId = boardId;
+      const board = boards.find(b => b.id === boardId);
+      if (board) { todos = board.todos; history = board.history; }
+    }
     function save() {
-      localStorage.setItem('todos', JSON.stringify(todos));
-      localStorage.setItem('history', JSON.stringify(history));
+      const board = boards.find(b => b.id === currentBoardId);
+      if (board) { board.todos = todos; board.history = history; }
+      localStorage.setItem('boards', JSON.stringify(boards));
+      localStorage.setItem('currentBoardId', String(currentBoardId));
       localStorage.setItem('lang', lang);
-      localStorage.setItem('dark', dark ? '1' : '0');
       localStorage.setItem('theme', currentTheme);
       localStorage.setItem('notify', notifyEnabled ? '1' : '0');
       localStorage.setItem('sort', currentSort);
@@ -4309,16 +4578,108 @@
       localStorage.setItem('activeTab', activeTab);
     }
     function load() {
-      try { todos = JSON.parse(localStorage.getItem('todos')) || []; } catch { todos = []; }
-      try { history = JSON.parse(localStorage.getItem('history')) || []; } catch { history = []; }
       lang = localStorage.getItem('lang') || 'de';
+      const boardsRaw = localStorage.getItem('boards');
+      const legacyTodos = localStorage.getItem('todos');
+      if (boardsRaw) {
+        try { boards = JSON.parse(boardsRaw) || []; } catch { boards = []; }
+      } else if (legacyTodos) {
+        let oldTodos = [], oldHistory = [];
+        try { oldTodos = JSON.parse(legacyTodos) || []; } catch {}
+        try { oldHistory = JSON.parse(localStorage.getItem('history')) || []; } catch {}
+        boards = [{ id: 1, name: 'Inbox', todos: oldTodos, history: oldHistory }];
+        localStorage.removeItem('todos');
+        localStorage.removeItem('history');
+      }
+      if (!boards.length) {
+        boards = [{ id: 1, name: 'Inbox', todos: [], history: [] }];
+      }
+      currentBoardId = parseInt(localStorage.getItem('currentBoardId')) || boards[0].id;
+      if (!boards.find(b => b.id === currentBoardId)) currentBoardId = boards[0].id;
+      activateBoard(currentBoardId);
       const savedDark = localStorage.getItem('dark');
-      dark = savedDark !== null ? savedDark === '1' : true;
+      dark = savedDark !== null ? savedDark === '1' : window.matchMedia('(prefers-color-scheme: dark)').matches;
       currentTheme = localStorage.getItem('theme') || 'flux';
       notifyEnabled = localStorage.getItem('notify') === '1' && 'Notification' in window && Notification.permission === 'granted';
       currentSort = localStorage.getItem('sort') || 'manual';
       currentCategory = localStorage.getItem('catFilter') || '';
       activeTab = localStorage.getItem('activeTab') || 'tasks';
+    }
+
+    // ── Board management ─────────────────────────────────────────────────────
+    function renderBoardBar() {
+      const container = document.getElementById('board-chips');
+      container.innerHTML = boards.map(b =>
+        '<button class="board-chip' + (b.id === currentBoardId ? ' active' : '') + '"' +
+        ' onclick="switchBoard(' + b.id + ')"' +
+        ' ondblclick="renameBoard(' + b.id + ')"' +
+        ' oncontextmenu="boardContextMenu(event,' + b.id + ')">' +
+        escHtml(b.name) +
+        ' <span class="board-count">' + b.todos.filter(function(t){ return !t.done; }).length + '</span>' +
+        '</button>'
+      ).join('');
+    }
+    function switchBoard(boardId) {
+      if (boardId === currentBoardId) return;
+      const oldBoard = boards.find(b => b.id === currentBoardId);
+      if (oldBoard) { oldBoard.todos = todos; oldBoard.history = history; }
+      activateBoard(boardId);
+      currentCategory = '';
+      searchQuery = '';
+      const searchEl = document.getElementById('search');
+      if (searchEl) searchEl.value = '';
+      undoSnapshot = null;
+      save(); render();
+    }
+    function addBoard() {
+      const T = t();
+      const name = prompt(T.boardAddPrompt);
+      if (!name || !name.trim()) return;
+      const board = { id: Date.now(), name: name.trim().substring(0, 20), todos: [], history: [] };
+      boards.push(board);
+      switchBoard(board.id);
+    }
+    function renameBoard(boardId) {
+      const T = t();
+      const board = boards.find(b => b.id === boardId);
+      if (!board) return;
+      const name = prompt(T.boardRenamePrompt, board.name);
+      if (!name || !name.trim() || name.trim() === board.name) return;
+      board.name = name.trim().substring(0, 20);
+      save(); render();
+    }
+    function deleteBoard(boardId) {
+      if (boards.length <= 1) {
+        showToast(t().boardDeleteLast);
+        return;
+      }
+      const T = t();
+      const board = boards.find(b => b.id === boardId);
+      if (!board) return;
+      const msg = T.boardDeleteConfirm.replace('%NAME%', board.name).replace('%COUNT%', board.todos.length);
+      showConfirm(msg, function() {
+        boards = boards.filter(b => b.id !== boardId);
+        if (currentBoardId === boardId) switchBoard(boards[0].id);
+        else { save(); render(); }
+      }, null, true);
+    }
+    function boardContextMenu(e, boardId) {
+      e.preventDefault();
+      deleteBoard(boardId);
+    }
+
+    function moveTodoToBoard(todoId, targetBoardId) {
+      if (targetBoardId === currentBoardId) return;
+      const targetBoard = boards.find(b => b.id === targetBoardId);
+      if (!targetBoard) return;
+      const idx = todos.findIndex(t => t.id === todoId);
+      if (idx === -1) return;
+      saveUndo();
+      const todo = todos.splice(idx, 1)[0];
+      targetBoard.todos.push(todo);
+      const T = t();
+      showToast(T.moveToBoardDone.replace('%NAME%', targetBoard.name));
+      save(); render();
     }
 
     // ── History helpers ──────────────────────────────────────────────────────
@@ -4359,47 +4720,47 @@
 
     // ── Recurring tasks ────────────────────────────────────────────────────
     function ordSuffix(n) {
-      var s = ['th','st','nd','rd'], v = n % 100;
+      const s = ['th','st','nd','rd'], v = n % 100;
       return s[(v - 20) % 10] || s[v] || s[0];
     }
     function getNextOccurrence(recurrence, currentDueDate) {
       if (!recurrence || !currentDueDate) return '';
-      var dateOnly = currentDueDate.split('T')[0];
-      var timePart = currentDueDate.includes('T') ? currentDueDate.split('T')[1] : '';
-      var parts = dateOnly.split('-');
-      var d = new Date(+parts[0], +parts[1] - 1, +parts[2]);
-      var type = recurrence.split(':')[0];
-      var param = recurrence.split(':')[1];
+      const dateOnly = currentDueDate.split('T')[0];
+      const timePart = currentDueDate.includes('T') ? currentDueDate.split('T')[1] : '';
+      const parts = dateOnly.split('-');
+      const d = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+      const type = recurrence.split(':')[0];
+      const param = recurrence.split(':')[1];
       function advance(dt) {
         if (type === 'daily') { dt.setDate(dt.getDate() + 1); }
         else if (type === 'weekly') { dt.setDate(dt.getDate() + 7); }
         else if (type === 'biweekly') { dt.setDate(dt.getDate() + 14); }
         else if (type === 'monthly') {
-          var m = dt.getMonth() + 1, y = dt.getFullYear();
+          let m = dt.getMonth() + 1, y = dt.getFullYear();
           if (m > 11) { m = 0; y++; }
           if (param === 'last') { dt.setTime(new Date(y, m + 1, 0).getTime()); }
-          else { var mx = new Date(y, m + 1, 0).getDate(); dt.setTime(new Date(y, m, Math.min(parseInt(param,10), mx)).getTime()); }
+          else { const mx = new Date(y, m + 1, 0).getDate(); dt.setTime(new Date(y, m, Math.min(parseInt(param,10), mx)).getTime()); }
         }
       }
       advance(d);
       // Advance past today if result is overdue
-      var today = new Date(); today.setHours(0,0,0,0);
-      var safety = 0;
+      const today = new Date(); today.setHours(0,0,0,0);
+      let safety = 0;
       while (d < today && safety < 400) { advance(d); safety++; }
-      var iso = formatDateISO(d);
+      const iso = formatDateISO(d);
       return timePart ? iso + 'T' + timePart : iso;
     }
     function formatDateISO(d) {
-      var y = d.getFullYear();
-      var m = String(d.getMonth() + 1).padStart(2, '0');
-      var day = String(d.getDate()).padStart(2, '0');
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
       return y + '-' + m + '-' + day;
     }
     function recurrenceLabel(recurrence) {
       if (!recurrence) return '';
-      var T = t();
-      var type = recurrence.split(':')[0];
-      var param = recurrence.split(':')[1];
+      const T = t();
+      const type = recurrence.split(':')[0];
+      const param = recurrence.split(':')[1];
       if (type === 'daily') return T.recurLabelDaily;
       if (type === 'weekly') return T.recurLabelWeekly(T.recurDayNamesFull[parseInt(param, 10)]);
       if (type === 'biweekly') return T.recurLabelBiweekly(T.recurDayNamesFull[parseInt(param, 10)]);
@@ -4410,30 +4771,30 @@
       return '';
     }
     function onRecurChange(prefix) {
-      var sel = document.getElementById(prefix + '-todo-recur');
-      var detail = document.getElementById(prefix + '-todo-recur-detail');
-      var val = sel.value;
+      const sel = document.getElementById(prefix + '-todo-recur');
+      const detail = document.getElementById(prefix + '-todo-recur-detail');
+      const val = sel.value;
       sel.classList.toggle('placeholder', !val);
-      var T = t();
+      const T = t();
       if (val === 'weekly' || val === 'biweekly') {
         detail.style.display = '';
         detail.innerHTML = T.recurDayNames.map(function(name, i) {
           return '<option value="' + i + '">' + name + '</option>';
         }).join('');
         // Default to due date's day
-        var dueInput = document.getElementById(prefix + '-todo-due');
+        const dueInput = document.getElementById(prefix + '-todo-due');
         if (dueInput && dueInput.value) {
-          var p = dueInput.value.split('-');
-          var dayOfWeek = new Date(+p[0], +p[1]-1, +p[2]).getDay();
+          const p = dueInput.value.split('-');
+          const dayOfWeek = new Date(+p[0], +p[1]-1, +p[2]).getDay();
           detail.value = dayOfWeek;
         }
       } else if (val === 'monthly') {
         detail.style.display = '';
-        var opts = '';
-        for (var i = 1; i <= 31; i++) opts += '<option value="' + i + '">' + i + '.</option>';
+        let opts = '';
+        for (let i = 1; i <= 31; i++) opts += '<option value="' + i + '">' + i + '.</option>';
         opts += '<option value="last">' + T.recurMonthlyLast + '</option>';
         detail.innerHTML = opts;
-        var dueInput2 = document.getElementById(prefix + '-todo-due');
+        const dueInput2 = document.getElementById(prefix + '-todo-due');
         if (dueInput2 && dueInput2.value) {
           detail.value = parseInt(dueInput2.value.split('-')[2], 10);
         }
@@ -4443,7 +4804,7 @@
       }
       // Auto-fill due date if empty and recurrence selected
       if (val) {
-        var dueInp = document.getElementById(prefix + '-todo-due');
+        const dueInp = document.getElementById(prefix + '-todo-due');
         if (dueInp && !dueInp.value) {
           dueInp.value = formatDateISO(new Date());
           if (val === 'weekly' || val === 'biweekly') {
@@ -4455,16 +4816,16 @@
       }
     }
     function getRecurValue(prefix) {
-      var sel = document.getElementById(prefix + '-todo-recur');
+      const sel = document.getElementById(prefix + '-todo-recur');
       if (!sel) return '';
-      var val = sel.value;
+      const val = sel.value;
       if (!val) return '';
       if (val === 'daily') return 'daily';
-      var detail = document.getElementById(prefix + '-todo-recur-detail');
+      const detail = document.getElementById(prefix + '-todo-recur-detail');
       return val + ':' + (detail ? detail.value : '0');
     }
     function populateRecurSelect(prefix, T) {
-      var sel = document.getElementById(prefix + '-todo-recur');
+      const sel = document.getElementById(prefix + '-todo-recur');
       if (!sel) return;
       sel.innerHTML = '<option value="">' + T.recurNone + '</option>'
         + '<option value="daily">' + T.recurDaily + '</option>'
@@ -4513,7 +4874,7 @@
         confetti();
         // Create next recurring instance
         if (todo.recurrence && todo.dueDate) {
-          var nextDue = getNextOccurrence(todo.recurrence, todo.dueDate);
+          const nextDue = getNextOccurrence(todo.recurrence, todo.dueDate);
           if (nextDue) {
             todos.unshift({
               id: Date.now() + 1,
@@ -4554,33 +4915,34 @@
       showToast(t().deleteTitle, true);
     }
     function catHue(str) {
-      var h = 0;
-      for (var i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
+      let h = 0;
+      for (let i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
       return ((h % 360) + 360) % 360;
     }
     function catStyle(tag) {
-      var h = catHue(tag);
+      const h = catHue(tag);
       if (dark) return 'background:hsla(' + h + ',60%,50%,0.20);border:1px solid hsla(' + h + ',60%,50%,0.35);color:hsl(' + h + ',70%,70%)';
       return 'background:hsla(' + h + ',60%,45%,0.10);border:1px solid hsla(' + h + ',60%,45%,0.25);color:hsl(' + h + ',70%,35%)';
     }
     function getAllTags() {
-      var tags = {};
+      const tags = {};
       todos.forEach(function(t) { if (t.category) tags[t.category] = true; });
       return Object.keys(tags).sort();
     }
     function getTagCounts() {
-      var counts = {};
+      const counts = {};
       todos.forEach(function(t) {
         if (t.category) counts[t.category] = (counts[t.category] || 0) + 1;
       });
       return counts;
     }
     function renderTagManager() {
-      var T = t();
+      const T = t();
       document.getElementById('tag-manager-title').textContent = T.tagManagerTitle;
-      var el = document.getElementById('tag-manager-list');
-      var counts = getTagCounts();
-      var tags = Object.keys(counts).sort();
+      document.getElementById('footer-disclaimer').innerHTML = T.footerDisclaimer;
+      const el = document.getElementById('tag-manager-list');
+      const counts = getTagCounts();
+      const tags = Object.keys(counts).sort();
       if (!tags.length) {
         el.innerHTML = '<div class="tag-manager-empty">' + T.tagManagerEmpty + '</div>';
         return;
@@ -4597,11 +4959,11 @@
       }).join('');
     }
     function updateTagCounter(inputId, counterId) {
-      var input = document.getElementById(inputId);
-      var counter = document.getElementById(counterId);
+      const input = document.getElementById(inputId);
+      const counter = document.getElementById(counterId);
       if (!input || !counter) return;
-      var len = input.value.replace(/^#/, '').length;
-      var max = parseInt(input.getAttribute('maxlength'), 10) || 30;
+      const len = input.value.replace(/^#/, '').length;
+      const max = parseInt(input.getAttribute('maxlength'), 10) || 30;
       if (len > 0) {
         counter.textContent = len + '/' + max;
         counter.classList.add('visible');
@@ -4611,21 +4973,21 @@
       }
     }
     function renameTag(oldTag) {
-      var T = t();
-      var newTag = prompt(T.tagManagerRenamePrompt, oldTag);
+      const T = t();
+      let newTag = prompt(T.tagManagerRenamePrompt, oldTag);
       if (!newTag || !newTag.trim()) return;
       newTag = newTag.trim().replace(/^#/, '');
       if (newTag === oldTag) return;
       saveUndo();
-      var changed = 0;
+      let changed = 0;
       todos.forEach(function(todo) {
         if (todo.category === oldTag) { todo.category = newTag; changed++; }
       });
       if (changed) { save(); render(); haptic('success'); }
     }
     function deleteTag(tag) {
-      var T = t();
-      var count = todos.filter(function(todo) { return todo.category === tag; }).length;
+      const T = t();
+      const count = todos.filter(function(todo) { return todo.category === tag; }).length;
       showConfirm(T.tagManagerDeleteConfirm(tag, count), function() {
         saveUndo();
         todos.forEach(function(todo) {
@@ -4638,8 +5000,8 @@
 
     /* ── Custom tag autocomplete ── */
     function showTagAC(input, acEl) {
-      var val = input.value.replace(/^#/, '').toLowerCase();
-      var tags = getAllTags().filter(function(t) { return !val || t.toLowerCase().indexOf(val) !== -1; });
+      const val = input.value.replace(/^#/, '').toLowerCase();
+      const tags = getAllTags().filter(function(t) { return !val || t.toLowerCase().indexOf(val) !== -1; });
       if (!tags.length) { acEl.classList.remove('open'); return; }
       acEl.innerHTML = tags.map(function(t) {
         return '<div class="cat-ac-item" data-tag="' + escHtml(t) + '">#' + escHtml(t) + '</div>';
@@ -4650,7 +5012,7 @@
       input.addEventListener('input', function() { showTagAC(input, acEl); });
       input.addEventListener('focus', function() { showTagAC(input, acEl); });
       acEl.addEventListener('mousedown', function(e) {
-        var item = e.target.closest('.cat-ac-item');
+        const item = e.target.closest('.cat-ac-item');
         if (!item) return;
         e.preventDefault();
         input.value = '#' + item.getAttribute('data-tag');
@@ -4659,8 +5021,8 @@
       input.addEventListener('blur', function() { acEl.classList.remove('open'); });
     }
     (function() {
-      var inp = document.getElementById('new-todo-cat');
-      var ac = document.getElementById('cat-ac');
+      const inp = document.getElementById('new-todo-cat');
+      const ac = document.getElementById('cat-ac');
       if (inp && ac) bindTagAC(inp, ac);
     })();
 
@@ -4703,6 +5065,12 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           ${T.subtaskAdd}
         </button>
+        ${boards.length > 1 ? `<div class="recur-input-row">
+          <span class="due-input-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          <select class="recur-select" id="edit-move-board-${id}">
+            ${boards.map(b => '<option value="' + b.id + '"' + (b.id === currentBoardId ? ' selected disabled' : '') + '>' + escHtml(b.name) + (b.id === currentBoardId ? ' ' + T.moveToBoardCurrent : '') + '</option>').join('')}
+          </select>
+        </div>` : ''}
         <div class="edit-btn-row">
           <button class="edit-btn" id="edit-cancel-${id}">${T.editCancel}</button>
           <button class="edit-btn edit-save" id="edit-save-${id}">${T.editSave}</button>
@@ -4717,7 +5085,7 @@
       const dueTimeInp = wrap.querySelector('.due-edit-input[type="time"]');
       noteInp.placeholder = T.notePlaceholder;
       // Subtask editor state
-      var editSubtasks = (todo.subtasks || []).map(s => ({ text: s.text, done: s.done }));
+      let editSubtasks = (todo.subtasks || []).map(s => ({ text: s.text, done: s.done }));
       function renderEditSubtasks() {
         const container = document.getElementById('edit-subtasks-' + id);
         container.innerHTML = editSubtasks.map((st, i) => `
@@ -4747,8 +5115,8 @@
       };
       // Restore recurrence state
       if (oldRecur) {
-        var rType = oldRecur.split(':')[0];
-        var rParam = oldRecur.split(':')[1];
+        const rType = oldRecur.split(':')[0];
+        const rParam = oldRecur.split(':')[1];
         document.getElementById('edit-todo-recur').value = rType;
         onRecurChange('edit');
         if (rParam !== undefined) {
@@ -4773,6 +5141,12 @@
         if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null);
       };
       document.getElementById('edit-save-' + id).onclick = () => {
+        const moveSel = document.getElementById('edit-move-board-' + id);
+        if (moveSel && parseInt(moveSel.value) !== currentBoardId) {
+          commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value, getRecurValue('edit'), getEditSubtasks());
+          moveTodoToBoard(id, parseInt(moveSel.value));
+          return;
+        }
         commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value, getRecurValue('edit'), getEditSubtasks());
       };
       document.getElementById('edit-cancel-' + id).onclick = () => {
@@ -4887,30 +5261,30 @@
 
     // ── Touch Drag & Drop ─────────────────────────────────────────────────
     (function() {
-      var HOLD_MS = 200;
-      var holdTimer = null;
-      var dragItem = null;
-      var dragWrap = null;
-      var dragId = null;
-      var dragIndex = null;
-      var startY = 0;
-      var offsetY = 0;
-      var placeholder = null;
-      var allWraps = [];
-      var itemHeight = 0;
+      const HOLD_MS = 200;
+      let holdTimer = null;
+      let dragItem = null;
+      let dragWrap = null;
+      let dragId = null;
+      let dragIndex = null;
+      let startY = 0;
+      let offsetY = 0;
+      let placeholder = null;
+      let allWraps = [];
+      let itemHeight = 0;
 
       document.addEventListener('touchstart', function(e) {
         if (currentSort !== 'manual') return;
-        var handle = e.target.closest('.drag-handle');
+        const handle = e.target.closest('.drag-handle');
         if (!handle) return;
-        var wrap = handle.closest('.swipe-wrap');
+        const wrap = handle.closest('.swipe-wrap');
         if (!wrap) return;
-        var item = wrap.querySelector('.todo-item');
+        const item = wrap.querySelector('.todo-item');
         if (!item) return;
 
-        var touch = e.touches[0];
+        const touch = e.touches[0];
         startY = touch.clientY;
-        var rect = item.getBoundingClientRect();
+        const rect = item.getBoundingClientRect();
         offsetY = touch.clientY - rect.top;
 
         holdTimer = setTimeout(function() {
@@ -4949,16 +5323,16 @@
         if (!dragItem) return;
         e.preventDefault();
 
-        var touch = e.touches[0];
-        var y = touch.clientY - offsetY;
+        const touch = e.touches[0];
+        const y = touch.clientY - offsetY;
         dragItem.style.top = y + 'px';
 
         // Find drop target
-        var cy = touch.clientY;
-        var targetWrap = null;
-        for (var i = 0; i < allWraps.length; i++) {
+        const cy = touch.clientY;
+        let targetWrap = null;
+        for (let i = 0; i < allWraps.length; i++) {
           if (allWraps[i] === dragWrap || allWraps[i] === placeholder) continue;
-          var wr = allWraps[i].getBoundingClientRect();
+          const wr = allWraps[i].getBoundingClientRect();
           if (cy > wr.top && cy < wr.bottom) {
             targetWrap = allWraps[i];
             break;
@@ -4967,8 +5341,8 @@
 
         // Move placeholder
         if (targetWrap) {
-          var tRect = targetWrap.getBoundingClientRect();
-          var mid = tRect.top + tRect.height / 2;
+          const tRect = targetWrap.getBoundingClientRect();
+          const mid = tRect.top + tRect.height / 2;
           if (cy < mid) {
             targetWrap.parentNode.insertBefore(placeholder, targetWrap);
           } else {
@@ -4982,8 +5356,8 @@
         if (!dragItem) return;
 
         // Find new index based on placeholder position
-        var finalWraps = Array.from(document.querySelectorAll('#todo-list > .swipe-wrap'));
-        var placeholderIdx = finalWraps.indexOf(placeholder);
+        const finalWraps = Array.from(document.querySelectorAll('#todo-list > .swipe-wrap'));
+        const placeholderIdx = finalWraps.indexOf(placeholder);
 
         // Clean up
         dragItem.classList.remove('touch-dragging');
@@ -4993,20 +5367,20 @@
 
         // Calculate real target index
         // Count only real wraps (not placeholder) before placeholder position
-        var realIdx = 0;
-        for (var i = 0; i < finalWraps.length; i++) {
+        let realIdx = 0;
+        for (let i = 0; i < finalWraps.length; i++) {
           if (finalWraps[i] === placeholder) break;
           if (finalWraps[i] !== dragWrap) realIdx++;
         }
 
         // Get filtered view to map visual position to todos array
-        var visible = filteredTodos();
+        const visible = filteredTodos();
         if (dragIndex !== null && realIdx !== dragIndex && realIdx < visible.length) {
-          var targetTodo = visible[realIdx];
-          var targetIdx = todos.findIndex(function(t) { return t.id === targetTodo.id; });
-          var srcIdx = todos.findIndex(function(t) { return t.id === dragId; });
+          const targetTodo = visible[realIdx];
+          const targetIdx = todos.findIndex(function(t) { return t.id === targetTodo.id; });
+          const srcIdx = todos.findIndex(function(t) { return t.id === dragId; });
           if (srcIdx !== -1 && targetIdx !== -1 && srcIdx !== targetIdx) {
-            var moved = todos.splice(srcIdx, 1)[0];
+            const moved = todos.splice(srcIdx, 1)[0];
             todos.splice(targetIdx, 0, moved);
             save();
           }
@@ -5036,8 +5410,19 @@
     })();
 
     // ── Import / Export ──────────────────────────────────────────────────────
+    function downloadApp() {
+      const html = document.documentElement.outerHTML;
+      const blob = new Blob(['<!DOCTYPE html>\n' + html], { type: 'text/html; charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'flux.html';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
     function exportData() {
-      const blob = new Blob([JSON.stringify({ todos, history, exportedAt: new Date().toISOString() }, null, 2)], { type: 'application/json' });
+      const board = boards.find(b => b.id === currentBoardId);
+      if (board) { board.todos = todos; board.history = history; }
+      const blob = new Blob([JSON.stringify({ boards, currentBoardId, exportedAt: new Date().toISOString(), version: 2 }, null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = `tasks-${new Date().toISOString().slice(0,10)}.json`;
@@ -5052,8 +5437,17 @@
       reader.onload = e => {
         try {
           const data = JSON.parse(e.target.result);
-          if (!Array.isArray(data.todos)) throw new Error();
-          todos = data.todos; history = data.history || [];
+          if (data.version === 2 && Array.isArray(data.boards)) {
+            boards = data.boards;
+            currentBoardId = data.currentBoardId || boards[0].id;
+            if (!boards.find(b => b.id === currentBoardId)) currentBoardId = boards[0].id;
+            activateBoard(currentBoardId);
+          } else if (Array.isArray(data.todos)) {
+            todos.length = 0;
+            data.todos.forEach(function(t){ todos.push(t); });
+            history.length = 0;
+            (data.history || []).forEach(function(h){ history.push(h); });
+          } else { throw new Error(); }
           save(); render(); showToast(t().toastImported);
         } catch { showToast(t().toastInvalidFile); }
       };
@@ -5103,18 +5497,18 @@
       activeTab = tab;
       document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
       document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-      var panel = document.getElementById('panel-' + tab);
-      var btn = document.querySelector('.tab-btn[data-tab="' + tab + '"]');
+      const panel = document.getElementById('panel-' + tab);
+      const btn = document.querySelector('.tab-btn[data-tab="' + tab + '"]');
       if (panel) panel.classList.add('active');
       if (btn) btn.classList.add('active');
       localStorage.setItem('activeTab', tab);
-      var appEl = document.querySelector('.app');
+      const appEl = document.querySelector('.app');
       if (appEl) appEl.scrollTo({ top: 0, behavior: 'instant' });
     }
     function cycleTabs(dir) {
-      var tabs = ['new', 'tasks', 'history', 'manage'];
-      var idx = tabs.indexOf(activeTab);
-      var next = (idx + dir + tabs.length) % tabs.length;
+      const tabs = ['new', 'tasks', 'history', 'manage'];
+      const idx = tabs.indexOf(activeTab);
+      const next = (idx + dir + tabs.length) % tabs.length;
       switchTab(tabs[next]);
     }
 
@@ -5256,7 +5650,8 @@
       const now = new Date();
       const today = now.toISOString().split('T')[0];
       const icon = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><polyline points="7,16 13,22 25,10" stroke="%234d96ff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-      todos.forEach(function(todo) {
+      const allBoardTodos = boards.flatMap(function(b){ return b.todos; });
+      allBoardTodos.forEach(function(todo) {
         if (todo.done || !todo.dueDate || notifiedIds.has(todo.id)) return;
         let title = '', body = todo.text;
         const dateOnly = todo.dueDate.split('T')[0];
@@ -5415,8 +5810,13 @@
 
     // ── Theme / Lang ─────────────────────────────────────────────────────────
     function toggleDark() {
-      dark = !dark; applyDark(); save(); haptic('light');
+      dark = !dark; localStorage.setItem('dark', dark ? '1' : '0'); applyDark(); save(); haptic('light');
     }
+    // Follow system dark mode when user hasn't set a manual preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (localStorage.getItem('dark') !== null) return;
+      dark = e.matches; applyDark(); render();
+    });
     function updateNavbarColor() {
       const bg = THEME_BG[currentTheme] || THEME_BG.flux;
       document.body.style.backgroundColor = dark ? bg.dark : bg.light;
@@ -5483,41 +5883,41 @@
       updatePrioChips();
     }
     function updatePrioChips() {
-      var chips = document.querySelectorAll('.prio-chip');
-      var T = t();
-      var labels = { high: T.priorityHigh, medium: T.priorityMedium, low: T.priorityLow };
+      const chips = document.querySelectorAll('.prio-chip');
+      const T = t();
+      const labels = { high: T.priorityHigh, medium: T.priorityMedium, low: T.priorityLow };
       chips.forEach(function(c) {
         c.textContent = labels[c.dataset.p] || '';
         c.classList.toggle('active', c.dataset.p === newPriority);
       });
     }
     function updateFieldLabels() {
-      var due = document.getElementById('new-todo-due');
-      var time = document.getElementById('new-todo-time');
+      const due = document.getElementById('new-todo-due');
+      const time = document.getElementById('new-todo-time');
       due.classList.toggle('has-value', !!due.value);
       time.classList.toggle('has-value', !!time.value);
     }
     function toggleFormDetails() {
-      var d = document.getElementById('form-details');
-      var c = document.getElementById('details-chevron');
-      var show = d.style.display === 'none';
+      const d = document.getElementById('form-details');
+      const c = document.getElementById('details-chevron');
+      const show = d.style.display === 'none';
       d.style.display = show ? '' : 'none';
       c.classList.toggle('open', show);
       document.getElementById('details-toggle').classList.toggle('open', show);
     }
     function toggleTagManager() {
-      var body = document.getElementById('tag-manager-body');
-      var chevron = document.getElementById('tag-manager-chevron');
-      var btn = document.getElementById('tag-manager-toggle');
-      var show = body.style.display === 'none';
+      const body = document.getElementById('tag-manager-body');
+      const chevron = document.getElementById('tag-manager-chevron');
+      const btn = document.getElementById('tag-manager-toggle');
+      const show = body.style.display === 'none';
       body.style.display = show ? '' : 'none';
       chevron.classList.toggle('open', show);
       btn.classList.toggle('open', show);
     }
     function toggleScheduledSection() {
       scheduledSectionOpen = !scheduledSectionOpen;
-      var body = document.getElementById('scheduled-body');
-      var chevron = document.getElementById('scheduled-chevron');
+      const body = document.getElementById('scheduled-body');
+      const chevron = document.getElementById('scheduled-chevron');
       if (body) body.style.display = scheduledSectionOpen ? '' : 'none';
       if (chevron) chevron.classList.toggle('open', scheduledSectionOpen);
     }
@@ -5530,13 +5930,15 @@
     }
 
     // ── Focus Mode ─────────────────────────────────────────────────────────
-    var scheduledSectionOpen = false;
-    var focusModeActive = false;
-    var focusSkippedIds = [];
+    let scheduledSectionOpen = false;
+    let focusModeActive = false;
+    let focusSkippedIds = [];
+    let calendarViewActive = false;
+    let calendarMonth = new Date().getFullYear() * 12 + new Date().getMonth();
 
     function getNextFocusTask(skipIds) {
-      var prioOrder = { high: 0, medium: 1, low: 2, '': 3 };
-      var open = todos.filter(function(t) {
+      const prioOrder = { high: 0, medium: 1, low: 2, '': 3 };
+      const open = todos.filter(function(t) {
         if (t.done || skipIds.indexOf(t.id) !== -1) return false;
         // Exclude future recurring tasks
         if (t.recurrence && t.dueDate && getDueClass(t.dueDate) === 'due-future') return false;
@@ -5544,11 +5946,11 @@
       });
       if (!open.length) return null;
       open.sort(function(a, b) {
-        var pa = prioOrder[a.priority || ''] !== undefined ? prioOrder[a.priority || ''] : 3;
-        var pb = prioOrder[b.priority || ''] !== undefined ? prioOrder[b.priority || ''] : 3;
+        const pa = prioOrder[a.priority || ''] !== undefined ? prioOrder[a.priority || ''] : 3;
+        const pb = prioOrder[b.priority || ''] !== undefined ? prioOrder[b.priority || ''] : 3;
         if (pa !== pb) return pa - pb;
         if (a.dueDate && b.dueDate) {
-          var diff = new Date(a.dueDate) - new Date(b.dueDate);
+          const diff = new Date(a.dueDate) - new Date(b.dueDate);
           if (diff !== 0) return diff;
         } else if (a.dueDate) return -1;
         else if (b.dueDate) return 1;
@@ -5573,7 +5975,7 @@
     }
 
     function focusComplete() {
-      var task = getNextFocusTask(focusSkippedIds);
+      const task = getNextFocusTask(focusSkippedIds);
       if (!task) return;
       focusSkippedIds = focusSkippedIds.filter(function(id) { return id !== task.id; });
       toggleTodo(task.id);
@@ -5581,7 +5983,7 @@
     }
 
     function focusStartPomo() {
-      var task = getNextFocusTask(focusSkippedIds);
+      const task = getNextFocusTask(focusSkippedIds);
       if (!task) return;
       exitFocusMode();
       startPomodoro(task.id);
@@ -5589,7 +5991,7 @@
 
     function focusSkip() {
       haptic('light');
-      var task = getNextFocusTask(focusSkippedIds);
+      const task = getNextFocusTask(focusSkippedIds);
       if (!task) return;
       focusSkippedIds.push(task.id);
       if (!getNextFocusTask(focusSkippedIds)) focusSkippedIds = [];
@@ -5597,16 +5999,16 @@
     }
 
     function renderFocusMode() {
-      var overlay = document.getElementById('focus-overlay');
+      const overlay = document.getElementById('focus-overlay');
       if (!focusModeActive) return;
-      var T = t();
+      const T = t();
       document.getElementById('focus-badge').textContent = T.focusModeTitle;
-      var task = getNextFocusTask(focusSkippedIds);
-      var emptyEl = document.getElementById('focus-empty');
-      var textEl = document.getElementById('focus-task-text');
-      var metaEl = document.getElementById('focus-meta');
-      var noteEl = document.getElementById('focus-note');
-      var ctrlEl = document.getElementById('focus-controls');
+      const task = getNextFocusTask(focusSkippedIds);
+      const emptyEl = document.getElementById('focus-empty');
+      const textEl = document.getElementById('focus-task-text');
+      const metaEl = document.getElementById('focus-meta');
+      const noteEl = document.getElementById('focus-note');
+      const ctrlEl = document.getElementById('focus-controls');
 
       if (!task) {
         emptyEl.textContent = T.focusModeNoTasks;
@@ -5622,14 +6024,14 @@
       textEl.style.display = '';
       textEl.textContent = task.text;
 
-      var prioLabel = { high: T.priorityHigh, medium: T.priorityMedium, low: T.priorityLow };
-      var metaHtml = '';
+      const prioLabel = { high: T.priorityHigh, medium: T.priorityMedium, low: T.priorityLow };
+      let metaHtml = '';
       if (task.priority) {
         metaHtml += '<span class="prio-badge" data-p="' + task.priority + '">' + prioLabel[task.priority] + '</span> ';
       }
       if (task.dueDate) {
-        var dc = getDueClass(task.dueDate);
-        var dueLabels = { 'due-overdue': T.metaOverdue, 'due-today': T.metaDueToday, 'due-future': T.metaDue };
+        const dc = getDueClass(task.dueDate);
+        const dueLabels = { 'due-overdue': T.metaOverdue, 'due-today': T.metaDueToday, 'due-future': T.metaDue };
         metaHtml += '<span class="todo-due ' + dc + '">' + (dueLabels[dc] || '') + ': ' + formatDueDate(task.dueDate) + '</span>';
       }
       if (task.recurrence) {
@@ -5653,6 +6055,199 @@
       document.getElementById('focus-skip-btn').textContent = '⇥ ' + T.focusModeSkip;
       document.getElementById('focus-pomo-btn').innerHTML = SVG.timer + ' ' + T.pomodoroStart;
     }
+
+    // ── Calendar View ──────────────────────────────────────────────────────
+    function toggleCalendarView() {
+      calendarViewActive = !calendarViewActive;
+      const listEl = document.getElementById('todo-list');
+      const calEl = document.getElementById('calendar-container');
+      const filterRow = document.querySelector('.filter-sort-row');
+      const catRow = document.getElementById('cat-filter-row');
+      const statsRow = document.getElementById('stats-row');
+      const searchWrap = document.querySelector('.search-wrap');
+
+      if (calendarViewActive) {
+        listEl.style.display = 'none';
+        filterRow.style.display = 'none';
+        if (catRow) catRow.style.display = 'none';
+        if (statsRow) statsRow.style.display = 'none';
+        if (searchWrap) searchWrap.style.display = 'none';
+        calEl.style.display = '';
+        renderCalendar();
+      } else {
+        listEl.style.display = '';
+        filterRow.style.display = '';
+        if (catRow) catRow.style.display = '';
+        if (statsRow) statsRow.style.display = '';
+        if (searchWrap) searchWrap.style.display = '';
+        calEl.style.display = 'none';
+      }
+      updateCalendarToggleLabel();
+    }
+
+    function updateCalendarToggleLabel() {
+      const T = t();
+      const label = document.getElementById('calendar-toggle-label');
+      if (label) label.textContent = calendarViewActive ? T.calendarListBtn : T.calendarBtn;
+    }
+
+    function renderCalendar() {
+      const T = t();
+      const year = Math.floor(calendarMonth / 12);
+      const month = calendarMonth % 12;
+
+      document.getElementById('calendar-month-label').textContent =
+        T.calendarMonthNames[month] + ' ' + year;
+      document.getElementById('calendar-today-btn').textContent = T.calendarToday;
+
+      const grid = document.getElementById('calendar-grid');
+      let html = '';
+
+      // Day headers (Mon–Sun)
+      T.calendarDayNamesShort.forEach(function(d) {
+        html += '<div class="calendar-day-header">' + d + '</div>';
+      });
+
+      // First day & last day of month
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const startDow = (firstDay.getDay() + 6) % 7; // Monday = 0
+
+      const now = new Date();
+      const todayStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+
+      // Build tasks-by-date map
+      const tasksByDate = {};
+      todos.forEach(function(todo) {
+        if (!todo.dueDate) return;
+        const dateStr = todo.dueDate.split('T')[0];
+        if (!tasksByDate[dateStr]) tasksByDate[dateStr] = [];
+        tasksByDate[dateStr].push(todo);
+      });
+
+      // Previous month padding
+      const prevLast = new Date(year, month, 0);
+      for (let i = startDow - 1; i >= 0; i--) {
+        const d = prevLast.getDate() - i;
+        const ds = formatCalDate(year, month - 1, d);
+        html += renderCalendarDay(d, ds, todayStr, tasksByDate[ds], true);
+      }
+
+      // Current month
+      for (let d = 1; d <= lastDay.getDate(); d++) {
+        const ds = formatCalDate(year, month, d);
+        html += renderCalendarDay(d, ds, todayStr, tasksByDate[ds], false);
+      }
+
+      // Next month padding
+      const totalCells = startDow + lastDay.getDate();
+      const remainder = totalCells % 7;
+      if (remainder) {
+        for (let d = 1; d <= 7 - remainder; d++) {
+          const ds = formatCalDate(year, month + 1, d);
+          html += renderCalendarDay(d, ds, todayStr, tasksByDate[ds], true);
+        }
+      }
+
+      grid.innerHTML = html;
+    }
+
+    function formatCalDate(year, month, day) {
+      const d = new Date(year, month, day);
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    function renderCalendarDay(dayNum, dateStr, todayStr, tasks, isOther) {
+      const isToday = dateStr === todayStr;
+      let cls = 'calendar-day';
+      if (isToday) cls += ' today';
+      if (isOther) cls += ' other-month';
+
+      let dots = '';
+      if (tasks && tasks.length) {
+        dots = '<div class="calendar-dots">' + tasks.slice(0, 5).map(function(t) {
+          if (t.done) return '<span class="calendar-dot done"></span>';
+          const dc = getDueClass(t.dueDate);
+          if (dc === 'due-overdue') return '<span class="calendar-dot overdue"></span>';
+          return '<span class="calendar-dot"></span>';
+        }).join('') + '</div>';
+      }
+
+      return '<div class="' + cls + '" onclick="openCalDay(\'' + dateStr + '\')">' +
+        '<span class="calendar-day-num">' + dayNum + '</span>' + dots + '</div>';
+    }
+
+    function calendarPrev() { calendarMonth--; renderCalendar(); }
+    function calendarNext() { calendarMonth++; renderCalendar(); }
+    function calendarGoToday() {
+      const now = new Date();
+      calendarMonth = now.getFullYear() * 12 + now.getMonth();
+      renderCalendar();
+    }
+
+    function openCalDay(dateStr) {
+      const T = t();
+      const dayTasks = todos.filter(function(todo) {
+        return todo.dueDate && todo.dueDate.split('T')[0] === dateStr;
+      });
+
+      // Format heading date nicely
+      const parts = dateStr.split('-');
+      const dayDate = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+      const dayLabel = dayDate.getDate() + '. ' + T.calendarMonthNames[dayDate.getMonth()] + ' ' + dayDate.getFullYear();
+      document.getElementById('calday-heading').textContent = dayLabel;
+
+      if (!dayTasks.length) {
+        document.getElementById('calday-body').innerHTML =
+          '<p style="text-align:center;opacity:0.6;margin:20px 0">' + T.calendarNoTasks + '</p>';
+      } else {
+        const prioLabel = { high: T.priorityHigh, medium: T.priorityMedium, low: T.priorityLow };
+        document.getElementById('calday-body').innerHTML = dayTasks.map(function(todo) {
+          const timeStr = todo.dueDate.includes('T') ? todo.dueDate.split('T')[1] : '';
+          return '<div class="calday-task">' +
+            '<label class="checkbox-wrap" style="flex-shrink:0">' +
+              '<input type="checkbox" ' + (todo.done ? 'checked' : '') + ' onchange="toggleTodo(' + todo.id + ');openCalDay(\'' + dateStr + '\')" />' +
+              '<span class="checkbox-box"><span class="checkbox-check">' + SVG.check + '</span></span>' +
+            '</label>' +
+            '<div style="flex:1;min-width:0">' +
+              '<div class="todo-text" style="' + (todo.done ? 'text-decoration:line-through;opacity:0.5' : '') + '">' + escHtml(todo.text) + '</div>' +
+              '<div class="calday-meta">' +
+                (timeStr ? '<span class="calday-time">' + timeStr + '</span>' : '') +
+                (todo.priority ? '<span class="prio-badge" data-p="' + todo.priority + '">' + prioLabel[todo.priority] + '</span>' : '') +
+                (todo.category ? '<span class="cat-badge" style="' + catStyle(todo.category) + '">#' + escHtml(todo.category) + '</span>' : '') +
+              '</div>' +
+            '</div>' +
+            '<div class="calday-actions">' +
+              '<button class="action-btn" title="' + T.editTitle + '" onclick="calDayEdit(' + todo.id + ')">' + SVG.edit + '</button>' +
+              '<button class="action-btn danger" title="' + T.deleteTitle + '" onclick="calDayDelete(' + todo.id + ',\'' + dateStr + '\')">' + SVG.trash + '</button>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+      }
+
+      document.getElementById('calday-backdrop').classList.add('show');
+      document.addEventListener('keydown', onCalDayEscClose);
+    }
+
+    function calDayEdit(id) {
+      closeCalDay();
+      if (calendarViewActive) toggleCalendarView();
+      switchTab('tasks');
+      setTimeout(function() { startEdit(id); }, 100);
+    }
+
+    function calDayDelete(id, dateStr) {
+      deleteTodo(id);
+      openCalDay(dateStr);
+    }
+
+    function closeCalDay() {
+      document.getElementById('calday-backdrop').classList.remove('show');
+      document.removeEventListener('keydown', onCalDayEscClose);
+      if (calendarViewActive) renderCalendar();
+    }
+    function handleCalDayBackdropClick(e) { if (e.target === e.currentTarget) closeCalDay(); }
+    function onCalDayEscClose(e) { if (e.key === 'Escape') closeCalDay(); }
 
     // ── Changelog ────────────────────────────────────────────────────────────
     function openChangelog() {
@@ -5697,56 +6292,56 @@
     function onStatsEscClose(e) { if (e.key === 'Escape') closeStats(); }
 
     function computeCompletionRate() {
-      var total = todos.length;
+      const total = todos.length;
       if (!total) return { done: 0, total: 0, pct: 0 };
-      var done = todos.filter(function(t) { return t.done; }).length;
+      const done = todos.filter(function(t) { return t.done; }).length;
       return { done: done, total: total, pct: Math.round((done / total) * 100) };
     }
 
     function getISOWeekKey(date) {
-      var d = new Date(date);
+      const d = new Date(date);
       d.setHours(0, 0, 0, 0);
       d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
-      var yearStart = new Date(d.getFullYear(), 0, 4);
-      var weekNo = 1 + Math.round(((d - yearStart) / 86400000 - 3 + (yearStart.getDay() + 6) % 7) / 7);
+      const yearStart = new Date(d.getFullYear(), 0, 4);
+      const weekNo = 1 + Math.round(((d - yearStart) / 86400000 - 3 + (yearStart.getDay() + 6) % 7) / 7);
       return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
     }
 
     function getWeekLabel(date) {
-      var d = new Date(date);
-      var day = d.getDay();
-      var diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      const d = new Date(date);
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
       d.setDate(diff);
-      var mon = new Date(d);
-      var sun = new Date(d);
+      const mon = new Date(d);
+      const sun = new Date(d);
       sun.setDate(sun.getDate() + 6);
-      var mM = mon.getMonth() + 1;
-      var mS = sun.getMonth() + 1;
+      const mM = mon.getMonth() + 1;
+      const mS = sun.getMonth() + 1;
       if (mM === mS) return mon.getDate() + '.\u2013' + sun.getDate() + '.' + mM + '.';
       return mon.getDate() + '.' + mM + '.\u2013' + sun.getDate() + '.' + mS + '.';
     }
 
     function computeTasksPerWeek() {
-      var completedDates = todos
+      const completedDates = todos
         .filter(function(t) { return t.done && t.completedAt; })
         .map(function(t) { return t.completedAt; });
-      var weekMap = {};
+      const weekMap = {};
       completedDates.forEach(function(ts) {
-        var key = getISOWeekKey(new Date(ts));
+        const key = getISOWeekKey(new Date(ts));
         weekMap[key] = (weekMap[key] || 0) + 1;
       });
       history.forEach(function(h) {
         if (h.type === 'done' && h.ts) {
-          var key = getISOWeekKey(new Date(h.ts));
+          const key = getISOWeekKey(new Date(h.ts));
           if (!weekMap[key]) weekMap[key] = 0;
         }
       });
-      var weeks = [];
-      var now = new Date();
-      for (var i = 5; i >= 0; i--) {
-        var d = new Date(now);
+      const weeks = [];
+      const now = new Date();
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(now);
         d.setDate(d.getDate() - i * 7);
-        var key = getISOWeekKey(d);
+        const key = getISOWeekKey(d);
         if (!weeks.find(function(w) { return w.key === key; })) {
           weeks.push({ key: key, count: weekMap[key] || 0, label: getWeekLabel(d) });
         }
@@ -5755,29 +6350,29 @@
     }
 
     function computeStreaks() {
-      var completedDays = {};
+      const completedDays = {};
       todos.forEach(function(t) {
         if (t.done && t.completedAt) {
-          var d = new Date(t.completedAt);
-          var key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+          const d = new Date(t.completedAt);
+          const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
           completedDays[key] = true;
         }
       });
       history.forEach(function(h) {
         if (h.type === 'done' && h.ts) {
-          var d = new Date(h.ts);
-          var key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+          const d = new Date(h.ts);
+          const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
           completedDays[key] = true;
         }
       });
-      var sortedDays = Object.keys(completedDays).sort();
+      const sortedDays = Object.keys(completedDays).sort();
       if (!sortedDays.length) return { current: 0, longest: 0 };
-      var longestStreak = 1;
-      var streak = 1;
-      for (var i = 1; i < sortedDays.length; i++) {
-        var prev = new Date(sortedDays[i - 1]);
-        var curr = new Date(sortedDays[i]);
-        var diffDays = Math.round((curr - prev) / 86400000);
+      let longestStreak = 1;
+      let streak = 1;
+      for (let i = 1; i < sortedDays.length; i++) {
+        const prev = new Date(sortedDays[i - 1]);
+        const curr = new Date(sortedDays[i]);
+        const diffDays = Math.round((curr - prev) / 86400000);
         if (diffDays === 1) {
           streak++;
         } else {
@@ -5786,19 +6381,19 @@
         }
       }
       if (streak > longestStreak) longestStreak = streak;
-      var currentStreak = 0;
-      var today = new Date();
-      var todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
-      var yesterday = new Date(today);
+      let currentStreak = 0;
+      const today = new Date();
+      const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+      const yesterday = new Date(today);
       yesterday.setDate(yesterday.getDate() - 1);
-      var yesterdayStr = yesterday.getFullYear() + '-' + String(yesterday.getMonth() + 1).padStart(2, '0') + '-' + String(yesterday.getDate()).padStart(2, '0');
+      const yesterdayStr = yesterday.getFullYear() + '-' + String(yesterday.getMonth() + 1).padStart(2, '0') + '-' + String(yesterday.getDate()).padStart(2, '0');
       if (completedDays[todayStr] || completedDays[yesterdayStr]) {
-        var startDay = completedDays[todayStr] ? todayStr : yesterdayStr;
+        const startDay = completedDays[todayStr] ? todayStr : yesterdayStr;
         currentStreak = 1;
-        var checkDate = new Date(startDay);
+        const checkDate = new Date(startDay);
         while (true) {
           checkDate.setDate(checkDate.getDate() - 1);
-          var checkStr = checkDate.getFullYear() + '-' + String(checkDate.getMonth() + 1).padStart(2, '0') + '-' + String(checkDate.getDate()).padStart(2, '0');
+          const checkStr = checkDate.getFullYear() + '-' + String(checkDate.getMonth() + 1).padStart(2, '0') + '-' + String(checkDate.getDate()).padStart(2, '0');
           if (completedDays[checkStr]) { currentStreak++; } else { break; }
         }
       }
@@ -5806,11 +6401,11 @@
     }
 
     function renderStatsContent(T) {
-      var rate = computeCompletionRate();
+      const rate = computeCompletionRate();
       if (!rate.total) return '<div class="stat-empty">' + T.statsNoData + '</div>';
-      var circumference = 2 * Math.PI * 28;
-      var offset = circumference - (rate.pct / 100) * circumference;
-      var completionHtml = '<div class="stat-card">' +
+      const circumference = 2 * Math.PI * 28;
+      const offset = circumference - (rate.pct / 100) * circumference;
+      const completionHtml = '<div class="stat-card">' +
         '<div class="stat-card-title">' + T.statsCompletionRate + '</div>' +
         '<div class="stat-completion">' +
           '<svg class="stat-ring" viewBox="0 0 64 64">' +
@@ -5822,12 +6417,12 @@
             '<div class="stat-sub">' + rate.done + ' / ' + rate.total + ' ' + T.statsCompleted + '</div>' +
           '</div>' +
         '</div></div>';
-      var weeks = computeTasksPerWeek();
-      var chartHtml = '';
+      const weeks = computeTasksPerWeek();
+      let chartHtml = '';
       if (weeks.length) {
-        var maxCount = Math.max.apply(null, weeks.map(function(w) { return w.count; }).concat([1]));
-        var bars = weeks.map(function(w) {
-          var h = w.count ? Math.max((w.count / maxCount) * 80, 4) : 2;
+        const maxCount = Math.max.apply(null, weeks.map(function(w) { return w.count; }).concat([1]));
+        const bars = weeks.map(function(w) {
+          const h = w.count ? Math.max((w.count / maxCount) * 80, 4) : 2;
           return '<div class="stat-bar-col">' +
             '<span class="stat-bar-count">' + (w.count || '') + '</span>' +
             '<div class="stat-bar" style="height:' + h + 'px"></div>' +
@@ -5837,8 +6432,8 @@
           '<div class="stat-card-title">' + T.statsTasksPerWeek + '</div>' +
           '<div class="stat-chart">' + bars + '</div></div>';
       }
-      var streaks = computeStreaks();
-      var streakHtml = '<div class="stat-card">' +
+      const streaks = computeStreaks();
+      const streakHtml = '<div class="stat-card">' +
         '<div class="stat-card-title">' + T.statsStreak + '</div>' +
         '<div class="stat-streaks">' +
           '<div class="stat-streak-item">' +
@@ -5859,7 +6454,7 @@
     function openKB() {
       const T = t();
       document.getElementById('kb-heading').textContent = T.kbHeading;
-      var rows = T.kbShortcuts.map(function(s) {
+      const rows = T.kbShortcuts.map(function(s) {
         return '<tr><td><span class="kb-key">' + escHtml(s[0]) + '</span></td><td class="kb-desc">' + escHtml(s[1]) + '</td></tr>';
       }).join('');
       document.getElementById('kb-body').innerHTML = '<table class="kb-table">' + rows + '</table>';
@@ -5877,16 +6472,18 @@
       return document.getElementById('kb-backdrop').classList.contains('show') ||
              document.getElementById('stats-backdrop').classList.contains('show') ||
              document.getElementById('changelog-backdrop').classList.contains('show') ||
+             document.getElementById('calday-backdrop').classList.contains('show') ||
              (document.getElementById('pomo-overlay').style.display !== 'none' && !pomodoroMinimized) ||
              document.getElementById('focus-overlay').style.display !== 'none';
     }
 
     document.addEventListener('keydown', function(e) {
-      var tag = document.activeElement && document.activeElement.tagName;
-      var isInput = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+      const tag = document.activeElement && document.activeElement.tagName;
+      const isInput = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
 
       // Esc works even in inputs — closes modals/search/pomodoro
       if (e.key === 'Escape') {
+        if (document.getElementById('calday-backdrop').classList.contains('show')) { closeCalDay(); return; }
         if (document.getElementById('kb-backdrop').classList.contains('show')) { closeKB(); return; }
         if (document.getElementById('stats-backdrop').classList.contains('show')) { closeStats(); return; }
         if (document.getElementById('changelog-backdrop').classList.contains('show')) { closeChangelog(); return; }
@@ -5900,7 +6497,7 @@
       // All other shortcuts only when no input is focused and no modal is open
       if (isInput || isModalOpen()) return;
 
-      var key = e.key.toLowerCase();
+      const key = e.key.toLowerCase();
 
       if (key === 'n') { e.preventDefault(); switchTab('new'); setTimeout(function() { document.getElementById('new-todo-input').focus(); }, 20); return; }
       if (key === 'f') { e.preventDefault(); switchTab('tasks'); setTimeout(function() { document.getElementById('search-input').focus(); }, 20); return; }
@@ -5911,6 +6508,8 @@
       if (key === '0') { e.preventDefault(); switchTab('tasks'); setFilter('all'); return; }
       if (key === 'z') { e.preventDefault(); performUndo(); return; }
       if (key === 'g') { e.preventDefault(); enterFocusMode(); return; }
+      if (key === 'c') { e.preventDefault(); if (activeTab !== 'tasks') switchTab('tasks'); toggleCalendarView(); return; }
+      if (key === 'b') { e.preventDefault(); const idx = boards.findIndex(b => b.id === currentBoardId); switchBoard(boards[(idx + 1) % boards.length].id); return; }
       if (e.key === '[') { e.preventDefault(); cycleTabs(-1); return; }
       if (e.key === ']') { e.preventDefault(); cycleTabs(1); return; }
       if (e.key === '?') { e.preventDefault(); openKB(); return; }
@@ -5929,6 +6528,7 @@
       document.getElementById('app-title').textContent = T.appTitle;
       document.title = T.appTitle;
       document.getElementById('app-claim').textContent = T.claim;
+      renderBoardBar();
       document.getElementById('header-badges').innerHTML = T.headerBadges.map(b => `<span class="header-badge">${b}</span>`).join('');
       document.getElementById('new-todo-input').placeholder = T.placeholder;
       document.getElementById('add-title').textContent = T.addTitle;
@@ -5936,6 +6536,8 @@
       document.getElementById('tasks-title').textContent = T.tasksTitle;
       document.getElementById('focus-mode-btn').title = T.focusModeBtn;
       document.getElementById('focus-mode-btn-label').textContent = T.focusModeBtn;
+      updateCalendarToggleLabel();
+      if (calendarViewActive) renderCalendar();
       updatePrioChips();
       document.getElementById('new-todo-note').placeholder = T.notePlaceholder;
       document.getElementById('details-toggle-label').textContent = T.detailsMore;
@@ -5969,6 +6571,7 @@
       document.getElementById('tab-label-history').textContent = T.tabHistory;
       document.getElementById('tab-label-manage').textContent = T.tabManage;
       document.getElementById('delete-all-label').textContent = T.deleteAllLabel;
+      document.getElementById('download-app-label').textContent = T.downloadAppLabel;
       const catFilter = document.getElementById('cat-filter');
       catFilter.innerHTML = `<option value="">${T.catAll}</option>` + allTags.map(t => `<option value="${escHtml(t)}"${currentCategory === t ? ' selected' : ''}>#${escHtml(t)}</option>`).join('');
       const catFilterRow = document.getElementById('cat-filter-row');
@@ -6163,10 +6766,10 @@
       touchIcon.href = iconUrl;
       document.head.appendChild(touchIcon);
       try {
-        var isDark = document.documentElement.classList.contains('dark');
-        var themeName = localStorage.getItem('theme') || 'flux';
-        var bgColors = {flux:['#f0a8d8','#160832'],ocean:['#90e0ef','#0a2a52'],sunset:['#f08060','#4a2210'],forest:['#95d5b2','#1e4030'],rose:['#ffc8d6','#421828'],mono:['#e2e5ea','#22252a'],bender:['#ccdaea','#182638'],lumpi:['#ecdec8','#2c1c12'],nobler:['#e0e0e8','#1c1c26']};
-        var bgPair = bgColors[themeName] || bgColors.flux;
+        const isDark = document.documentElement.classList.contains('dark');
+        const themeName = localStorage.getItem('theme') || 'flux';
+        const bgColors = {flux:['#a8b8d0','#160832'],ocean:['#90e0ef','#0a2a52'],sunset:['#f08060','#4a2210'],forest:['#95d5b2','#1e4030'],rose:['#ffc8d6','#421828'],mono:['#e2e5ea','#22252a'],bender:['#ccdaea','#182638'],lumpi:['#ecdec8','#2c1c12'],nobler:['#e0e0e8','#1c1c26']};
+        const bgPair = bgColors[themeName] || bgColors.flux;
         const manifest = { name: 'Flux — Deine ToDo App', short_name: 'Flux',
           start_url: location.href, display: 'standalone',
           display_override: ['window-controls-overlay', 'standalone'],
@@ -6265,7 +6868,7 @@
 
       document.addEventListener('touchstart', function(e) {
         if (refreshing || touchDragActive) return;
-        var appScroll = document.querySelector('.app');
+        const appScroll = document.querySelector('.app');
         if ((appScroll ? appScroll.scrollTop : window.scrollY) <= 0) {
           startY = e.touches[0].clientY;
           active = true;
@@ -6276,7 +6879,7 @@
       document.addEventListener('touchmove', function(e) {
         if (!active || refreshing) return;
         const dy = e.touches[0].clientY - startY;
-        var appScroll = document.querySelector('.app');
+        const appScroll = document.querySelector('.app');
         if (dy < 0 || (appScroll ? appScroll.scrollTop : window.scrollY) > 0) { active = false; return; }
         const progress = Math.min(dy / THRESHOLD, 1);
         const translateY = Math.min(dy * 0.35, 44);
