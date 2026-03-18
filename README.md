@@ -3,13 +3,13 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.4.9.1-blueviolet)
+![Version](https://img.shields.io/badge/version-1.5.0-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
 ---
 
-**[▶ Live Demo](https://krebs3r.github.io/flux-todo/)**
+**[▶ Live Demo](https://flux-todo.eu)**
 
 ---
 
@@ -145,11 +145,23 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] **Subtasks** — checklists within a task
 - [ ] **Accessibility** — ARIA labels, improved screen reader support
 - [ ] **Cloud Sync** — optional backend sync (e.g. Firebase, Supabase)
-- [ ] **Multiple lists** — separate boards (e.g. Work / Personal / Shopping)
+- [x] **Multiple lists** — separate boards (e.g. Work / Personal / Shopping), move tasks between boards
 
 ---
 
 ## Changelog
+
+### v1.5.0
+- Multiple lists / boards — "Work", "Personal", "Shopping" as separate areas
+- Calendar view — tasks with due dates on a weekly/monthly calendar
+- Move tasks between boards — new dropdown in edit mode
+- Board names limited to 20 characters
+- Default board renamed: "General" → "Inbox"
+- Dark mode: board chips, focus mode & calendar buttons matched to settings buttons
+- Dark mode: hover now subtly brightens (no more blue accent)
+- Theme popover centered below button (no overflow on small screens)
+- Font sizes unified: priority chips, details toggle and form fields set to 0.88rem
+- Settings: button spacing and padding unified
 
 ### v1.4.9.1
 - Header buttons reordered logically: Language → Theme → Dark Mode → Notifications → Stats → Keyboard
@@ -422,4 +434,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.4.9.1</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.0</p>
