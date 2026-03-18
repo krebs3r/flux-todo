@@ -140,12 +140,12 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] Tab navigation — bottom nav bar (New, Tasks, History, Settings)
 - [x] Recurring tasks — daily, weekly, biweekly, monthly with auto-creation
 - [x] Focus mode — fullscreen overlay showing the most important task, with complete/skip/Pomodoro
+- [x] Subtasks — checklists within a task
+- [x] Multiple lists — separate boards (e.g. Work / Personal / Shopping), move tasks between boards
 
 ### Planned
-- [x] **Subtasks** — checklists within a task
 - [ ] **Accessibility** — ARIA labels, improved screen reader support
 - [ ] **Cloud Sync** — optional backend sync (e.g. Firebase, Supabase)
-- [x] **Multiple lists** — separate boards (e.g. Work / Personal / Shopping), move tasks between boards
 
 ---
 
