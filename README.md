@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.4.8-blueviolet)
+![Version](https://img.shields.io/badge/version-1.4.9-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -150,6 +150,13 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.4.9
+- Tag Manager: grid layout for aligned columns (CSS Subgrid)
+- IO buttons: consistent min-height (38px / 44px mobile)
+- Tasks tab: unified spacing between all elements (8px)
+- Sort label hidden on mobile for more space
+- Scheduled section moved above active tasks
 
 ### v1.4.8
 - Settings: unified spacing between all elements
@@ -412,4 +419,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.4.8</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.4.9</p>

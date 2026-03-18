@@ -961,7 +961,7 @@
 
     /* ── Scheduled (recurring-future) collapsible section ── */
     .scheduled-section {
-      margin-top: 16px;
+      margin-bottom: 8px;
     }
     .scheduled-header {
       display: flex;
@@ -1116,7 +1116,7 @@
     /* ── Search ─────────────────────────────────────────────── */
     .search-wrap {
       position: relative;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     .search-icon {
       position: absolute;
@@ -1218,7 +1218,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     .filter-sort-row .filters { margin-bottom: 0; }
     .sort-row {
@@ -1238,6 +1238,8 @@
       -webkit-appearance: none;
       appearance: none;
       padding: 7px 28px 7px 12px;
+      min-height: 38px;
+      box-sizing: border-box;
       border-radius: 12px;
       border: 1px solid var(--gl-border-subtle);
       background: var(--gl-subtle);
@@ -1616,6 +1618,8 @@
       cursor: pointer;
       letter-spacing: 0.02em;
       transition: all 0.2s;
+      min-height: 38px;
+      box-sizing: border-box;
     }
     body.dark .io-btn {
       background: rgba(255,255,255,0.06);
@@ -1638,22 +1642,21 @@
       padding: 8px 0;
     }
     body.dark .tag-manager-empty { color: var(--muted-dark); }
+    #tag-manager-list {
+      display: grid;
+      grid-template-columns: auto auto 1fr;
+    }
     .tag-manager-item {
-      display: flex;
+      display: grid;
+      grid-template-columns: subgrid;
+      grid-column: 1 / -1;
       align-items: center;
-      gap: 10px;
+      column-gap: 10px;
       padding: 10px 0;
       border-bottom: 1px solid rgba(0,0,0,0.06);
     }
     body.dark .tag-manager-item { border-bottom-color: rgba(255,255,255,0.06); }
     .tag-manager-item:last-child { border-bottom: none; }
-    .tag-manager-name {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
     .tag-manager-badge {
       font-size: 0.85rem;
       font-weight: 600;
@@ -1671,7 +1674,7 @@
     .tag-manager-actions {
       display: flex;
       gap: 6px;
-      flex-shrink: 0;
+      justify-self: end;
     }
     .tag-mgr-btn {
       padding: 5px 10px;
@@ -2623,7 +2626,7 @@
       width: 100%;
       padding: 8px 12px;
       min-height: 38px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       box-sizing: border-box;
       font-size: 0.82rem;
       font-weight: 600;
@@ -2746,13 +2749,14 @@
 
       /* Filter buttons: 44px min height */
       .filter-btn { padding: 11px 12px; font-size: 0.85rem; }
+      .sort-label { display: none; }
       .sort-select { height: 44px; font-size: 0.85rem; }
 
       /* Search: larger tap area for clear button */
       .search-clear { padding: 10px 8px; right: 2px; font-size: 1rem; }
 
       /* IO buttons: 44px */
-      .io-btn { padding: 13px 14px; }
+      .io-btn { padding: 13px 14px; min-height: 44px; }
 
       /* Section header: larger tap target */
       .section-header { padding: 6px 0; cursor: pointer; }
@@ -2921,7 +2925,7 @@
             </select>
           </div>
         </div>
-        <div class="filter-sort-row" id="cat-filter-row" style="margin-top:-4px">
+        <div class="filter-sort-row" id="cat-filter-row" style="margin-top:-2px">
           <select class="cat-filter" id="cat-filter" onchange="setCategoryFilter(this.value)" aria-label="Category filter">
             <option value=""></option>
           </select>
@@ -3004,7 +3008,7 @@
           <div id="tag-manager-list"></div>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.4.8</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.4.9</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -3352,6 +3356,16 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.4.9',
+            entries: [
+              'Tag-Manager: Grid-Layout für saubere Spaltenausrichtung (CSS Subgrid)',
+              'IO-Buttons: einheitliche Mindesthöhe (38px / 44px mobil)',
+              'Aufgaben-Tab: Abstände zwischen allen Elementen vereinheitlicht (8px)',
+              'Sortier-Label auf Mobilgeräten ausgeblendet für mehr Platz',
+              'Geplant-Sektion über die aktiven Aufgaben verschoben',
+            ],
+          },
           {
             version: 'v1.4.8',
             entries: [
@@ -3867,6 +3881,16 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.4.9',
+            entries: [
+              'Tag Manager: grid layout for aligned columns (CSS Subgrid)',
+              'IO buttons: consistent min-height (38px / 44px mobile)',
+              'Tasks tab: unified spacing between all elements (8px)',
+              'Sort label hidden on mobile for more space',
+              'Scheduled section moved above active tasks',
+            ],
+          },
           {
             version: 'v1.4.8',
             entries: [
@@ -4551,10 +4575,8 @@
       }
       el.innerHTML = tags.map(function(tag) {
         return '<div class="tag-manager-item">' +
-          '<div class="tag-manager-name">' +
-            '<span class="cat-badge" style="' + catStyle(tag) + '">#' + escHtml(tag) + '</span>' +
-            '<span class="tag-manager-count">' + T.tagManagerCount(counts[tag]) + '</span>' +
-          '</div>' +
+          '<span class="cat-badge" style="' + catStyle(tag) + '">#' + escHtml(tag) + '</span>' +
+          '<span class="tag-manager-count">' + T.tagManagerCount(counts[tag]) + '</span>' +
           '<div class="tag-manager-actions">' +
             '<button class="tag-mgr-btn" onclick="renameTag(\'' + escHtml(tag).replace(/'/g, "\\'") + '\')">' + T.tagManagerRename + '</button>' +
             '<button class="tag-mgr-btn danger" onclick="deleteTag(\'' + escHtml(tag).replace(/'/g, "\\'") + '\')">' + T.tagManagerDelete + '</button>' +
@@ -6026,7 +6048,7 @@
           }
         });
 
-        let html = active.map(renderTodoItem).join('');
+        let html = '';
 
         if (scheduled.length) {
           html += `<div class="scheduled-section">
@@ -6040,6 +6062,8 @@
             </div>
           </div>`;
         }
+
+        html += active.map(renderTodoItem).join('');
 
         list.innerHTML = html;
       }
