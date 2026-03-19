@@ -333,6 +333,7 @@
       box-shadow: 0 0 0 3px var(--accent-muted-dark);
     }
     .ctrl-btn svg { flex-shrink: 0; }
+    .ctrl-btn span { display: contents; }
 
     /* ── Card ───────────────────────────────────────────────── */
     .card {
@@ -1327,10 +1328,12 @@
       white-space: nowrap;
     }
     body.dark .sort-label { color: var(--muted-dark); }
+    .sort-dropdown { position: relative; }
     .sort-select {
-      -webkit-appearance: none;
-      appearance: none;
-      padding: 7px 28px 7px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
       min-height: 38px;
       box-sizing: border-box;
       border-radius: 12px;
@@ -1345,17 +1348,34 @@
       cursor: pointer;
       outline: none;
       transition: border-color 0.2s;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 8px center;
     }
-    .sort-select:focus { border-color: var(--accent); }
+    .sort-select:hover, .sort-select:focus { border-color: var(--accent); }
     body.dark .sort-select {
-      background-color: var(--gl-subtle-dark);
+      background: var(--gl-subtle-dark);
       border-color: var(--gl-border-subtle-dark);
       color: var(--text-dark);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
     }
+    .sort-ac {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 4px);
+      min-width: 100%;
+      z-index: 50;
+      background: rgba(255,255,255,0.88);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid var(--gl-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .sort-ac.open { display: block; }
+    body.dark .sort-ac {
+      background: rgba(19,23,42,0.95);
+      border-color: var(--gl-border-dark);
+    }
+    .sort-ac .cat-ac-item { white-space: nowrap; }
+    .sort-ac .cat-ac-item.active { color: var(--accent); font-weight: 600; }
 
     /* ── Todo List ──────────────────────────────────────────── */
     .todo-list { display: flex; flex-direction: column; gap: 1px; }
@@ -1424,8 +1444,8 @@
       cursor: grab;
       display: flex;
       align-items: center;
+      align-self: center;
       transition: color 0.2s;
-      margin-top: 2px;
       padding: 8px 4px;
       touch-action: none;
     }
@@ -2300,6 +2320,24 @@
       padding-left: 10px;
     }
     body.dark .kb-desc { color: var(--text-dark); }
+    .kb-url-table { width: 100%; border-collapse: collapse; }
+    .kb-url-table td { padding: 5px 0; vertical-align: middle; }
+    .kb-url-table td:first-child { width: 140px; }
+    .kb-param {
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      color: var(--text);
+      background: rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.10);
+      border-radius: 5px;
+      padding: 2px 7px;
+      white-space: nowrap;
+    }
+    body.dark .kb-param {
+      color: var(--text-dark);
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.14);
+    }
 
     /* ── Bottom Tab Bar ─────────────────────────────────────── */
     .tab-bar {
@@ -2920,7 +2958,7 @@
       /* Filter buttons: 44px min height */
       .filter-btn { padding: 11px 12px; font-size: 0.85rem; }
       .sort-label { display: none; }
-      .sort-select { height: 44px; font-size: 0.85rem; }
+      .sort-select { min-height: 44px; font-size: 0.85rem; }
 
       /* Search: larger tap area for clear button */
       .search-clear { padding: 10px 8px; right: 2px; font-size: 1rem; }
@@ -3008,8 +3046,8 @@
         <button class="ctrl-btn" id="stats-btn" onclick="openStats()" title="Statistics">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="3" width="4" height="18"/><rect x="10" y="8" width="4" height="13"/><rect x="2" y="13" width="4" height="8"/></svg>
         </button>
-        <button class="ctrl-btn" id="kb-btn" onclick="openKB()" title="Keyboard Shortcuts">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6" y2="8"/><line x1="10" y1="8" x2="10" y2="8"/><line x1="14" y1="8" x2="14" y2="8"/><line x1="18" y1="8" x2="18" y2="8"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="14" y2="12"/><line x1="18" y1="12" x2="18" y2="12"/><line x1="8" y1="16" x2="16" y2="16"/></svg>
+        <button class="ctrl-btn" id="kb-btn" onclick="openKB()" title="Help">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </button>
       </div>
     </div>
@@ -3097,12 +3135,18 @@
           </div>
           <div class="sort-row">
             <label class="sort-label" id="sort-label"></label>
-            <select class="sort-select" id="sort-select" onchange="setSort(this.value)" aria-label="Sort order">
-              <option value="manual"></option>
-              <option value="priority"></option>
-              <option value="dueDate"></option>
-              <option value="created"></option>
-            </select>
+            <div class="sort-dropdown" id="sort-dropdown">
+              <button class="sort-select" id="sort-btn" onclick="toggleSortDropdown()" type="button">
+                <span id="sort-btn-label"></span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="sort-ac" id="sort-ac">
+                <div class="cat-ac-item" data-sort="manual" onclick="pickSort('manual')"></div>
+                <div class="cat-ac-item" data-sort="priority" onclick="pickSort('priority')"></div>
+                <div class="cat-ac-item" data-sort="dueDate" onclick="pickSort('dueDate')"></div>
+                <div class="cat-ac-item" data-sort="created" onclick="pickSort('created')"></div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="filter-sort-row" id="cat-filter-row" style="margin-top:-2px">
@@ -3206,7 +3250,7 @@
           </button>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.0</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.0.1</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -3564,7 +3608,15 @@
         statsLongestStreak: 'Längste Serie',
         statsNoData: 'Noch keine erledigten Aufgaben.',
         statsCompleted: 'erledigt',
-        kbHeading: 'Tastaturkürzel',
+        kbHeading: 'Hilfe',
+        kbShortcutsHeading: 'Tastaturkürzel',
+        kbUrlHeading: 'URL-Parameter',
+        kbUrlParams: [
+          ['?add=Titel', 'Aufgabe vorausfüllen und Neu-Tab öffnen'],
+          ['&note=Text', 'Notiz vorausfüllen'],
+          ['&priority=high', 'Priorität setzen (high / medium / low)'],
+          ['&due=JJJJ-MM-TT', 'Fälligkeitsdatum setzen'],
+        ],
         kbShortcuts: [
           ['N', 'Neue Aufgabe'],
           ['F', 'Suche'],
@@ -3591,6 +3643,18 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.0.1',
+            entries: [
+              'Quick-Add via URL-Parameter — ?add=Titel, &amp;note=, &amp;priority=, &amp;due= füllen die neue Aufgabe vor',
+              'Fix: URL-Parameter-Weiterleitung schlug fehl wegen Namenskonflikt mit der internen History-Variable',
+              'Hilfe-Modal — Tastaturkürzel und URL-Parameter in einem übersichtlichen Dialog',
+              'Sort-Dropdown — natives Select durch stilisiertes Custom-Dropdown ersetzt',
+              'Erstellungszeitpunkt zeigt jetzt Datum und Uhrzeit',
+              'Drag-Handle vertikal zentriert',
+              'Sonnen-Icon im Dark-Mode-Button korrekt zentriert',
+            ],
+          },
           {
             version: 'v1.5.0',
             entries: [
@@ -4129,7 +4193,15 @@
         statsLongestStreak: 'Longest Streak',
         statsNoData: 'No completed tasks yet.',
         statsCompleted: 'completed',
-        kbHeading: 'Keyboard Shortcuts',
+        kbHeading: 'Help',
+        kbShortcutsHeading: 'Keyboard Shortcuts',
+        kbUrlHeading: 'URL Parameters',
+        kbUrlParams: [
+          ['?add=Title', 'Pre-fill task and open New tab'],
+          ['&note=Text', 'Pre-fill note'],
+          ['&priority=high', 'Set priority (high / medium / low)'],
+          ['&due=YYYY-MM-DD', 'Set due date'],
+        ],
         kbShortcuts: [
           ['N', 'New task'],
           ['F', 'Search'],
@@ -4156,6 +4228,18 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.0.1',
+            entries: [
+              'Quick-Add via URL parameter — ?add=Title, &amp;note=, &amp;priority=, &amp;due= pre-fill new tasks',
+              'Fix: URL parameter redirect failed due to naming conflict with internal history variable',
+              'Help modal — keyboard shortcuts and URL parameters in one clean dialog',
+              'Sort dropdown — replaced native select with styled custom dropdown',
+              'Created timestamp now shows date and time',
+              'Drag handle vertically centered',
+              'Sun icon in dark mode button correctly centered',
+            ],
+          },
           {
             version: 'v1.5.0',
             entries: [
@@ -5209,6 +5293,13 @@
       haptic('light');
       currentSort = s;
       save(); render();
+    }
+    function toggleSortDropdown() {
+      document.getElementById('sort-ac').classList.toggle('open');
+    }
+    function pickSort(s) {
+      document.getElementById('sort-ac').classList.remove('open');
+      setSort(s);
     }
     function setCategoryFilter(c) {
       haptic('light');
@@ -6479,7 +6570,14 @@
       const rows = T.kbShortcuts.map(function(s) {
         return '<tr><td><span class="kb-key">' + escHtml(s[0]) + '</span></td><td class="kb-desc">' + escHtml(s[1]) + '</td></tr>';
       }).join('');
-      document.getElementById('kb-body').innerHTML = '<table class="kb-table">' + rows + '</table>';
+      const urlRows = T.kbUrlParams.map(function(s) {
+        return '<tr><td><span class="kb-param">' + escHtml(s[0]) + '</span></td><td class="kb-desc">' + escHtml(s[1]) + '</td></tr>';
+      }).join('');
+      document.getElementById('kb-body').innerHTML =
+        '<p style="margin:0 0 10px;font-size:0.95rem;font-weight:700;letter-spacing:-0.2px">' + escHtml(T.kbShortcutsHeading) + '</p>' +
+        '<table class="kb-table">' + rows + '</table>' +
+        '<p style="margin:20px 0 8px;font-size:0.95rem;font-weight:700;letter-spacing:-0.2px">' + escHtml(T.kbUrlHeading) + '</p>' +
+        '<table class="kb-url-table">' + urlRows + '</table>';
       document.getElementById('kb-backdrop').classList.add('show');
       document.addEventListener('keydown', onKBEscClose);
     }
@@ -6577,10 +6675,13 @@
       const filterLabels = [T.filterOpen, T.filterDone];
       document.querySelectorAll('.filter-btn').forEach((b, i) => { b.textContent = filterLabels[i]; });
       document.getElementById('sort-label').textContent = T.sortLabel;
-      const sortSelect = document.getElementById('sort-select');
-      sortSelect.value = currentSort;
-      const sortLabels = [T.sortManual, T.sortPriority, T.sortDueDate, T.sortCreated];
-      sortSelect.querySelectorAll('option').forEach((o, i) => { o.textContent = sortLabels[i]; });
+      const sortLabels = { manual: T.sortManual, priority: T.sortPriority, dueDate: T.sortDueDate, created: T.sortCreated };
+      document.getElementById('sort-btn-label').textContent = sortLabels[currentSort] || T.sortManual;
+      document.querySelectorAll('#sort-ac .cat-ac-item').forEach(function(el) {
+        const v = el.getAttribute('data-sort');
+        el.textContent = sortLabels[v] || v;
+        el.classList.toggle('active', v === currentSort);
+      });
       const searchInput = document.getElementById('search-input');
       if (searchInput) searchInput.placeholder = T.searchPlaceholder;
 
@@ -6647,7 +6748,7 @@
                   <div class="todo-meta">${
                     todo.done && todo.completedAt
                       ? T.metaDone + ': ' + formatDate(todo.completedAt)
-                      : T.metaCreated + ': ' + formatShortDate(todo.created)
+                      : T.metaCreated + ': ' + formatDate(todo.created)
                   }</div>
                   ${dc || todo.recurrence ? `<div class="todo-badges-row">${isRecurFuture ? `<span class="recur-scheduled-badge">${T.recurScheduled}</span>` : ''}${dc ? `<span class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</span>` : ''}${todo.recurrence ? `<span class="recur-badge">${SVG.repeat} ${recurrenceLabel(todo.recurrence)}</span>` : ''}</div>` : ''}
                   ${todo.category ? `<div class="todo-cat-row"><span class="cat-badge" style="${catStyle(todo.category)}" onclick="setCategoryFilter('${escHtml(todo.category)}')">#${escHtml(todo.category)}</span></div>` : ''}
@@ -6971,6 +7072,29 @@
         document.getElementById('theme-popover').classList.remove('open');
       }
     });
-  </script>
+    document.addEventListener('click', function(e) {
+      const dd = document.getElementById('sort-dropdown');
+      if (dd && !dd.contains(e.target)) {
+        document.getElementById('sort-ac').classList.remove('open');
+      }
+    });
+
+    // ── Quick-Add via URL parameter ───────────────────────────────────────────
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const addText = params.get('add');
+      if (!addText) return;
+      switchTab('new');
+      const input = document.getElementById('new-todo-input');
+      if (input) { input.value = addText.trim(); input.focus(); updateFieldLabels(); }
+      const note = params.get('note');
+      if (note) { const n = document.getElementById('new-todo-note'); if (n) n.value = note.trim(); }
+      const prio = params.get('priority');
+      if (prio) { const p = prio.toLowerCase(); if (['high','medium','low'].includes(p)) { newPriority = p; updatePrioChips(); } }
+      const due = params.get('due');
+      if (due) { const d = document.getElementById('new-todo-due'); if (d) { d.value = due; updateFieldLabels(); } }
+      window.history.replaceState({}, '', window.location.pathname);
+    })();
+</script>
 </body>
 </html>

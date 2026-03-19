@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.5.0-blueviolet)
+![Version](https://img.shields.io/badge/version-1.5.0.1-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -150,6 +150,15 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.5.0.1
+- Quick-Add via URL parameter — `?add=Title`, `&note=`, `&priority=`, `&due=` pre-fill new tasks
+- Fix: URL parameter redirect failed due to naming conflict with internal history variable
+- Help modal — keyboard shortcuts and URL parameters combined in one clean dialog
+- Sort dropdown — replaced native select with styled custom dropdown
+- Created timestamp now shows date and time
+- Drag handle vertically centered
+- Sun icon in dark mode button correctly centered
 
 ### v1.5.0
 - Multiple lists / boards — "Work", "Personal", "Shopping" as separate areas
