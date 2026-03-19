@@ -103,10 +103,16 @@
     /* ── Color Picker ────────────────────────────────────────── */
     .color-picker-row {
       display: flex;
-      align-items: center;
-      gap: 6px;
+      flex-direction: column;
+      gap: 4px;
       margin-top: 8px;
+    }
+    .color-picker-swatches {
+      display: flex;
       flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      padding: 4px 2px;
     }
     .color-swatch {
       width: 22px; height: 22px;
@@ -121,7 +127,6 @@
     .color-swatch.none-swatch {
       background: transparent;
       border: 2px dashed rgba(150,150,150,0.5);
-      position: relative;
     }
     .color-swatch.none-swatch.active { border-color: var(--accent); }
 
@@ -2941,6 +2946,10 @@
 
     /* ── Touch devices: always show actions & handles ───────── */
     @media (hover: none) and (pointer: coarse) {
+      /* Color swatches touch-optimised — single row, all visible */
+      .color-swatch { width: 30px; height: 30px; flex-shrink: 0; }
+      .color-picker-swatches { flex-wrap: nowrap; overflow-x: auto; gap: 6px; scrollbar-width: none; padding-bottom: 2px; padding-right: 4px; }
+      .color-picker-swatches::-webkit-scrollbar { display: none; }
       /* Actions always visible — no hover on touch */
       .todo-actions { opacity: 1; gap: 6px; }
       .action-btn {
@@ -3230,7 +3239,7 @@
           <div class="sort-row">
             <label class="sort-label" id="sort-label"></label>
             <div class="sort-dropdown" id="sort-dropdown">
-              <button class="sort-select" id="sort-btn" onclick="toggleSortDropdown()" type="button">
+              <button class="sort-select" id="sort-btn" onclick="toggleSortDropdown()" type="button" title="Sort">
                 <span id="sort-btn-label"></span>
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
@@ -3359,7 +3368,7 @@
           </label>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.0.2</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.0.3</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -3495,8 +3504,8 @@
       <div class="pomo-time-big" id="pomo-time">25:00</div>
       <div class="pomo-dots" id="pomo-dots"></div>
       <div class="pomo-controls">
-        <button class="pomo-btn-big" id="pomo-toggle" onclick="togglePomodoro()"></button>
-        <button class="pomo-btn-big danger" id="pomo-stop" onclick="stopPomodoro()"></button>
+        <button class="pomo-btn-big" id="pomo-toggle" onclick="togglePomodoro()" aria-label="Play"></button>
+        <button class="pomo-btn-big danger" id="pomo-stop" onclick="stopPomodoro()" aria-label="Stop"></button>
       </div>
     </div>
   </div>
@@ -3758,6 +3767,14 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.0.3',
+            entries: [
+              'Fix: Farbwähler-Layout — Label jetzt über den Farb-Kreisen, volle Kartenbreite für die Auswahl',
+              'Fix: Ausgewählte Farbe wurde am Rand abgeschnitten — Padding für Scale-Animation ergänzt',
+              'Fix: Barrierefreiheit — Buttons ohne sichtbaren Text erhalten aria-label (Pomodoro, Farbwähler, Sortierung)',
+            ],
+          },
           {
             version: 'v1.5.0.2',
             entries: [
@@ -4355,6 +4372,14 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.0.3',
+            entries: [
+              'Fix: Color picker layout — label now above swatches, full card width for color row',
+              'Fix: Selected color swatch clipped at edge — padding added for scale animation',
+              'Fix: Accessibility — buttons without visible text now have aria-label (Pomodoro, color picker, sort)',
+            ],
+          },
           {
             version: 'v1.5.0.2',
             entries: [
@@ -6017,15 +6042,16 @@
       const el = document.getElementById(containerId);
       if (!el || !taskColorsEnabled) { if (el) el.innerHTML = ''; return; }
       const label = t().colorPickerLabel;
-      el.innerHTML = `<span class="sort-label" style="flex-shrink:0">${label}</span>` + ['', ...TASK_COLORS].map(c => {
+      el.innerHTML = `<span class="sort-label color-picker-label">${label}</span><div class="color-picker-swatches">` + ['', ...TASK_COLORS].map(c => {
         const isNone = c === '';
         const isActive = c === selectedColor;
         return `<button type="button" class="color-swatch${isNone ? ' none-swatch' : ''}${isActive ? ' active' : ''}"
           style="${c ? 'background:' + c + ';' : ''}"
           data-color="${c}"
+          aria-label="${isNone ? label + ': –' : label + ': ' + c}"
           onclick="(function(btn){ var wrap=btn.closest('.color-picker-row'); wrap.querySelectorAll('.color-swatch').forEach(function(s){s.classList.remove('active')}); btn.classList.add('active'); })(this)"
           ></button>`;
-      }).join('');
+      }).join('') + '</div>';
       el.querySelectorAll('.color-swatch').forEach(btn => {
         btn.addEventListener('click', function() { onChange(this.dataset.color); });
       });
@@ -6236,7 +6262,9 @@
         '<span class="pomo-dot' + (i < filledDots ? ' filled' : '') + '"></span>'
       ).join('');
 
-      document.getElementById('pomo-toggle').innerHTML = pomodoroState.running ? SVG.pause : SVG.play;
+      const pomoToggleBtn = document.getElementById('pomo-toggle');
+      pomoToggleBtn.innerHTML = pomodoroState.running ? SVG.pause : SVG.play;
+      pomoToggleBtn.setAttribute('aria-label', pomodoroState.running ? 'Pause' : 'Play');
       document.getElementById('pomo-stop').innerHTML = SVG.stopIcon;
     }
 
