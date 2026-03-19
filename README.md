@@ -162,6 +162,7 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - Theme popover centered below button (no overflow on small screens)
 - Font sizes unified: priority chips, details toggle and form fields set to 0.88rem
 - Settings: button spacing and padding unified
+- Styled scrollbar — thin, semi-transparent bar matching all themes and dark mode
 
 ### v1.4.9.1
 - Header buttons reordered logically: Language → Theme → Dark Mode → Notifications → Stats → Keyboard
