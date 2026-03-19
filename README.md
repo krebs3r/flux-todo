@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.5.0.1-blueviolet)
+![Version](https://img.shields.io/badge/version-1.5.0.2-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -150,6 +150,12 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.5.0.2
+- Task colors — individual color stripe per task as a left-border accent
+- Color picker in new task form (below priority) and in edit form
+- Settings toggle to enable/disable task colors
+- All native dropdowns replaced — recurrence, tag filter and board selector now use styled custom dropdowns
 
 ### v1.5.0.1
 - Quick-Add via URL parameter — `?add=Title`, `&note=`, `&priority=`, `&due=` pre-fill new tasks

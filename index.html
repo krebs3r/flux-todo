@@ -100,6 +100,81 @@
     * { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.35) transparent; }
     html.dark * { scrollbar-color: rgba(255,255,255,0.18) transparent; }
 
+    /* ── Color Picker ────────────────────────────────────────── */
+    .color-picker-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .color-swatch {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s;
+      flex-shrink: 0;
+    }
+    .color-swatch:hover { transform: scale(1.2); }
+    .color-swatch.active { border-color: rgba(255,255,255,0.9); transform: scale(1.15); box-shadow: 0 0 0 2px rgba(0,0,0,0.25); }
+    .color-swatch.none-swatch {
+      background: transparent;
+      border: 2px dashed rgba(150,150,150,0.5);
+      position: relative;
+    }
+    .color-swatch.none-swatch.active { border-color: var(--accent); }
+
+    /* ── Setting Row (toggle) ─────────────────────────────────── */
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-top: 1px solid var(--gl-border-subtle);
+    }
+    body.dark .setting-row { border-top-color: var(--gl-border-subtle-dark); }
+    .setting-row:first-child { border-top: none; padding-top: 0; }
+    .setting-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    body.dark .setting-label { color: var(--text-dark); }
+    .setting-sub {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    body.dark .setting-sub { color: var(--muted-dark); }
+    .toggle-switch {
+      position: relative;
+      width: 42px; height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      border-radius: 99px;
+      background: rgba(150,150,160,0.35);
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+    body.dark .toggle-track { background: rgba(255,255,255,0.15); }
+    .toggle-switch input:checked ~ .toggle-track { background: var(--accent); }
+    .toggle-thumb {
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+      transition: transform 0.2s;
+      pointer-events: none;
+    }
+    .toggle-switch input:checked ~ .toggle-track .toggle-thumb { transform: translateX(18px); }
+
     /* ── Theme Picker ────────────────────────────────────────── */
     .theme-picker-wrap { position: relative; }
     .theme-popover {
@@ -1376,6 +1451,12 @@
     }
     .sort-ac .cat-ac-item { white-space: nowrap; }
     .sort-ac .cat-ac-item.active { color: var(--accent); font-weight: 600; }
+    .recur-dd-ac { left: 0; right: 0; max-height: 200px; overflow-y: auto; }
+    #new-todo-recur-wrap, #new-todo-recur-detail-wrap { grid-column: 1 / -1; position: relative; }
+    .recur-dd-btn { width: 100%; justify-content: space-between; min-height: 42px; box-sizing: border-box; font-family: inherit; }
+    .recur-dd-btn-edit { width: 100%; justify-content: space-between; min-height: 44px; box-sizing: border-box; font-family: inherit; }
+    .recur-dd-detail-wrap { flex: 1; position: relative; }
+    .cat-filter-wrap { position: relative; width: 100%; }
 
     /* ── Todo List ──────────────────────────────────────────── */
     .todo-list { display: flex; flex-direction: column; gap: 1px; }
@@ -3065,6 +3146,7 @@
           <button class="prio-chip" data-p="medium" onclick="setPriority('medium')"></button>
           <button class="prio-chip" data-p="low" onclick="setPriority('low')"></button>
         </div>
+        <div class="color-picker-row" id="new-color-picker"></div>
         <div class="form-grid">
           <div class="form-field-wrap">
             <input class="form-field" type="date" id="new-todo-due" />
@@ -3074,10 +3156,22 @@
             <input class="form-field" type="time" id="new-todo-time" />
             <span class="form-field-label" id="new-todo-time-label"></span>
           </div>
-          <select class="form-field" id="new-todo-recur" onchange="onRecurChange('new')">
-            <option value=""></option>
-          </select>
-          <select class="form-field" id="new-todo-recur-detail" style="display:none"></select>
+          <div id="new-todo-recur-wrap">
+            <button type="button" class="sort-select recur-dd-btn" id="new-todo-recur-btn" onclick="toggleRecurDD('new-todo-recur')">
+              <span id="new-todo-recur-label"></span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="sort-ac recur-dd-ac" id="new-todo-recur-ac"></div>
+          </div>
+          <div id="new-todo-recur-detail-wrap" style="display:none">
+            <button type="button" class="sort-select recur-dd-btn" id="new-todo-recur-detail-btn" onclick="toggleRecurDD('new-todo-recur-detail')">
+              <span id="new-todo-recur-detail-label"></span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="sort-ac recur-dd-ac" id="new-todo-recur-detail-ac"></div>
+          </div>
+          <select id="new-todo-recur" style="display:none"></select>
+          <select id="new-todo-recur-detail" style="display:none"></select>
         </div>
         <div class="details-toggle-wrap">
           <button class="details-toggle" id="details-toggle" onclick="toggleFormDetails()">
@@ -3150,9 +3244,14 @@
           </div>
         </div>
         <div class="filter-sort-row" id="cat-filter-row" style="margin-top:-2px">
-          <select class="cat-filter" id="cat-filter" onchange="setCategoryFilter(this.value)" aria-label="Category filter">
-            <option value=""></option>
-          </select>
+          <div class="cat-filter-wrap">
+            <button type="button" class="sort-select recur-dd-btn" id="cat-filter-btn" title="Tag-Filter" onclick="toggleCatFilterDD()">
+              <span id="cat-filter-label"></span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="sort-ac recur-dd-ac" id="cat-filter-ac"></div>
+          </div>
+          <select id="cat-filter" style="display:none"></select>
         </div>
         <div id="calendar-container" style="display:none">
           <div class="calendar-nav">
@@ -3249,8 +3348,18 @@
             <span id="download-app-label"></span>
           </button>
         </div>
+        <div class="setting-row" style="margin-top:16px">
+          <div>
+            <div class="setting-label" id="task-colors-label"></div>
+            <div class="setting-sub" id="task-colors-sub"></div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="task-colors-toggle" onchange="toggleTaskColors()" />
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </label>
+        </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.0.1</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.0.2</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -3488,6 +3597,9 @@
     let currentCategory = '';
     let activeTab = 'tasks';
     let notifyEnabled = false;
+    let taskColorsEnabled = true;
+    let newTaskColor = '';
+    const TASK_COLORS = ['#ef5350','#ff9800','#ffd600','#66bb6a','#26c6da','#3d5afe','#ab47bc','#ec407a'];
     const notifiedIds = new Set();
 
     const i18n = {
@@ -3513,6 +3625,9 @@
         tabManage: 'Einstellungen',
         deleteAllLabel: 'Alle löschen',
         downloadAppLabel: 'App lokal speichern',
+        taskColorsLabel: 'Aufgaben-Farben',
+        taskColorsSub: 'Farbpunkt pro Aufgabe anzeigen',
+        colorPickerLabel: 'Farbe',
         boardDefault: 'Inbox',
         boardAddPrompt: 'Name für neues Board:',
         boardRenamePrompt: 'Board umbenennen:',
@@ -3643,6 +3758,15 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.0.2',
+            entries: [
+              'Aufgaben-Farben — individueller Farbstreifen pro Aufgabe als linker Randakzent',
+              'Farbwähler im Neu-Formular (unter Priorität) und im Bearbeiten-Formular',
+              'Einstellungs-Schalter zum Aktivieren/Deaktivieren der Aufgaben-Farben',
+              'Alle nativen Dropdowns ersetzt — Wiederholung, Tag-Filter und Board-Auswahl jetzt als stilisierte Custom-Dropdowns',
+            ],
+          },
           {
             version: 'v1.5.0.1',
             entries: [
@@ -4098,6 +4222,9 @@
         tabManage: 'Settings',
         deleteAllLabel: 'Delete all',
         downloadAppLabel: 'Save app locally',
+        taskColorsLabel: 'Task Colors',
+        taskColorsSub: 'Show color dot per task',
+        colorPickerLabel: 'Color',
         boardDefault: 'Inbox',
         boardAddPrompt: 'Name for new board:',
         boardRenamePrompt: 'Rename board:',
@@ -4228,6 +4355,15 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.0.2',
+            entries: [
+              'Task colors — individual color stripe per task as a left-border accent',
+              'Color picker in new task form (below priority) and in edit form',
+              'Settings toggle to enable/disable task colors',
+              'All native dropdowns replaced — recurrence, tag filter and board selector now use styled custom dropdowns',
+            ],
+          },
           {
             version: 'v1.5.0.1',
             entries: [
@@ -4679,6 +4815,7 @@
       localStorage.setItem('lang', lang);
       localStorage.setItem('theme', currentTheme);
       localStorage.setItem('notify', notifyEnabled ? '1' : '0');
+      localStorage.setItem('taskColors', taskColorsEnabled ? '1' : '0');
       localStorage.setItem('sort', currentSort);
       localStorage.setItem('catFilter', currentCategory);
       localStorage.setItem('activeTab', activeTab);
@@ -4707,6 +4844,8 @@
       dark = savedDark !== null ? savedDark === '1' : window.matchMedia('(prefers-color-scheme: dark)').matches;
       currentTheme = localStorage.getItem('theme') || 'flux';
       notifyEnabled = localStorage.getItem('notify') === '1' && 'Notification' in window && Notification.permission === 'granted';
+      const savedTaskColors = localStorage.getItem('taskColors');
+      taskColorsEnabled = savedTaskColors !== null ? savedTaskColors === '1' : true;
       currentSort = localStorage.getItem('sort') || 'manual';
       currentCategory = localStorage.getItem('catFilter') || '';
       activeTab = localStorage.getItem('activeTab') || 'tasks';
@@ -4879,44 +5018,50 @@
     function onRecurChange(prefix) {
       const sel = document.getElementById(prefix + '-todo-recur');
       const detail = document.getElementById(prefix + '-todo-recur-detail');
+      const detailWrap = document.getElementById(prefix + '-todo-recur-detail-wrap');
       const val = sel.value;
-      sel.classList.toggle('placeholder', !val);
       const T = t();
       if (val === 'weekly' || val === 'biweekly') {
-        detail.style.display = '';
-        detail.innerHTML = T.recurDayNames.map(function(name, i) {
-          return '<option value="' + i + '">' + name + '</option>';
-        }).join('');
-        // Default to due date's day
+        let dayVal = '';
         const dueInput = document.getElementById(prefix + '-todo-due');
         if (dueInput && dueInput.value) {
           const p = dueInput.value.split('-');
-          const dayOfWeek = new Date(+p[0], +p[1]-1, +p[2]).getDay();
-          detail.value = dayOfWeek;
+          dayVal = String(new Date(+p[0], +p[1]-1, +p[2]).getDay());
         }
+        if (detail) {
+          detail.innerHTML = T.recurDayNames.map(function(name, i) { return '<option value="' + i + '">' + name + '</option>'; }).join('');
+          if (dayVal) detail.value = dayVal;
+        }
+        if (detailWrap) detailWrap.style.display = '';
+        populateRecurDetailDD(prefix, 'week', T, dayVal || '0');
       } else if (val === 'monthly') {
-        detail.style.display = '';
-        let opts = '';
-        for (let i = 1; i <= 31; i++) opts += '<option value="' + i + '">' + i + '.</option>';
-        opts += '<option value="last">' + T.recurMonthlyLast + '</option>';
-        detail.innerHTML = opts;
+        let dayNum = '';
         const dueInput2 = document.getElementById(prefix + '-todo-due');
-        if (dueInput2 && dueInput2.value) {
-          detail.value = parseInt(dueInput2.value.split('-')[2], 10);
+        if (dueInput2 && dueInput2.value) dayNum = String(parseInt(dueInput2.value.split('-')[2], 10));
+        if (detail) {
+          let opts = '';
+          for (let i = 1; i <= 31; i++) opts += '<option value="' + i + '">' + i + '.</option>';
+          opts += '<option value="last">' + T.recurMonthlyLast + '</option>';
+          detail.innerHTML = opts;
+          if (dayNum) detail.value = dayNum;
         }
+        if (detailWrap) detailWrap.style.display = '';
+        populateRecurDetailDD(prefix, 'month', T, dayNum || '1');
       } else {
-        detail.style.display = 'none';
-        detail.innerHTML = '';
+        if (detail) { detail.innerHTML = ''; }
+        if (detailWrap) detailWrap.style.display = 'none';
       }
       // Auto-fill due date if empty and recurrence selected
       if (val) {
         const dueInp = document.getElementById(prefix + '-todo-due');
         if (dueInp && !dueInp.value) {
           dueInp.value = formatDateISO(new Date());
-          if (val === 'weekly' || val === 'biweekly') {
+          if ((val === 'weekly' || val === 'biweekly') && detail) {
             detail.value = new Date().getDay();
-          } else if (val === 'monthly') {
+            syncRecurDetailLabel(prefix);
+          } else if (val === 'monthly' && detail) {
             detail.value = new Date().getDate();
+            syncRecurDetailLabel(prefix);
           }
         }
       }
@@ -4933,12 +5078,89 @@
     function populateRecurSelect(prefix, T) {
       const sel = document.getElementById(prefix + '-todo-recur');
       if (!sel) return;
-      sel.innerHTML = '<option value="">' + T.recurNone + '</option>'
-        + '<option value="daily">' + T.recurDaily + '</option>'
-        + '<option value="weekly">' + T.recurWeekly + '</option>'
-        + '<option value="biweekly">' + T.recurBiweekly + '</option>'
-        + '<option value="monthly">' + T.recurMonthly + '</option>';
-      sel.classList.toggle('placeholder', !sel.value);
+      const opts = [
+        { val: '', label: T.recurNone },
+        { val: 'daily', label: T.recurDaily },
+        { val: 'weekly', label: T.recurWeekly },
+        { val: 'biweekly', label: T.recurBiweekly },
+        { val: 'monthly', label: T.recurMonthly }
+      ];
+      sel.innerHTML = opts.map(o => '<option value="' + o.val + '">' + o.label + '</option>').join('');
+      const ac = document.getElementById(prefix + '-todo-recur-ac');
+      if (ac) {
+        ac.innerHTML = opts.map(o =>
+          '<div class="cat-ac-item' + (o.val === sel.value ? ' active' : '') + '" data-val="' + o.val + '" onclick="selectRecurOpt(\'' + prefix + '\',\'' + o.val + '\',\'' + o.label.replace(/'/g, "\\'") + '\')">' + o.label + '</div>'
+        ).join('');
+      }
+      syncRecurLabel(prefix, T);
+    }
+    function syncRecurLabel(prefix, T) {
+      const sel = document.getElementById(prefix + '-todo-recur');
+      const labelEl = document.getElementById(prefix + '-todo-recur-label');
+      if (!sel || !labelEl) return;
+      const map = { '': T.recurNone, daily: T.recurDaily, weekly: T.recurWeekly, biweekly: T.recurBiweekly, monthly: T.recurMonthly };
+      labelEl.textContent = map[sel.value] || T.recurNone;
+    }
+    function syncRecurDetailLabel(prefix) {
+      const sel = document.getElementById(prefix + '-todo-recur-detail');
+      const ac = document.getElementById(prefix + '-todo-recur-detail-ac');
+      const labelEl = document.getElementById(prefix + '-todo-recur-detail-label');
+      if (!sel || !ac || !labelEl) return;
+      const val = sel.value;
+      const item = ac.querySelector('[data-val="' + val + '"]');
+      if (item) {
+        labelEl.textContent = item.textContent;
+        ac.querySelectorAll('.cat-ac-item').forEach(el => el.classList.toggle('active', el.dataset.val === val));
+      }
+    }
+    function toggleRecurDD(id) {
+      const ac = document.getElementById(id + '-ac');
+      if (!ac) return;
+      const isOpen = ac.classList.contains('open');
+      document.querySelectorAll('.sort-ac').forEach(el => el.classList.remove('open'));
+      if (!isOpen) ac.classList.add('open');
+    }
+    function selectRecurOpt(prefix, val, label) {
+      const sel = document.getElementById(prefix + '-todo-recur');
+      if (sel) sel.value = val;
+      const labelEl = document.getElementById(prefix + '-todo-recur-label');
+      if (labelEl) labelEl.textContent = label;
+      const ac = document.getElementById(prefix + '-todo-recur-ac');
+      if (ac) {
+        ac.classList.remove('open');
+        ac.querySelectorAll('.cat-ac-item').forEach(el => el.classList.toggle('active', el.dataset.val === val));
+      }
+      onRecurChange(prefix);
+    }
+    function selectRecurDetailOpt(prefix, val, label) {
+      const sel = document.getElementById(prefix + '-todo-recur-detail');
+      if (sel) sel.value = val;
+      const labelEl = document.getElementById(prefix + '-todo-recur-detail-label');
+      if (labelEl) labelEl.textContent = label;
+      const ac = document.getElementById(prefix + '-todo-recur-detail-ac');
+      if (ac) {
+        ac.classList.remove('open');
+        ac.querySelectorAll('.cat-ac-item').forEach(el => el.classList.toggle('active', el.dataset.val === val));
+      }
+    }
+    function populateRecurDetailDD(prefix, type, T, currentVal) {
+      const ac = document.getElementById(prefix + '-todo-recur-detail-ac');
+      const labelEl = document.getElementById(prefix + '-todo-recur-detail-label');
+      if (!ac) return;
+      let opts = [];
+      if (type === 'week') {
+        opts = T.recurDayNames.map(function(name, i) { return { val: String(i), label: name }; });
+      } else {
+        for (var i = 1; i <= 31; i++) opts.push({ val: String(i), label: i + '.' });
+        opts.push({ val: 'last', label: T.recurMonthlyLast });
+      }
+      ac.innerHTML = opts.map(o =>
+        '<div class="cat-ac-item' + (o.val === currentVal ? ' active' : '') + '" data-val="' + o.val + '" onclick="selectRecurDetailOpt(\'' + prefix + '\',\'' + o.val + '\',\'' + o.label.replace(/'/g, "\\'") + '\')">' + o.label + '</div>'
+      ).join('');
+      if (labelEl) {
+        const cur = opts.find(o => o.val === currentVal) || opts[0];
+        if (cur) labelEl.textContent = cur.label;
+      }
     }
 
     // ── CRUD ─────────────────────────────────────────────────────────────────
@@ -4952,7 +5174,7 @@
       const catInput = document.getElementById('new-todo-cat');
       const dueDate = dueInput.value ? (timeInput.value ? dueInput.value + 'T' + timeInput.value : dueInput.value) : '';
       const recur = getRecurValue('new');
-      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim(), dueDate: dueDate, category: catInput.value.trim().replace(/^#/, ''), recurrence: recur });
+      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim(), dueDate: dueDate, category: catInput.value.trim().replace(/^#/, ''), recurrence: recur, color: newTaskColor || undefined });
       addHistory('created', text);
       input.value = '';
       noteInput.value = '';
@@ -4960,10 +5182,14 @@
       timeInput.value = '';
       catInput.value = '';
       document.getElementById('new-todo-recur').value = '';
-      document.getElementById('new-todo-recur-detail').style.display = 'none';
+      const recurDetailWrap = document.getElementById('new-todo-recur-detail-wrap');
+      if (recurDetailWrap) recurDetailWrap.style.display = 'none';
+      syncRecurLabel('new', t());
       newPriority = '';
+      newTaskColor = '';
       currentCategory = '';
       updatePrioChips();
+      renderColorPicker('new-color-picker', newTaskColor, function(c) { newTaskColor = c; });
       updateFieldLabels();
       haptic('success');
       save(); render();
@@ -5141,6 +5367,7 @@
       const oldDue = todo.dueDate || '';
       const oldCat = todo.category || '';
       const oldRecur = todo.recurrence || '';
+      const oldColor = todo.color || '';
       const oldDueDate = oldDue.split('T')[0] || '';
       const oldDueTime = oldDue.includes('T') ? oldDue.split('T')[1] : '';
       const T = t();
@@ -5157,14 +5384,25 @@
         </div>
         <div class="recur-input-row">
           <span class="due-input-icon">${SVG.repeat}</span>
-          <select class="recur-select" id="edit-todo-recur" onchange="onRecurChange('edit')">
-            <option value="">${T.recurNone}</option>
-            <option value="daily">${T.recurDaily}</option>
-            <option value="weekly">${T.recurWeekly}</option>
-            <option value="biweekly">${T.recurBiweekly}</option>
-            <option value="monthly">${T.recurMonthly}</option>
-          </select>
-          <select class="recur-select" id="edit-todo-recur-detail" style="display:none"></select>
+          <div class="recur-dd-detail-wrap" id="edit-todo-recur-wrap">
+            <button type="button" class="sort-select recur-dd-btn-edit" id="edit-todo-recur-btn" onclick="toggleRecurDD('edit-todo-recur')">
+              <span id="edit-todo-recur-label">${T.recurNone}</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="sort-ac recur-dd-ac" id="edit-todo-recur-ac"></div>
+          </div>
+          <select id="edit-todo-recur" style="display:none"></select>
+        </div>
+        <div class="recur-input-row" id="edit-todo-recur-detail-wrap" style="display:none">
+          <span class="due-input-icon" style="visibility:hidden">${SVG.repeat}</span>
+          <div class="recur-dd-detail-wrap">
+            <button type="button" class="sort-select recur-dd-btn-edit" id="edit-todo-recur-detail-btn" onclick="toggleRecurDD('edit-todo-recur-detail')">
+              <span id="edit-todo-recur-detail-label"></span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="sort-ac recur-dd-ac" id="edit-todo-recur-detail-ac"></div>
+          </div>
+          <select id="edit-todo-recur-detail" style="display:none"></select>
         </div>
         <div class="subtask-edit-list" id="edit-subtasks-${id}"></div>
         <button class="subtask-add-btn" type="button" id="edit-subtask-add-${id}">
@@ -5173,10 +5411,20 @@
         </button>
         ${boards.length > 1 ? `<div class="recur-input-row">
           <span class="due-input-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          <select class="recur-select" id="edit-move-board-${id}">
-            ${boards.map(b => '<option value="' + b.id + '"' + (b.id === currentBoardId ? ' selected disabled' : '') + '>' + escHtml(b.name) + (b.id === currentBoardId ? ' ' + T.moveToBoardCurrent : '') + '</option>').join('')}
+          <div class="recur-dd-detail-wrap">
+            <button type="button" class="sort-select recur-dd-btn-edit" id="edit-move-board-btn-${id}" title="${T.moveToBoardCurrent}" onclick="toggleRecurDD('edit-move-board-${id}')">
+              <span id="edit-move-board-label-${id}">${escHtml(boards.find(b => b.id === currentBoardId)?.name || '')}</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="sort-ac recur-dd-ac" id="edit-move-board-${id}-ac">
+              ${boards.map(b => '<div class="cat-ac-item' + (b.id === currentBoardId ? ' active' : '') + '" data-val="' + b.id + '" onclick="selectMoveBoardOpt(' + id + ',' + b.id + ',\'' + escHtml(b.name).replace(/'/g, "\\'") + '\')">' + escHtml(b.name) + (b.id === currentBoardId ? ' ' + T.moveToBoardCurrent : '') + '</div>').join('')}
+            </div>
+          </div>
+          <select id="edit-move-board-${id}" style="display:none">
+            ${boards.map(b => '<option value="' + b.id + '"' + (b.id === currentBoardId ? ' selected' : '') + '>' + escHtml(b.name) + '</option>').join('')}
           </select>
         </div>` : ''}
+        <div class="color-picker-row" id="edit-color-picker-${id}"></div>
         <div class="edit-btn-row">
           <button class="edit-btn" id="edit-cancel-${id}">${T.editCancel}</button>
           <button class="edit-btn edit-save" id="edit-save-${id}">${T.editSave}</button>
@@ -5219,6 +5467,8 @@
         const inputs = document.querySelectorAll('#edit-subtasks-' + id + ' .subtask-edit-input');
         if (inputs.length) inputs[inputs.length - 1].focus();
       };
+      // Populate custom recur dropdown
+      populateRecurSelect('edit', T);
       // Restore recurrence state
       if (oldRecur) {
         const rType = oldRecur.split(':')[0];
@@ -5227,8 +5477,12 @@
         onRecurChange('edit');
         if (rParam !== undefined) {
           document.getElementById('edit-todo-recur-detail').value = rParam;
+          syncRecurDetailLabel('edit');
         }
+        syncRecurLabel('edit', T);
       }
+      let editColor = oldColor;
+      renderColorPicker('edit-color-picker-' + id, editColor, function(c) { editColor = c; });
       inp.focus(); inp.select();
       function getEditDue() {
         const d = dueDateInp.value;
@@ -5241,25 +5495,25 @@
       }
       inp.onkeydown = e => {
         if (e.key === 'Enter') { e.preventDefault(); noteInp.focus(); }
-        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null);
+        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null, oldColor);
       };
       noteInp.onkeydown = e => {
-        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null);
+        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null, oldColor);
       };
       document.getElementById('edit-save-' + id).onclick = () => {
         const moveSel = document.getElementById('edit-move-board-' + id);
         if (moveSel && parseInt(moveSel.value) !== currentBoardId) {
-          commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value, getRecurValue('edit'), getEditSubtasks());
+          commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value, getRecurValue('edit'), getEditSubtasks(), editColor);
           moveTodoToBoard(id, parseInt(moveSel.value));
           return;
         }
-        commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value, getRecurValue('edit'), getEditSubtasks());
+        commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value, getRecurValue('edit'), getEditSubtasks(), editColor);
       };
       document.getElementById('edit-cancel-' + id).onclick = () => {
-        commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null);
+        commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null, oldColor);
       };
     }
-    function commitEdit(id, newText, oldText, newNote, newDue, newCat, newRecur, newSubtasks) {
+    function commitEdit(id, newText, oldText, newNote, newDue, newCat, newRecur, newSubtasks, newColor) {
       newText = newText.trim();
       if (!newText) { render(); return; }
       const todo = todos.find(t => t.id === id);
@@ -5270,7 +5524,8 @@
       const recurValue = newRecur !== undefined ? newRecur : (todo.recurrence || '');
       const subtasksValue = newSubtasks !== null && newSubtasks !== undefined ? newSubtasks : (todo.subtasks || []);
       const subtasksChanged = JSON.stringify(subtasksValue) !== JSON.stringify(todo.subtasks || []);
-      if (newText === oldText && noteValue === (todo.note || '') && dueValue === (todo.dueDate || '') && catValue === (todo.category || '') && recurValue === (todo.recurrence || '') && !subtasksChanged) { render(); return; }
+      const colorValue = newColor !== undefined ? (newColor || undefined) : todo.color;
+      if (newText === oldText && noteValue === (todo.note || '') && dueValue === (todo.dueDate || '') && catValue === (todo.category || '') && recurValue === (todo.recurrence || '') && !subtasksChanged && colorValue === todo.color) { render(); return; }
       saveUndo();
       todo.text = newText;
       todo.note = noteValue;
@@ -5278,6 +5533,7 @@
       todo.category = catValue;
       todo.recurrence = recurValue;
       todo.subtasks = subtasksValue.length ? subtasksValue : undefined;
+      todo.color = colorValue;
       save(); render();
     }
 
@@ -5305,6 +5561,40 @@
       haptic('light');
       currentCategory = c;
       save(); render();
+    }
+    function renderCatFilterDD(T, allTags) {
+      const ac = document.getElementById('cat-filter-ac');
+      const labelEl = document.getElementById('cat-filter-label');
+      if (!ac || !labelEl) return;
+      const opts = [{ val: '', label: T.catAll }].concat(allTags.map(function(tg) { return { val: tg, label: '#' + tg }; }));
+      ac.innerHTML = opts.map(function(o) {
+        return '<div class="cat-ac-item' + (o.val === currentCategory ? ' active' : '') + '" data-val="' + escHtml(o.val) + '" onclick="setCatFilterFromDD(\'' + escHtml(o.val).replace(/'/g, "\\'") + '\')">' + escHtml(o.label) + '</div>';
+      }).join('');
+      const cur = opts.find(function(o) { return o.val === currentCategory; }) || opts[0];
+      labelEl.textContent = cur ? cur.label : T.catAll;
+    }
+    function toggleCatFilterDD() {
+      const ac = document.getElementById('cat-filter-ac');
+      if (!ac) return;
+      const isOpen = ac.classList.contains('open');
+      document.querySelectorAll('.sort-ac').forEach(function(el) { el.classList.remove('open'); });
+      if (!isOpen) ac.classList.add('open');
+    }
+    function setCatFilterFromDD(val) {
+      const ac = document.getElementById('cat-filter-ac');
+      if (ac) ac.classList.remove('open');
+      setCategoryFilter(val);
+    }
+    function selectMoveBoardOpt(taskId, boardId, boardName) {
+      const sel = document.getElementById('edit-move-board-' + taskId);
+      if (sel) sel.value = boardId;
+      const labelEl = document.getElementById('edit-move-board-label-' + taskId);
+      if (labelEl) labelEl.textContent = boardName;
+      const ac = document.getElementById('edit-move-board-' + taskId + '-ac');
+      if (ac) {
+        ac.classList.remove('open');
+        ac.querySelectorAll('.cat-ac-item').forEach(function(el) { el.classList.toggle('active', el.dataset.val === String(boardId)); });
+      }
     }
     function filteredTodos() {
       let result = todos;
@@ -5720,6 +6010,35 @@
         else canvas.remove();
       }
       requestAnimationFrame(draw);
+    }
+
+    // ── Task Colors ───────────────────────────────────────────────────────────
+    function renderColorPicker(containerId, selectedColor, onChange) {
+      const el = document.getElementById(containerId);
+      if (!el || !taskColorsEnabled) { if (el) el.innerHTML = ''; return; }
+      const label = t().colorPickerLabel;
+      el.innerHTML = `<span class="sort-label" style="flex-shrink:0">${label}</span>` + ['', ...TASK_COLORS].map(c => {
+        const isNone = c === '';
+        const isActive = c === selectedColor;
+        return `<button type="button" class="color-swatch${isNone ? ' none-swatch' : ''}${isActive ? ' active' : ''}"
+          style="${c ? 'background:' + c + ';' : ''}"
+          data-color="${c}"
+          onclick="(function(btn){ var wrap=btn.closest('.color-picker-row'); wrap.querySelectorAll('.color-swatch').forEach(function(s){s.classList.remove('active')}); btn.classList.add('active'); })(this)"
+          ></button>`;
+      }).join('');
+      el.querySelectorAll('.color-swatch').forEach(btn => {
+        btn.addEventListener('click', function() { onChange(this.dataset.color); });
+      });
+    }
+    function applyTaskColorsToggle() {
+      const el = document.getElementById('task-colors-toggle');
+      if (el) el.checked = taskColorsEnabled;
+    }
+    function toggleTaskColors() {
+      taskColorsEnabled = !taskColorsEnabled;
+      applyTaskColorsToggle();
+      renderColorPicker('new-color-picker', newTaskColor, function(c) { newTaskColor = c; });
+      save(); render();
     }
 
     // ── Notifications ────────────────────────────────────────────────────────
@@ -6695,10 +7014,13 @@
       document.getElementById('tab-label-manage').textContent = T.tabManage;
       document.getElementById('delete-all-label').textContent = T.deleteAllLabel;
       document.getElementById('download-app-label').textContent = T.downloadAppLabel;
-      const catFilter = document.getElementById('cat-filter');
-      catFilter.innerHTML = `<option value="">${T.catAll}</option>` + allTags.map(t => `<option value="${escHtml(t)}"${currentCategory === t ? ' selected' : ''}>#${escHtml(t)}</option>`).join('');
+      document.getElementById('task-colors-label').textContent = T.taskColorsLabel;
+      document.getElementById('task-colors-sub').textContent = T.taskColorsSub;
+      applyTaskColorsToggle();
+      renderColorPicker('new-color-picker', newTaskColor, function(c) { newTaskColor = c; });
       const catFilterRow = document.getElementById('cat-filter-row');
       catFilterRow.style.display = allTags.length ? '' : 'none';
+      renderCatFilterDD(T, allTags);
 
       // Stats + progress
       const doneCount = todos.filter(t => t.done).length;
@@ -6732,6 +7054,7 @@
             <div class="swipe-action left">${SVG.check} &nbsp;${T.metaDone}</div>
             <div class="swipe-action right">${SVG.trash} &nbsp;${T.deleteTitle}</div>
             <div class="todo-item${todo.done ? ' done' : ''}${dc === 'due-overdue' ? ' overdue' : ''}${isRecurFuture ? ' recurring-future' : ''}" data-id="${todo.id}"
+                 ${taskColorsEnabled && todo.color && dc !== 'due-overdue' ? `style="box-shadow: inset 3px 0 0 ${todo.color}"` : ''}
                  ${currentSort === 'manual' ? 'draggable="true"' : ''}
                  ${currentSort === 'manual' ? `ondragstart="onDragStart(event,${todo.id})"
                  ondragend="onDragEnd(event)"
