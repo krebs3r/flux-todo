@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.5.0.3-blueviolet)
+![Version](https://img.shields.io/badge/version-1.5.0.4-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -150,6 +150,10 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.5.0.4
+- Haptic feedback — tactile response on actions (complete, add, delete tasks, buttons)
+- iOS-compatible via checkbox-switch workaround (iOS 17.4+), Android via Vibration API
 
 ### v1.5.0.3
 - Fix: Color picker layout — label now above swatches, full card width for color row
