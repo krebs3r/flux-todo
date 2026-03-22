@@ -2946,6 +2946,10 @@
 
     /* ── Touch devices: always show actions & handles ───────── */
     @media (hover: none) and (pointer: coarse) {
+      /* Prevent iOS auto-zoom on input focus (requires >= 16px) */
+      .form-field, .cat-input, .subtask-edit-input, .note-input,
+      .note-edit-input, .due-edit-input, .todo-edit-input,
+      .search-input { font-size: 16px !important; }
       /* Color swatches touch-optimised — single row, all visible */
       .color-swatch { width: 30px; height: 30px; flex-shrink: 0; }
       .color-picker-swatches { flex-wrap: nowrap; overflow-x: auto; gap: 6px; scrollbar-width: none; padding-bottom: 2px; padding-right: 4px; }
