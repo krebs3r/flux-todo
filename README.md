@@ -3,19 +3,24 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.5.0.4-blueviolet)
+![Version](https://img.shields.io/badge/version-1.5.1-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
 ---
 
-**[▶ Live Demo](https://flux-todo.eu)**
+## Try it now — [flux-todo.eu](https://flux-todo.eu)
+
+No sign-up. No download. Just open the link and start organizing.
+Works on any device — desktop, tablet, phone. Install it as a PWA for the full app experience.
 
 ---
 
 ## Overview
 
-**Flux** is a single-file todo application that runs entirely in the browser. All data is stored locally via `localStorage` — no account, no backend, no tracking. The interface follows a glassmorphism / acrylic design language inspired by Windows 11 and macOS.
+**Flux** is a single-file todo application that runs entirely in the browser. All data is stored locally via `localStorage` — no account, no backend, no tracking. Your data stays on your device, always.
+
+The interface follows a glassmorphism / acrylic design language inspired by Windows 11 and macOS — with 9 theme presets, dark mode, and smooth animations. It feels like a native app, but it's just one HTML file.
 
 ---
 
@@ -32,17 +37,20 @@
 - **Browser notifications** — reminders for due and overdue tasks
 - **Search** — real-time filtering by title and notes
 - **Filters** — view Open / Done tasks
-- **Full event history** — every action is logged with a timestamp (up to 100,000 entries)
-- **History usage indicator** — progress bar shows fill level of the 100,000-entry limit
+- **Archive** — completed tasks stored as cards, restore or permanently delete them
+- **Activity log** — every action logged with timestamp (up to 100,000 entries), collapsible in the archive tab
 - **Export & Import** — save and restore your tasks as a JSON file
 - **Bulk delete** — clear all tasks at once, with an optional export prompt
 - **Statistics view** — completion rate ring, tasks per week bar chart, current & longest streak
-- **Tags** — label tasks with custom #hashtags, autocomplete from existing tags, filter by tag, manage/rename/delete in settings
+- **Multiple tags** — assign multiple #hashtags per task (comma-separated), autocomplete, filter by tag, manage/rename/delete in settings
+- **Time tracking** — start/stop timer per task, independent from Pomodoro, pulsing badge shows elapsed time
+- **Task colors** — individual color stripe per task as a left-border accent, with settings toggle
 - **Sort options** — manual, priority, due date, creation date
 - **Undo** — reverse the last action with a 5-second toast
 - **Pomodoro timer** — fullscreen focus mode linked to a task (25/5/15 min cycles)
 - **Keyboard shortcuts** — N, F, D, S, Z, 1/2/0, [ ], Esc, ? — quick access without mouse
-- **Tab navigation** — bottom nav bar with 4 tabs (New, Tasks, History, Settings), Liquid Glass style
+- **Tab navigation** — bottom nav bar with 4 tabs (New, Tasks, Archive, Settings), Liquid Glass style
+- **Quick-Add via URL** — `?add=Title&note=Text&priority=high&due=2026-04-01` pre-fills a new task
 - **Recurring tasks** — daily, weekly, biweekly, monthly — next instance auto-created on completion
 - **Focus mode** — fullscreen overlay with the most important task, complete/skip/start Pomodoro
 
@@ -59,8 +67,8 @@
 - **iOS install hint** — banner in Safari guides users to add the app to their home screen
 - **Swipe gestures** — swipe left to delete, right to complete
 - **Pull-to-refresh** — pull down to reload the app
-- **Haptic feedback** — vibration on touch actions (Android)
-- **iOS HIG compliant** — 44pt touch targets, 16px input font size
+- **Haptic feedback** — tactile response on touch actions (iOS 17.4+ via checkbox-switch, Android via Vibration API)
+- **iOS HIG compliant** — 44pt touch targets, 16px input font size (prevents auto-zoom)
 
 ### Localization & Accessibility
 - **Language switcher** — German 🇩🇪 and English 🇬🇧
@@ -104,12 +112,12 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 | Browser | UI | Offline | Notifications | Haptic | Swipe |
 |---|---|---|---|---|---|
-| Chrome / Edge 76+ | ✅ | ✅ | ✅ | ❌ | ✅ |
-| Firefox 103+ | ✅ | ✅ | ✅ | ❌ | ✅ |
-| Safari 14+ | ✅ | ✅ | ⚠️ PWA only | ❌ | ✅ |
-| Android Chrome | ✅ | ✅ | ✅ | ✅ | ✅ |
-| iOS Safari | ✅ | ✅ | ❌ | ❌ | ✅ |
-| iOS PWA (16.4+) | ✅ | ✅ | ✅ | ❌ | ✅ |
+| Chrome / Edge 76+ | ✅ | ✅ | ✅ | ✅ Vibration API | ✅ |
+| Firefox 103+ | ✅ | ✅ | ✅ | ✅ Vibration API | ✅ |
+| Safari 14+ | ✅ | ✅ | ⚠️ PWA only | ⚠️ 17.4+ | ✅ |
+| Android Chrome | ✅ | ✅ | ✅ | ✅ Vibration API | ✅ |
+| iOS Safari 17.4+ | ✅ | ✅ | ⚠️ PWA only | ✅ checkbox-switch | ✅ |
+| iOS PWA (16.4+) | ✅ | ✅ | ✅ | ✅ 17.4+ | ✅ |
 | Legacy browsers | ⚠️ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -119,37 +127,53 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ### Completed
 - [x] Due dates with time — deadline per task, color-coded
 - [x] Priorities — High / Medium / Low
-- [x] Search — real-time filtering
+- [x] Search — real-time filtering by title, notes and tags
 - [x] Notes field — details per task
 - [x] 9 theme presets — palette picker in header
 - [x] Dark mode — default on first launch
 - [x] Swipe gestures — left to delete, right to complete
 - [x] Pull-to-refresh — reload on pull down
-- [x] Haptic feedback — Vibration API (Android)
+- [x] Haptic feedback — iOS (checkbox-switch) and Android (Vibration API)
 - [x] Confetti animation — reward on task completion
 - [x] Browser notifications — reminders for due dates
 - [x] Service Worker — true offline PWA
 - [x] PWA support — installable on mobile home screen
 - [x] Drag & drop — reorder tasks
 - [x] Pomodoro timer — fullscreen focus mode linked to a task
+- [x] Time tracking — start/stop timer per task, independent from Pomodoro
 - [x] Sort options — by priority, due date, creation date
 - [x] Undo — reverse the last action (e.g. accidental delete)
 - [x] Statistics view — completion rate, tasks per week, streaks
-- [x] Tags — custom #hashtags per task with autocomplete and filter
+- [x] Multiple tags — comma-separated #hashtags per task with autocomplete, filter and tag manager
+- [x] Task colors — individual color stripe per task as left-border accent
 - [x] Keyboard shortcuts — N, F, D, S, Z, 1/2/0, [ ], Esc, ?
-- [x] Tab navigation — bottom nav bar (New, Tasks, History, Settings)
+- [x] Tab navigation — bottom nav bar (New, Tasks, Archive, Settings)
+- [x] Quick-Add via URL — pre-fill tasks with URL parameters
 - [x] Recurring tasks — daily, weekly, biweekly, monthly with auto-creation
-- [x] Focus mode — fullscreen overlay showing the most important task, with complete/skip/Pomodoro
+- [x] Focus mode — fullscreen overlay showing the most important task
 - [x] Subtasks — checklists within a task
-- [x] Multiple lists — separate boards (e.g. Work / Personal / Shopping), move tasks between boards
+- [x] Multiple lists — separate boards, move tasks between boards
+- [x] Archive — completed tasks with restore and permanent delete
+- [x] Accessibility — ARIA labels on interactive elements
 
-### Planned
-- [ ] **Accessibility** — ARIA labels, improved screen reader support
-- [ ] **Cloud Sync** — optional backend sync (e.g. Firebase, Supabase)
+### Ideas
+- [ ] **Kanban view** — column layout (Open / In Progress / Done)
+- [ ] **Task templates** — save and reuse pre-configured tasks
+- [ ] **Markdown in notes** — bold, italic, links
+- [ ] **CSV export** — export tasks as spreadsheet
+- [ ] **Productivity heatmap** — GitHub-style contribution graph
 
 ---
 
 ## Changelog
+
+### v1.5.1
+- Time tracking per task — start/stop timer independent from Pomodoro, with pulsing badge
+- Multiple tags per task — comma-separated input, duplicate detection, autocomplete
+- Archive tab — completed tasks as cards with restore and permanent delete
+- Activity log as collapsible section inside archive tab
+- Fix: iOS auto-zoom on input focus prevented (16px min font-size on touch devices)
+- Fix: Unified spacing between badges, tags and notes
 
 ### v1.5.0.4
 - Haptic feedback — tactile response on actions (complete, add, delete tasks, buttons)

@@ -767,7 +767,10 @@
       text-overflow: ellipsis;
     }
     .todo-cat-row {
-      margin-top: 2px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
     }
     .cat-input-wrap { position: relative; margin-top: 8px; }
     .cat-ac {
@@ -866,7 +869,7 @@
     .todo-note {
       font-size: 0.82rem;
       color: var(--muted);
-      margin-top: 4px;
+      margin-top: 6px;
       line-height: 1.5;
       white-space: pre-wrap;
       word-break: break-word;
@@ -1170,6 +1173,7 @@
       background: rgba(255,255,255,0.10);
       color: var(--text-dark);
     }
+    .archive-log-toggle { margin-top: 12px; }
     .scheduled-chevron {
       transition: transform 0.2s;
       flex-shrink: 0;
@@ -1198,8 +1202,8 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 6px;
-      margin-top: 4px;
+      gap: 4px;
+      margin-top: 6px;
     }
     .todo-badges-row > .todo-due { margin-top: 0; }
     .todo-badges-row > .recur-badge { margin-top: 0; }
@@ -1610,7 +1614,7 @@
     .todo-meta {
       font-size: 0.72rem;
       color: var(--muted);
-      margin-top: 4px;
+      margin-top: 6px;
       letter-spacing: 0.01em;
     }
     body.dark .todo-meta { color: var(--muted-dark); }
@@ -1624,20 +1628,16 @@
     }
     .todo-actions-row {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
+      gap: 6px;
       width: 100%;
     }
-    .todo-actions-row > .prio-badge { margin-right: auto; }
     .todo-actions {
       display: flex;
       align-items: center;
-      gap: 2px;
-      flex-shrink: 0;
-      opacity: 0;
-      transition: opacity 0.2s;
-      margin-left: auto;
+      gap: 4px;
     }
-    .todo-item:hover .todo-actions { opacity: 1; }
 
     .action-btn {
       display: flex;
@@ -1731,6 +1731,34 @@
 
     /* ── History ────────────────────────────────────────────── */
     .history-list { display: flex; flex-direction: column; gap: 1px; }
+
+    .archive-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      transition: background 0.2s;
+    }
+    .archive-item:hover { background: rgba(255,255,255,0.28); }
+    body.dark .archive-item:hover { background: rgba(255,255,255,0.07); }
+    .archive-item-content { flex: 1; min-width: 0; }
+    .archive-item-text {
+      font-size: 0.88rem;
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+    .archive-item-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    body.dark .archive-item-meta { color: var(--muted-dark); }
+    .archive-item-actions {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
 
     .history-item {
       display: grid;
@@ -2674,6 +2702,32 @@
     }
     .pomo-mini:hover { background: var(--accent-hover); }
     .action-btn.pomo-active { color: var(--accent); }
+    .action-btn.timer-active { color: #66bb6a; }
+    .timer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.63rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.04em;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(102,187,106,0.12);
+      border: 1px solid rgba(102,187,106,0.25);
+      color: #66bb6a;
+    }
+    body.dark .timer-badge {
+      background: rgba(102,187,106,0.15);
+      border-color: rgba(102,187,106,0.30);
+    }
+    .timer-badge.running {
+      animation: timerPulse 2s ease-in-out infinite;
+    }
+    @keyframes timerPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
 
     /* ── Focus Mode ──────────────────────────────────────────── */
     .focus-overlay {
@@ -2955,7 +3009,7 @@
       .color-picker-swatches { flex-wrap: nowrap; overflow-x: auto; gap: 6px; scrollbar-width: none; padding-bottom: 2px; padding-right: 4px; }
       .color-picker-swatches::-webkit-scrollbar { display: none; }
       /* Actions always visible — no hover on touch */
-      .todo-actions { opacity: 1; gap: 6px; }
+      .todo-actions { gap: 6px; }
       .action-btn {
         background: rgba(255,255,255,0.18);
         border: 1px solid rgba(255,255,255,0.25);
@@ -3195,7 +3249,7 @@
         <div class="form-details" id="form-details" style="display:none">
           <textarea class="note-input" id="new-todo-note" rows="2"></textarea>
           <div class="cat-input-wrap">
-            <input class="cat-input" type="text" id="new-todo-cat" maxlength="30" autocomplete="off" oninput="updateTagCounter('new-todo-cat','tag-counter')" />
+            <input class="cat-input" type="text" id="new-todo-cat" maxlength="100" autocomplete="off" oninput="updateTagCounter('new-todo-cat','tag-counter')" />
             <span class="tag-counter" id="tag-counter"></span>
             <div class="cat-ac" id="cat-ac"></div>
           </div>
@@ -3283,16 +3337,27 @@
     <!-- Tab: History -->
     <div class="tab-panel" id="panel-history">
       <div class="card">
-        <div class="section-header" id="history-header">
+        <div class="section-header">
           <span class="section-icon">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              <path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/>
             </svg>
           </span>
           <span class="section-title" id="history-title"></span>
         </div>
-        <div class="history-list" id="history-list"></div>
-        <div id="history-usage"></div>
+        <button type="button" class="scheduled-header" id="archive-section-toggle" onclick="toggleArchiveSection('archive')"></button>
+        <div class="collapsible open" id="archive-collapsible">
+          <div class="collapsible-inner">
+            <div id="archive-list"></div>
+          </div>
+        </div>
+        <button type="button" class="scheduled-header archive-log-toggle" id="log-section-toggle" onclick="toggleArchiveSection('log')"></button>
+        <div class="collapsible" id="log-collapsible">
+          <div class="collapsible-inner">
+            <div class="history-list" id="history-list"></div>
+            <div id="history-usage"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -3372,7 +3437,7 @@
           </label>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.0.4</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.1</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -3590,6 +3655,7 @@
       play:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
       stopIcon:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`,
       repeat:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>`,
+      stopwatch:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="8"/><line x1="12" y1="14" x2="12" y2="10"/><line x1="9" y1="1" x2="15" y2="1"/><line x1="12" y1="1" x2="12" y2="4"/><line x1="20" y1="5" x2="18" y2="7"/></svg>`,
     };
 
     // ── State ────────────────────────────────────────────────────────────────
@@ -3623,18 +3689,23 @@
         addBtn: 'Hinzufügen',
         tasksTitle: 'Aufgaben',
         placeholder: 'Neue Aufgabe hinzufügen …',
-        historyTitle: 'Verlauf',
+        historyTitle: 'Archiv',
+        archiveSection: 'Erledigte Aufgaben',
+        archiveEmpty: 'Keine archivierten Aufgaben.',
+        archiveRestore: 'Wiederherstellen',
+        archiveDeletePermanent: 'Endgültig löschen',
+        archiveLogSection: 'Aktivitäts-Log',
         ioTitle: 'Verwaltung',
         exportLabel: 'Exportieren',
         importLabel: 'Importieren',
         clearLabel: 'Verlauf löschen',
         filterAll: 'Alle', filterOpen: 'Offen', filterDone: 'Erledigt',
         sortLabel: 'Sortieren', sortManual: 'Manuell', sortPriority: 'Priorität', sortDueDate: 'Fälligkeit', sortCreated: 'Erstellt',
-        catPlaceholder: '#Tag (optional)',
+        catPlaceholder: '#Tags, kommagetrennt',
         catAll: 'Alle Tags',
         tabNew: 'Neu',
         tabTasks: 'Aufgaben',
-        tabHistory: 'Verlauf',
+        tabHistory: 'Archiv',
         tabManage: 'Einstellungen',
         deleteAllLabel: 'Alle löschen',
         downloadAppLabel: 'App lokal speichern',
@@ -3715,6 +3786,10 @@
         recurScheduled: 'Geplant',
         scheduledSection: 'Geplant',
         historyRecurring: 'Nächste Wiederholung erstellt',
+        timeTrackStart: 'Zeiterfassung starten',
+        timeTrackStop: 'Zeiterfassung stoppen',
+        timeTrackReset: 'Zeiterfassung zurücksetzen',
+        timeTrackLabel: 'Zeiterfassung',
         pomodoroStart: 'Pomodoro starten',
         pomodoroWork: 'Arbeiten',
         pomodoroBreak: 'Pause',
@@ -3771,6 +3846,17 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.1',
+            entries: [
+              'Zeiterfassung pro Aufgabe — Start/Stop-Timer unabhängig vom Pomodoro, mit pulsierendem Badge',
+              'Mehrere Tags pro Aufgabe — kommagetrennte Eingabe, Duplikat-Erkennung, Autocomplete',
+              'Archiv-Tab — erledigte Aufgaben als Karten mit Wiederherstellen und endgültigem Löschen',
+              'Aktivitäts-Log als klappbare Sektion im Archiv-Tab',
+              'Fix: iOS-Zoom bei Texteingabe verhindert (16px Mindestschriftgröße auf Touch-Geräten)',
+              'Fix: Einheitliche Abstände zwischen Badges, Tags und Notizen',
+            ],
+          },
           {
             version: 'v1.5.0.4',
             entries: [
@@ -4235,18 +4321,23 @@
         addBtn: 'Add Task',
         tasksTitle: 'Tasks',
         placeholder: 'Add a new task …',
-        historyTitle: 'History',
+        historyTitle: 'Archive',
+        archiveSection: 'Completed Tasks',
+        archiveEmpty: 'No archived tasks.',
+        archiveRestore: 'Restore',
+        archiveDeletePermanent: 'Delete permanently',
+        archiveLogSection: 'Activity Log',
         ioTitle: 'Manage',
         exportLabel: 'Export',
         importLabel: 'Import',
         clearLabel: 'Clear History',
         filterAll: 'All', filterOpen: 'Open', filterDone: 'Done',
         sortLabel: 'Sort', sortManual: 'Manual', sortPriority: 'Priority', sortDueDate: 'Due Date', sortCreated: 'Created',
-        catPlaceholder: '#Tag (optional)',
+        catPlaceholder: '#Tags, comma separated',
         catAll: 'All Tags',
         tabNew: 'New',
         tabTasks: 'Tasks',
-        tabHistory: 'History',
+        tabHistory: 'Archive',
         tabManage: 'Settings',
         deleteAllLabel: 'Delete all',
         downloadAppLabel: 'Save app locally',
@@ -4327,6 +4418,10 @@
         recurScheduled: 'Scheduled',
         scheduledSection: 'Scheduled',
         historyRecurring: 'Next recurrence created',
+        timeTrackStart: 'Start time tracking',
+        timeTrackStop: 'Stop time tracking',
+        timeTrackReset: 'Reset time tracking',
+        timeTrackLabel: 'Time tracking',
         pomodoroStart: 'Start Pomodoro',
         pomodoroWork: 'Work',
         pomodoroBreak: 'Break',
@@ -4383,6 +4478,17 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.1',
+            entries: [
+              'Time tracking per task — start/stop timer independent from Pomodoro, with pulsing badge',
+              'Multiple tags per task — comma-separated input, duplicate detection, autocomplete',
+              'Archive tab — completed tasks as cards with restore and permanent delete',
+              'Activity log as collapsible section inside archive tab',
+              'Fix: iOS auto-zoom on input focus prevented (16px min font-size on touch devices)',
+              'Fix: Unified spacing between badges, tags and notes',
+            ],
+          },
           {
             version: 'v1.5.0.4',
             entries: [
@@ -4882,6 +4988,15 @@
       }
       currentBoardId = parseInt(localStorage.getItem('currentBoardId')) || boards[0].id;
       if (!boards.find(b => b.id === currentBoardId)) currentBoardId = boards[0].id;
+      // Migrate category (string) → categories (array)
+      boards.forEach(function(b) {
+        (b.todos || []).forEach(function(t) {
+          if (!t.categories) {
+            t.categories = t.category ? [t.category] : [];
+            delete t.category;
+          }
+        });
+      });
       activateBoard(currentBoardId);
       const savedDark = localStorage.getItem('dark');
       dark = savedDark !== null ? savedDark === '1' : window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -5217,7 +5332,8 @@
       const catInput = document.getElementById('new-todo-cat');
       const dueDate = dueInput.value ? (timeInput.value ? dueInput.value + 'T' + timeInput.value : dueInput.value) : '';
       const recur = getRecurValue('new');
-      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim(), dueDate: dueDate, category: catInput.value.trim().replace(/^#/, ''), recurrence: recur, color: newTaskColor || undefined });
+      const cats = [...new Set(catInput.value.split(',').map(function(s) { return s.trim().replace(/^#/, ''); }).filter(Boolean))];
+      todos.unshift({ id: Date.now(), text, done: false, created: Date.now(), priority: newPriority, note: noteInput.value.trim(), dueDate: dueDate, categories: cats, recurrence: recur, color: newTaskColor || undefined });
       addHistory('created', text);
       input.value = '';
       noteInput.value = '';
@@ -5259,7 +5375,7 @@
               priority: todo.priority,
               note: todo.note,
               dueDate: nextDue,
-              category: todo.category,
+              categories: todo.categories ? todo.categories.slice() : [],
               recurrence: todo.recurrence,
               subtasks: todo.subtasks ? todo.subtasks.map(s => ({ text: s.text, done: false })) : undefined
             });
@@ -5301,13 +5417,13 @@
     }
     function getAllTags() {
       const tags = {};
-      todos.forEach(function(t) { if (t.category) tags[t.category] = true; });
+      todos.forEach(function(t) { (t.categories || []).forEach(function(c) { tags[c] = true; }); });
       return Object.keys(tags).sort();
     }
     function getTagCounts() {
       const counts = {};
       todos.forEach(function(t) {
-        if (t.category) counts[t.category] = (counts[t.category] || 0) + 1;
+        (t.categories || []).forEach(function(c) { counts[c] = (counts[c] || 0) + 1; });
       });
       return counts;
     }
@@ -5356,17 +5472,18 @@
       saveUndo();
       let changed = 0;
       todos.forEach(function(todo) {
-        if (todo.category === oldTag) { todo.category = newTag; changed++; }
+        const idx = (todo.categories || []).indexOf(oldTag);
+        if (idx !== -1) { todo.categories[idx] = newTag; changed++; }
       });
       if (changed) { save(); render(); haptic('success'); }
     }
     function deleteTag(tag) {
       const T = t();
-      const count = todos.filter(function(todo) { return todo.category === tag; }).length;
+      const count = todos.filter(function(todo) { return (todo.categories || []).includes(tag); }).length;
       showConfirm(T.tagManagerDeleteConfirm(tag, count), function() {
         saveUndo();
         todos.forEach(function(todo) {
-          if (todo.category === tag) todo.category = '';
+          todo.categories = (todo.categories || []).filter(function(c) { return c !== tag; });
         });
         if (currentCategory === tag) currentCategory = '';
         save(); render(); haptic('success');
@@ -5374,9 +5491,14 @@
     }
 
     /* ── Custom tag autocomplete ── */
+    function getLastTagSegment(value) {
+      const parts = value.split(',');
+      return parts[parts.length - 1].trim().replace(/^#/, '').toLowerCase();
+    }
     function showTagAC(input, acEl) {
-      const val = input.value.replace(/^#/, '').toLowerCase();
-      const tags = getAllTags().filter(function(t) { return !val || t.toLowerCase().indexOf(val) !== -1; });
+      const val = getLastTagSegment(input.value);
+      const existing = input.value.split(',').slice(0, -1).map(function(s) { return s.trim().replace(/^#/, ''); });
+      const tags = getAllTags().filter(function(t) { return !existing.includes(t) && (!val || t.toLowerCase().indexOf(val) !== -1); });
       if (!tags.length) { acEl.classList.remove('open'); return; }
       acEl.innerHTML = tags.map(function(t) {
         return '<div class="cat-ac-item" data-tag="' + escHtml(t) + '">#' + escHtml(t) + '</div>';
@@ -5390,7 +5512,9 @@
         const item = e.target.closest('.cat-ac-item');
         if (!item) return;
         e.preventDefault();
-        input.value = '#' + item.getAttribute('data-tag');
+        const parts = input.value.split(',').slice(0, -1).map(function(s) { return s.trim(); });
+        parts.push(item.getAttribute('data-tag'));
+        input.value = parts.join(', ') + ', ';
         acEl.classList.remove('open');
       });
       input.addEventListener('blur', function() { acEl.classList.remove('open'); });
@@ -5408,7 +5532,7 @@
       const oldText = todo.text;
       const oldNote = todo.note || '';
       const oldDue = todo.dueDate || '';
-      const oldCat = todo.category || '';
+      const oldCat = (todo.categories || []).join(', ');
       const oldRecur = todo.recurrence || '';
       const oldColor = todo.color || '';
       const oldDueDate = oldDue.split('T')[0] || '';
@@ -5418,7 +5542,7 @@
         <input class="todo-edit-input" value="${escHtml(oldText)}" maxlength="200" />
         <textarea class="note-edit-input" rows="2" maxlength="1000">${escHtml(oldNote)}</textarea>
         <div class="cat-input-wrap" style="margin-top:0">
-          <input class="cat-input" type="text" id="edit-cat-${id}" value="${escHtml(oldCat)}" maxlength="30" autocomplete="off" placeholder="${T.catPlaceholder}" />
+          <input class="cat-input" type="text" id="edit-cat-${id}" value="${escHtml(oldCat)}" maxlength="100" autocomplete="off" placeholder="${T.catPlaceholder}" />
           <div class="cat-ac" id="edit-cat-ac-${id}"></div>
         </div>
         <div class="due-edit-row">
@@ -5468,6 +5592,11 @@
           </select>
         </div>` : ''}
         <div class="color-picker-row" id="edit-color-picker-${id}"></div>
+        ${getTaskElapsed(todo) ? `<div class="recur-input-row">
+          <span class="due-input-icon">${SVG.stopwatch}</span>
+          <span style="flex:1;font-size:0.82rem;opacity:0.8">${T.timeTrackLabel}: ${formatElapsed(getTaskElapsed(todo))}</span>
+          <button type="button" class="edit-btn" style="padding:4px 10px;font-size:0.72rem;margin:0" onclick="resetTaskTimer(${id})">${T.timeTrackReset}</button>
+        </div>` : ''}
         <div class="edit-btn-row">
           <button class="edit-btn" id="edit-cancel-${id}">${T.editCancel}</button>
           <button class="edit-btn edit-save" id="edit-save-${id}">${T.editSave}</button>
@@ -5563,17 +5692,17 @@
       if (!todo) return;
       const noteValue = newNote !== undefined ? newNote.trim() : (todo.note || '');
       const dueValue = newDue !== undefined ? newDue : (todo.dueDate || '');
-      const catValue = newCat !== undefined ? newCat.trim().replace(/^#/, '') : (todo.category || '');
+      const catsValue = newCat !== undefined ? [...new Set(newCat.split(',').map(function(s) { return s.trim().replace(/^#/, ''); }).filter(Boolean))] : (todo.categories || []);
       const recurValue = newRecur !== undefined ? newRecur : (todo.recurrence || '');
       const subtasksValue = newSubtasks !== null && newSubtasks !== undefined ? newSubtasks : (todo.subtasks || []);
       const subtasksChanged = JSON.stringify(subtasksValue) !== JSON.stringify(todo.subtasks || []);
       const colorValue = newColor !== undefined ? (newColor || undefined) : todo.color;
-      if (newText === oldText && noteValue === (todo.note || '') && dueValue === (todo.dueDate || '') && catValue === (todo.category || '') && recurValue === (todo.recurrence || '') && !subtasksChanged && colorValue === todo.color) { render(); return; }
+      if (newText === oldText && noteValue === (todo.note || '') && dueValue === (todo.dueDate || '') && JSON.stringify(catsValue) === JSON.stringify(todo.categories || []) && recurValue === (todo.recurrence || '') && !subtasksChanged && colorValue === todo.color) { render(); return; }
       saveUndo();
       todo.text = newText;
       todo.note = noteValue;
       todo.dueDate = dueValue;
-      todo.category = catValue;
+      todo.categories = catsValue;
       todo.recurrence = recurValue;
       todo.subtasks = subtasksValue.length ? subtasksValue : undefined;
       todo.color = colorValue;
@@ -5643,11 +5772,11 @@
       let result = todos;
       if (currentFilter === 'open') result = result.filter(t => !t.done);
       else if (currentFilter === 'done') result = result.filter(t => t.done);
-      if (currentCategory) result = result.filter(t => t.category === currentCategory);
+      if (currentCategory) result = result.filter(t => (t.categories || []).includes(currentCategory));
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
         result = result.filter(t =>
-          t.text.toLowerCase().includes(q) || (t.note && t.note.toLowerCase().includes(q))
+          t.text.toLowerCase().includes(q) || (t.note && t.note.toLowerCase().includes(q)) || (t.categories || []).some(function(c) { return c.toLowerCase().includes(q); })
         );
       }
       if (currentSort === 'priority') {
@@ -5964,6 +6093,33 @@
       history = []; save(); render(); showToast(t().toastHistoryCleared);
     }
 
+    function toggleArchiveSection(section) {
+      const col = document.getElementById(section === 'archive' ? 'archive-collapsible' : 'log-collapsible');
+      const chevron = document.getElementById(section === 'archive' ? 'archive-section-toggle' : 'log-section-toggle').querySelector('.scheduled-chevron');
+      col.classList.toggle('open');
+      if (chevron) chevron.classList.toggle('open', col.classList.contains('open'));
+      haptic('light');
+    }
+
+    function restoreTask(id) {
+      const todo = todos.find(t => t.id === id);
+      if (!todo) return;
+      todo.done = false;
+      delete todo.completedAt;
+      addHistory('undone', todo.text);
+      haptic('success');
+      save(); render();
+    }
+
+    function deleteArchived(id) {
+      const todo = todos.find(t => t.id === id);
+      if (!todo) return;
+      addHistory('deleted', todo.text);
+      todos = todos.filter(t => t.id !== id);
+      haptic('warning');
+      save(); render();
+    }
+
     // ── Undo ─────────────────────────────────────────────────────────────────
     let undoSnapshot = null;
     let undoHistorySnapshot = null;
@@ -6160,6 +6316,65 @@
           try { new Notification(title, { body: body, icon: icon }); } catch(e) {}
         }
       });
+    }
+
+    // ── Time Tracking ────────────────────────────────────────────────────────
+    let timeTrackInterval = null;
+
+    function formatElapsed(ms) {
+      const s = Math.floor(ms / 1000);
+      const h = Math.floor(s / 3600);
+      const m = Math.floor((s % 3600) / 60);
+      const sec = s % 60;
+      if (h > 0) return h + ':' + String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+      return m + ':' + String(sec).padStart(2, '0');
+    }
+
+    function getTaskElapsed(todo) {
+      const base = todo.timeSpent || 0;
+      if (todo.timerStarted) return base + (Date.now() - todo.timerStarted);
+      return base;
+    }
+
+    function toggleTaskTimer(id) {
+      const todo = todos.find(t => t.id === id);
+      if (!todo) return;
+      if (todo.timerStarted) {
+        todo.timeSpent = (todo.timeSpent || 0) + (Date.now() - todo.timerStarted);
+        delete todo.timerStarted;
+        haptic('light');
+      } else {
+        todo.timerStarted = Date.now();
+        haptic('success');
+      }
+      save(); render();
+      updateTimeTrackTicker();
+    }
+
+    function resetTaskTimer(id) {
+      const todo = todos.find(t => t.id === id);
+      if (!todo) return;
+      delete todo.timerStarted;
+      todo.timeSpent = 0;
+      haptic('warning');
+      save(); render();
+      updateTimeTrackTicker();
+    }
+
+    function updateTimeTrackTicker() {
+      const hasRunning = todos.some(t => t.timerStarted);
+      if (hasRunning && !timeTrackInterval) {
+        timeTrackInterval = setInterval(function() {
+          document.querySelectorAll('.timer-badge.running').forEach(function(el) {
+            const id = parseInt(el.dataset.taskId);
+            const todo = todos.find(t => t.id === id);
+            if (todo) el.querySelector('.timer-value').textContent = formatElapsed(getTaskElapsed(todo));
+          });
+        }, 1000);
+      } else if (!hasRunning && timeTrackInterval) {
+        clearInterval(timeTrackInterval);
+        timeTrackInterval = null;
+      }
     }
 
     // ── Pomodoro Timer ──────────────────────────────────────────────────────
@@ -6532,9 +6747,9 @@
       if (task.recurrence) {
         metaHtml += ' <span class="recur-badge">' + SVG.repeat + ' ' + recurrenceLabel(task.recurrence) + '</span>';
       }
-      if (task.category) {
-        metaHtml += ' <span class="cat-badge" style="' + catStyle(task.category) + '">#' + escHtml(task.category) + '</span>';
-      }
+      (task.categories || []).forEach(function(c) {
+        metaHtml += ' <span class="cat-badge" style="' + catStyle(c) + '">#' + escHtml(c) + '</span>';
+      });
       metaEl.innerHTML = metaHtml;
       metaEl.style.display = metaHtml ? '' : 'none';
 
@@ -6709,7 +6924,7 @@
               '<div class="calday-meta">' +
                 (timeStr ? '<span class="calday-time">' + timeStr + '</span>' : '') +
                 (todo.priority ? '<span class="prio-badge" data-p="' + todo.priority + '">' + prioLabel[todo.priority] + '</span>' : '') +
-                (todo.category ? '<span class="cat-badge" style="' + catStyle(todo.category) + '">#' + escHtml(todo.category) + '</span>' : '') +
+                ((todo.categories || []).map(function(c) { return '<span class="cat-badge" style="' + catStyle(c) + '">#' + escHtml(c) + '</span>'; }).join('')) +
               '</div>' +
             '</div>' +
             '<div class="calday-actions">' +
@@ -7136,8 +7351,8 @@
                       ? T.metaDone + ': ' + formatDate(todo.completedAt)
                       : T.metaCreated + ': ' + formatDate(todo.created)
                   }</div>
-                  ${dc || todo.recurrence ? `<div class="todo-badges-row">${isRecurFuture ? `<span class="recur-scheduled-badge">${T.recurScheduled}</span>` : ''}${dc ? `<span class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</span>` : ''}${todo.recurrence ? `<span class="recur-badge">${SVG.repeat} ${recurrenceLabel(todo.recurrence)}</span>` : ''}</div>` : ''}
-                  ${todo.category ? `<div class="todo-cat-row"><span class="cat-badge" style="${catStyle(todo.category)}" onclick="setCategoryFilter('${escHtml(todo.category)}')">#${escHtml(todo.category)}</span></div>` : ''}
+                  ${dc || todo.recurrence || getTaskElapsed(todo) ? `<div class="todo-badges-row">${isRecurFuture ? `<span class="recur-scheduled-badge">${T.recurScheduled}</span>` : ''}${dc ? `<span class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</span>` : ''}${todo.recurrence ? `<span class="recur-badge">${SVG.repeat} ${recurrenceLabel(todo.recurrence)}</span>` : ''}${getTaskElapsed(todo) ? `<span class="timer-badge${todo.timerStarted ? ' running' : ''}" data-task-id="${todo.id}">${SVG.stopwatch} <span class="timer-value">${formatElapsed(getTaskElapsed(todo))}</span></span>` : ''}</div>` : ''}
+                  ${todo.categories && todo.categories.length ? `<div class="todo-cat-row">${todo.categories.map(function(c) { return `<span class="cat-badge" style="${catStyle(c)}" onclick="setCategoryFilter('${escHtml(c)}')">#${escHtml(c)}</span>`; }).join(' ')}</div>` : ''}
                   ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
                   ${todo.subtasks && todo.subtasks.length ? `<div class="subtask-list">${todo.subtasks.map((st, si) => `<div class="subtask-item${st.done ? ' done' : ''}" onclick="toggleSubtask(${todo.id},${si})"><span class="subtask-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="subtask-text">${escHtml(st.text)}</span></div>`).join('')}</div>` : ''}
                 </div>
@@ -7145,11 +7360,12 @@
                   <div class="todo-actions-row">
                     <span class="prio-badge" data-p="${todo.priority||''}" onclick="cycleTodoPriority(${todo.id})">${prioLabel[todo.priority] || '+'}</span>
                     ${todo.subtasks && todo.subtasks.length ? `<span class="subtask-progress">${T.subtaskProgress(todo.subtasks.filter(s=>s.done).length, todo.subtasks.length)}</span>` : ''}
-                    <div class="todo-actions">
-                      ${!todo.done ? `<button class="action-btn${pomodoroState && pomodoroState.taskId === todo.id ? ' pomo-active' : ''}" title="${T.pomodoroStart}" onclick="startPomodoro(${todo.id})">${SVG.timer}</button>` : ''}
-                      <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
-                      <button class="action-btn danger" title="${T.deleteTitle}" onclick="deleteTodo(${todo.id})">${SVG.trash}</button>
-                    </div>
+                  </div>
+                  <div class="todo-actions">
+                    ${!todo.done ? `<button class="action-btn${todo.timerStarted ? ' timer-active' : ''}" title="${todo.timerStarted ? T.timeTrackStop : T.timeTrackStart}" onclick="toggleTaskTimer(${todo.id})" aria-label="${T.timeTrackLabel}">${SVG.stopwatch}</button>` : ''}
+                    ${!todo.done ? `<button class="action-btn${pomodoroState && pomodoroState.taskId === todo.id ? ' pomo-active' : ''}" title="${T.pomodoroStart}" onclick="startPomodoro(${todo.id})">${SVG.timer}</button>` : ''}
+                    <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
+                    <button class="action-btn danger" title="${T.deleteTitle}" onclick="deleteTodo(${todo.id})">${SVG.trash}</button>
                   </div>
                 </div>
               </div>
@@ -7192,7 +7408,35 @@
         list.innerHTML = html;
       }
 
-      // History
+      // Archive section (completed tasks)
+      const archived = todos.filter(t => t.done);
+      const archiveToggle = document.getElementById('archive-section-toggle');
+      const archiveCol = document.getElementById('archive-collapsible');
+      const archiveOpen = archiveCol.classList.contains('open');
+      archiveToggle.innerHTML = `<span class="scheduled-chevron${archiveOpen ? ' open' : ''}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span> ${T.archiveSection} <span class="board-count">${archived.length}</span>`;
+      const aList = document.getElementById('archive-list');
+      if (!archived.length) {
+        aList.innerHTML = `<div class="history-empty" style="padding:24px 0">${T.archiveEmpty}</div>`;
+      } else {
+        aList.innerHTML = archived.map(todo => `
+          <div class="archive-item">
+            <div class="archive-item-content">
+              <div class="archive-item-text">${escHtml(todo.text)}</div>
+              <div class="archive-item-meta">${todo.completedAt ? T.metaDone + ': ' + formatDate(todo.completedAt) : T.metaCreated + ': ' + formatDate(todo.created)}</div>
+              ${(todo.categories || []).length ? `<div class="todo-cat-row">${(todo.categories || []).map(c => `<span class="cat-badge" style="${catStyle(c)}">#${escHtml(c)}</span>`).join(' ')}</div>` : ''}
+            </div>
+            <div class="archive-item-actions">
+              <button type="button" class="action-btn" title="${T.archiveRestore}" onclick="restoreTask(${todo.id})" aria-label="${T.archiveRestore}">${SVG.repeat}</button>
+              <button type="button" class="action-btn danger" title="${T.archiveDeletePermanent}" onclick="deleteArchived(${todo.id})" aria-label="${T.archiveDeletePermanent}">${SVG.trash}</button>
+            </div>
+          </div>`).join('');
+      }
+
+      // Activity Log section
+      const logToggle = document.getElementById('log-section-toggle');
+      const logCol = document.getElementById('log-collapsible');
+      const logOpen = logCol.classList.contains('open');
+      logToggle.innerHTML = `<span class="scheduled-chevron${logOpen ? ' open' : ''}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span> ${T.archiveLogSection} <span class="board-count">${history.length}</span>`;
       const hList = document.getElementById('history-list');
       if (!history.length) {
         hList.innerHTML = `<div class="history-empty">${SVG.emptyHistory}<p class="empty-title">${T.emptyHistory}</p><p class="empty-sub">${T.emptyHistorySub}</p></div>`;
@@ -7425,6 +7669,7 @@
     setupPWA();
     setupIOSBanner();
     render();
+    updateTimeTrackTicker();
     switchTab(activeTab);
     checkDueNotifications();
     setInterval(function() { render(); checkDueNotifications(); }, 60000);
