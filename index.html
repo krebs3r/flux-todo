@@ -266,6 +266,18 @@
       overflow-y: visible;
       min-height: 100%;
     }
+    /* iOS PWA fallback: ensure bottom area is always reserved even if
+       safe-area env value is reported as 0 on some devices/builds. */
+    html.ios-standalone-mode .app {
+      padding-bottom: 96px;
+      padding-bottom: calc(56px + env(safe-area-inset-bottom) + 16px);
+    }
+    @media (display-mode: standalone) and (max-width: 900px) {
+      .app {
+        padding-bottom: 96px;
+        padding-bottom: calc(56px + env(safe-area-inset-bottom) + 16px);
+      }
+    }
     .header,
     .tab-panel {
       max-width: 660px;
@@ -2847,9 +2859,17 @@
       box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
       z-index: 200;
     }
-    html.ios-standalone-mode .tab-bar { bottom: 0; }
+    html.ios-standalone-mode .tab-bar {
+      bottom: 0;
+      height: 80px;
+      height: calc(56px + env(safe-area-inset-bottom));
+    }
     @media (display-mode: standalone) {
-      .tab-bar { bottom: 0 !important; }
+      .tab-bar {
+        bottom: 0 !important;
+        height: 80px;
+        height: calc(56px + env(safe-area-inset-bottom));
+      }
     }
     @media (min-width: 700px) {
       .tab-bar {
@@ -3468,6 +3488,10 @@
         padding-top: 12px;
         flex: none;
         overflow-y: visible;
+      }
+      html.ios-standalone-mode .app {
+        padding-bottom: 92px;
+        padding-bottom: calc(56px + env(safe-area-inset-bottom) + 12px);
       }
       .card { padding: 14px 16px; }
 
@@ -9289,7 +9313,7 @@
         document.head.appendChild(mlink);
       } catch(e) {}
       if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-        navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+        navigator.serviceWorker.register('./service-worker.js', { updateViaCache: 'none' }).catch(() => {});
       }
     }
 
