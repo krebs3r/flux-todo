@@ -1579,6 +1579,10 @@
     #new-todo-recur-wrap, #new-todo-recur-detail-wrap { grid-column: 1 / -1; position: relative; }
     .recur-dd-btn { width: 100%; justify-content: space-between; min-height: 42px; box-sizing: border-box; font-family: inherit; }
     .recur-dd-btn-edit { width: 100%; justify-content: space-between; min-height: 44px; box-sizing: border-box; font-family: inherit; }
+    .recur-dd-btn.placeholder,
+    .recur-dd-btn-edit.placeholder { color: var(--muted); }
+    body.dark .recur-dd-btn.placeholder,
+    body.dark .recur-dd-btn-edit.placeholder { color: var(--muted-dark); }
     .recur-dd-detail-wrap { flex: 1; position: relative; }
     .cat-filter-wrap { position: relative; width: 100%; }
 
@@ -6322,9 +6326,11 @@
     function syncRecurLabel(prefix, T) {
       const sel = document.getElementById(prefix + '-todo-recur');
       const labelEl = document.getElementById(prefix + '-todo-recur-label');
+      const btnEl = document.getElementById(prefix + '-todo-recur-btn');
       if (!sel || !labelEl) return;
       const map = { '': T.recurNone, daily: T.recurDaily, weekly: T.recurWeekly, biweekly: T.recurBiweekly, monthly: T.recurMonthly };
       labelEl.textContent = map[sel.value] || T.recurNone;
+      if (btnEl) btnEl.classList.toggle('placeholder', !sel.value);
     }
     function syncRecurDetailLabel(prefix) {
       const sel = document.getElementById(prefix + '-todo-recur-detail');
@@ -6350,6 +6356,8 @@
       if (sel) sel.value = val;
       const labelEl = document.getElementById(prefix + '-todo-recur-label');
       if (labelEl) labelEl.textContent = label;
+      const btnEl = document.getElementById(prefix + '-todo-recur-btn');
+      if (btnEl) btnEl.classList.toggle('placeholder', !val);
       const ac = document.getElementById(prefix + '-todo-recur-ac');
       if (ac) {
         ac.classList.remove('open');
