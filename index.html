@@ -67,14 +67,6 @@
       background-size: 100% calc(100% + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));
       overscroll-behavior-y: contain;
     }
-    html.ios-browser-mode {
-      min-height: 100%;
-      background-size: 100% 100%;
-    }
-    html.ios-standalone-mode {
-      min-height: 100%;
-      background-size: 100% 100%;
-    }
     html.dark {
       background-color: #0c1648;
       color-scheme: dark;
@@ -226,24 +218,16 @@
       height: 100%;
       width: 100%;
       margin: 0;
-      background-color: inherit;
+      background-color: #f0a8d8;
       color-scheme: light;
       background-image: var(--bg-active);
-      background-size: 100% calc(100% + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));
+      background-size: 100% 100%;
       padding: 0;
       -webkit-font-smoothing: antialiased;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
-      position: relative;
-    }
-    html.ios-browser-mode body {
-      height: auto;
-      min-height: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
     }
 
     .app {
@@ -258,25 +242,6 @@
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
-    }
-    /* iOS Safari (not installed as PWA): slightly reduce top spacing */
-    html.ios-browser-mode .app {
-      padding-top: 12px;
-      flex: none;
-      overflow-y: visible;
-      min-height: 100%;
-    }
-    /* iOS PWA fallback: ensure bottom area is always reserved even if
-       safe-area env value is reported as 0 on some devices/builds. */
-    html.ios-standalone-mode .app {
-      padding-bottom: 96px;
-      padding-bottom: calc(56px + env(safe-area-inset-bottom) + 16px);
-    }
-    @media (display-mode: standalone) and (max-width: 900px) {
-      .app {
-        padding-bottom: 96px;
-        padding-bottom: calc(56px + env(safe-area-inset-bottom) + 16px);
-      }
     }
     .header,
     .tab-panel {
@@ -3471,15 +3436,6 @@
         padding-left: max(12px, env(safe-area-inset-left));
         padding-right: max(12px, env(safe-area-inset-right));
         padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 12px);
-      }
-      html.ios-browser-mode .app {
-        padding-top: 12px;
-        flex: none;
-        overflow-y: visible;
-      }
-      html.ios-standalone-mode .app {
-        padding-bottom: 92px;
-        padding-bottom: calc(56px + env(safe-area-inset-bottom) + 12px);
       }
       .card { padding: 14px 16px; }
 
