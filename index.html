@@ -693,6 +693,18 @@
     }
     .details-chevron { transition: transform 0.2s; }
     .details-chevron.open { transform: rotate(180deg); }
+    .new-advanced { margin-top: 8px; }
+    .new-group-title {
+      margin-top: 10px;
+      margin-bottom: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .new-advanced .new-group-title:first-child { margin-top: 0; }
+    body.dark .new-group-title { color: var(--muted-dark); }
     .form-details { margin-top: 8px; }
 
     /* ── Add Button (Accent) ────────────────────────────────── */
@@ -1065,7 +1077,7 @@
     }
     .note-preview-toolbar {
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
       margin-top: 6px;
     }
     .note-preview-toggle {
@@ -2637,6 +2649,90 @@
       background: rgba(255,255,255,0.10);
       border-color: rgba(255,255,255,0.14);
     }
+    .help-intro {
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.45;
+      margin-top: 2px;
+    }
+    body.dark .help-intro { color: var(--muted-dark); }
+    .help-grid {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .help-toc {
+      margin-top: 10px;
+      border: 1px solid var(--gl-border-subtle);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.16);
+      padding: 10px 12px;
+    }
+    body.dark .help-toc {
+      border-color: var(--gl-border-subtle-dark);
+      background: rgba(255,255,255,0.05);
+    }
+    .help-toc-title {
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    body.dark .help-toc-title { color: var(--muted-dark); }
+    .help-toc-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .help-toc-link {
+      border: 1px solid var(--gl-border);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.20);
+      color: var(--text);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      cursor: pointer;
+      line-height: 1.2;
+    }
+    body.dark .help-toc-link {
+      border-color: var(--gl-border-dark);
+      background: rgba(255,255,255,0.07);
+      color: var(--text-dark);
+    }
+    .help-toc-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .help-block {
+      border: 1px solid var(--gl-border-subtle);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.18);
+      padding: 10px 12px;
+    }
+    body.dark .help-block {
+      border-color: var(--gl-border-subtle-dark);
+      background: rgba(255,255,255,0.05);
+    }
+    .help-block-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    body.dark .help-block-title { color: var(--text-dark); }
+    .help-list {
+      margin: 0;
+      padding-left: 17px;
+      display: grid;
+      gap: 4px;
+      font-size: 0.8rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    body.dark .help-list { color: var(--text-dark); }
 
     /* ── Bottom Tab Bar ─────────────────────────────────────── */
     .tab-bar {
@@ -3409,9 +3505,6 @@
         <button class="ctrl-btn" id="stats-btn" onclick="openStats()" title="Statistics">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="3" width="4" height="18"/><rect x="10" y="8" width="4" height="13"/><rect x="2" y="13" width="4" height="8"/></svg>
         </button>
-        <button class="ctrl-btn" id="kb-btn" onclick="openKB()" title="Help">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </button>
       </div>
     </div>
 
@@ -3423,62 +3516,67 @@
           <span class="section-title" id="add-title"></span>
         </div>
         <input type="text" class="hero-input" id="new-todo-input" maxlength="200" onkeydown="handleKey(event)" />
-        <div class="prio-chips" id="prio-chips">
-          <button class="prio-chip" data-p="high" onclick="setPriority('high')"></button>
-          <button class="prio-chip" data-p="medium" onclick="setPriority('medium')"></button>
-          <button class="prio-chip" data-p="low" onclick="setPriority('low')"></button>
-        </div>
-        <div class="color-picker-row" id="new-color-picker"></div>
-        <div class="form-grid">
-          <div class="form-field-wrap">
-            <input class="form-field" type="date" id="new-todo-due" />
-            <span class="form-field-label" id="new-todo-due-label"></span>
-          </div>
-          <div class="form-field-wrap">
-            <input class="form-field" type="time" id="new-todo-time" />
-            <span class="form-field-label" id="new-todo-time-label"></span>
-          </div>
-          <div id="new-todo-recur-wrap">
-            <button type="button" class="sort-select recur-dd-btn" id="new-todo-recur-btn" onclick="toggleRecurDD('new-todo-recur')">
-              <span id="new-todo-recur-label"></span>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="sort-ac recur-dd-ac" id="new-todo-recur-ac"></div>
-          </div>
-          <div id="new-todo-recur-detail-wrap" style="display:none">
-            <button type="button" class="sort-select recur-dd-btn" id="new-todo-recur-detail-btn" onclick="toggleRecurDD('new-todo-recur-detail')">
-              <span id="new-todo-recur-detail-label"></span>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="sort-ac recur-dd-ac" id="new-todo-recur-detail-ac"></div>
-          </div>
-          <select id="new-todo-recur" style="display:none"></select>
-          <select id="new-todo-recur-detail" style="display:none"></select>
-        </div>
         <div class="details-toggle-wrap">
-          <button class="details-toggle" id="details-toggle" onclick="toggleFormDetails()">
-            <svg class="details-chevron" id="details-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            <span id="details-toggle-label"></span>
+          <button class="details-toggle" id="new-options-toggle" onclick="toggleNewAdvanced()">
+            <svg class="details-chevron" id="new-options-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            <span id="new-options-toggle-label"></span>
           </button>
         </div>
-        <div class="form-details" id="form-details" style="display:none">
-          <textarea class="note-input" id="new-todo-note" rows="2"></textarea>
-          <div class="note-md-help" id="new-note-md-help"></div>
-          <div class="note-preview-toolbar">
-            <button type="button" class="note-preview-toggle" id="new-note-preview-toggle" onclick="toggleNewNotePreview()"></button>
+        <div class="new-advanced" id="new-advanced" style="display:none">
+          <div class="new-group-title" id="new-group-plan-label"></div>
+          <div class="prio-chips" id="prio-chips">
+            <button class="prio-chip" data-p="high" onclick="setPriority('high')"></button>
+            <button class="prio-chip" data-p="medium" onclick="setPriority('medium')"></button>
+            <button class="prio-chip" data-p="low" onclick="setPriority('low')"></button>
           </div>
-          <div class="note-preview" id="new-note-preview" style="display:none"></div>
-          <div class="cat-input-wrap">
-            <input class="cat-input" type="text" id="new-todo-cat" maxlength="100" autocomplete="off" oninput="updateTagCounter('new-todo-cat','tag-counter')" />
-            <span class="tag-counter" id="tag-counter"></span>
-            <div class="cat-ac" id="cat-ac"></div>
+          <div class="color-picker-row" id="new-color-picker"></div>
+          <div class="form-grid">
+            <div class="form-field-wrap">
+              <input class="form-field" type="date" id="new-todo-due" />
+              <span class="form-field-label" id="new-todo-due-label"></span>
+            </div>
+            <div class="form-field-wrap">
+              <input class="form-field" type="time" id="new-todo-time" />
+              <span class="form-field-label" id="new-todo-time-label"></span>
+            </div>
+            <div id="new-todo-recur-wrap">
+              <button type="button" class="sort-select recur-dd-btn" id="new-todo-recur-btn" onclick="toggleRecurDD('new-todo-recur')">
+                <span id="new-todo-recur-label"></span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="sort-ac recur-dd-ac" id="new-todo-recur-ac"></div>
+            </div>
+            <div id="new-todo-recur-detail-wrap" style="display:none">
+              <button type="button" class="sort-select recur-dd-btn" id="new-todo-recur-detail-btn" onclick="toggleRecurDD('new-todo-recur-detail')">
+                <span id="new-todo-recur-detail-label"></span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="sort-ac recur-dd-ac" id="new-todo-recur-detail-ac"></div>
+            </div>
+            <select id="new-todo-recur" style="display:none"></select>
+            <select id="new-todo-recur-detail" style="display:none"></select>
           </div>
-        </div>
-        <div class="io-row" style="margin-top:8px">
-          <button class="io-btn" id="new-template-save-btn" onclick="createTemplateFromForm()"><span id="new-template-save-label"></span></button>
-          <button class="io-btn" id="new-template-use-btn" onclick="openTemplatePicker()"><span id="new-template-use-label"></span></button>
-          <button class="io-btn" id="new-template-update-btn" onclick="updateEditingTemplateFromForm()" style="display:none"><span id="new-template-update-label"></span></button>
-          <button class="io-btn danger" id="new-template-cancel-btn" onclick="cancelTemplateEdit()" style="display:none"><span id="new-template-cancel-label"></span></button>
+          <div class="new-group-title" id="new-group-details-label"></div>
+          <div class="form-details" id="form-details">
+            <textarea class="note-input" id="new-todo-note" rows="2"></textarea>
+            <div class="note-md-help" id="new-note-md-help"></div>
+            <div class="note-preview-toolbar">
+              <button type="button" class="note-preview-toggle" id="new-note-preview-toggle" onclick="toggleNewNotePreview()"></button>
+            </div>
+            <div class="note-preview" id="new-note-preview" style="display:none"></div>
+            <div class="cat-input-wrap">
+              <input class="cat-input" type="text" id="new-todo-cat" maxlength="100" autocomplete="off" oninput="updateTagCounter('new-todo-cat','tag-counter')" />
+              <span class="tag-counter" id="tag-counter"></span>
+              <div class="cat-ac" id="cat-ac"></div>
+            </div>
+          </div>
+          <div class="new-group-title" id="new-group-templates-label"></div>
+          <div class="io-row" style="margin-top:8px">
+            <button class="io-btn" id="new-template-save-btn" onclick="createTemplateFromForm()"><span id="new-template-save-label"></span></button>
+            <button class="io-btn" id="new-template-use-btn" onclick="openTemplatePicker()"><span id="new-template-use-label"></span></button>
+            <button class="io-btn" id="new-template-update-btn" onclick="updateEditingTemplateFromForm()" style="display:none"><span id="new-template-update-label"></span></button>
+            <button class="io-btn danger" id="new-template-cancel-btn" onclick="cancelTemplateEdit()" style="display:none"><span id="new-template-cancel-label"></span></button>
+          </div>
         </div>
         <button class="btn-add" id="add-btn" onclick="addTodo()" title="Hinzufügen">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
@@ -3587,6 +3685,23 @@
       </div>
     </div>
 
+    <!-- Tab: Help -->
+    <div class="tab-panel" id="panel-help">
+      <div class="card">
+        <div class="section-header">
+          <span class="section-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </span>
+          <span class="section-title" id="help-title"></span>
+        </div>
+        <div class="help-intro" id="help-intro"></div>
+        <div class="help-toc" id="help-toc"></div>
+        <div class="help-grid" id="help-sections"></div>
+      </div>
+    </div>
+
     <!-- Tab: Manage -->
     <div class="tab-panel" id="panel-manage">
       <div class="card">
@@ -3670,6 +3785,26 @@
         </div>
         <div class="setting-row" style="margin-top:16px">
           <div>
+            <div class="setting-label" id="darkmode-setting-label"></div>
+            <div class="setting-sub" id="darkmode-setting-sub"></div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="darkmode-setting-toggle" onchange="toggleDark()" />
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label" id="notify-setting-label"></div>
+            <div class="setting-sub" id="notify-setting-sub"></div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="notify-setting-toggle" onchange="toggleNotify()" />
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div>
             <div class="setting-label" id="task-colors-label"></div>
             <div class="setting-sub" id="task-colors-sub"></div>
           </div>
@@ -3679,7 +3814,7 @@
           </label>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.3</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.4</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -3711,6 +3846,10 @@
     <button class="tab-btn" data-tab="manage" onclick="switchTab('manage')" aria-label="Settings">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       <span class="tab-label" id="tab-label-manage"></span>
+    </button>
+    <button class="tab-btn" data-tab="help" onclick="switchTab('help')" aria-label="Help">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span class="tab-label" id="tab-label-help"></span>
     </button>
   </nav>
 
@@ -3936,6 +4075,7 @@
     let currentSort = 'manual';
     let currentCategory = '';
     let activeTab = 'tasks';
+    let newAdvancedOpen = false;
     let notifyEnabled = false;
     let taskColorsEnabled = true;
     let newTaskColor = '';
@@ -3964,9 +4104,9 @@
         archiveDeletePermanent: 'Endgültig löschen',
         archiveLogSection: 'Aktivitäts-Log',
         ioTitle: 'Verwaltung',
-        exportLabel: 'Exportieren',
+        exportLabel: 'Export JSON',
         exportCsvLabel: 'Export CSV',
-        importLabel: 'Importieren',
+        importLabel: 'Import JSON',
         clearLabel: 'Verlauf löschen',
         filterAll: 'Alle', filterOpen: 'Offen', filterDone: 'Erledigt',
         sortLabel: 'Sortieren', sortManual: 'Manuell', sortPriority: 'Priorität', sortDueDate: 'Fälligkeit', sortCreated: 'Erstellt',
@@ -3975,7 +4115,124 @@
         tabNew: 'Neu',
         tabTasks: 'Aufgaben',
         tabHistory: 'Archiv',
+        tabHelp: 'Hilfe',
         tabManage: 'Einstellungen',
+        darkModeSettingLabel: 'Dark Mode',
+        darkModeSettingSub: 'Dunkles Farbschema für die App aktivieren',
+        notifySettingLabel: 'Benachrichtigungen',
+        notifySettingSub: 'Erinnerungen für fällige Aufgaben anzeigen',
+        helpTitle: 'Schnellhilfe',
+        helpIntro: 'Hier findest du die wichtigsten Funktionen auf einen Blick, besonders für Mobile.',
+        helpTocTitle: 'Inhaltsverzeichnis',
+        helpQuickTitle: 'Schnellstart',
+        helpQuickItems: [
+          'Im Tab „Neu“ Aufgabe erfassen und mit „Hinzufügen“ speichern.',
+          'Im Tab „Aufgaben“ per Suche/Filter schnell finden.',
+          'Mit Long-Press auf eine Aufgabe öffnest du Schnellaktionen.'
+        ],
+        helpMobileTitle: 'Mobile',
+        helpMobileItems: [
+          'Swipe rechts: erledigen, Swipe links: löschen.',
+          'Touch-Ziele sind auf kleine Displays optimiert.',
+          'Als PWA installieren für Vollbild und Offline-Nutzung.'
+        ],
+        helpPowerTitle: 'Power-Features',
+        helpPowerItems: [
+          'Vorlagen laden/speichern im „Neu“-Tab.',
+          'Markdown-Notizen mit sicherer Vorschau.',
+          'CSV- und JSON-Export im Bereich „Einstellungen“.'
+        ],
+        helpManualHeading: 'Handbuch',
+        helpManualSections: [
+          {
+            title: 'Was ist Flux?',
+            items: [
+              'Flux ist eine lokal-first ToDo-App als Single-File-Web-App.',
+              'Alle Daten bleiben im Browser (localStorage), es gibt kein Backend-Konto.',
+              'Als PWA kann Flux offline und im Vollbild genutzt werden.'
+            ]
+          },
+          {
+            title: 'App-Aufbau und Navigation',
+            items: [
+              'Neu: Aufgabe erstellen, Priorität, Datum/Uhrzeit, Notiz, Tags, Wiederholung, Teilaufgaben, Vorlagen.',
+              'Aufgaben: Liste/Filter/Suche, Drag-and-Drop, Kalenderansicht, Schnellaktionen per Long-Press.',
+              'Archiv: Erledigte Aufgaben, Wiederherstellen, endgültig löschen, Aktivitäts-Log.',
+              'Hilfe: Dieses Handbuch, Shortcuts und URL-Parameter.',
+              'Einstellungen: Export/Import, Tag-Verwaltung, Vorlagen-Verwaltung, App-Optionen.'
+            ]
+          },
+          {
+            title: 'Aufgaben-Lebenszyklus',
+            items: [
+              'Erstellen: Im Tab „Neu“ ausfüllen und speichern.',
+              'Bearbeiten: In der Aufgabenliste auf Bearbeiten gehen.',
+              'Erledigen: Checkbox, Swipe nach rechts oder Schnellaktion verwenden.',
+              'Löschen: Swipe nach links, Aktionsbutton oder Schnellaktion.',
+              'Rückgängig: Nach Löschen/Änderungen über Undo-Toast innerhalb des Zeitfensters.'
+            ]
+          },
+          {
+            title: 'Fälligkeit, Wiederholung, Planung',
+            items: [
+              'Fälligkeiten werden als Heute/Überfällig/Zukünftig markiert.',
+              'Wiederholungen: täglich, wöchentlich, zweiwöchentlich, monatlich.',
+              'Bei wiederkehrenden Aufgaben wird beim Abschluss die nächste Instanz erzeugt.',
+              'Kalenderansicht zeigt geplante Aufgaben pro Tag.'
+            ]
+          },
+          {
+            title: 'Organisation: Tags, Boards, Vorlagen',
+            items: [
+              'Tags (#) sind kommagetrennt und für Filter/Suche nutzbar.',
+              'Mehrere Boards trennen Themenbereiche wie Arbeit/Privat.',
+              'Vorlagen speichern wiederkehrende Eingaben (Text, Notiz, Priorität, Tags, Wiederholung, Farbe, Teilaufgaben).',
+              'Vorlagen „anwenden“ füllt das Formular vor, speichert aber nicht automatisch.'
+            ]
+          },
+          {
+            title: 'Notizen und Markdown',
+            items: [
+              'Unterstützt: **fett**, *kursiv*, [Link](https://...), Zeilenumbrüche.',
+              'Vorschau ist sicher gerendert (Escaping + erlaubte http/https-Links).',
+              'Markdown ist optional; normale Notizen funktionieren unverändert.'
+            ]
+          },
+          {
+            title: 'Fokus und Zeit',
+            items: [
+              'Pomodoro kann pro Aufgabe gestartet werden (Arbeits-/Pausenphasen).',
+              'Zeiterfassung (Start/Stop) läuft unabhängig vom Pomodoro.',
+              'Fokus-Modus priorisiert die nächste wichtige offene Aufgabe.'
+            ]
+          },
+          {
+            title: 'Import, Export, Datensicherheit',
+            items: [
+              'JSON-Export/Import für komplette Datensicherung und Wiederherstellung.',
+              'CSV-Export für Tabellen-Tools (Excel/Numbers).',
+              'Import enthält defensive Validierung und überspringt ungültige Einträge sicher.',
+              'Empfehlung: regelmäßig exportieren, besonders vor großen Änderungen.'
+            ]
+          },
+          {
+            title: 'Benachrichtigungen, Offline, Geräte',
+            items: [
+              'Browser-Benachrichtigungen erinnern an fällige Aufgaben.',
+              'Service Worker ermöglicht Offline-Nutzung als PWA.',
+              'Mobile Gesten und Touch-Flächen sind für kleine Displays optimiert.'
+            ]
+          },
+          {
+            title: 'Kurzes App-Review',
+            items: [
+              'Stärken: lokal-first, schnell, ohne Build-Tool, sehr gute Mobile-Bedienung.',
+              'Stärken: breite Feature-Abdeckung (Vorlagen, Wiederholung, Timer, Archiv, CSV/JSON).',
+              'Zu beachten: Da alles lokal ist, sind Backups (Export) wichtig.',
+              'Empfehlung: Für produktiven Alltag regelmäßige Exporte und klare Board-/Tag-Struktur nutzen.'
+            ]
+          }
+        ],
         deleteAllLabel: 'Alle löschen',
         downloadAppLabel: 'App lokal speichern',
         taskColorsLabel: 'Aufgaben-Farben',
@@ -4054,6 +4311,11 @@
         subtaskPlaceholder: 'Teilaufgabe …',
         subtaskAdd: 'Teilaufgabe hinzufügen',
         subtaskProgress: (done, total) => `${done}/${total}`,
+        newOptionsMore: 'Mehr Optionen',
+        newOptionsLess: 'Weniger Optionen',
+        newGroupPlanning: 'Planung',
+        newGroupDetails: 'Details',
+        newGroupTemplates: 'Vorlagen',
         detailsMore: 'Notiz & Tag',
         formDate: 'Datum …',
         formTime: 'Uhrzeit …',
@@ -4144,6 +4406,21 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.4',
+            entries: [
+              'Hilfe in einen eigenen Navbar-Tab verschoben (statt nur im Header)',
+              'Hilfe-Tab zu einem vollständigen In-App-Handbuch ausgebaut (DE/EN) inkl. Funktionsübersicht und App-Review',
+              'Inhaltsverzeichnis im Hilfe-Tab mit Sprungmarken ergänzt',
+              'Navbar-Reihenfolge angepasst: Einstellungen vor Hilfe',
+              'Einstellungen erweitert: eigene Schalter für Dark Mode und Benachrichtigungen (synchron zu Header-Controls)',
+              'Neu-Formular vereinfacht: progressiver „Mehr Optionen“-Flow mit Gruppen (Planung, Details, Vorlagen)',
+              'Neu-Formular: Notiz/Tag direkt im erweiterten Bereich sichtbar, zusätzlicher „Notiz & Tag“-Button entfernt',
+              'Markdown-Vorschau-Button linksbündig ausgerichtet',
+              'Abstände im Einstellungsbereich zwischen den Toggle-Reihen vereinheitlicht',
+              'Import/Export-Beschriftung präzisiert auf JSON (`Export JSON`, `Import JSON`)',
+            ],
+          },
           {
             version: 'v1.5.3',
             entries: [
@@ -4650,9 +4927,9 @@
         archiveDeletePermanent: 'Delete permanently',
         archiveLogSection: 'Activity Log',
         ioTitle: 'Manage',
-        exportLabel: 'Export',
+        exportLabel: 'Export JSON',
         exportCsvLabel: 'Export CSV',
-        importLabel: 'Import',
+        importLabel: 'Import JSON',
         clearLabel: 'Clear History',
         filterAll: 'All', filterOpen: 'Open', filterDone: 'Done',
         sortLabel: 'Sort', sortManual: 'Manual', sortPriority: 'Priority', sortDueDate: 'Due Date', sortCreated: 'Created',
@@ -4661,7 +4938,124 @@
         tabNew: 'New',
         tabTasks: 'Tasks',
         tabHistory: 'Archive',
+        tabHelp: 'Help',
         tabManage: 'Settings',
+        darkModeSettingLabel: 'Dark Mode',
+        darkModeSettingSub: 'Enable the app dark color scheme',
+        notifySettingLabel: 'Notifications',
+        notifySettingSub: 'Show reminders for due tasks',
+        helpTitle: 'Quick Help',
+        helpIntro: 'Key workflows at a glance, with focus on mobile usability.',
+        helpTocTitle: 'Contents',
+        helpQuickTitle: 'Quick Start',
+        helpQuickItems: [
+          'Create a task in the "New" tab and save with "Add".',
+          'Use search and filters in "Tasks" to find items fast.',
+          'Long-press a task to open quick actions.'
+        ],
+        helpMobileTitle: 'Mobile',
+        helpMobileItems: [
+          'Swipe right to complete, swipe left to delete.',
+          'Touch targets are optimized for small screens.',
+          'Install as PWA for fullscreen and offline access.'
+        ],
+        helpPowerTitle: 'Power Features',
+        helpPowerItems: [
+          'Save and use templates in the "New" tab.',
+          'Write notes in Markdown with safe preview.',
+          'Use CSV and JSON export in "Settings".'
+        ],
+        helpManualHeading: 'Manual',
+        helpManualSections: [
+          {
+            title: 'What is Flux?',
+            items: [
+              'Flux is a local-first todo app delivered as a single-file web app.',
+              'All data stays in your browser (localStorage); there is no backend account.',
+              'As a PWA, Flux works offline and in fullscreen.'
+            ]
+          },
+          {
+            title: 'App structure and navigation',
+            items: [
+              'New: create tasks with priority, due date/time, note, tags, recurrence, subtasks, templates.',
+              'Tasks: list/filter/search, drag and drop, calendar view, long-press quick actions.',
+              'Archive: completed tasks, restore, permanent delete, activity log.',
+              'Help: this manual, shortcuts, and URL parameters.',
+              'Settings: export/import, tag management, template management, app options.'
+            ]
+          },
+          {
+            title: 'Task lifecycle',
+            items: [
+              'Create: fill out fields in the "New" tab and save.',
+              'Edit: open edit mode from the task list.',
+              'Complete: use checkbox, swipe right, or quick action.',
+              'Delete: swipe left, action button, or quick action.',
+              'Undo: recover actions via undo toast within the time window.'
+            ]
+          },
+          {
+            title: 'Due dates, recurrence, planning',
+            items: [
+              'Due dates are marked as today, overdue, or future.',
+              'Recurrence supports daily, weekly, biweekly, and monthly cycles.',
+              'Completing recurring tasks automatically creates the next instance.',
+              'Calendar view shows scheduled tasks by day.'
+            ]
+          },
+          {
+            title: 'Organization: tags, boards, templates',
+            items: [
+              'Tags (#) are comma-separated and usable in filters/search.',
+              'Multiple boards separate work streams like work/personal.',
+              'Templates store reusable input sets (text, note, priority, tags, recurrence, color, subtasks).',
+              'Applying a template pre-fills the form without auto-saving.'
+            ]
+          },
+          {
+            title: 'Notes and Markdown',
+            items: [
+              'Supported: **bold**, *italic*, [link](https://...), line breaks.',
+              'Preview is rendered safely (escaping + only allowed http/https links).',
+              'Markdown is optional; plain notes work as usual.'
+            ]
+          },
+          {
+            title: 'Focus and time',
+            items: [
+              'Pomodoro can be started per task (work/break phases).',
+              'Time tracking (start/stop) runs independently from Pomodoro.',
+              'Focus mode surfaces the next most important open task.'
+            ]
+          },
+          {
+            title: 'Import, export, data safety',
+            items: [
+              'JSON export/import for full backup and restore.',
+              'CSV export for spreadsheet tools (Excel/Numbers).',
+              'Import uses defensive validation and safely skips invalid entries.',
+              'Recommendation: export regularly, especially before larger changes.'
+            ]
+          },
+          {
+            title: 'Notifications, offline, devices',
+            items: [
+              'Browser notifications remind you about due tasks.',
+              'Service Worker enables offline use as a PWA.',
+              'Mobile gestures and touch targets are optimized for small screens.'
+            ]
+          },
+          {
+            title: 'Short app review',
+            items: [
+              'Strengths: local-first, fast, no build tooling required, strong mobile usability.',
+              'Strengths: broad feature set (templates, recurrence, timers, archive, CSV/JSON).',
+              'Note: because data is local, regular exports are important.',
+              'Recommendation: use clear board/tag structure for day-to-day productivity.'
+            ]
+          }
+        ],
         deleteAllLabel: 'Delete all',
         downloadAppLabel: 'Save app locally',
         taskColorsLabel: 'Task Colors',
@@ -4740,6 +5134,11 @@
         subtaskPlaceholder: 'Subtask …',
         subtaskAdd: 'Add subtask',
         subtaskProgress: (done, total) => `${done}/${total}`,
+        newOptionsMore: 'More options',
+        newOptionsLess: 'Fewer options',
+        newGroupPlanning: 'Planning',
+        newGroupDetails: 'Details',
+        newGroupTemplates: 'Templates',
         detailsMore: 'Note & Tag',
         formDate: 'Date …',
         formTime: 'Time …',
@@ -4830,6 +5229,21 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.4',
+            entries: [
+              'Help moved into a dedicated navbar tab (instead of header-only entry)',
+              'Help tab expanded into a full in-app manual (DE/EN) with feature walkthrough and app review',
+              'Table of contents added in Help tab with section jump links',
+              'Navbar order updated for daily flow: Settings before Help',
+              'Settings expanded: dedicated toggles for Dark Mode and Notifications (synced with header controls)',
+              'New task form simplified with progressive "More options" flow and grouped sections (Planning, Details, Templates)',
+              'New task form: notes/tags shown directly in advanced mode; extra "Note & Tag" toggle removed',
+              'Markdown preview button aligned to the left for cleaner layout flow',
+              'Manage tab spacing refined for consistent gaps between setting rows',
+              'Import/export labels clarified to explicit JSON actions (`Export JSON`, `Import JSON`)',
+            ],
+          },
           {
             version: 'v1.5.3',
             entries: [
@@ -5986,15 +6400,7 @@
       syncRecurLabel('new', t());
       updateFieldLabels();
       updateNewNotePreview();
-      const details = document.getElementById('form-details');
-      const detailsBtn = document.getElementById('details-toggle');
-      const detailsChevron = document.getElementById('details-chevron');
-      const shouldShowDetails = !!template.note || (template.categories && template.categories.length > 0);
-      if (details && detailsBtn && detailsChevron && shouldShowDetails) {
-        details.style.display = '';
-        detailsBtn.classList.add('open');
-        detailsChevron.classList.add('open');
-      }
+      setNewAdvancedOpen(true);
     }
     function renderTemplateManager() {
       const T = t();
@@ -6994,7 +7400,7 @@
       if (appEl) appEl.scrollTo({ top: 0, behavior: 'instant' });
     }
     function cycleTabs(dir) {
-      const tabs = ['new', 'tasks', 'history', 'manage'];
+      const tabs = ['new', 'tasks', 'history', 'manage', 'help'];
       const idx = tabs.indexOf(activeTab);
       const next = (idx + dir + tabs.length) % tabs.length;
       switchTab(tabs[next]);
@@ -7159,13 +7565,17 @@
         btn.addEventListener('click', function() { onChange(this.dataset.color); });
       });
     }
-    function applyTaskColorsToggle() {
-      const el = document.getElementById('task-colors-toggle');
-      if (el) el.checked = taskColorsEnabled;
+    function applySettingsToggles() {
+      const colorsEl = document.getElementById('task-colors-toggle');
+      if (colorsEl) colorsEl.checked = taskColorsEnabled;
+      const darkEl = document.getElementById('darkmode-setting-toggle');
+      if (darkEl) darkEl.checked = !!dark;
+      const notifyEl = document.getElementById('notify-setting-toggle');
+      if (notifyEl) notifyEl.checked = !!notifyEnabled;
     }
     function toggleTaskColors() {
       taskColorsEnabled = !taskColorsEnabled;
-      applyTaskColorsToggle();
+      applySettingsToggles();
       renderColorPicker('new-color-picker', newTaskColor, function(c) { newTaskColor = c; });
       save(); render();
     }
@@ -7174,11 +7584,12 @@
     function applyNotifyIcon() {
       document.getElementById('notify-icon').innerHTML = notifyEnabled ? SVG.bell : SVG.bellOff;
       document.getElementById('notify-btn').style.opacity = notifyEnabled ? '1' : '0.5';
+      applySettingsToggles();
     }
     function toggleNotify() {
       haptic('light');
       const T = t();
-      if (!('Notification' in window)) { showToast(T.notifyDenied); return; }
+      if (!('Notification' in window)) { showToast(T.notifyDenied); applySettingsToggles(); return; }
       if (notifyEnabled) {
         notifyEnabled = false;
         save(); applyNotifyIcon();
@@ -7193,6 +7604,7 @@
       }
       if (Notification.permission === 'denied') {
         showToast(T.notifyDenied);
+        applySettingsToggles();
         return;
       }
       Notification.requestPermission().then(function(perm) {
@@ -7202,6 +7614,7 @@
           showToast(T.notifyOn);
         } else {
           showToast(T.notifyDenied);
+          applySettingsToggles();
         }
       });
     }
@@ -7450,6 +7863,7 @@
       const th = THEMES[currentTheme] || THEMES.flux;
       document.getElementById('theme-color-meta').content = dark ? th.dark : th.light;
       updateNavbarColor();
+      applySettingsToggles();
     }
     function toggleLang() {
       haptic('light');
@@ -7519,13 +7933,28 @@
       due.classList.toggle('has-value', !!due.value);
       time.classList.toggle('has-value', !!time.value);
     }
-    function toggleFormDetails() {
-      const d = document.getElementById('form-details');
-      const c = document.getElementById('details-chevron');
-      const show = d.style.display === 'none';
-      d.style.display = show ? '' : 'none';
-      c.classList.toggle('open', show);
-      document.getElementById('details-toggle').classList.toggle('open', show);
+    function setNewAdvancedOpen(open) {
+      newAdvancedOpen = !!open;
+      const wrap = document.getElementById('new-advanced');
+      const chevron = document.getElementById('new-options-chevron');
+      const btn = document.getElementById('new-options-toggle');
+      const label = document.getElementById('new-options-toggle-label');
+      if (!wrap || !chevron || !btn || !label) return;
+      wrap.style.display = newAdvancedOpen ? '' : 'none';
+      chevron.classList.toggle('open', newAdvancedOpen);
+      btn.classList.toggle('open', newAdvancedOpen);
+      const T = t();
+      label.textContent = newAdvancedOpen ? T.newOptionsLess : T.newOptionsMore;
+      if (newAdvancedOpen) {
+        const details = document.getElementById('form-details');
+        if (details) details.style.display = '';
+      } else {
+        const details = document.getElementById('form-details');
+        if (details) details.style.display = 'none';
+      }
+    }
+    function toggleNewAdvanced() {
+      setNewAdvancedOpen(!newAdvancedOpen);
     }
     function toggleTagManager() {
       const body = document.getElementById('tag-manager-body');
@@ -8082,7 +8511,68 @@
       return completionHtml + chartHtml + streakHtml;
     }
 
-    // ── Keyboard Shortcuts ──────────────────────────────────────────────────
+    // ── Help / Keyboard Shortcuts ───────────────────────────────────────────
+    function scrollHelpTo(blockId) {
+      const el = document.getElementById(blockId);
+      if (!el) return;
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function renderHelpPanel(T) {
+      const sections = [
+        { title: T.helpQuickTitle, items: T.helpQuickItems },
+        { title: T.helpMobileTitle, items: T.helpMobileItems },
+        { title: T.helpPowerTitle, items: T.helpPowerItems }
+      ];
+      const shortcutRows = T.kbShortcuts.map(function(s) {
+        return '<tr><td><span class="kb-key">' + escHtml(s[0]) + '</span></td><td class="kb-desc">' + escHtml(s[1]) + '</td></tr>';
+      }).join('');
+      const urlRows = T.kbUrlParams.map(function(s) {
+        return '<tr><td><span class="kb-param">' + escHtml(s[0]) + '</span></td><td class="kb-desc">' + escHtml(s[1]) + '</td></tr>';
+      }).join('');
+      const blocks = [];
+      sections.forEach(function(section, idx) {
+        blocks.push({
+          id: 'help-block-' + idx,
+          title: section.title,
+          html: '<ul class="help-list">' + section.items.map(function(item) { return '<li>' + escHtml(item) + '</li>'; }).join('') + '</ul>'
+        });
+      });
+      (T.helpManualSections || []).forEach(function(section, idx) {
+        blocks.push({
+          id: 'help-manual-' + idx,
+          title: section.title || '',
+          html: '<ul class="help-list">' + (section.items || []).map(function(item) { return '<li>' + escHtml(item) + '</li>'; }).join('') + '</ul>'
+        });
+      });
+      blocks.push({
+        id: 'help-shortcuts',
+        title: T.kbShortcutsHeading,
+        html: '<table class="kb-table">' + shortcutRows + '</table>'
+      });
+      blocks.push({
+        id: 'help-url-params',
+        title: T.kbUrlHeading,
+        html: '<table class="kb-url-table">' + urlRows + '</table>'
+      });
+      document.getElementById('help-title').textContent = T.helpTitle;
+      document.getElementById('help-intro').textContent = T.helpIntro;
+      document.getElementById('help-toc').innerHTML =
+        '<div class="help-toc-title">' + escHtml(T.helpTocTitle) + '</div>' +
+        '<div class="help-toc-list">' + blocks.map(function(block) {
+          return '<button type="button" class="help-toc-link" onclick="scrollHelpTo(\'' + escHtml(block.id) + '\')">' + escHtml(block.title) + '</button>';
+        }).join('') + '</div>';
+      document.getElementById('help-sections').innerHTML =
+      '<div class="help-block" id="help-manual-heading">' +
+        '<div class="help-block-title">' + escHtml(T.helpManualHeading) + '</div>' +
+      '</div>' +
+      blocks.map(function(block) {
+        return '<div class="help-block" id="' + escHtml(block.id) + '">' +
+          '<div class="help-block-title">' + escHtml(block.title) + '</div>' +
+          block.html +
+        '</div>';
+      }).join('') +
+      '';
+    }
     function openKB() {
       const T = t();
       document.getElementById('kb-heading').textContent = T.kbHeading;
@@ -8189,12 +8679,16 @@
       document.getElementById('new-template-use-label').textContent = T.templateUseLabel;
       document.getElementById('new-template-update-label').textContent = T.templateUpdateLabel;
       document.getElementById('new-template-cancel-label').textContent = T.templateCancelLabel;
+      document.getElementById('new-group-plan-label').textContent = T.newGroupPlanning;
+      document.getElementById('new-group-details-label').textContent = T.newGroupDetails;
+      document.getElementById('new-group-templates-label').textContent = T.newGroupTemplates;
       const isTplEdit = editingTemplateId !== null;
       const newTplUpdate = document.getElementById('new-template-update-btn');
       const newTplCancel = document.getElementById('new-template-cancel-btn');
       if (newTplUpdate) newTplUpdate.style.display = isTplEdit ? '' : 'none';
       if (newTplCancel) newTplCancel.style.display = isTplEdit ? '' : 'none';
-      document.getElementById('details-toggle-label').textContent = T.detailsMore;
+      if (isTplEdit && !newAdvancedOpen) newAdvancedOpen = true;
+      setNewAdvancedOpen(newAdvancedOpen);
       document.getElementById('new-todo-due-label').textContent = T.formDate;
       document.getElementById('new-todo-time-label').textContent = T.formTime;
       updateFieldLabels();
@@ -8228,12 +8722,18 @@
       document.getElementById('tab-label-new').textContent = T.tabNew;
       document.getElementById('tab-label-tasks').textContent = T.tabTasks;
       document.getElementById('tab-label-history').textContent = T.tabHistory;
+      document.getElementById('tab-label-help').textContent = T.tabHelp;
       document.getElementById('tab-label-manage').textContent = T.tabManage;
+      renderHelpPanel(T);
       document.getElementById('delete-all-label').textContent = T.deleteAllLabel;
       document.getElementById('download-app-label').textContent = T.downloadAppLabel;
+      document.getElementById('darkmode-setting-label').textContent = T.darkModeSettingLabel;
+      document.getElementById('darkmode-setting-sub').textContent = T.darkModeSettingSub;
+      document.getElementById('notify-setting-label').textContent = T.notifySettingLabel;
+      document.getElementById('notify-setting-sub').textContent = T.notifySettingSub;
       document.getElementById('task-colors-label').textContent = T.taskColorsLabel;
       document.getElementById('task-colors-sub').textContent = T.taskColorsSub;
-      applyTaskColorsToggle();
+      applySettingsToggles();
       renderColorPicker('new-color-picker', newTaskColor, function(c) { newTaskColor = c; });
       const catFilterRow = document.getElementById('cat-filter-row');
       catFilterRow.style.display = allTags.length ? '' : 'none';
@@ -8757,6 +9257,7 @@
       if (prio) { const p = prio.toLowerCase(); if (['high','medium','low'].includes(p)) { newPriority = p; updatePrioChips(); } }
       const due = params.get('due');
       if (due) { const d = document.getElementById('new-todo-due'); if (d) { d.value = due; updateFieldLabels(); } }
+      if (note || prio || due) setNewAdvancedOpen(true);
       window.history.replaceState({}, '', window.location.pathname);
     })();
 </script>

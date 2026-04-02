@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.5.3-blueviolet)
+![Version](https://img.shields.io/badge/version-1.5.4-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -49,7 +49,7 @@ The interface follows a glassmorphism / acrylic design language inspired by Wind
 - **Undo** — reverse the last action with a 5-second toast
 - **Pomodoro timer** — fullscreen focus mode linked to a task (25/5/15 min cycles)
 - **Keyboard shortcuts** — N, F, D, S, Z, 1/2/0, [ ], Esc, ? — quick access without mouse
-- **Tab navigation** — bottom nav bar with 4 tabs (New, Tasks, Archive, Settings), Liquid Glass style
+- **Tab navigation** — bottom nav bar with 5 tabs (New, Tasks, Archive, Settings, Help), Liquid Glass style
 - **Quick-Add via URL** — `?add=Title&note=Text&priority=high&due=2026-04-01` pre-fills a new task
 - **Recurring tasks** — daily, weekly, biweekly, monthly — next instance auto-created on completion
 - **Focus mode** — fullscreen overlay with the most important task, complete/skip/start Pomodoro
@@ -166,6 +166,18 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.5.4
+- Help moved into a dedicated navbar tab (instead of header-only entry)
+- Help tab expanded into a full in-app manual (DE/EN) with workflows, feature explanations and review section
+- New table of contents in Help tab with quick jump links to sections
+- Navbar order adjusted for daily use: Settings before Help
+- Settings now include dedicated toggles for Dark Mode and Notifications (synced with header controls)
+- New task form simplified: progressive "More options" flow with grouped sections (Planning, Details, Templates)
+- New task form: notes/tags shown directly in advanced mode (extra "Note & Tag" toggle removed)
+- Markdown preview button alignment adjusted to left for better visual flow
+- Manage tab spacing refined for consistent distances between setting rows
+- Import/Export labels clarified to explicit JSON actions (`Export JSON`, `Import JSON`)
 
 ### v1.5.3
 - Import: defensive validation and sanitization for boards, tasks and history
@@ -501,4 +513,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.3</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.4</p>
