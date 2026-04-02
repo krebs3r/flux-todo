@@ -71,6 +71,10 @@
       min-height: 100%;
       background-size: 100% 100%;
     }
+    html.ios-standalone-mode {
+      min-height: 100%;
+      background-size: 100% 100%;
+    }
     html.dark {
       background-color: #0c1648;
       color-scheme: dark;
@@ -241,6 +245,13 @@
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
     }
+    html.ios-standalone-mode body {
+      height: auto;
+      min-height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
 
     .app {
       width: 100%;
@@ -258,6 +269,11 @@
     /* iOS Safari (not installed as PWA): slightly reduce top spacing */
     html.ios-browser-mode .app {
       padding-top: 12px;
+      flex: none;
+      overflow-y: visible;
+      min-height: 100%;
+    }
+    html.ios-standalone-mode .app {
       flex: none;
       overflow-y: visible;
       min-height: 100%;
@@ -3457,6 +3473,10 @@
       }
       html.ios-browser-mode .app {
         padding-top: 12px;
+        flex: none;
+        overflow-y: visible;
+      }
+      html.ios-standalone-mode .app {
         flex: none;
         overflow-y: visible;
       }
@@ -9193,6 +9213,7 @@
       const isStandalone = window.navigator.standalone === true ||
         (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
       document.documentElement.classList.toggle('ios-browser-mode', isIOS && !isStandalone);
+      document.documentElement.classList.toggle('ios-standalone-mode', isIOS && isStandalone);
     }
     function isTextEntryActive() {
       const el = document.activeElement;
@@ -9201,7 +9222,7 @@
     }
     function updateIOSVisualViewportOffset() {
       const root = document.documentElement;
-      const isIOS = root.classList.contains('ios-browser-mode');
+      const isIOS = root.classList.contains('ios-browser-mode') || root.classList.contains('ios-standalone-mode');
       if (!isIOS || !window.visualViewport) {
         root.style.setProperty('--ios-vv-bottom', '0px');
         return;
@@ -9430,12 +9451,13 @@
       let startY = 0;
       let active = false;
       let refreshing = false;
-      const isIOSBrowserMode = function() {
-        return document.documentElement.classList.contains('ios-browser-mode');
+      const isIOSSpecialMode = function() {
+        const root = document.documentElement;
+        return root.classList.contains('ios-browser-mode') || root.classList.contains('ios-standalone-mode');
       };
 
       document.addEventListener('touchstart', function(e) {
-        if (isIOSBrowserMode()) return;
+        if (isIOSSpecialMode()) return;
         if (refreshing || touchDragActive) return;
         const appScroll = document.querySelector('.app');
         if ((appScroll ? appScroll.scrollTop : window.scrollY) <= 0) {
@@ -9446,7 +9468,7 @@
       }, { passive: true });
 
       document.addEventListener('touchmove', function(e) {
-        if (isIOSBrowserMode()) return;
+        if (isIOSSpecialMode()) return;
         if (!active || refreshing) return;
         const dy = e.touches[0].clientY - startY;
         const appScroll = document.querySelector('.app');
@@ -9459,7 +9481,7 @@
       }, { passive: true });
 
       document.addEventListener('touchend', function() {
-        if (isIOSBrowserMode()) { active = false; return; }
+        if (isIOSSpecialMode()) { active = false; return; }
         if (!active || refreshing) return;
         active = false;
         const opacity = parseFloat(spinner.style.opacity) || 0;
