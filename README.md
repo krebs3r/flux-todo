@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.5.2-blueviolet)
+![Version](https://img.shields.io/badge/version-1.5.3-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -155,17 +155,28 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] Multiple lists — separate boards, move tasks between boards
 - [x] Archive — completed tasks with restore and permanent delete
 - [x] Accessibility — ARIA labels on interactive elements
+- [x] Task templates — save and reuse pre-configured tasks
+- [x] Markdown in notes — bold, italic, links with safe preview
+- [x] CSV export — export tasks as spreadsheet-friendly file
 
 ### Ideas
 - [ ] **Kanban view** — column layout (Open / In Progress / Done)
-- [ ] **Task templates** — save and reuse pre-configured tasks
-- [ ] **Markdown in notes** — bold, italic, links
-- [ ] **CSV export** — export tasks as spreadsheet
 - [ ] **Productivity heatmap** — GitHub-style contribution graph
 
 ---
 
 ## Changelog
+
+### v1.5.3
+- Import: defensive validation and sanitization for boards, tasks and history
+- Import: invalid entries are skipped safely and reported via toast
+- CSV export for current board (`;`-separated, UTF-8)
+- Mobile quick actions via long-press on task cards
+- Search input debounced for smoother typing performance
+- Task templates (`templates_v1`) with apply/edit/delete flow
+- Safe Markdown preview for notes (new + edit)
+- Mobile UX: tag/template action buttons optimized for small screens (e.g. iPhone SE)
+- Accessibility: quick-action sheet buttons now have discernible names (`text`, `aria-label`, `title`)
 
 ### v1.5.2
 - Fix: Tag filter clicks now use safe event delegation (no inline user-input handlers)
@@ -490,4 +501,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.2</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.3</p>
