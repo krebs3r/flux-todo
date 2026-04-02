@@ -9222,8 +9222,14 @@
     }
     function updateIOSVisualViewportOffset() {
       const root = document.documentElement;
-      const isIOS = root.classList.contains('ios-browser-mode') || root.classList.contains('ios-standalone-mode');
+      const isBrowserMode = root.classList.contains('ios-browser-mode');
+      const isStandaloneMode = root.classList.contains('ios-standalone-mode');
+      const isIOS = isBrowserMode || isStandaloneMode;
       if (!isIOS || !window.visualViewport) {
+        root.style.setProperty('--ios-vv-bottom', '0px');
+        return;
+      }
+      if (isStandaloneMode) {
         root.style.setProperty('--ios-vv-bottom', '0px');
         return;
       }
