@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Flux">
   <meta name="theme-color" content="#c8d6e5" id="theme-color-meta">
@@ -458,6 +459,8 @@
       margin-bottom: 12px;
     }
     .tab-panel > .card:last-child {
+      flex: 1;
+      min-height: 0;
       margin-bottom: 0;
     }
     body.dark .card {
