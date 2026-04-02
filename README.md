@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.5.4.4-blueviolet)
+![Version](https://img.shields.io/badge/version-1.5.4.5-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -166,6 +166,14 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.5.4.5
+- iOS browser mode: layout aligned to page scrolling for more stable behavior when not installed as PWA
+- iOS browser mode: top spacing rebalanced for a more consistent visual gap above the header
+- Quick actions: prevent text/button selection and iOS touch callout during long-press usage
+- iOS fix: bottom navbar now stays stable while typing with the keyboard open
+- iOS browser mode: custom pull-to-refresh disabled there to avoid accidental reloads
+- iOS PWA: prevent double-tap zoom on header and bottom-navbar controls
 
 ### v1.5.4.4
 - iOS browser mode: bottom navbar now stays pinned to the visible lower edge via VisualViewport offset
@@ -534,4 +542,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.4.4</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.4.5</p>
