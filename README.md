@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.5.4.5-blueviolet)
+![Version](https://img.shields.io/badge/version-1.5.4.6-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -166,6 +166,15 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.5.4.6
+- Help tab reorganized: key topics (import/export/data safety, notifications/offline) are now placed higher
+- Help expanded with a dedicated "Install as PWA" section and a short PWA explanation
+- Manual heading box improved: now shows a short intro paragraph instead of an empty placeholder
+- New Markdown help box with clear syntax examples
+- Markdown wording clarified: line breaks are done by pressing Enter (no Markdown syntax needed)
+- Shortcut fix: pressing "?" now opens the Help tab directly instead of the legacy help modal
+- UI polish: active style of "Markdown Preview" now matches the "Fewer options" active style
 
 ### v1.5.4.5
 - iOS browser mode: layout aligned to page scrolling for more stable behavior when not installed as PWA
@@ -542,4 +551,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.4.5</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.4.6</p>
