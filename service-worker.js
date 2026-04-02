@@ -10,7 +10,7 @@
 //     Strategy: network-first with targeted app-shell caching.
 //     Old cache versions are cleaned up during activation.
 
-const CACHE = 'flux-v4';
+const CACHE = 'flux-v5';
 const APP_SHELL = ['./', './index.html', './service-worker.js', './og-image.png'];
 
 self.addEventListener('install', e => {
