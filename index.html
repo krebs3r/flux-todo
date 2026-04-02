@@ -218,10 +218,9 @@
       height: 100%;
       width: 100%;
       margin: 0;
-      background-color: #f0a8d8;
+      background-color: transparent;
       color-scheme: light;
-      background-image: var(--bg-active);
-      background-size: 100% calc(100% + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));
+      background-image: none;
       padding: 0;
       -webkit-font-smoothing: antialiased;
       overflow: hidden;
@@ -236,15 +235,15 @@
       top: 0;
       left: 0;
       right: 0;
-      height: calc(env(safe-area-inset-top, 0px) + 12px);
+      height: 44px;
       pointer-events: none;
-      z-index: 5;
+      z-index: 6;
       opacity: 0;
-      transition: opacity 0.25s ease;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.20), rgba(255,255,255,0));
+      background: linear-gradient(to bottom, rgba(0,0,0,0.16), rgba(0,0,0,0.00));
+      transition: opacity 0.2s ease;
     }
-    body.dark::before {
-      background: linear-gradient(to bottom, rgba(255,255,255,0.10), rgba(255,255,255,0));
+    html:not(.dark) body::before {
+      background: linear-gradient(to bottom, rgba(255,255,255,0.24), rgba(255,255,255,0.00));
     }
     html.ios-browser-mode body::before {
       opacity: 1;
@@ -264,7 +263,7 @@
     }
     /* iOS Safari (not installed as PWA): slightly reduce top spacing */
     html.ios-browser-mode .app {
-      padding-top: max(8px, calc(env(safe-area-inset-top, 0px) + 4px));
+      padding-top: 2px;
     }
     .header,
     .tab-panel {
@@ -3414,7 +3413,7 @@
         padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 12px);
       }
       html.ios-browser-mode .app {
-        padding-top: max(6px, calc(env(safe-area-inset-top, 0px) + 2px));
+        padding-top: 0;
       }
       .card { padding: 14px 16px; }
 
