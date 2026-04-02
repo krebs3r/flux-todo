@@ -246,6 +246,7 @@
       width: 100%;
       flex: 1;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       padding-top: max(32px, calc(env(safe-area-inset-top) + 16px));
       padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 16px);
       padding-left: max(16px, env(safe-area-inset-left));
@@ -453,7 +454,6 @@
       margin-bottom: 12px;
     }
     .tab-panel > .card:last-child {
-      flex: 1;
       margin-bottom: 0;
     }
     body.dark .card {
@@ -2906,7 +2906,7 @@
     .tab-panel.active {
       display: flex;
       flex-direction: column;
-      flex: 1;
+      flex: none;
       animation: tabFadeIn 0.15s ease;
     }
     @keyframes tabFadeIn {
