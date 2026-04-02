@@ -1119,9 +1119,9 @@
       cursor: pointer;
     }
     .note-preview-toggle.active {
-      color: var(--accent);
-      border-color: var(--accent);
-      background: var(--accent-muted);
+      background: rgba(255,255,255,0.55);
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
     }
     .note-preview-toggle:hover {
       border-color: var(--gl-border-subtle);
@@ -1155,9 +1155,9 @@
       background: rgba(255,255,255,0.06);
     }
     body.dark .note-preview-toggle.active {
-      color: var(--accent);
-      border-color: var(--accent);
-      background: var(--accent-muted-dark);
+      background: rgba(255,255,255,0.13);
+      color: var(--text-dark);
+      box-shadow: var(--shadow-sm);
     }
     body.dark .note-preview-toggle:hover {
       border-color: var(--gl-border-subtle-dark);
@@ -2791,6 +2791,35 @@
       line-height: 1.4;
     }
     body.dark .help-list { color: var(--text-dark); }
+    .help-markdown-box {
+      border: 1px solid var(--gl-border-subtle);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.18);
+      padding: 10px;
+      display: grid;
+      gap: 6px;
+    }
+    body.dark .help-markdown-box {
+      border-color: var(--gl-border-subtle-dark);
+      background: rgba(255,255,255,0.06);
+    }
+    .help-markdown-line {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+      font-size: 0.76rem;
+      line-height: 1.4;
+      color: var(--text);
+      border: 1px solid var(--gl-border-subtle);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.26);
+      padding: 6px 8px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    body.dark .help-markdown-line {
+      color: var(--text-dark);
+      border-color: var(--gl-border-subtle-dark);
+      background: rgba(255,255,255,0.08);
+    }
 
     /* ── Bottom Tab Bar ─────────────────────────────────────── */
     .tab-bar {
@@ -3883,7 +3912,7 @@
           </label>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.4.5</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.4.6</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -4211,6 +4240,13 @@
           'Markdown-Notizen mit sicherer Vorschau.',
           'CSV- und JSON-Export im Bereich „Einstellungen“.'
         ],
+        helpMarkdownBoxTitle: 'Markdown-Beispiele',
+        helpMarkdownBoxLines: [
+          '**fett**',
+          '*kursiv*',
+          '[Link](https://example.com)',
+          'Zeilenumbruch: Enter drücken (kein Markdown nötig)'
+        ],
         helpManualHeading: 'Handbuch',
         helpManualIntro: 'Dieses Handbuch gibt dir einen kompakten Überblick über Aufbau, Funktionen und den besten Workflow in Flux. Es hilft dir beim Einstieg und dient gleichzeitig als schnelle Referenz für den Alltag. Wenn du einzelne Punkte nachlesen willst, kannst du direkt über das Inhaltsverzeichnis zu den passenden Abschnitten springen.',
         helpManualSections: [
@@ -4358,7 +4394,7 @@
         quickActionPomodoro: 'Pomodoro starten',
         quickActionDelete: 'Löschen',
         quickActionClose: 'Schließen',
-        markdownHelp: 'Markdown: **fett**, *kursiv*, [Link](https://...), Zeilenumbruch',
+        markdownHelp: 'Markdown: **fett**, *kursiv*, [Link](https://...). Zeilenumbruch per Enter (kein Markdown nötig).',
         searchPlaceholder: 'Suchen …',
         stats: (d, t) => `${d} von ${t} erledigt`,
         emptyTodos: 'Keine Aufgaben',
@@ -4487,6 +4523,18 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.4.6',
+            entries: [
+              'Hilfe-Tab inhaltlich neu sortiert: wichtige Themen (Import/Export/Datensicherheit, Benachrichtigungen/Offline) stehen jetzt weiter oben',
+              'Hilfe erweitert: eigener Abschnitt „Installation als PWA“ mit kurzer PWA-Erklärung',
+              'Handbuch-Box verbessert: statt leerem Platzhalter jetzt kurze Einleitung als Fließtext',
+              'Neue Markdown-Box in der Hilfe mit klaren Syntax-Beispielen',
+              'Markdown-Hinweis präzisiert: Zeilenumbruch per Enter, kein Markdown-Syntax nötig',
+              'Shortcut-Fix: Taste „?“ öffnet jetzt direkt den Hilfe-Tab statt der alten Hilfe-Modal',
+              'UI-Polish: aktiver Stil von „Markdown-Vorschau“ an den Stil von „Weniger Optionen“ angeglichen',
+            ],
+          },
           {
             version: 'v1.5.4.5',
             entries: [
@@ -5090,6 +5138,13 @@
           'Write notes in Markdown with safe preview.',
           'Use CSV and JSON export in "Settings".'
         ],
+        helpMarkdownBoxTitle: 'Markdown examples',
+        helpMarkdownBoxLines: [
+          '**bold**',
+          '*italic*',
+          '[Link](https://example.com)',
+          'Line break: press Enter (no Markdown needed)'
+        ],
         helpManualHeading: 'Manual',
         helpManualIntro: 'This manual gives you a compact overview of Flux structure, features, and the best workflow. It helps you get started and also works as a quick day-to-day reference. If you want to look up a specific topic, you can jump to the matching section via the table of contents.',
         helpManualSections: [
@@ -5237,7 +5292,7 @@
         quickActionPomodoro: 'Start Pomodoro',
         quickActionDelete: 'Delete',
         quickActionClose: 'Close',
-        markdownHelp: 'Markdown: **bold**, *italic*, [link](https://...), line break',
+        markdownHelp: 'Markdown: **bold**, *italic*, [link](https://...). Line break by pressing Enter (no Markdown needed).',
         searchPlaceholder: 'Search …',
         stats: (d, t) => `${d} of ${t} completed`,
         emptyTodos: 'No tasks',
@@ -5366,6 +5421,18 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.4.6',
+            entries: [
+              'Help tab reorganized: key topics (import/export/data safety, notifications/offline) are now placed higher',
+              'Help expanded with a dedicated "Install as PWA" section and a short PWA explanation',
+              'Manual heading box improved: now shows a short intro paragraph instead of an empty placeholder',
+              'New Markdown help box with clear syntax examples',
+              'Markdown wording clarified: line breaks are done by pressing Enter (no Markdown syntax needed)',
+              'Shortcut fix: pressing "?" now opens the Help tab directly instead of the legacy help modal',
+              'UI polish: active style of "Markdown Preview" now matches the "Fewer options" active style',
+            ],
+          },
           {
             version: 'v1.5.4.5',
             entries: [
@@ -8706,6 +8773,9 @@
         { title: T.helpMobileTitle, items: T.helpMobileItems },
         { title: T.helpPowerTitle, items: T.helpPowerItems }
       ];
+      const markdownRows = (T.helpMarkdownBoxLines || []).map(function(line) {
+        return '<div class="help-markdown-line">' + escHtml(line) + '</div>';
+      }).join('');
       const shortcutRows = T.kbShortcuts.map(function(s) {
         return '<tr><td><span class="kb-key">' + escHtml(s[0]) + '</span></td><td class="kb-desc">' + escHtml(s[1]) + '</td></tr>';
       }).join('');
@@ -8726,6 +8796,11 @@
           title: section.title || '',
           html: '<ul class="help-list">' + (section.items || []).map(function(item) { return '<li>' + escHtml(item) + '</li>'; }).join('') + '</ul>'
         });
+      });
+      blocks.push({
+        id: 'help-markdown',
+        title: T.helpMarkdownBoxTitle || 'Markdown',
+        html: '<div class="help-markdown-box">' + markdownRows + '</div>'
       });
       blocks.push({
         id: 'help-shortcuts',
