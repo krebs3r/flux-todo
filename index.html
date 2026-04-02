@@ -4212,6 +4212,7 @@
           'CSV- und JSON-Export im Bereich „Einstellungen“.'
         ],
         helpManualHeading: 'Handbuch',
+        helpManualIntro: 'Dieses Handbuch gibt dir einen kompakten Überblick über Aufbau, Funktionen und den besten Workflow in Flux. Es hilft dir beim Einstieg und dient gleichzeitig als schnelle Referenz für den Alltag. Wenn du einzelne Punkte nachlesen willst, kannst du direkt über das Inhaltsverzeichnis zu den passenden Abschnitten springen.',
         helpManualSections: [
           {
             title: 'Was ist Flux?',
@@ -4271,22 +4272,6 @@
             ]
           },
           {
-            title: 'Notizen und Markdown',
-            items: [
-              'Unterstützt: **fett**, *kursiv*, [Link](https://...), Zeilenumbrüche.',
-              'Vorschau ist sicher gerendert (Escaping + erlaubte http/https-Links).',
-              'Markdown ist optional; normale Notizen funktionieren unverändert.'
-            ]
-          },
-          {
-            title: 'Fokus und Zeit',
-            items: [
-              'Pomodoro kann pro Aufgabe gestartet werden (Arbeits-/Pausenphasen).',
-              'Zeiterfassung (Start/Stop) läuft unabhängig vom Pomodoro.',
-              'Fokus-Modus priorisiert die nächste wichtige offene Aufgabe.'
-            ]
-          },
-          {
             title: 'Import, Export, Datensicherheit',
             items: [
               'JSON-Export/Import für komplette Datensicherung und Wiederherstellung.',
@@ -4301,6 +4286,22 @@
               'Browser-Benachrichtigungen erinnern an fällige Aufgaben.',
               'Service Worker ermöglicht Offline-Nutzung als PWA.',
               'Mobile Gesten und Touch-Flächen sind für kleine Displays optimiert.'
+            ]
+          },
+          {
+            title: 'Notizen und Markdown',
+            items: [
+              'Unterstützt: **fett**, *kursiv*, [Link](https://...), Zeilenumbrüche.',
+              'Vorschau ist sicher gerendert (Escaping + erlaubte http/https-Links).',
+              'Markdown ist optional; normale Notizen funktionieren unverändert.'
+            ]
+          },
+          {
+            title: 'Fokus und Zeit',
+            items: [
+              'Pomodoro kann pro Aufgabe gestartet werden (Arbeits-/Pausenphasen).',
+              'Zeiterfassung (Start/Stop) läuft unabhängig vom Pomodoro.',
+              'Fokus-Modus priorisiert die nächste wichtige offene Aufgabe.'
             ]
           },
           {
@@ -4474,7 +4475,7 @@
           ['B', 'Nächstes Board'],
           ['Esc', 'Schließen / Abbrechen'],
           ['[ / ]', 'Tab wechseln'],
-          ['?', 'Diese Hilfe anzeigen'],
+          ['?', 'Hilfe-Tab öffnen'],
         ],
         calendarBtn: 'Kalender',
         calendarListBtn: 'Liste',
@@ -5090,6 +5091,7 @@
           'Use CSV and JSON export in "Settings".'
         ],
         helpManualHeading: 'Manual',
+        helpManualIntro: 'This manual gives you a compact overview of Flux structure, features, and the best workflow. It helps you get started and also works as a quick day-to-day reference. If you want to look up a specific topic, you can jump to the matching section via the table of contents.',
         helpManualSections: [
           {
             title: 'What is Flux?',
@@ -5149,22 +5151,6 @@
             ]
           },
           {
-            title: 'Notes and Markdown',
-            items: [
-              'Supported: **bold**, *italic*, [link](https://...), line breaks.',
-              'Preview is rendered safely (escaping + only allowed http/https links).',
-              'Markdown is optional; plain notes work as usual.'
-            ]
-          },
-          {
-            title: 'Focus and time',
-            items: [
-              'Pomodoro can be started per task (work/break phases).',
-              'Time tracking (start/stop) runs independently from Pomodoro.',
-              'Focus mode surfaces the next most important open task.'
-            ]
-          },
-          {
             title: 'Import, export, data safety',
             items: [
               'JSON export/import for full backup and restore.',
@@ -5179,6 +5165,22 @@
               'Browser notifications remind you about due tasks.',
               'Service Worker enables offline use as a PWA.',
               'Mobile gestures and touch targets are optimized for small screens.'
+            ]
+          },
+          {
+            title: 'Notes and Markdown',
+            items: [
+              'Supported: **bold**, *italic*, [link](https://...), line breaks.',
+              'Preview is rendered safely (escaping + only allowed http/https links).',
+              'Markdown is optional; plain notes work as usual.'
+            ]
+          },
+          {
+            title: 'Focus and time',
+            items: [
+              'Pomodoro can be started per task (work/break phases).',
+              'Time tracking (start/stop) runs independently from Pomodoro.',
+              'Focus mode surfaces the next most important open task.'
             ]
           },
           {
@@ -5352,7 +5354,7 @@
           ['B', 'Next board'],
           ['Esc', 'Close / Cancel'],
           ['[ / ]', 'Switch tab'],
-          ['?', 'Show this help'],
+          ['?', 'Open Help tab'],
         ],
         calendarBtn: 'Calendar',
         calendarListBtn: 'List',
@@ -8745,6 +8747,7 @@
       document.getElementById('help-sections').innerHTML =
       '<div class="help-block" id="help-manual-heading">' +
         '<div class="help-block-title">' + escHtml(T.helpManualHeading) + '</div>' +
+        '<p class="help-intro">' + escHtml(T.helpManualIntro || '') + '</p>' +
       '</div>' +
       blocks.map(function(block) {
         return '<div class="help-block" id="' + escHtml(block.id) + '">' +
@@ -8826,7 +8829,7 @@
       if (key === 'b') { e.preventDefault(); const idx = boards.findIndex(b => b.id === currentBoardId); switchBoard(boards[(idx + 1) % boards.length].id); return; }
       if (e.key === '[') { e.preventDefault(); cycleTabs(-1); return; }
       if (e.key === ']') { e.preventDefault(); cycleTabs(1); return; }
-      if (e.key === '?') { e.preventDefault(); openKB(); return; }
+      if (e.key === '?') { e.preventDefault(); switchTab('help'); return; }
     });
 
     // ── Utilities ────────────────────────────────────────────────────────────
