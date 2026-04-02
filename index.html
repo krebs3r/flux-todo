@@ -9247,9 +9247,10 @@
       const vv = window.visualViewport;
       const rawOffset = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
       const keyboardLikelyOpen = isTextEntryActive() && vv.height < (window.innerHeight - 120);
-      // Ignore small offsets (typically safe-area only) so PWA/standalone-like
-      // layouts don't get a fake "gap" below the fixed tab bar.
-      const browserChromeLikelyVisible = rawOffset > 40;
+      // Ignore small/medium offsets (status bar + safe area) so standalone-like
+      // layouts don't get a fake gap below the bottom tab bar.
+      // Only lift the bar when browser chrome is clearly present.
+      const browserChromeLikelyVisible = rawOffset > 72;
       const offset = keyboardLikelyOpen
         ? 0
         : (browserChromeLikelyVisible ? Math.min(rawOffset, 64) : 0);
