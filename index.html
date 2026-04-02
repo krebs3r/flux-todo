@@ -54,7 +54,6 @@
       --shadow: var(--gl-shadow);
       --radius: 14px;
       --radius-sm: 8px;
-      --ios-vv-bottom: 0px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -2848,7 +2847,6 @@
       box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
       z-index: 200;
     }
-    html.ios-browser-mode .tab-bar { bottom: var(--ios-vv-bottom, 0px); }
     html.ios-standalone-mode .tab-bar { bottom: 0; }
     @media (display-mode: standalone) {
       .tab-bar { bottom: 0 !important; }
@@ -9215,7 +9213,6 @@
     function setupIOSModeWatchers() {
       const refreshMode = function() {
         applyIOSBrowserLayoutMode();
-        updateIOSVisualViewportOffset();
       };
       window.addEventListener('pageshow', refreshMode, { passive: true });
       window.addEventListener('resize', refreshMode, { passive: true });
@@ -9224,52 +9221,6 @@
         const mq = window.matchMedia('(display-mode: standalone)');
         if (mq && mq.addEventListener) mq.addEventListener('change', refreshMode);
       }
-    }
-    function isTextEntryActive() {
-      const el = document.activeElement;
-      if (!el) return false;
-      return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable;
-    }
-    function updateIOSVisualViewportOffset() {
-      const root = document.documentElement;
-      const mode = detectIOSMode();
-      const isBrowserMode = mode.isIOS && !mode.isStandalone;
-      const isStandaloneMode = mode.isIOS && mode.isStandalone;
-      const isIOS = isBrowserMode || isStandaloneMode;
-      if (!isIOS || !window.visualViewport) {
-        root.style.setProperty('--ios-vv-bottom', '0px');
-        return;
-      }
-      if (isStandaloneMode) {
-        root.style.setProperty('--ios-vv-bottom', '0px');
-        return;
-      }
-      const vv = window.visualViewport;
-      const rawOffset = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
-      const keyboardLikelyOpen = isTextEntryActive() && vv.height < (window.innerHeight - 120);
-      // Ignore small/medium offsets (status bar + safe area) so standalone-like
-      // layouts don't get a fake gap below the bottom tab bar.
-      // Only lift the bar when browser chrome is clearly present.
-      const browserChromeLikelyVisible = rawOffset > 120;
-      const offset = keyboardLikelyOpen
-        ? 0
-        : (browserChromeLikelyVisible ? Math.min(rawOffset, 64) : 0);
-      root.style.setProperty('--ios-vv-bottom', offset + 'px');
-    }
-    function setupIOSVisualViewportOffset() {
-      if (!window.visualViewport) return;
-      let rafId = 0;
-      const scheduleUpdate = function() {
-        if (rafId) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(updateIOSVisualViewportOffset);
-      };
-      window.visualViewport.addEventListener('resize', scheduleUpdate, { passive: true });
-      window.visualViewport.addEventListener('scroll', scheduleUpdate, { passive: true });
-      window.addEventListener('orientationchange', scheduleUpdate, { passive: true });
-      window.addEventListener('resize', scheduleUpdate, { passive: true });
-      document.addEventListener('focusin', scheduleUpdate, { passive: true });
-      document.addEventListener('focusout', scheduleUpdate, { passive: true });
-      scheduleUpdate();
     }
     function setupPreventDoubleTapZoomOnNavControls() {
       let lastTapTs = 0;
@@ -9556,8 +9507,6 @@
     load();
     applyIOSBrowserLayoutMode();
     setupIOSModeWatchers();
-    updateIOSVisualViewportOffset();
-    setupIOSVisualViewportOffset();
     setupPreventDoubleTapZoomOnNavControls();
     applyDark();
     applyTheme(currentTheme);
