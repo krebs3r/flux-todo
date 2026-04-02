@@ -3437,7 +3437,7 @@
           </label>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.1</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.2</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -3680,6 +3680,7 @@
     let newTaskColor = '';
     const TASK_COLORS = ['#ef5350','#ff9800','#ffd600','#66bb6a','#26c6da','#3d5afe','#ab47bc','#ec407a'];
     const notifiedIds = new Set();
+    let storageWarningShown = false;
 
     const i18n = {
       de: {
@@ -3739,6 +3740,7 @@
         metaDone: 'Erledigt', metaCreated: 'Erstellt',
         toastExported: 'Exportiert', toastImported: 'Importiert',
         toastHistoryCleared: 'Verlauf gelöscht', toastInvalidFile: 'Ungültige Datei',
+        toastStorageWarning: 'Speicher voll: Änderungen konnten nicht lokal gesichert werden.',
         editTitle: 'Bearbeiten', deleteTitle: 'Löschen', editSave: 'Speichern', editCancel: 'Abbrechen',
         confirmClear: 'Verlauf wirklich löschen?',
         clearAllBtn: 'Alle löschen',
@@ -3846,6 +3848,16 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.2',
+            entries: [
+              'Fix: Tag-Filter-Klicks laufen jetzt sicher über Event-Delegation (kein inline-Handler mit Nutzertext)',
+              'Fix: Datumsvergleiche für Fälligkeiten verwenden jetzt lokale Tageslogik (korrekt bei Tagesgrenzen)',
+              'Fix: Suchfeld wird beim Board-Wechsel wieder korrekt zurückgesetzt',
+              'Verbesserung: localStorage-Speichern ist fehlertolerant und zeigt bei vollem Speicher einmalig eine Warnung',
+              'PWA: Service Worker gehärtet mit Cache-Versionierung, Aufräumen alter Caches und gezielterem Asset-Caching',
+            ],
+          },
           {
             version: 'v1.5.1',
             entries: [
@@ -4371,6 +4383,7 @@
         metaDone: 'Done', metaCreated: 'Created',
         toastExported: 'Exported', toastImported: 'Imported',
         toastHistoryCleared: 'History cleared', toastInvalidFile: 'Invalid file',
+        toastStorageWarning: 'Storage full: changes could not be saved locally.',
         editTitle: 'Edit', deleteTitle: 'Delete', editSave: 'Save', editCancel: 'Cancel',
         confirmClear: 'Really clear history?',
         clearAllBtn: 'Delete all',
@@ -4478,6 +4491,16 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.2',
+            entries: [
+              'Fix: Tag filter clicks now use safe event delegation (no inline handler with user input)',
+              'Fix: Due date comparisons now use local date logic (correct behavior at day boundaries)',
+              'Fix: Search field is now correctly reset when switching boards',
+              'Improvement: localStorage persistence now fails gracefully with a one-time warning when storage is full',
+              'PWA: Service Worker hardened with cache versioning, old-cache cleanup and more targeted asset caching',
+            ],
+          },
           {
             version: 'v1.5.1',
             entries: [
@@ -4956,18 +4979,39 @@
       const board = boards.find(b => b.id === boardId);
       if (board) { todos = board.todos; history = board.history; }
     }
+    function safeSetItem(key, value) {
+      try {
+        localStorage.setItem(key, value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
     function save() {
       const board = boards.find(b => b.id === currentBoardId);
       if (board) { board.todos = todos; board.history = history; }
-      localStorage.setItem('boards', JSON.stringify(boards));
-      localStorage.setItem('currentBoardId', String(currentBoardId));
-      localStorage.setItem('lang', lang);
-      localStorage.setItem('theme', currentTheme);
-      localStorage.setItem('notify', notifyEnabled ? '1' : '0');
-      localStorage.setItem('taskColors', taskColorsEnabled ? '1' : '0');
-      localStorage.setItem('sort', currentSort);
-      localStorage.setItem('catFilter', currentCategory);
-      localStorage.setItem('activeTab', activeTab);
+      let allSaved = true;
+      let boardsRaw = '[]';
+      try {
+        boardsRaw = JSON.stringify(boards);
+      } catch (e) {
+        allSaved = false;
+      }
+      allSaved = safeSetItem('boards', boardsRaw) && allSaved;
+      allSaved = safeSetItem('currentBoardId', String(currentBoardId)) && allSaved;
+      allSaved = safeSetItem('lang', lang) && allSaved;
+      allSaved = safeSetItem('theme', currentTheme) && allSaved;
+      allSaved = safeSetItem('notify', notifyEnabled ? '1' : '0') && allSaved;
+      allSaved = safeSetItem('taskColors', taskColorsEnabled ? '1' : '0') && allSaved;
+      allSaved = safeSetItem('sort', currentSort) && allSaved;
+      allSaved = safeSetItem('catFilter', currentCategory) && allSaved;
+      allSaved = safeSetItem('activeTab', activeTab) && allSaved;
+      if (!allSaved && !storageWarningShown) {
+        storageWarningShown = true;
+        showToast(t().toastStorageWarning);
+      } else if (allSaved) {
+        storageWarningShown = false;
+      }
     }
     function load() {
       lang = localStorage.getItem('lang') || 'de';
@@ -5029,7 +5073,7 @@
       activateBoard(boardId);
       currentCategory = '';
       searchQuery = '';
-      const searchEl = document.getElementById('search');
+      const searchEl = document.getElementById('search-input');
       if (searchEl) searchEl.value = '';
       undoSnapshot = null;
       save(); render();
@@ -5100,10 +5144,14 @@
       const pad = n => String(n).padStart(2, '0');
       return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
     }
+    function formatDateLocalISO(d) {
+      const pad = n => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    }
 
     function getDueClass(dueDate) {
       const now = new Date();
-      const today = now.toISOString().split('T')[0];
+      const today = formatDateLocalISO(now);
       const dateOnly = dueDate.split('T')[0];
       if (dueDate.includes('T')) {
         const due = new Date(dueDate);
@@ -6297,7 +6345,7 @@
       if (!notifyEnabled || !('Notification' in window) || Notification.permission !== 'granted') return;
       const T = t();
       const now = new Date();
-      const today = now.toISOString().split('T')[0];
+      const today = formatDateLocalISO(now);
       const icon = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><polyline points="7,16 13,22 25,10" stroke="%234d96ff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       const allBoardTodos = boards.flatMap(function(b){ return b.todos; });
       allBoardTodos.forEach(function(todo) {
@@ -7352,7 +7400,7 @@
                       : T.metaCreated + ': ' + formatDate(todo.created)
                   }</div>
                   ${dc || todo.recurrence || getTaskElapsed(todo) ? `<div class="todo-badges-row">${isRecurFuture ? `<span class="recur-scheduled-badge">${T.recurScheduled}</span>` : ''}${dc ? `<span class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</span>` : ''}${todo.recurrence ? `<span class="recur-badge">${SVG.repeat} ${recurrenceLabel(todo.recurrence)}</span>` : ''}${getTaskElapsed(todo) ? `<span class="timer-badge${todo.timerStarted ? ' running' : ''}" data-task-id="${todo.id}">${SVG.stopwatch} <span class="timer-value">${formatElapsed(getTaskElapsed(todo))}</span></span>` : ''}</div>` : ''}
-                  ${todo.categories && todo.categories.length ? `<div class="todo-cat-row">${todo.categories.map(function(c) { return `<span class="cat-badge" style="${catStyle(c)}" onclick="setCategoryFilter('${escHtml(c)}')">#${escHtml(c)}</span>`; }).join(' ')}</div>` : ''}
+                  ${todo.categories && todo.categories.length ? `<div class="todo-cat-row">${todo.categories.map(function(c) { return `<span class="cat-badge todo-cat-filter" style="${catStyle(c)}" data-tag="${escHtml(c)}">#${escHtml(c)}</span>`; }).join(' ')}</div>` : ''}
                   ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
                   ${todo.subtasks && todo.subtasks.length ? `<div class="subtask-list">${todo.subtasks.map((st, si) => `<div class="subtask-item${st.done ? ' done' : ''}" onclick="toggleSubtask(${todo.id},${si})"><span class="subtask-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="subtask-text">${escHtml(st.text)}</span></div>`).join('')}</div>` : ''}
                 </div>
@@ -7674,7 +7722,7 @@
     checkDueNotifications();
     setInterval(function() { render(); checkDueNotifications(); }, 60000);
     document.getElementById('new-todo-due').addEventListener('focus', function() {
-      if (!this.value) this.value = new Date().toISOString().split('T')[0];
+      if (!this.value) this.value = formatDateLocalISO(new Date());
       updateFieldLabels();
     });
     document.getElementById('new-todo-time').addEventListener('focus', function() {
@@ -7688,12 +7736,18 @@
     document.getElementById('new-todo-time').addEventListener('change', updateFieldLabels);
     document.addEventListener('focusin', function(e) {
       if (e.target.matches('.due-edit-input[type="date"]') && !e.target.value) {
-        e.target.value = new Date().toISOString().split('T')[0];
+        e.target.value = formatDateLocalISO(new Date());
       }
       if (e.target.matches('.due-edit-input[type="time"]') && !e.target.value) {
         const n = new Date();
         e.target.value = String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
       }
+    });
+    document.addEventListener('click', function(e) {
+      const tag = e.target.closest('.todo-cat-filter');
+      if (!tag) return;
+      const val = tag.dataset.tag || '';
+      if (val) setCategoryFilter(val);
     });
     document.addEventListener('click', function(e) {
       if (!themePickerOpen) return;
