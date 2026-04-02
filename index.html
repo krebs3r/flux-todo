@@ -2850,6 +2850,9 @@
     }
     html.ios-browser-mode .tab-bar { bottom: var(--ios-vv-bottom, 0px); }
     html.ios-standalone-mode .tab-bar { bottom: 0; }
+    @media (display-mode: standalone) {
+      .tab-bar { bottom: 0 !important; }
+    }
     @media (min-width: 700px) {
       .tab-bar {
         left: 50%;
@@ -9244,7 +9247,12 @@
       const vv = window.visualViewport;
       const rawOffset = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
       const keyboardLikelyOpen = isTextEntryActive() && vv.height < (window.innerHeight - 120);
-      const offset = keyboardLikelyOpen ? 0 : Math.min(rawOffset, 64);
+      // Ignore small offsets (typically safe-area only) so PWA/standalone-like
+      // layouts don't get a fake "gap" below the fixed tab bar.
+      const browserChromeLikelyVisible = rawOffset > 40;
+      const offset = keyboardLikelyOpen
+        ? 0
+        : (browserChromeLikelyVisible ? Math.min(rawOffset, 64) : 0);
       root.style.setProperty('--ios-vv-bottom', offset + 'px');
     }
     function setupIOSVisualViewportOffset() {
