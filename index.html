@@ -245,13 +245,6 @@
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
     }
-    html.ios-standalone-mode body {
-      height: auto;
-      min-height: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
-    }
 
     .app {
       width: 100%;
@@ -269,11 +262,6 @@
     /* iOS Safari (not installed as PWA): slightly reduce top spacing */
     html.ios-browser-mode .app {
       padding-top: 12px;
-      flex: none;
-      overflow-y: visible;
-      min-height: 100%;
-    }
-    html.ios-standalone-mode .app {
       flex: none;
       overflow-y: visible;
       min-height: 100%;
@@ -2844,7 +2832,7 @@
     /* ── Bottom Tab Bar ─────────────────────────────────────── */
     .tab-bar {
       position: fixed;
-      bottom: var(--ios-vv-bottom, 0px);
+      bottom: 0;
       left: 0;
       right: 0;
       display: flex;
@@ -2858,6 +2846,8 @@
       box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
       z-index: 200;
     }
+    html.ios-browser-mode .tab-bar { bottom: var(--ios-vv-bottom, 0px); }
+    html.ios-standalone-mode .tab-bar { bottom: 0; }
     @media (min-width: 700px) {
       .tab-bar {
         left: 50%;
@@ -2922,7 +2912,8 @@
     .tab-panel.active {
       display: flex;
       flex-direction: column;
-      flex: none;
+      flex: 1;
+      min-height: 0;
       animation: tabFadeIn 0.15s ease;
     }
     @keyframes tabFadeIn {
@@ -3473,10 +3464,6 @@
       }
       html.ios-browser-mode .app {
         padding-top: 12px;
-        flex: none;
-        overflow-y: visible;
-      }
-      html.ios-standalone-mode .app {
         flex: none;
         overflow-y: visible;
       }
@@ -9208,12 +9195,31 @@
       document.getElementById('ios-banner-hint').innerHTML = T.iosBannerHint;
       banner.style.display = 'flex';
     }
-    function applyIOSBrowserLayoutMode() {
+    function detectIOSMode() {
       const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
       const isStandalone = window.navigator.standalone === true ||
         (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+      return { isIOS, isStandalone };
+    }
+    function applyIOSBrowserLayoutMode() {
+      const mode = detectIOSMode();
+      const isIOS = mode.isIOS;
+      const isStandalone = mode.isStandalone;
       document.documentElement.classList.toggle('ios-browser-mode', isIOS && !isStandalone);
       document.documentElement.classList.toggle('ios-standalone-mode', isIOS && isStandalone);
+    }
+    function setupIOSModeWatchers() {
+      const refreshMode = function() {
+        applyIOSBrowserLayoutMode();
+        updateIOSVisualViewportOffset();
+      };
+      window.addEventListener('pageshow', refreshMode, { passive: true });
+      window.addEventListener('resize', refreshMode, { passive: true });
+      document.addEventListener('visibilitychange', refreshMode, { passive: true });
+      if (window.matchMedia) {
+        const mq = window.matchMedia('(display-mode: standalone)');
+        if (mq && mq.addEventListener) mq.addEventListener('change', refreshMode);
+      }
     }
     function isTextEntryActive() {
       const el = document.activeElement;
@@ -9222,8 +9228,9 @@
     }
     function updateIOSVisualViewportOffset() {
       const root = document.documentElement;
-      const isBrowserMode = root.classList.contains('ios-browser-mode');
-      const isStandaloneMode = root.classList.contains('ios-standalone-mode');
+      const mode = detectIOSMode();
+      const isBrowserMode = mode.isIOS && !mode.isStandalone;
+      const isStandaloneMode = mode.isIOS && mode.isStandalone;
       const isIOS = isBrowserMode || isStandaloneMode;
       if (!isIOS || !window.visualViewport) {
         root.style.setProperty('--ios-vv-bottom', '0px');
@@ -9538,6 +9545,7 @@
     // ── Init ─────────────────────────────────────────────────────────────────
     load();
     applyIOSBrowserLayoutMode();
+    setupIOSModeWatchers();
     updateIOSVisualViewportOffset();
     setupIOSVisualViewportOffset();
     setupPreventDoubleTapZoomOnNavControls();
