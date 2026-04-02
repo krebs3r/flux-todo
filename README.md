@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.5.4-blueviolet)
+![Version](https://img.shields.io/badge/version-1.5.4.1-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -166,6 +166,12 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.5.4.1
+- UI fix: empty-state text in Tags/Templates manager now centered
+- UI fix: spacing between settings toggle rows aligned consistently
+- UI fix: color label in new-task planning section aligned with heading style (uppercase/weight/size)
+- UI fix: markdown preview button hover state refined to match the neutral button style
 
 ### v1.5.4
 - Help moved into a dedicated navbar tab (instead of header-only entry)
@@ -513,4 +519,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.4</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.4.1</p>
