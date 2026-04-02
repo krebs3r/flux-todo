@@ -9062,6 +9062,11 @@
         (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
       document.documentElement.classList.toggle('ios-browser-mode', isIOS && !isStandalone);
     }
+    function isTextEntryActive() {
+      const el = document.activeElement;
+      if (!el) return false;
+      return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable;
+    }
     function updateIOSVisualViewportOffset() {
       const root = document.documentElement;
       const isIOS = root.classList.contains('ios-browser-mode');
@@ -9070,7 +9075,9 @@
         return;
       }
       const vv = window.visualViewport;
-      const offset = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+      const rawOffset = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+      const keyboardLikelyOpen = isTextEntryActive() && vv.height < (window.innerHeight - 120);
+      const offset = keyboardLikelyOpen ? 0 : Math.min(rawOffset, 64);
       root.style.setProperty('--ios-vv-bottom', offset + 'px');
     }
     function setupIOSVisualViewportOffset() {
@@ -9084,6 +9091,8 @@
       window.visualViewport.addEventListener('scroll', scheduleUpdate, { passive: true });
       window.addEventListener('orientationchange', scheduleUpdate, { passive: true });
       window.addEventListener('resize', scheduleUpdate, { passive: true });
+      document.addEventListener('focusin', scheduleUpdate, { passive: true });
+      document.addEventListener('focusout', scheduleUpdate, { passive: true });
       scheduleUpdate();
     }
     function dismissIOSBanner() {
@@ -9275,8 +9284,12 @@
       let startY = 0;
       let active = false;
       let refreshing = false;
+      const isIOSBrowserMode = function() {
+        return document.documentElement.classList.contains('ios-browser-mode');
+      };
 
       document.addEventListener('touchstart', function(e) {
+        if (isIOSBrowserMode()) return;
         if (refreshing || touchDragActive) return;
         const appScroll = document.querySelector('.app');
         if ((appScroll ? appScroll.scrollTop : window.scrollY) <= 0) {
@@ -9287,6 +9300,7 @@
       }, { passive: true });
 
       document.addEventListener('touchmove', function(e) {
+        if (isIOSBrowserMode()) return;
         if (!active || refreshing) return;
         const dy = e.touches[0].clientY - startY;
         const appScroll = document.querySelector('.app');
@@ -9299,6 +9313,7 @@
       }, { passive: true });
 
       document.addEventListener('touchend', function() {
+        if (isIOSBrowserMode()) { active = false; return; }
         if (!active || refreshing) return;
         active = false;
         const opacity = parseFloat(spinner.style.opacity) || 0;
