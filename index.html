@@ -1063,6 +1063,67 @@
       background: rgba(255,255,255,0.08);
       color: var(--text-dark);
     }
+    .note-preview-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 6px;
+    }
+    .note-preview-toggle {
+      min-height: 34px;
+      padding: 6px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--gl-border-subtle);
+      background: rgba(255,255,255,0.18);
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+    }
+    .note-preview-toggle.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-muted);
+    }
+    .note-preview {
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--gl-border-subtle);
+      background: rgba(255,255,255,0.16);
+      font-size: 0.84rem;
+      line-height: 1.55;
+      color: var(--text);
+      word-break: break-word;
+    }
+    .note-preview a {
+      color: var(--accent);
+      text-decoration: underline;
+      overflow-wrap: anywhere;
+    }
+    body.dark .note-preview {
+      background: rgba(255,255,255,0.06);
+      border-color: var(--gl-border-subtle-dark);
+      color: var(--text-dark);
+    }
+    body.dark .note-preview-toggle {
+      color: var(--muted-dark);
+      border-color: var(--gl-border-subtle-dark);
+      background: rgba(255,255,255,0.06);
+    }
+    body.dark .note-preview-toggle.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-muted-dark);
+    }
+    .note-md-help {
+      margin-top: 4px;
+      font-size: 0.7rem;
+      line-height: 1.35;
+      color: var(--muted);
+      opacity: 0.82;
+    }
+    body.dark .note-md-help { color: var(--muted-dark); }
 
     /* ── Due Date ────────────────────────────────────────────── */
     .due-edit-input::-webkit-calendar-picker-indicator { opacity: 0; width: 100%; position: absolute; cursor: pointer; }
@@ -1915,6 +1976,8 @@
       cursor: pointer;
       transition: background 0.2s, color 0.2s, border-color 0.2s;
       min-height: 32px;
+      min-width: 122px;
+      text-align: center;
     }
     body.dark .tag-mgr-btn {
       background: rgba(255,255,255,0.05);
@@ -1923,6 +1986,128 @@
     }
     .tag-mgr-btn:hover { border-color: var(--accent); color: var(--accent); }
     .tag-mgr-btn.danger:hover { border-color: var(--danger); color: var(--danger); }
+    .template-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .template-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .template-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      column-gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    body.dark .template-item {
+      border-bottom-color: rgba(255,255,255,0.06);
+    }
+    .template-item:last-child { border-bottom: none; }
+    .template-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .template-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .template-btn {
+      min-height: 32px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--gl-border);
+      background: rgba(255,255,255,0.18);
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      min-width: 122px;
+      text-align: center;
+    }
+    .template-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .template-btn.danger:hover { border-color: var(--danger); color: var(--danger); }
+    body.dark .template-btn {
+      background: rgba(255,255,255,0.05);
+      border-color: var(--gl-border-dark);
+      color: var(--muted-dark);
+    }
+    .template-empty {
+      color: var(--muted);
+      font-size: 0.82rem;
+      padding: 8px 0;
+    }
+    body.dark .template-empty { color: var(--muted-dark); }
+    .quick-actions-sheet {
+      width: min(520px, calc(100vw - 24px));
+      max-width: 100%;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid var(--gl-border);
+      background: rgba(255,255,255,0.78);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      backdrop-filter: blur(18px) saturate(150%);
+      box-shadow: var(--gl-shadow);
+      margin: 14px auto;
+      transform: translateY(8px);
+      transition: transform 0.2s ease;
+    }
+    .modal-backdrop.show .quick-actions-sheet { transform: translateY(0); }
+    body.dark .quick-actions-sheet {
+      border-color: var(--gl-border-dark);
+      background: rgba(12,16,52,0.9);
+      box-shadow: var(--gl-shadow-dark);
+    }
+    .quick-actions-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    body.dark .quick-actions-title { color: var(--muted-dark); }
+    .quick-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .quick-action-btn {
+      min-height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--gl-border-subtle);
+      background: rgba(255,255,255,0.18);
+      color: var(--text);
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 9px 10px;
+    }
+    .quick-action-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .quick-action-btn.danger { border-color: rgba(229,57,53,0.25); color: var(--danger); }
+    body.dark .quick-action-btn {
+      border-color: var(--gl-border-subtle-dark);
+      background: rgba(255,255,255,0.06);
+      color: var(--text-dark);
+    }
+    body.dark .quick-action-btn.danger { color: #ef5350; border-color: rgba(239,83,80,0.35); }
+    @media (max-width: 520px) {
+      .quick-actions-grid { grid-template-columns: 1fr; }
+    }
 
     /* ── Inline Edit ────────────────────────────────────────── */
     .todo-edit-input {
@@ -3092,7 +3277,29 @@
       .cat-input { padding: 12px 14px; }
       .search-input { padding: 12px 36px 12px 36px; }
       .confirm-btn { padding: 12px 18px; }
-      .tag-mgr-btn { min-height: 40px; padding: 8px 12px; }
+      #tag-manager-list { display: block; }
+      .tag-manager-item {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+      }
+      .tag-manager-badge { max-width: none; }
+      .tag-manager-actions, .template-actions {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tag-mgr-btn, .template-btn {
+        min-width: 0;
+        min-height: 38px;
+        padding: 7px 10px;
+        font-size: 0.7rem;
+      }
+      .tag-manager-actions .tag-mgr-btn { flex: 1 1 calc(50% - 4px); }
+      .template-actions .template-btn { flex: 1 1 calc(33.333% - 6px); }
 
       /* Checkbox: larger tap area via padding trick */
       .checkbox-wrap { padding: 11px; margin: -11px; }
@@ -3143,6 +3350,14 @@
       .pomo-card { padding: 40px 24px; }
       .pomo-time-big { font-size: 3.5rem; }
       .pomo-mini { right: 12px; }
+    }
+
+    @media (max-width: 390px) {
+      .tag-mgr-btn, .template-btn {
+        min-height: 36px;
+        padding: 6px 8px;
+        font-size: 0.68rem;
+      }
     }
   </style>
 </head>
@@ -3248,11 +3463,22 @@
         </div>
         <div class="form-details" id="form-details" style="display:none">
           <textarea class="note-input" id="new-todo-note" rows="2"></textarea>
+          <div class="note-md-help" id="new-note-md-help"></div>
+          <div class="note-preview-toolbar">
+            <button type="button" class="note-preview-toggle" id="new-note-preview-toggle" onclick="toggleNewNotePreview()"></button>
+          </div>
+          <div class="note-preview" id="new-note-preview" style="display:none"></div>
           <div class="cat-input-wrap">
             <input class="cat-input" type="text" id="new-todo-cat" maxlength="100" autocomplete="off" oninput="updateTagCounter('new-todo-cat','tag-counter')" />
             <span class="tag-counter" id="tag-counter"></span>
             <div class="cat-ac" id="cat-ac"></div>
           </div>
+        </div>
+        <div class="io-row" style="margin-top:8px">
+          <button class="io-btn" id="new-template-save-btn" onclick="createTemplateFromForm()"><span id="new-template-save-label"></span></button>
+          <button class="io-btn" id="new-template-use-btn" onclick="openTemplatePicker()"><span id="new-template-use-label"></span></button>
+          <button class="io-btn" id="new-template-update-btn" onclick="updateEditingTemplateFromForm()" style="display:none"><span id="new-template-update-label"></span></button>
+          <button class="io-btn danger" id="new-template-cancel-btn" onclick="cancelTemplateEdit()" style="display:none"><span id="new-template-cancel-label"></span></button>
         </div>
         <button class="btn-add" id="add-btn" onclick="addTodo()" title="Hinzufügen">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
@@ -3381,6 +3607,13 @@
             </svg>
             <span id="export-label"></span>
           </button>
+          <button class="io-btn" id="export-csv-btn" onclick="exportCSV()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <span id="export-csv-label"></span>
+          </button>
           <button class="io-btn" id="import-btn" onclick="document.getElementById('import-file').click()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -3417,6 +3650,15 @@
         <div id="tag-manager-body" style="display:none">
           <div id="tag-manager-list"></div>
         </div>
+        <div class="details-toggle-wrap" style="margin-top:8px">
+          <button class="details-toggle" id="template-manager-toggle" onclick="toggleTemplateManager()">
+            <svg class="details-chevron" id="template-manager-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            <span id="template-manager-title"></span>
+          </button>
+        </div>
+        <div id="template-manager-body" style="display:none">
+          <div class="template-list" id="template-list"></div>
+        </div>
         <div class="io-row" style="margin-top:8px">
           <button class="io-btn" id="download-app-btn" onclick="downloadApp()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3437,7 +3679,7 @@
           </label>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.2</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.3</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -3561,6 +3803,25 @@
   </div>
 
   <div class="toast" id="toast"></div>
+  <div class="modal-backdrop" id="template-picker-backdrop" onclick="handleTemplatePickerBackdrop(event)">
+    <div class="quick-actions-sheet">
+      <div class="quick-actions-title" id="template-picker-title"></div>
+      <div class="template-list" id="template-picker-list"></div>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="quick-actions-backdrop" onclick="handleQuickActionsBackdrop(event)">
+    <div class="quick-actions-sheet">
+      <div class="quick-actions-title" id="quick-actions-title"></div>
+      <div class="quick-actions-grid">
+        <button class="quick-action-btn" id="qa-edit-btn" onclick="quickActionEdit()" aria-label="Bearbeiten" title="Bearbeiten">Bearbeiten</button>
+        <button class="quick-action-btn" id="qa-toggle-btn" onclick="quickActionToggleDone()" aria-label="Status wechseln" title="Status wechseln">Status wechseln</button>
+        <button class="quick-action-btn" id="qa-timer-btn" onclick="quickActionTimer()" aria-label="Timer starten" title="Timer starten">Timer starten</button>
+        <button class="quick-action-btn" id="qa-pomo-btn" onclick="quickActionPomodoro()" aria-label="Pomodoro starten" title="Pomodoro starten">Pomodoro starten</button>
+        <button class="quick-action-btn danger" id="qa-delete-btn" onclick="quickActionDelete()" aria-label="Löschen" title="Löschen">Löschen</button>
+        <button class="quick-action-btn" id="qa-close-btn" onclick="closeQuickActions()" aria-label="Schließen" title="Schließen">Schließen</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Pomodoro Fullscreen Overlay -->
   <div class="pomo-overlay" id="pomo-overlay" style="display:none">
@@ -3681,6 +3942,12 @@
     const TASK_COLORS = ['#ef5350','#ff9800','#ffd600','#66bb6a','#26c6da','#3d5afe','#ab47bc','#ec407a'];
     const notifiedIds = new Set();
     let storageWarningShown = false;
+    let templates = [];
+    let editingTemplateId = null;
+    let searchDebounceTimer = null;
+    let quickActionTodoId = null;
+    let quickActionsOpen = false;
+    let minuteSignature = '';
 
     const i18n = {
       de: {
@@ -3698,6 +3965,7 @@
         archiveLogSection: 'Aktivitäts-Log',
         ioTitle: 'Verwaltung',
         exportLabel: 'Exportieren',
+        exportCsvLabel: 'Export CSV',
         importLabel: 'Importieren',
         clearLabel: 'Verlauf löschen',
         filterAll: 'Alle', filterOpen: 'Offen', filterDone: 'Erledigt',
@@ -3728,6 +3996,31 @@
         tagManagerDeleteConfirm: (tag, count) => `Tag "#${tag}" von ${count} Aufgabe${count === 1 ? '' : 'n'} entfernen?`,
         tagManagerRenamePrompt: 'Neuer Name für Tag:',
         tagManagerCount: (n) => `${n} Aufgabe${n === 1 ? '' : 'n'}`,
+        templateManagerTitle: 'Vorlagen',
+        templateEmpty: 'Keine Vorlagen vorhanden.',
+        templateSaveLabel: 'Als Vorlage speichern',
+        templateUseLabel: 'Vorlage laden',
+        templateUpdateLabel: 'Vorlage aktualisieren',
+        templateCancelLabel: 'Bearbeiten abbrechen',
+        templateUse: 'Anwenden',
+        templateEdit: 'Bearbeiten',
+        templateDelete: 'Löschen',
+        templateNamePrompt: 'Name der Vorlage:',
+        templateEditToast: 'Vorlage geladen. Bearbeite im Tab „Neu" und aktualisiere sie.',
+        templateSaved: 'Vorlage gespeichert',
+        templateUpdated: 'Vorlage aktualisiert',
+        templateDeleted: 'Vorlage gelöscht',
+        templateMissingData: 'Formular ist leer',
+        quickActionsTitle: 'Schnellaktionen',
+        quickActionEdit: 'Bearbeiten',
+        quickActionDone: 'Als erledigt markieren',
+        quickActionUndone: 'Wieder öffnen',
+        quickActionTimerStart: 'Timer starten',
+        quickActionTimerStop: 'Timer stoppen',
+        quickActionPomodoro: 'Pomodoro starten',
+        quickActionDelete: 'Löschen',
+        quickActionClose: 'Schließen',
+        markdownHelp: 'Markdown: **fett**, *kursiv*, [Link](https://...), Zeilenumbruch',
         searchPlaceholder: 'Suchen …',
         stats: (d, t) => `${d} von ${t} erledigt`,
         emptyTodos: 'Keine Aufgaben',
@@ -3739,7 +4032,9 @@
         badgeDeleted: 'Gelöscht', badgeUndone: 'Reaktiviert',
         metaDone: 'Erledigt', metaCreated: 'Erstellt',
         toastExported: 'Exportiert', toastImported: 'Importiert',
+        toastCsvExported: 'CSV exportiert',
         toastHistoryCleared: 'Verlauf gelöscht', toastInvalidFile: 'Ungültige Datei',
+        toastImportedSanitized: (n) => `Importiert (${n} ungültige Einträge übersprungen)`,
         toastStorageWarning: 'Speicher voll: Änderungen konnten nicht lokal gesichert werden.',
         editTitle: 'Bearbeiten', deleteTitle: 'Löschen', editSave: 'Speichern', editCancel: 'Abbrechen',
         confirmClear: 'Verlauf wirklich löschen?',
@@ -3755,6 +4050,7 @@
         priorityMedium: '→ Mittel',
         priorityLow: '↓ Niedrig',
         notePlaceholder: 'Notiz (optional) …',
+        notePreviewToggle: 'Markdown-Vorschau',
         subtaskPlaceholder: 'Teilaufgabe …',
         subtaskAdd: 'Teilaufgabe hinzufügen',
         subtaskProgress: (done, total) => `${done}/${total}`,
@@ -3848,6 +4144,20 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.3',
+            entries: [
+              'Import: defensive Validierung und Sanitization für Boards, Aufgaben und Verlauf',
+              'Import: ungültige Einträge werden sicher übersprungen und per Toast gemeldet',
+              'CSV-Export für das aktuelle Board (UTF-8, semikolon-getrennt)',
+              'Mobile Quick Actions via Long-Press auf Aufgabenkarten',
+              'Sucheingabe mit Debounce für flüssigeres Tippen',
+              'Vorlagen-System (`templates_v1`) mit Anwenden/Bearbeiten/Löschen',
+              'Sichere Markdown-Vorschau für Notizen (Neu + Bearbeiten)',
+              'Mobile UX: Tag-/Vorlagen-Buttons für kleine Displays (z. B. iPhone SE) optimiert',
+              'Accessibility: Quick-Action-Buttons mit erkennbarem Namen (`Text`, `aria-label`, `title`)',
+            ],
+          },
           {
             version: 'v1.5.2',
             entries: [
@@ -4341,6 +4651,7 @@
         archiveLogSection: 'Activity Log',
         ioTitle: 'Manage',
         exportLabel: 'Export',
+        exportCsvLabel: 'Export CSV',
         importLabel: 'Import',
         clearLabel: 'Clear History',
         filterAll: 'All', filterOpen: 'Open', filterDone: 'Done',
@@ -4371,6 +4682,31 @@
         tagManagerDeleteConfirm: (tag, count) => `Remove tag "#${tag}" from ${count} task${count === 1 ? '' : 's'}?`,
         tagManagerRenamePrompt: 'New name for tag:',
         tagManagerCount: (n) => `${n} task${n === 1 ? '' : 's'}`,
+        templateManagerTitle: 'Templates',
+        templateEmpty: 'No templates yet.',
+        templateSaveLabel: 'Save as template',
+        templateUseLabel: 'Load template',
+        templateUpdateLabel: 'Update template',
+        templateCancelLabel: 'Cancel editing',
+        templateUse: 'Use',
+        templateEdit: 'Edit',
+        templateDelete: 'Delete',
+        templateNamePrompt: 'Template name:',
+        templateEditToast: 'Template loaded. Edit in "New" tab and update it.',
+        templateSaved: 'Template saved',
+        templateUpdated: 'Template updated',
+        templateDeleted: 'Template deleted',
+        templateMissingData: 'Form is empty',
+        quickActionsTitle: 'Quick actions',
+        quickActionEdit: 'Edit',
+        quickActionDone: 'Mark done',
+        quickActionUndone: 'Reopen',
+        quickActionTimerStart: 'Start timer',
+        quickActionTimerStop: 'Stop timer',
+        quickActionPomodoro: 'Start Pomodoro',
+        quickActionDelete: 'Delete',
+        quickActionClose: 'Close',
+        markdownHelp: 'Markdown: **bold**, *italic*, [link](https://...), line break',
         searchPlaceholder: 'Search …',
         stats: (d, t) => `${d} of ${t} completed`,
         emptyTodos: 'No tasks',
@@ -4382,7 +4718,9 @@
         badgeDeleted: 'Deleted', badgeUndone: 'Reopened',
         metaDone: 'Done', metaCreated: 'Created',
         toastExported: 'Exported', toastImported: 'Imported',
+        toastCsvExported: 'CSV exported',
         toastHistoryCleared: 'History cleared', toastInvalidFile: 'Invalid file',
+        toastImportedSanitized: (n) => `Imported (${n} invalid entries skipped)`,
         toastStorageWarning: 'Storage full: changes could not be saved locally.',
         editTitle: 'Edit', deleteTitle: 'Delete', editSave: 'Save', editCancel: 'Cancel',
         confirmClear: 'Really clear history?',
@@ -4398,6 +4736,7 @@
         priorityMedium: '→ Medium',
         priorityLow: '↓ Low',
         notePlaceholder: 'Note (optional) …',
+        notePreviewToggle: 'Markdown preview',
         subtaskPlaceholder: 'Subtask …',
         subtaskAdd: 'Add subtask',
         subtaskProgress: (done, total) => `${done}/${total}`,
@@ -4491,6 +4830,20 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.3',
+            entries: [
+              'Import: defensive validation and sanitization for boards, tasks and history',
+              'Import: invalid entries are skipped safely and reported via toast',
+              'CSV export for current board (UTF-8, semicolon-separated)',
+              'Mobile quick actions via long-press on task cards',
+              'Search input debounced for smoother typing',
+              'Template system (`templates_v1`) with apply/edit/delete flow',
+              'Safe Markdown preview for notes (new + edit)',
+              'Mobile UX: tag/template action buttons optimized for small screens (e.g. iPhone SE)',
+              'Accessibility: quick-action buttons now have discernible names (`text`, `aria-label`, `title`)',
+            ],
+          },
           {
             version: 'v1.5.2',
             entries: [
@@ -5006,6 +5359,7 @@
       allSaved = safeSetItem('sort', currentSort) && allSaved;
       allSaved = safeSetItem('catFilter', currentCategory) && allSaved;
       allSaved = safeSetItem('activeTab', activeTab) && allSaved;
+      allSaved = safeSetItem('templates_v1', JSON.stringify(templates)) && allSaved;
       if (!allSaved && !storageWarningShown) {
         storageWarningShown = true;
         showToast(t().toastStorageWarning);
@@ -5051,6 +5405,9 @@
       currentSort = localStorage.getItem('sort') || 'manual';
       currentCategory = localStorage.getItem('catFilter') || '';
       activeTab = localStorage.getItem('activeTab') || 'tasks';
+      try { templates = JSON.parse(localStorage.getItem('templates_v1') || '[]') || []; } catch { templates = []; }
+      if (!Array.isArray(templates)) templates = [];
+      templates = templates.map(function(tp, i) { return sanitizeTemplateItem(tp, i); }).filter(Boolean);
     }
 
     // ── Board management ─────────────────────────────────────────────────────
@@ -5453,6 +5810,75 @@
       save(); render();
       showToast(t().deleteTitle, true);
     }
+    function closeQuickActions() {
+      quickActionsOpen = false;
+      quickActionTodoId = null;
+      document.getElementById('quick-actions-backdrop').classList.remove('show');
+    }
+    function openQuickActions(id) {
+      const todo = todos.find(t => t.id === id);
+      if (!todo) return;
+      const T = t();
+      quickActionTodoId = id;
+      quickActionsOpen = true;
+      document.getElementById('quick-actions-title').textContent = T.quickActionsTitle + ': ' + todo.text.slice(0, 40);
+      const toggleLabel = todo.done ? T.quickActionUndone : T.quickActionDone;
+      const timerLabel = todo.timerStarted ? T.quickActionTimerStop : T.quickActionTimerStart;
+      document.getElementById('qa-edit-btn').textContent = T.quickActionEdit;
+      document.getElementById('qa-edit-btn').setAttribute('aria-label', T.quickActionEdit);
+      document.getElementById('qa-edit-btn').title = T.quickActionEdit;
+      document.getElementById('qa-toggle-btn').textContent = toggleLabel;
+      document.getElementById('qa-toggle-btn').setAttribute('aria-label', toggleLabel);
+      document.getElementById('qa-toggle-btn').title = toggleLabel;
+      document.getElementById('qa-timer-btn').textContent = timerLabel;
+      document.getElementById('qa-timer-btn').setAttribute('aria-label', timerLabel);
+      document.getElementById('qa-timer-btn').title = timerLabel;
+      document.getElementById('qa-pomo-btn').textContent = T.quickActionPomodoro;
+      document.getElementById('qa-pomo-btn').setAttribute('aria-label', T.quickActionPomodoro);
+      document.getElementById('qa-pomo-btn').title = T.quickActionPomodoro;
+      document.getElementById('qa-delete-btn').textContent = T.quickActionDelete;
+      document.getElementById('qa-delete-btn').setAttribute('aria-label', T.quickActionDelete);
+      document.getElementById('qa-delete-btn').title = T.quickActionDelete;
+      document.getElementById('qa-close-btn').textContent = T.quickActionClose;
+      document.getElementById('qa-close-btn').setAttribute('aria-label', T.quickActionClose);
+      document.getElementById('qa-close-btn').title = T.quickActionClose;
+      document.getElementById('qa-timer-btn').disabled = !!todo.done;
+      document.getElementById('qa-pomo-btn').disabled = !!todo.done;
+      document.getElementById('quick-actions-backdrop').classList.add('show');
+    }
+    function handleQuickActionsBackdrop(e) {
+      if (e.target === e.currentTarget) closeQuickActions();
+    }
+    function quickActionEdit() {
+      if (quickActionTodoId === null) return;
+      const id = quickActionTodoId;
+      closeQuickActions();
+      startEdit(id);
+    }
+    function quickActionToggleDone() {
+      if (quickActionTodoId === null) return;
+      const id = quickActionTodoId;
+      closeQuickActions();
+      toggleTodo(id);
+    }
+    function quickActionTimer() {
+      if (quickActionTodoId === null) return;
+      const id = quickActionTodoId;
+      closeQuickActions();
+      toggleTaskTimer(id);
+    }
+    function quickActionPomodoro() {
+      if (quickActionTodoId === null) return;
+      const id = quickActionTodoId;
+      closeQuickActions();
+      startPomodoro(id);
+    }
+    function quickActionDelete() {
+      if (quickActionTodoId === null) return;
+      const id = quickActionTodoId;
+      closeQuickActions();
+      deleteTodo(id);
+    }
     function catHue(str) {
       let h = 0;
       for (let i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
@@ -5496,6 +5922,251 @@
           '</div>' +
         '</div>';
       }).join('');
+    }
+    function sanitizeTemplateItem(raw, idx) {
+      if (!raw || typeof raw !== 'object') return null;
+      const name = asTrimmedStr(raw.name, 60);
+      const text = asTrimmedStr(raw.text, 200);
+      if (!name || !text) return null;
+      return {
+        id: parseSafeTs(raw.id, Date.now() + idx + 1),
+        name,
+        text,
+        note: asTrimmedStr(raw.note, 1000),
+        priority: sanitizePriority(raw.priority),
+        categories: sanitizeCategories(raw.categories),
+        recurrence: sanitizeRecurrence(raw.recurrence),
+        color: (typeof raw.color === 'string' && TASK_COLORS.includes(raw.color)) ? raw.color : '',
+        subtasks: sanitizeSubtasks(raw.subtasks)
+      };
+    }
+    function getTemplatePayloadFromForm() {
+      const text = asTrimmedStr((document.getElementById('new-todo-input').value || ''), 200);
+      const note = asTrimmedStr((document.getElementById('new-todo-note').value || ''), 1000);
+      const catRaw = (document.getElementById('new-todo-cat').value || '').split(',').map(function(s) { return s.trim().replace(/^#/, ''); });
+      const categories = [...new Set(catRaw.filter(Boolean))].slice(0, 50);
+      const recurrence = sanitizeRecurrence(getRecurValue('new'));
+      if (!text) return null;
+      return {
+        text,
+        note,
+        priority: sanitizePriority(newPriority),
+        categories,
+        recurrence,
+        color: newTaskColor || '',
+        subtasks: undefined
+      };
+    }
+    function applyTemplateToForm(template) {
+      const dueInput = document.getElementById('new-todo-due');
+      const timeInput = document.getElementById('new-todo-time');
+      const recurSel = document.getElementById('new-todo-recur');
+      const recurDetail = document.getElementById('new-todo-recur-detail');
+      const textEl = document.getElementById('new-todo-input');
+      const noteEl = document.getElementById('new-todo-note');
+      const catEl = document.getElementById('new-todo-cat');
+      if (!textEl || !noteEl || !catEl || !recurSel || !recurDetail || !dueInput || !timeInput) return;
+      textEl.value = template.text || '';
+      noteEl.value = template.note || '';
+      catEl.value = (template.categories || []).join(', ');
+      dueInput.value = '';
+      timeInput.value = '';
+      newPriority = template.priority || '';
+      newTaskColor = template.color || '';
+      updatePrioChips();
+      renderColorPicker('new-color-picker', newTaskColor, function(c) { newTaskColor = c; });
+      const type = (template.recurrence || '').split(':')[0] || '';
+      const param = (template.recurrence || '').split(':')[1];
+      recurSel.value = type;
+      onRecurChange('new');
+      if (param !== undefined) {
+        recurDetail.value = param;
+        syncRecurDetailLabel('new');
+      }
+      syncRecurLabel('new', t());
+      updateFieldLabels();
+      updateNewNotePreview();
+      const details = document.getElementById('form-details');
+      const detailsBtn = document.getElementById('details-toggle');
+      const detailsChevron = document.getElementById('details-chevron');
+      const shouldShowDetails = !!template.note || (template.categories && template.categories.length > 0);
+      if (details && detailsBtn && detailsChevron && shouldShowDetails) {
+        details.style.display = '';
+        detailsBtn.classList.add('open');
+        detailsChevron.classList.add('open');
+      }
+    }
+    function renderTemplateManager() {
+      const T = t();
+      document.getElementById('template-manager-title').textContent = T.templateManagerTitle;
+      const el = document.getElementById('template-list');
+      const clean = templates.map(function(tp, i) { return sanitizeTemplateItem(tp, i); }).filter(Boolean);
+      templates = clean;
+      if (!clean.length) {
+        el.innerHTML = '<div class="template-empty">' + T.templateEmpty + '</div>';
+        return;
+      }
+      el.innerHTML = clean.map(function(tp) {
+        return '<div class="template-item">' +
+          '<div class="template-name">' + escHtml(tp.name) + '</div>' +
+          '<div class="template-actions">' +
+            '<button class="template-btn" onclick="useTemplate(' + tp.id + ')">' + T.templateUse + '</button>' +
+            '<button class="template-btn" onclick="editTemplate(' + tp.id + ')">' + T.templateEdit + '</button>' +
+            '<button class="template-btn danger" onclick="deleteTemplate(' + tp.id + ')">' + T.templateDelete + '</button>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+    function createTemplateFromForm() {
+      const T = t();
+      const payload = getTemplatePayloadFromForm();
+      if (!payload) {
+        switchTab('new');
+        const input = document.getElementById('new-todo-input');
+        if (input) input.focus();
+        showToast(T.templateMissingData);
+        return;
+      }
+      const name = prompt(T.templateNamePrompt, payload.text.slice(0, 40));
+      if (!name || !name.trim()) return;
+      const template = {
+        id: Date.now(),
+        name: asTrimmedStr(name, 60),
+        text: payload.text,
+        note: payload.note,
+        priority: payload.priority,
+        categories: payload.categories,
+        recurrence: payload.recurrence,
+        color: payload.color,
+        subtasks: payload.subtasks
+      };
+      templates.unshift(template);
+      editingTemplateId = null;
+      save();
+      renderTemplateManager();
+      showToast(T.templateSaved);
+    }
+    function useTemplate(id) {
+      const template = templates.find(function(tp) { return tp.id === id; });
+      if (!template) return;
+      applyTemplateToForm(template);
+      switchTab('new');
+      setTimeout(function() {
+        const input = document.getElementById('new-todo-input');
+        if (input) input.focus();
+      }, 60);
+      haptic('light');
+    }
+    function editTemplate(id) {
+      const template = templates.find(function(tp) { return tp.id === id; });
+      if (!template) return;
+      editingTemplateId = id;
+      applyTemplateToForm(template);
+      switchTab('new');
+      showToast(t().templateEditToast);
+      save();
+      renderTemplateManager();
+    }
+    function updateEditingTemplateFromForm() {
+      if (editingTemplateId === null) return;
+      const T = t();
+      const payload = getTemplatePayloadFromForm();
+      if (!payload) { showToast(T.templateMissingData); return; }
+      const idx = templates.findIndex(function(tp) { return tp.id === editingTemplateId; });
+      if (idx === -1) return;
+      templates[idx] = {
+        ...templates[idx],
+        text: payload.text,
+        note: payload.note,
+        priority: payload.priority,
+        categories: payload.categories,
+        recurrence: payload.recurrence,
+        color: payload.color,
+        subtasks: payload.subtasks
+      };
+      save();
+      renderTemplateManager();
+      showToast(T.templateUpdated);
+    }
+    function cancelTemplateEdit() {
+      editingTemplateId = null;
+      const input = document.getElementById('new-todo-input');
+      if (input) input.focus();
+      renderTemplateManager();
+    }
+    function deleteTemplate(id) {
+      const idx = templates.findIndex(function(tp) { return tp.id === id; });
+      if (idx === -1) return;
+      templates.splice(idx, 1);
+      if (editingTemplateId === id) editingTemplateId = null;
+      save();
+      renderTemplateManager();
+      showToast(t().templateDeleted);
+    }
+    function escMd(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+    function renderMarkdownSafe(text) {
+      let out = escMd(text || '');
+      out = out.replace(/\[(.+?)\]\((https?:\/\/[^\s)]+)\)/g, function(_, label, url) {
+        return `<a href="${url}" target="_blank" rel="noopener">${label}</a>`;
+      });
+      out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      out = out.replace(/\*(.+?)\*/g, '<em>$1</em>');
+      out = out.replace(/\n/g, '<br>');
+      return out;
+    }
+    function updateNewNotePreview() {
+      const el = document.getElementById('new-note-preview');
+      const inp = document.getElementById('new-todo-note');
+      if (!el || !inp) return;
+      el.innerHTML = renderMarkdownSafe(inp.value || '');
+    }
+    function toggleNewNotePreview() {
+      const T = t();
+      const wrap = document.getElementById('new-note-preview');
+      const btn = document.getElementById('new-note-preview-toggle');
+      if (!wrap || !btn) return;
+      const show = wrap.style.display === 'none';
+      wrap.style.display = show ? '' : 'none';
+      btn.classList.toggle('active', show);
+      btn.textContent = T.notePreviewToggle;
+      if (show) updateNewNotePreview();
+    }
+    function renderTemplatePicker() {
+      const T = t();
+      const el = document.getElementById('template-picker-list');
+      const title = document.getElementById('template-picker-title');
+      if (title) title.textContent = T.templateUseLabel;
+      if (!el) return;
+      if (!templates.length) {
+        el.innerHTML = '<div class="template-empty">' + T.templateEmpty + '</div>';
+        return;
+      }
+      el.innerHTML = templates.map(function(tp) {
+        return '<div class="template-item">' +
+          '<div class="template-name">' + escHtml(tp.name) + '</div>' +
+          '<div class="template-actions">' +
+            '<button class="template-btn" onclick="useTemplate(' + tp.id + ');closeTemplatePicker()">' + T.templateUse + '</button>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+    function openTemplatePicker() {
+      renderTemplateManager();
+      renderTemplatePicker();
+      document.getElementById('template-picker-backdrop').classList.add('show');
+    }
+    function closeTemplatePicker() {
+      document.getElementById('template-picker-backdrop').classList.remove('show');
+    }
+    function handleTemplatePickerBackdrop(e) {
+      if (e.target === e.currentTarget) closeTemplatePicker();
     }
     function updateTagCounter(inputId, counterId) {
       const input = document.getElementById(inputId);
@@ -5589,6 +6260,11 @@
       wrap.innerHTML = `
         <input class="todo-edit-input" value="${escHtml(oldText)}" maxlength="200" />
         <textarea class="note-edit-input" rows="2" maxlength="1000">${escHtml(oldNote)}</textarea>
+        <div class="note-md-help">${escHtml(T.markdownHelp)}</div>
+        <div class="note-preview-toolbar">
+          <button type="button" class="note-preview-toggle" id="edit-note-preview-toggle-${id}">${T.notePreviewToggle}</button>
+        </div>
+        <div class="note-preview" id="edit-note-preview-${id}" style="display:none"></div>
         <div class="cat-input-wrap" style="margin-top:0">
           <input class="cat-input" type="text" id="edit-cat-${id}" value="${escHtml(oldCat)}" maxlength="100" autocomplete="off" placeholder="${T.catPlaceholder}" />
           <div class="cat-ac" id="edit-cat-ac-${id}"></div>
@@ -5657,7 +6333,20 @@
       if (catInp && editCatAc) bindTagAC(catInp, editCatAc);
       const dueDateInp = wrap.querySelector('.due-edit-input[type="date"]');
       const dueTimeInp = wrap.querySelector('.due-edit-input[type="time"]');
+      const editPreviewBtn = document.getElementById('edit-note-preview-toggle-' + id);
+      const editPreview = document.getElementById('edit-note-preview-' + id);
       noteInp.placeholder = T.notePlaceholder;
+      if (editPreviewBtn && editPreview) {
+        editPreviewBtn.onclick = function() {
+          const show = editPreview.style.display === 'none';
+          editPreview.style.display = show ? '' : 'none';
+          editPreviewBtn.classList.toggle('active', show);
+          if (show) editPreview.innerHTML = renderMarkdownSafe(noteInp.value || '');
+        };
+        noteInp.addEventListener('input', function() {
+          if (editPreview.style.display !== 'none') editPreview.innerHTML = renderMarkdownSafe(noteInp.value || '');
+        });
+      }
       // Subtask editor state
       let editSubtasks = (todo.subtasks || []).map(s => ({ text: s.text, done: s.done }));
       function renderEditSubtasks() {
@@ -5845,9 +6534,13 @@
     function onSearch(val) {
       searchQuery = val.trim();
       document.getElementById('search-clear').classList.toggle('visible', searchQuery.length > 0);
-      render();
+      if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = setTimeout(function() {
+        render();
+      }, 140);
     }
     function clearSearch() {
+      if (searchDebounceTimer) { clearTimeout(searchDebounceTimer); searchDebounceTimer = null; }
       searchQuery = '';
       const inp = document.getElementById('search-input');
       if (inp) inp.value = '';
@@ -5897,6 +6590,7 @@
       let itemHeight = 0;
 
       document.addEventListener('touchstart', function(e) {
+        if (quickActionsOpen) return;
         if (currentSort !== 'manual') return;
         const handle = e.target.closest('.drag-handle');
         if (!handle) return;
@@ -6053,6 +6747,180 @@
       URL.revokeObjectURL(a.href);
       showToast(t().toastExported);
     }
+    function csvCell(v) {
+      const s = String(v === undefined || v === null ? '' : v);
+      return '"' + s.replace(/"/g, '""') + '"';
+    }
+    function exportCSV() {
+      const rows = [];
+      const headers = ['id','text','done','priority','note','dueDate','categories','recurrence','created','completedAt','timeSpent'];
+      rows.push(headers.join(';'));
+      todos.forEach(function(todo) {
+        const createdIso = todo.created ? new Date(todo.created).toISOString() : '';
+        const doneIso = todo.completedAt ? new Date(todo.completedAt).toISOString() : '';
+        const cats = (todo.categories || []).join(',');
+        const values = [
+          todo.id || '',
+          todo.text || '',
+          !!todo.done,
+          todo.priority || '',
+          todo.note || '',
+          todo.dueDate || '',
+          cats,
+          todo.recurrence || '',
+          createdIso,
+          doneIso,
+          Number.isFinite(Number(todo.timeSpent)) ? Math.floor(Number(todo.timeSpent)) : ''
+        ];
+        rows.push(values.map(csvCell).join(';'));
+      });
+      const csv = '\uFEFF' + rows.join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `tasks-${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      showToast(t().toastCsvExported);
+    }
+    function isPlainObj(v) {
+      return !!v && typeof v === 'object' && !Array.isArray(v);
+    }
+    function asTrimmedStr(v, maxLen) {
+      if (typeof v !== 'string') return '';
+      return v.trim().slice(0, maxLen);
+    }
+    function parseSafeTs(v, fallback) {
+      const n = Number(v);
+      return Number.isFinite(n) && n > 0 ? Math.floor(n) : fallback;
+    }
+    function sanitizeDueDate(v) {
+      if (typeof v !== 'string') return '';
+      const s = v.trim();
+      const m = s.match(/^(\d{4})-(\d{2})-(\d{2})(?:T([0-2]\d):([0-5]\d))?$/);
+      if (!m) return '';
+      const y = Number(m[1]), mo = Number(m[2]), d = Number(m[3]);
+      const hh = m[4] !== undefined ? Number(m[4]) : null;
+      const mm = m[5] !== undefined ? Number(m[5]) : null;
+      if (mo < 1 || mo > 12 || d < 1 || d > 31) return '';
+      const dt = new Date(y, mo - 1, d);
+      if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return '';
+      if (hh !== null && (hh < 0 || hh > 23)) return '';
+      if (mm !== null && (mm < 0 || mm > 59)) return '';
+      return hh === null ? `${m[1]}-${m[2]}-${m[3]}` : `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}`;
+    }
+    function sanitizeRecurrence(v) {
+      if (typeof v !== 'string') return '';
+      const s = v.trim();
+      if (!s) return '';
+      if (s === 'daily') return 'daily';
+      const type = s.split(':')[0];
+      const param = s.split(':')[1];
+      if ((type === 'weekly' || type === 'biweekly') && /^[0-6]$/.test(param || '')) return `${type}:${param}`;
+      if (type === 'monthly' && (param === 'last' || /^(?:[1-9]|[12]\d|3[01])$/.test(param || ''))) return `${type}:${param}`;
+      return '';
+    }
+    function sanitizePriority(v) {
+      return (v === 'high' || v === 'medium' || v === 'low') ? v : '';
+    }
+    function sanitizeCategories(v) {
+      if (!Array.isArray(v)) return [];
+      const out = [];
+      const seen = new Set();
+      v.forEach(function(tag) {
+        const t = asTrimmedStr(String(tag || '').replace(/^#/, ''), 30);
+        if (!t || seen.has(t)) return;
+        seen.add(t);
+        out.push(t);
+      });
+      return out.slice(0, 50);
+    }
+    function sanitizeSubtasks(v) {
+      if (!Array.isArray(v)) return undefined;
+      const out = v.map(function(st) {
+        if (!isPlainObj(st)) return null;
+        const text = asTrimmedStr(st.text, 200);
+        if (!text) return null;
+        return { text, done: !!st.done };
+      }).filter(Boolean);
+      return out.length ? out.slice(0, 200) : undefined;
+    }
+    function sanitizeHistoryEntries(v) {
+      if (!Array.isArray(v)) return { items: [], dropped: 0 };
+      const allowed = new Set(['done', 'created', 'deleted', 'undone', 'recurring']);
+      let dropped = 0;
+      const items = v.map(function(h) {
+        if (!isPlainObj(h)) { dropped++; return null; }
+        const type = allowed.has(h.type) ? h.type : '';
+        const text = asTrimmedStr(h.text, 200);
+        if (!type || !text) { dropped++; return null; }
+        return { type, text, ts: parseSafeTs(h.ts, Date.now()) };
+      }).filter(Boolean);
+      return { items, dropped };
+    }
+    function sanitizeTodoItem(todo, fallbackId) {
+      if (!isPlainObj(todo)) return null;
+      const text = asTrimmedStr(todo.text, 200);
+      if (!text) return null;
+      const done = !!todo.done;
+      const clean = {
+        id: parseSafeTs(todo.id, fallbackId),
+        text,
+        done,
+        created: parseSafeTs(todo.created, Date.now()),
+        priority: sanitizePriority(todo.priority),
+        note: asTrimmedStr(todo.note, 1000),
+        dueDate: sanitizeDueDate(todo.dueDate),
+        categories: sanitizeCategories(todo.categories),
+        recurrence: sanitizeRecurrence(todo.recurrence)
+      };
+      if (Array.isArray(todo.subtasks)) clean.subtasks = sanitizeSubtasks(todo.subtasks);
+      if (typeof todo.color === 'string' && TASK_COLORS.includes(todo.color)) clean.color = todo.color;
+      if (Number.isFinite(Number(todo.timeSpent)) && Number(todo.timeSpent) >= 0) clean.timeSpent = Math.floor(Number(todo.timeSpent));
+      if (Number.isFinite(Number(todo.timerStarted)) && Number(todo.timerStarted) > 0 && !done) clean.timerStarted = Math.floor(Number(todo.timerStarted));
+      if (done) {
+        const completedAt = parseSafeTs(todo.completedAt, 0);
+        if (completedAt > 0) clean.completedAt = completedAt;
+      }
+      return clean;
+    }
+    function sanitizeBoardItem(board, index) {
+      if (!isPlainObj(board)) return { board: null, dropped: 1 };
+      const id = parseSafeTs(board.id, Date.now() + index + 1);
+      const name = asTrimmedStr(board.name, 20) || (index === 0 ? 'Inbox' : `Board ${index + 1}`);
+      const rawTodos = Array.isArray(board.todos) ? board.todos : [];
+      let dropped = 0;
+      const todosOut = [];
+      const usedIds = new Set();
+      rawTodos.forEach(function(t, i) {
+        const sanitized = sanitizeTodoItem(t, Date.now() + index * 100000 + i + 1);
+        if (!sanitized) { dropped++; return; }
+        if (usedIds.has(sanitized.id)) sanitized.id = Date.now() + index * 100000 + i + 1;
+        usedIds.add(sanitized.id);
+        todosOut.push(sanitized);
+      });
+      const hist = sanitizeHistoryEntries(board.history);
+      dropped += hist.dropped;
+      return { board: { id, name, todos: todosOut, history: hist.items }, dropped };
+    }
+    function sanitizeImportPayload(data) {
+      if (!isPlainObj(data)) throw new Error('invalid');
+      let dropped = 0;
+      if (data.version === 2 && Array.isArray(data.boards)) {
+        const cleanedBoards = data.boards.map(function(b, i) { return sanitizeBoardItem(b, i); });
+        const boardsOut = cleanedBoards.map(x => { dropped += x.dropped; return x.board; }).filter(Boolean);
+        if (!boardsOut.length) throw new Error('invalid');
+        const idWanted = parseSafeTs(data.currentBoardId, boardsOut[0].id);
+        const current = boardsOut.find(b => b.id === idWanted) ? idWanted : boardsOut[0].id;
+        return { boards: boardsOut, currentBoardId: current, dropped };
+      }
+      if (Array.isArray(data.todos)) {
+        const legacy = sanitizeBoardItem({ id: 1, name: 'Inbox', todos: data.todos, history: data.history }, 0);
+        if (!legacy.board) throw new Error('invalid');
+        return { boards: [legacy.board], currentBoardId: legacy.board.id, dropped: legacy.dropped };
+      }
+      throw new Error('invalid');
+    }
     function importData(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -6060,18 +6928,13 @@
       reader.onload = e => {
         try {
           const data = JSON.parse(e.target.result);
-          if (data.version === 2 && Array.isArray(data.boards)) {
-            boards = data.boards;
-            currentBoardId = data.currentBoardId || boards[0].id;
-            if (!boards.find(b => b.id === currentBoardId)) currentBoardId = boards[0].id;
-            activateBoard(currentBoardId);
-          } else if (Array.isArray(data.todos)) {
-            todos.length = 0;
-            data.todos.forEach(function(t){ todos.push(t); });
-            history.length = 0;
-            (data.history || []).forEach(function(h){ history.push(h); });
-          } else { throw new Error(); }
-          save(); render(); showToast(t().toastImported);
+          const normalized = sanitizeImportPayload(data);
+          boards = normalized.boards;
+          currentBoardId = normalized.currentBoardId;
+          activateBoard(currentBoardId);
+          save(); render();
+          const T = t();
+          showToast(normalized.dropped > 0 ? T.toastImportedSanitized(normalized.dropped) : T.toastImported);
         } catch { showToast(t().toastInvalidFile); }
       };
       reader.readAsText(file);
@@ -6118,6 +6981,7 @@
     // ── Tab navigation ──────────────────────────────────────────────────────
     function switchTab(tab) {
       if (activeTab !== tab) haptic('light');
+      if (quickActionsOpen) closeQuickActions();
       activeTab = tab;
       document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
       document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
@@ -6671,6 +7535,16 @@
       body.style.display = show ? '' : 'none';
       chevron.classList.toggle('open', show);
       btn.classList.toggle('open', show);
+    }
+    function toggleTemplateManager() {
+      const body = document.getElementById('template-manager-body');
+      const chevron = document.getElementById('template-manager-chevron');
+      const btn = document.getElementById('template-manager-toggle');
+      const show = body.style.display === 'none';
+      body.style.display = show ? '' : 'none';
+      chevron.classList.toggle('open', show);
+      btn.classList.toggle('open', show);
+      if (show) renderTemplateManager();
     }
     function toggleScheduledSection() {
       scheduledSectionOpen = !scheduledSectionOpen;
@@ -7238,6 +8112,8 @@
              document.getElementById('stats-backdrop').classList.contains('show') ||
              document.getElementById('changelog-backdrop').classList.contains('show') ||
              document.getElementById('calday-backdrop').classList.contains('show') ||
+             document.getElementById('template-picker-backdrop').classList.contains('show') ||
+             document.getElementById('quick-actions-backdrop').classList.contains('show') ||
              (document.getElementById('pomo-overlay').style.display !== 'none' && !pomodoroMinimized) ||
              document.getElementById('focus-overlay').style.display !== 'none';
     }
@@ -7252,6 +8128,8 @@
         if (document.getElementById('kb-backdrop').classList.contains('show')) { closeKB(); return; }
         if (document.getElementById('stats-backdrop').classList.contains('show')) { closeStats(); return; }
         if (document.getElementById('changelog-backdrop').classList.contains('show')) { closeChangelog(); return; }
+        if (document.getElementById('template-picker-backdrop').classList.contains('show')) { closeTemplatePicker(); return; }
+        if (document.getElementById('quick-actions-backdrop').classList.contains('show')) { closeQuickActions(); return; }
         if (document.getElementById('focus-overlay').style.display !== 'none') { exitFocusMode(); return; }
         if (document.getElementById('pomo-overlay').style.display !== 'none' && !pomodoroMinimized) { minimizePomodoro(); return; }
         if (themePickerOpen) { themePickerOpen = false; document.getElementById('theme-popover').classList.remove('open'); return; }
@@ -7305,6 +8183,17 @@
       if (calendarViewActive) renderCalendar();
       updatePrioChips();
       document.getElementById('new-todo-note').placeholder = T.notePlaceholder;
+      document.getElementById('new-note-preview-toggle').textContent = T.notePreviewToggle;
+      document.getElementById('new-note-md-help').textContent = T.markdownHelp;
+      document.getElementById('new-template-save-label').textContent = T.templateSaveLabel;
+      document.getElementById('new-template-use-label').textContent = T.templateUseLabel;
+      document.getElementById('new-template-update-label').textContent = T.templateUpdateLabel;
+      document.getElementById('new-template-cancel-label').textContent = T.templateCancelLabel;
+      const isTplEdit = editingTemplateId !== null;
+      const newTplUpdate = document.getElementById('new-template-update-btn');
+      const newTplCancel = document.getElementById('new-template-cancel-btn');
+      if (newTplUpdate) newTplUpdate.style.display = isTplEdit ? '' : 'none';
+      if (newTplCancel) newTplCancel.style.display = isTplEdit ? '' : 'none';
       document.getElementById('details-toggle-label').textContent = T.detailsMore;
       document.getElementById('new-todo-due-label').textContent = T.formDate;
       document.getElementById('new-todo-time-label').textContent = T.formTime;
@@ -7314,8 +8203,10 @@
       document.getElementById('io-title').textContent = T.ioTitle;
       renderTagManager();
       document.getElementById('export-label').textContent = T.exportLabel;
+      document.getElementById('export-csv-label').textContent = T.exportCsvLabel;
       document.getElementById('import-label').textContent = T.importLabel;
       document.getElementById('clear-label').textContent = T.clearLabel;
+      renderTemplateManager();
 
       const filterLabels = [T.filterOpen, T.filterDone];
       document.querySelectorAll('.filter-btn').forEach((b, i) => { b.textContent = filterLabels[i]; });
@@ -7514,6 +8405,7 @@
       }
       renderPomo();
       if (focusModeActive) renderFocusMode();
+      minuteSignature = computeMinuteSignature();
     }
 
     // ── iOS Install Banner ────────────────────────────────────────────────────
@@ -7586,13 +8478,58 @@
       }
     }
 
+    // ── Mobile Quick Actions (long-press) ───────────────────────────────────
+    (function() {
+      const HOLD_MS = 430;
+      let holdTimer = null;
+      let startX = 0;
+      let startY = 0;
+      let targetId = null;
+
+      function clearHold() {
+        if (holdTimer) {
+          clearTimeout(holdTimer);
+          holdTimer = null;
+        }
+        targetId = null;
+      }
+
+      document.addEventListener('touchstart', function(e) {
+        if (touchDragActive || quickActionsOpen) return;
+        if (e.target.closest('.drag-handle, input, textarea, button, a, .action-btn, .checkbox-wrap')) return;
+        const wrap = e.target.closest('.swipe-wrap');
+        if (!wrap) return;
+        const id = parseInt(wrap.dataset.swipeId, 10);
+        if (!id) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        targetId = id;
+        holdTimer = setTimeout(function() {
+          holdTimer = null;
+          if (touchDragActive || quickActionsOpen || targetId === null) return;
+          haptic('light');
+          openQuickActions(targetId);
+        }, HOLD_MS);
+      }, { passive: true });
+
+      document.addEventListener('touchmove', function(e) {
+        if (!holdTimer) return;
+        const dx = Math.abs(e.touches[0].clientX - startX);
+        const dy = Math.abs(e.touches[0].clientY - startY);
+        if (dx > 10 || dy > 10) clearHold();
+      }, { passive: true });
+
+      document.addEventListener('touchend', clearHold, { passive: true });
+      document.addEventListener('touchcancel', clearHold, { passive: true });
+    })();
+
     // ── Swipe Gestures ─────────────────────────────────────────────────────
     (function() {
       const THRESHOLD = 90;
       let startX = 0, startY = 0, swiping = false, swipeItem = null, swipeWrap = null, dx = 0;
 
       document.addEventListener('touchstart', function(e) {
-        if (touchDragActive) return;
+        if (touchDragActive || quickActionsOpen) return;
         if (e.target.closest('.drag-handle')) return;
         const wrap = e.target.closest('.swipe-wrap');
         if (!wrap) return;
@@ -7608,7 +8545,9 @@
       }, { passive: true });
 
       document.addEventListener('touchmove', function(e) {
-        if (touchDragActive || !swipeItem) return;
+        if (touchDragActive) return;
+        if (quickActionsOpen) { resetSwipe(); return; }
+        if (!swipeItem) return;
         const cx = e.touches[0].clientX;
         const cy = e.touches[0].clientY;
         dx = cx - startX;
@@ -7627,6 +8566,7 @@
 
       document.addEventListener('touchend', function() {
         if (touchDragActive) return;
+        if (quickActionsOpen) { resetSwipe(); return; }
         if (!swipeItem || !swiping) { resetSwipe(); return; }
         const id = parseInt(swipeWrap.dataset.swipeId);
         if (dx > THRESHOLD) {
@@ -7708,6 +8648,35 @@
       }, { passive: true });
     })();
 
+    function computeMinuteSignature() {
+      return [
+        currentFilter,
+        currentSort,
+        currentCategory,
+        searchQuery,
+        activeTab,
+        todos.map(function(td) {
+          const dueStatus = (!td.done && td.dueDate) ? getDueClass(td.dueDate) : '';
+          return [
+            td.id,
+            td.done ? 1 : 0,
+            td.dueDate || '',
+            dueStatus,
+            td.timerStarted ? 1 : 0,
+            td.timeSpent || 0
+          ].join(':');
+        }).join('|')
+      ].join('||');
+    }
+    function minuteTick() {
+      checkDueNotifications();
+      const sig = computeMinuteSignature();
+      if (sig !== minuteSignature) {
+        minuteSignature = sig;
+        render();
+      }
+    }
+
     // ── Init ─────────────────────────────────────────────────────────────────
     load();
     applyDark();
@@ -7717,10 +8686,14 @@
     setupPWA();
     setupIOSBanner();
     render();
+    minuteSignature = computeMinuteSignature();
     updateTimeTrackTicker();
     switchTab(activeTab);
     checkDueNotifications();
-    setInterval(function() { render(); checkDueNotifications(); }, 60000);
+    setInterval(minuteTick, 60000);
+    document.getElementById('new-todo-note').addEventListener('input', function() {
+      updateNewNotePreview();
+    });
     document.getElementById('new-todo-due').addEventListener('focus', function() {
       if (!this.value) this.value = formatDateLocalISO(new Date());
       updateFieldLabels();
@@ -7773,7 +8746,13 @@
       const input = document.getElementById('new-todo-input');
       if (input) { input.value = addText.trim(); input.focus(); updateFieldLabels(); }
       const note = params.get('note');
-      if (note) { const n = document.getElementById('new-todo-note'); if (n) n.value = note.trim(); }
+      if (note) {
+        const n = document.getElementById('new-todo-note');
+        if (n) {
+          n.value = note.trim();
+          updateNewNotePreview();
+        }
+      }
       const prio = params.get('priority');
       if (prio) { const p = prio.toLowerCase(); if (['high','medium','low'].includes(p)) { newPriority = p; updatePrioChips(); } }
       const due = params.get('due');
