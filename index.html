@@ -421,6 +421,7 @@
       transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
       box-shadow: var(--shadow-sm);
       white-space: nowrap;
+      touch-action: manipulation;
     }
     body.dark .ctrl-btn {
       background: var(--gl-strong-dark);
@@ -2843,6 +2844,7 @@
       -webkit-user-select: none;
       user-select: none;
       -webkit-touch-callout: none;
+      touch-action: manipulation;
     }
     body.dark .tab-btn { color: var(--muted-dark); }
     .tab-btn.active { color: var(--accent); }
@@ -9095,6 +9097,20 @@
       document.addEventListener('focusout', scheduleUpdate, { passive: true });
       scheduleUpdate();
     }
+    function setupPreventDoubleTapZoomOnNavControls() {
+      let lastTapTs = 0;
+      let lastTapEl = null;
+      document.addEventListener('touchend', function(e) {
+        const target = e.target.closest('.tab-btn, .ctrl-btn');
+        if (!target) return;
+        const now = Date.now();
+        if (lastTapEl === target && (now - lastTapTs) < 350) {
+          e.preventDefault();
+        }
+        lastTapTs = now;
+        lastTapEl = target;
+      }, { passive: false });
+    }
     function dismissIOSBanner() {
       localStorage.setItem('flux_ios_banner_dismissed', '1');
       const banner = document.getElementById('ios-banner');
@@ -9366,6 +9382,7 @@
     applyIOSBrowserLayoutMode();
     updateIOSVisualViewportOffset();
     setupIOSVisualViewportOffset();
+    setupPreventDoubleTapZoomOnNavControls();
     applyDark();
     applyTheme(currentTheme);
     applyLang();
