@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.5.1-blueviolet)
+![Version](https://img.shields.io/badge/version-1.5.2-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -166,6 +166,13 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.5.2
+- Fix: Tag filter clicks now use safe event delegation (no inline user-input handlers)
+- Fix: Due date comparisons now use local date logic for correct today/overdue state at day boundaries
+- Fix: Search field is now correctly reset when switching boards
+- Improvement: localStorage persistence now fails gracefully with a one-time warning toast when storage is full
+- PWA: Service Worker hardened with cache versioning, old-cache cleanup and more targeted asset caching
 
 ### v1.5.1
 - Time tracking per task — start/stop timer independent from Pomodoro, with pulsing badge
@@ -483,4 +490,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.0</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.2</p>
