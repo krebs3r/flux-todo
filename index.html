@@ -1264,6 +1264,7 @@
       color: var(--text-dark);
     }
     .archive-log-toggle { margin-top: 12px; }
+    #panel-history .scheduled-header:first-of-type { margin-top: 12px; }
     .scheduled-chevron {
       transition: transform 0.2s;
       flex-shrink: 0;
@@ -2263,6 +2264,9 @@
     }
     .collapsible.open { grid-template-rows: 1fr; }
     .collapsible-inner { overflow: hidden; }
+    #panel-history .collapsible-inner { padding-top: 12px; }
+    #panel-history .collapsible.open { margin-bottom: 12px; }
+    #panel-history .stat-card:last-child { margin-bottom: 0; }
 
     .footer {
       text-align: center;
@@ -2543,7 +2547,7 @@
       border: 1px solid var(--gl-border-subtle);
       border-radius: 12px;
       padding: 16px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     body.dark .stat-card {
       background: rgba(255,255,255,0.05);
@@ -2644,6 +2648,69 @@
       font-size: 0.88rem;
     }
     body.dark .stat-empty { color: var(--muted-dark); }
+
+    /* ── Heatmap ─────────────────────────────────────────────── */
+    .heatmap-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+    }
+    .heatmap-grid {
+      display: flex;
+      gap: 3px;
+      align-items: flex-end;
+      min-width: max-content;
+    }
+    .heatmap-col {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .heatmap-cell {
+      width: 11px;
+      height: 11px;
+      border-radius: 2px;
+      background: rgba(0,0,0,0.07);
+      flex-shrink: 0;
+      cursor: default;
+      transition: opacity 0.15s;
+    }
+    body.dark .heatmap-cell { background: rgba(255,255,255,0.08); }
+    .heatmap-cell[data-count="1"] { background: #4ade80; opacity: 0.75; }
+    .heatmap-cell[data-count="2"] { background: #a3e635; opacity: 0.85; }
+    .heatmap-cell[data-count="3"] { background: #fb923c; opacity: 0.9; }
+    .heatmap-cell[data-count="4"] { background: #ef4444; opacity: 1; }
+    .heatmap-month-labels {
+      display: flex;
+      gap: 3px;
+      min-width: max-content;
+      margin-bottom: 4px;
+    }
+    .heatmap-month-label {
+      font-size: 0.6rem;
+      color: var(--muted);
+      width: 11px;
+      white-space: nowrap;
+      overflow: visible;
+    }
+    body.dark .heatmap-month-label { color: var(--muted-dark); }
+    .heatmap-legend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+      justify-content: flex-end;
+    }
+    .heatmap-legend-label {
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+    body.dark .heatmap-legend-label { color: var(--muted-dark); }
+    .heatmap-legend-cell {
+      width: 11px;
+      height: 11px;
+      border-radius: 2px;
+    }
 
     /* ── Keyboard shortcuts help ───────────────────────────── */
     .kb-table { width: 100%; border-collapse: collapse; }
@@ -3580,9 +3647,6 @@
         <button class="ctrl-btn" id="notify-btn" onclick="toggleNotify()" title="Notifications">
           <span id="notify-icon"></span>
         </button>
-        <button class="ctrl-btn" id="stats-btn" onclick="openStats()" title="Statistics">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="3" width="4" height="18"/><rect x="10" y="8" width="4" height="13"/><rect x="2" y="13" width="4" height="8"/></svg>
-        </button>
       </div>
     </div>
 
@@ -3747,7 +3811,19 @@
           </span>
           <span class="section-title" id="history-title"></span>
         </div>
-        <button type="button" class="scheduled-header" id="archive-section-toggle" onclick="toggleArchiveSection('archive')"></button>
+        <button type="button" class="scheduled-header archive-log-toggle" id="stats-section-toggle" onclick="toggleArchiveSection('stats')"></button>
+        <div class="collapsible open" id="stats-collapsible">
+          <div class="collapsible-inner">
+            <div id="stats-inline-body"></div>
+          </div>
+        </div>
+        <button type="button" class="scheduled-header archive-log-toggle" id="heatmap-section-toggle" onclick="toggleArchiveSection('heatmap')"></button>
+        <div class="collapsible open" id="heatmap-collapsible">
+          <div class="collapsible-inner">
+            <div id="heatmap-body"></div>
+          </div>
+        </div>
+        <button type="button" class="scheduled-header archive-log-toggle" id="archive-section-toggle" onclick="toggleArchiveSection('archive')"></button>
         <div class="collapsible open" id="archive-collapsible">
           <div class="collapsible-inner">
             <div id="archive-list"></div>
@@ -3892,7 +3968,7 @@
           </label>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.5</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.5.6</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -3974,20 +4050,6 @@
     </div>
   </div>
 
-  <!-- Stats Modal -->
-  <div class="modal-backdrop" id="stats-backdrop" onclick="handleStatsBackdropClick(event)">
-    <div class="modal" style="max-width:520px">
-      <div class="modal-header">
-        <h2 id="stats-heading">Statistics</h2>
-        <button class="modal-close" onclick="closeStats()" aria-label="Close">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-      </div>
-      <div class="modal-body" id="stats-body"></div>
-    </div>
-  </div>
 
   <!-- Calendar Day Modal -->
   <div class="modal-backdrop" id="calday-backdrop" onclick="handleCalDayBackdropClick(event)">
@@ -4468,6 +4530,12 @@
         statsLongestStreak: 'Längste Serie',
         statsNoData: 'Noch keine erledigten Aufgaben.',
         statsCompleted: 'erledigt',
+        heatmapTitle: 'Produktivitäts-Heatmap',
+        heatmapLess: 'Weniger',
+        heatmapMore: 'Mehr',
+        heatmapDay: 'Aufgabe erledigt',
+        heatmapDays: 'Aufgaben erledigt',
+        lang: 'de',
         kbHeading: 'Hilfe',
         kbShortcutsHeading: 'Tastaturkürzel',
         kbUrlHeading: 'URL-Parameter',
@@ -4503,6 +4571,14 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.6',
+            entries: [
+              'Statistiken in den Archiv-Tab integriert (kein separater Header-Button mehr)',
+              'Produktivitäts-Heatmap — GitHub-Style Übersicht der erledigten Aufgaben pro Tag (52 Wochen, Grün–Rot-Verlauf)',
+              'Archiv-Tab: alle Sektionen als klappbare Bereiche mit einheitlichen Abständen',
+            ],
+          },
           {
             version: 'v1.5.5',
             entries: [
@@ -5384,6 +5460,12 @@
         statsLongestStreak: 'Longest Streak',
         statsNoData: 'No completed tasks yet.',
         statsCompleted: 'completed',
+        heatmapTitle: 'Productivity Heatmap',
+        heatmapLess: 'Less',
+        heatmapMore: 'More',
+        heatmapDay: 'task completed',
+        heatmapDays: 'tasks completed',
+        lang: 'en',
         kbHeading: 'Help',
         kbShortcutsHeading: 'Keyboard Shortcuts',
         kbUrlHeading: 'URL Parameters',
@@ -5419,6 +5501,14 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.5.6',
+            entries: [
+              'Statistics moved into the Archive tab (no separate header button anymore)',
+              'Productivity heatmap — GitHub-style overview of completed tasks per day (52 weeks, green–red gradient)',
+              'Archive tab: all sections as collapsible panels with consistent spacing',
+            ],
+          },
           {
             version: 'v1.5.5',
             entries: [
@@ -7686,8 +7776,10 @@
     }
 
     function toggleArchiveSection(section) {
-      const col = document.getElementById(section === 'archive' ? 'archive-collapsible' : 'log-collapsible');
-      const chevron = document.getElementById(section === 'archive' ? 'archive-section-toggle' : 'log-section-toggle').querySelector('.scheduled-chevron');
+      const idMap = { stats: 'stats-collapsible', heatmap: 'heatmap-collapsible', archive: 'archive-collapsible', log: 'log-collapsible' };
+      const toggleMap = { stats: 'stats-section-toggle', heatmap: 'heatmap-section-toggle', archive: 'archive-section-toggle', log: 'log-section-toggle' };
+      const col = document.getElementById(idMap[section]);
+      const chevron = document.getElementById(toggleMap[section]).querySelector('.scheduled-chevron');
       col.classList.toggle('open');
       if (chevron) chevron.classList.toggle('open', col.classList.contains('open'));
       haptic('light');
@@ -8610,21 +8702,6 @@
     function onEscClose(e) { if (e.key === 'Escape') closeChangelog(); }
 
     // ── Statistics ─────────────────────────────────────────────────────────
-    function openStats() {
-      const T = t();
-      document.getElementById('stats-heading').textContent = T.statsHeading;
-      document.getElementById('stats-body').innerHTML = renderStatsContent(T);
-      document.getElementById('stats-backdrop').classList.add('show');
-      document.addEventListener('keydown', onStatsEscClose);
-    }
-    function closeStats() {
-      document.getElementById('stats-backdrop').classList.remove('show');
-      document.removeEventListener('keydown', onStatsEscClose);
-    }
-    function handleStatsBackdropClick(e) {
-      if (e.target === e.currentTarget) closeStats();
-    }
-    function onStatsEscClose(e) { if (e.key === 'Escape') closeStats(); }
 
     function computeCompletionRate() {
       const total = todos.length;
@@ -8735,9 +8812,12 @@
       return { current: currentStreak, longest: longestStreak };
     }
 
-    function renderStatsContent(T) {
+    function renderStatsInline(T) {
       const rate = computeCompletionRate();
-      if (!rate.total) return '<div class="stat-empty">' + T.statsNoData + '</div>';
+      if (!rate.total) {
+        document.getElementById('stats-inline-body').innerHTML = '<div class="stat-empty">' + T.statsNoData + '</div>';
+        return;
+      }
       const circumference = 2 * Math.PI * 28;
       const offset = circumference - (rate.pct / 100) * circumference;
       const completionHtml = '<div class="stat-card">' +
@@ -8782,7 +8862,92 @@
             '<div class="stat-sub">' + T.statsStreakDays(streaks.longest) + '</div>' +
           '</div>' +
         '</div></div>';
-      return completionHtml + chartHtml + streakHtml;
+      document.getElementById('stats-inline-body').innerHTML = completionHtml + chartHtml + streakHtml;
+    }
+
+    function computeHeatmap() {
+      const dayMap = {};
+      function addDay(ts) {
+        const d = new Date(ts);
+        const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        dayMap[key] = (dayMap[key] || 0) + 1;
+      }
+      todos.forEach(function(todo) {
+        if (todo.done && todo.completedAt) addDay(todo.completedAt);
+      });
+      return dayMap;
+    }
+
+    function renderHeatmap(T) {
+      const dayMap = computeHeatmap();
+      const WEEKS = 52;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      // Find Sunday of current week, then go back WEEKS weeks
+      const dayOfWeek = today.getDay(); // 0=Sun
+      const startDate = new Date(today);
+      startDate.setDate(today.getDate() - dayOfWeek - (WEEKS * 7));
+
+      // Build columns (each column = one week, Sun→Sat)
+      const cols = [];
+      const monthLabels = [];
+      let d = new Date(startDate);
+      for (let w = 0; w <= WEEKS; w++) {
+        const col = [];
+        let monthLabelText = '';
+        for (let day = 0; day < 7; day++) {
+          const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+          const count = dayMap[key] || 0;
+          const isFuture = d > today;
+          col.push({ key, count: isFuture ? -1 : count, date: new Date(d) });
+          // Mark month start for label
+          if (day === 0 && d.getDate() <= 7) {
+            monthLabelText = d.toLocaleDateString(T.lang || 'de', { month: 'short' });
+          }
+          d.setDate(d.getDate() + 1);
+        }
+        cols.push(col);
+        monthLabels.push(monthLabelText);
+      }
+
+      // Reverse so today is on the left
+      cols.reverse();
+      monthLabels.reverse();
+
+      const monthRow = monthLabels.map(function(label) {
+        return '<div class="heatmap-month-label">' + (label || '') + '</div>';
+      }).join('');
+
+      const isDark = document.body.classList.contains('dark');
+      const emptyColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
+      const cellColors = [emptyColor, 'rgba(74,222,128,0.85)', 'rgba(163,230,53,0.9)', 'rgba(251,146,60,0.95)', 'rgba(239,68,68,1)'];
+      const colsHtml = cols.map(function(col) {
+        const cells = col.map(function(cell) {
+          if (cell.count < 0) return '<div class="heatmap-cell" style="opacity:0.15"></div>';
+          const level = cell.count === 0 ? 0 : cell.count === 1 ? 1 : cell.count <= 2 ? 2 : cell.count <= 4 ? 3 : 4;
+          const label = cell.date.toLocaleDateString(T.lang || 'de', { day: 'numeric', month: 'short' }) + ': ' + cell.count + (cell.count === 1 ? ' ' + T.heatmapDay : ' ' + T.heatmapDays);
+          return '<div class="heatmap-cell" style="background:' + cellColors[level] + '" title="' + label + '"></div>';
+        }).join('');
+        return '<div class="heatmap-col">' + cells + '</div>';
+      }).join('');
+
+      const legendHtml = '<div class="heatmap-legend">' +
+        '<span class="heatmap-legend-label">' + T.heatmapLess + '</span>' +
+        cellColors.map(function(c) {
+          return '<div class="heatmap-legend-cell" style="background:' + c + '"></div>';
+        }).join('') +
+        '<span class="heatmap-legend-label">' + T.heatmapMore + '</span>' +
+        '</div>';
+
+      document.getElementById('heatmap-body').innerHTML =
+        '<div class="stat-card" style="padding-bottom:10px">' +
+          '<div class="stat-card-title">' + T.heatmapTitle + '</div>' +
+          '<div class="heatmap-scroll" id="heatmap-scroll">' +
+            '<div class="heatmap-month-labels">' + monthRow + '</div>' +
+            '<div class="heatmap-grid">' + colsHtml + '</div>' +
+          '</div>' +
+          legendHtml +
+        '</div>';
     }
 
     // ── Help / Keyboard Shortcuts ───────────────────────────────────────────
@@ -8882,7 +9047,6 @@
 
     function isModalOpen() {
       return document.getElementById('kb-backdrop').classList.contains('show') ||
-             document.getElementById('stats-backdrop').classList.contains('show') ||
              document.getElementById('changelog-backdrop').classList.contains('show') ||
              document.getElementById('calday-backdrop').classList.contains('show') ||
              document.getElementById('template-picker-backdrop').classList.contains('show') ||
@@ -8899,7 +9063,6 @@
       if (e.key === 'Escape') {
         if (document.getElementById('calday-backdrop').classList.contains('show')) { closeCalDay(); return; }
         if (document.getElementById('kb-backdrop').classList.contains('show')) { closeKB(); return; }
-        if (document.getElementById('stats-backdrop').classList.contains('show')) { closeStats(); return; }
         if (document.getElementById('changelog-backdrop').classList.contains('show')) { closeChangelog(); return; }
         if (document.getElementById('template-picker-backdrop').classList.contains('show')) { closeTemplatePicker(); return; }
         if (document.getElementById('quick-actions-backdrop').classList.contains('show')) { closeQuickActions(); return; }
@@ -8918,7 +9081,7 @@
       if (key === 'n') { e.preventDefault(); switchTab('new'); setTimeout(function() { document.getElementById('new-todo-input').focus(); }, 20); return; }
       if (key === 'f') { e.preventDefault(); switchTab('tasks'); setTimeout(function() { document.getElementById('search-input').focus(); }, 20); return; }
       if (key === 'd') { e.preventDefault(); toggleDark(); return; }
-      if (key === 's') { e.preventDefault(); openStats(); return; }
+      if (key === 's') { e.preventDefault(); switchTab('history'); return; }
       if (key === '1') { e.preventDefault(); switchTab('tasks'); setFilter('open'); return; }
       if (key === '2') { e.preventDefault(); switchTab('tasks'); setFilter('done'); return; }
       if (key === '0') { e.preventDefault(); switchTab('tasks'); setFilter('all'); return; }
@@ -9129,6 +9292,20 @@
 
         list.innerHTML = html;
       }
+
+      // Stats inline section
+      const statsToggle = document.getElementById('stats-section-toggle');
+      const statsCol = document.getElementById('stats-collapsible');
+      const statsOpen = statsCol.classList.contains('open');
+      statsToggle.innerHTML = `<span class="scheduled-chevron${statsOpen ? ' open' : ''}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span> ${T.statsHeading} <span class="board-count"></span>`;
+      renderStatsInline(T);
+
+      // Heatmap section
+      const heatmapToggle = document.getElementById('heatmap-section-toggle');
+      const heatmapCol = document.getElementById('heatmap-collapsible');
+      const heatmapOpen = heatmapCol.classList.contains('open');
+      heatmapToggle.innerHTML = `<span class="scheduled-chevron${heatmapOpen ? ' open' : ''}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span> ${T.heatmapTitle}`;
+      renderHeatmap(T);
 
       // Archive section (completed tasks)
       const archived = todos.filter(t => t.done);
