@@ -162,6 +162,7 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ### Ideas
 - [ ] **Kanban view** — column layout (Open / In Progress / Done)
 - [ ] **Productivity heatmap** — GitHub-style contribution graph
+- [ ] **Cross-device sync** — end-to-end encrypted data sync via a passphrase-derived key; server stores only ciphertext, no account required
 
 ---
 
