@@ -234,7 +234,6 @@
       width: 100%;
       flex: 1;
       overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
       padding-top: max(32px, calc(env(safe-area-inset-top) + 16px));
       padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 16px);
       padding-left: max(16px, env(safe-area-inset-left));
@@ -9183,31 +9182,6 @@
       document.getElementById('ios-banner-hint').innerHTML = T.iosBannerHint;
       banner.style.display = 'flex';
     }
-    function detectIOSMode() {
-      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-      const isStandalone = window.navigator.standalone === true ||
-        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
-      return { isIOS, isStandalone };
-    }
-    function applyIOSBrowserLayoutMode() {
-      const mode = detectIOSMode();
-      const isIOS = mode.isIOS;
-      const isStandalone = mode.isStandalone;
-      document.documentElement.classList.toggle('ios-browser-mode', isIOS && !isStandalone);
-      document.documentElement.classList.toggle('ios-standalone-mode', isIOS && isStandalone);
-    }
-    function setupIOSModeWatchers() {
-      const refreshMode = function() {
-        applyIOSBrowserLayoutMode();
-      };
-      window.addEventListener('pageshow', refreshMode, { passive: true });
-      window.addEventListener('resize', refreshMode, { passive: true });
-      document.addEventListener('visibilitychange', refreshMode, { passive: true });
-      if (window.matchMedia) {
-        const mq = window.matchMedia('(display-mode: standalone)');
-        if (mq && mq.addEventListener) mq.addEventListener('change', refreshMode);
-      }
-    }
     function setupPreventDoubleTapZoomOnNavControls() {
       let lastTapTs = 0;
       let lastTapEl = null;
@@ -9411,13 +9385,7 @@
       let startY = 0;
       let active = false;
       let refreshing = false;
-      const isIOSSpecialMode = function() {
-        const root = document.documentElement;
-        return root.classList.contains('ios-browser-mode') || root.classList.contains('ios-standalone-mode');
-      };
-
       document.addEventListener('touchstart', function(e) {
-        if (isIOSSpecialMode()) return;
         if (refreshing || touchDragActive) return;
         const appScroll = document.querySelector('.app');
         if ((appScroll ? appScroll.scrollTop : window.scrollY) <= 0) {
@@ -9428,7 +9396,6 @@
       }, { passive: true });
 
       document.addEventListener('touchmove', function(e) {
-        if (isIOSSpecialMode()) return;
         if (!active || refreshing) return;
         const dy = e.touches[0].clientY - startY;
         const appScroll = document.querySelector('.app');
@@ -9441,7 +9408,6 @@
       }, { passive: true });
 
       document.addEventListener('touchend', function() {
-        if (isIOSSpecialMode()) { active = false; return; }
         if (!active || refreshing) return;
         active = false;
         const opacity = parseFloat(spinner.style.opacity) || 0;
@@ -9491,8 +9457,6 @@
 
     // ── Init ─────────────────────────────────────────────────────────────────
     load();
-    applyIOSBrowserLayoutMode();
-    setupIOSModeWatchers();
     setupPreventDoubleTapZoomOnNavControls();
     applyDark();
     applyTheme(currentTheme);
