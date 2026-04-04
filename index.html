@@ -2889,6 +2889,10 @@
       border-top: 1px solid var(--gl-border);
       box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
       z-index: 200;
+      transition: transform 0.2s ease;
+    }
+    .tab-bar.keyboard-open {
+      transform: translateY(150%);
     }
     @media (min-width: 700px) {
       .tab-bar {
@@ -9382,15 +9386,38 @@
       document.getElementById('ios-banner-hint').innerHTML = T.iosBannerHint;
       banner.style.display = 'flex';
     }
-    // ── iOS PWA: pin tab-bar below keyboard ───────────────────────────────────
+    // ── iOS PWA: hide tab-bar when keyboard opens ─────────────────────────────
     function setupIOSTabBarKeyboardPin() {
-      if (!window.visualViewport || !window.navigator.standalone) return;
+      if (!window.navigator.standalone) return;
       const tabBar = document.getElementById('tab-bar');
-      function pinTabBar() {
-        const offset = window.innerHeight - (window.visualViewport.offsetTop + window.visualViewport.height);
-        tabBar.style.bottom = Math.max(0, offset) + 'px';
+      let keyboardOpen = false;
+      let focusOutTimer = null;
+
+      function setKeyboard(open) {
+        keyboardOpen = open;
+        tabBar.classList.toggle('keyboard-open', open);
       }
-      window.visualViewport.addEventListener('resize', pinTabBar);
+
+      // Primary: input focus events (most reliable on iOS)
+      document.addEventListener('focusin', function(e) {
+        if (e.target.matches('input, textarea, [contenteditable]')) {
+          clearTimeout(focusOutTimer);
+          setKeyboard(true);
+        }
+      });
+      document.addEventListener('focusout', function() {
+        // Debounce: iOS keyboard close has ~1s delay
+        focusOutTimer = setTimeout(function() { setKeyboard(false); }, 150);
+      });
+
+      // Fallback: visualViewport for edge cases (e.g. autocomplete selection)
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', function() {
+          const diff = window.innerHeight - window.visualViewport.height;
+          if (diff > 120 && !keyboardOpen) setKeyboard(true);
+          if (diff < 50 && keyboardOpen) setKeyboard(false);
+        });
+      }
     }
 
     function setupPreventDoubleTapZoomOnNavControls() {
