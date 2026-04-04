@@ -9382,6 +9382,17 @@
       document.getElementById('ios-banner-hint').innerHTML = T.iosBannerHint;
       banner.style.display = 'flex';
     }
+    // ── iOS PWA: pin tab-bar below keyboard ───────────────────────────────────
+    function setupIOSTabBarKeyboardPin() {
+      if (!window.visualViewport || !window.navigator.standalone) return;
+      const tabBar = document.getElementById('tab-bar');
+      function pinTabBar() {
+        const offset = window.innerHeight - (window.visualViewport.offsetTop + window.visualViewport.height);
+        tabBar.style.bottom = Math.max(0, offset) + 'px';
+      }
+      window.visualViewport.addEventListener('resize', pinTabBar);
+    }
+
     function setupPreventDoubleTapZoomOnNavControls() {
       let lastTapTs = 0;
       let lastTapEl = null;
@@ -9657,6 +9668,7 @@
 
     // ── Init ─────────────────────────────────────────────────────────────────
     load();
+    setupIOSTabBarKeyboardPin();
     setupPreventDoubleTapZoomOnNavControls();
     applyDark();
     applyTheme(currentTheme);
