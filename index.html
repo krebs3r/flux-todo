@@ -1828,6 +1828,8 @@
       gap: 12px;
       padding: 40px 20px 28px;
       color: var(--muted);
+      width: 100%;
+      box-sizing: border-box;
     }
     body.dark .empty-state { color: var(--muted-dark); }
     .empty-state svg { opacity: 0.25; }
@@ -2035,6 +2037,9 @@
     #tag-manager-list {
       display: grid;
       grid-template-columns: auto auto 1fr;
+    }
+    #tag-manager-list .empty-state {
+      grid-column: 1 / -1;
     }
     .tag-manager-item {
       display: grid;
