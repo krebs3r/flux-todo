@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.5.5-blueviolet)
+![Version](https://img.shields.io/badge/version-1.5.6-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -161,12 +161,17 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ### Ideas
 - [ ] **Kanban view** — column layout (Open / In Progress / Done)
-- [ ] **Productivity heatmap** — GitHub-style contribution graph
+- [x] **Productivity heatmap** — GitHub-style contribution graph in archive tab
 - [ ] **Cross-device sync** — end-to-end encrypted data sync via a passphrase-derived key; server stores only ciphertext, no account required
 
 ---
 
 ## Changelog
+
+### v1.5.6
+- Statistics moved into the Archive tab (no longer a separate modal/header button)
+- Productivity heatmap — GitHub-style 52-week overview (green → red gradient) in the Archive tab
+- Archive tab: all sections as collapsible panels with consistent 12px spacing
 
 ### v1.5.5
 - iOS PWA: navbar flush to the bottom edge (removed all Codex-introduced iOS mode overrides)
@@ -564,4 +569,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.5</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.6</p>
