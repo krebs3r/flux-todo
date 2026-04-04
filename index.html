@@ -4249,7 +4249,7 @@
           </div>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.6.0</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.6.0.1</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -4480,6 +4480,8 @@
       emptyNotes:`<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
       emptyStats:`<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>`,
       emptyArchive:`<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>`,
+      emptyTags:`<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`,
+      emptyTemplates:`<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>`,
     };
 
     // ── State ────────────────────────────────────────────────────────────────
@@ -4723,14 +4725,14 @@
         moveToBoardCurrent: '(aktuelles Board)',
         moveToBoardDone: 'Aufgabe nach „%NAME%" verschoben',
         tagManagerTitle: 'Tags verwalten',
-        tagManagerEmpty: 'Keine Tags vorhanden.',
+        tagManagerEmpty: 'Keine Tags vorhanden.', tagManagerEmptySub: 'Tags werden beim Erstellen von Aufgaben vergeben.',
         tagManagerRename: 'Umbenennen',
         tagManagerDelete: 'Löschen',
         tagManagerDeleteConfirm: (tag, count) => `Tag "#${tag}" von ${count} Aufgabe${count === 1 ? '' : 'n'} entfernen?`,
         tagManagerRenamePrompt: 'Neuer Name für Tag:',
         tagManagerCount: (n) => `${n} Aufgabe${n === 1 ? '' : 'n'}`,
         templateManagerTitle: 'Vorlagen',
-        templateEmpty: 'Keine Vorlagen vorhanden.',
+        templateEmpty: 'Keine Vorlagen vorhanden.', templateEmptySub: 'Speichere eine Aufgabe als Vorlage im Tab „Neu".',
         templateSaveLabel: 'Als Vorlage speichern',
         templateUseLabel: 'Vorlage laden',
         templateUpdateLabel: 'Vorlage aktualisieren',
@@ -4888,6 +4890,13 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.6.0.1',
+            entries: [
+              'Leere Tags- und Vorlagen-Bereiche zeigen jetzt ein SVG-Icon mit Hinweistext (wie Statistiken, Archiv & Notizen)',
+              'Fix: Export-Erinnerungsbanner übersetzt sich jetzt sofort beim Sprachwechsel',
+            ],
+          },
           {
             version: 'v1.6.0',
             entries: [
@@ -5697,14 +5706,14 @@
         moveToBoardCurrent: '(current board)',
         moveToBoardDone: 'Task moved to "%NAME%"',
         tagManagerTitle: 'Tags',
-        tagManagerEmpty: 'No tags yet.',
+        tagManagerEmpty: 'No tags yet.', tagManagerEmptySub: 'Tags are added when creating tasks.',
         tagManagerRename: 'Rename',
         tagManagerDelete: 'Delete',
         tagManagerDeleteConfirm: (tag, count) => `Remove tag "#${tag}" from ${count} task${count === 1 ? '' : 's'}?`,
         tagManagerRenamePrompt: 'New name for tag:',
         tagManagerCount: (n) => `${n} task${n === 1 ? '' : 's'}`,
         templateManagerTitle: 'Templates',
-        templateEmpty: 'No templates yet.',
+        templateEmpty: 'No templates yet.', templateEmptySub: 'Save a task as a template in the "New" tab.',
         templateSaveLabel: 'Save as template',
         templateUseLabel: 'Load template',
         templateUpdateLabel: 'Update template',
@@ -5862,6 +5871,13 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.6.0.1',
+            entries: [
+              'Empty Tags and Templates sections now show an SVG icon with hint text (matching Statistics, Archive & Notes)',
+              'Fix: export reminder banner now translates immediately when switching language',
+            ],
+          },
           {
             version: 'v1.6.0',
             entries: [
@@ -7071,7 +7087,7 @@
       const counts = getTagCounts();
       const tags = Object.keys(counts).sort();
       if (!tags.length) {
-        el.innerHTML = '<div class="tag-manager-empty">' + T.tagManagerEmpty + '</div>';
+        el.innerHTML = '<div class="empty-state">' + SVG.emptyTags + '<p class="empty-title">' + escHtml(T.tagManagerEmpty) + '</p><p class="empty-sub">' + escHtml(T.tagManagerEmptySub) + '</p></div>';
         return;
       }
       el.innerHTML = tags.map(function(tag) {
@@ -7157,7 +7173,7 @@
       const clean = templates.map(function(tp, i) { return sanitizeTemplateItem(tp, i); }).filter(Boolean);
       templates = clean;
       if (!clean.length) {
-        el.innerHTML = '<div class="template-empty">' + T.templateEmpty + '</div>';
+        el.innerHTML = '<div class="empty-state">' + SVG.emptyTemplates + '<p class="empty-title">' + escHtml(T.templateEmpty) + '</p><p class="empty-sub">' + escHtml(T.templateEmptySub) + '</p></div>';
         return;
       }
       el.innerHTML = clean.map(function(tp) {
@@ -7394,7 +7410,7 @@
       if (title) title.textContent = T.templateUseLabel;
       if (!el) return;
       if (!templates.length) {
-        el.innerHTML = '<div class="template-empty">' + T.templateEmpty + '</div>';
+        el.innerHTML = '<div class="empty-state empty-state-compact">' + SVG.emptyTemplates + '<p class="empty-title">' + escHtml(T.templateEmpty) + '</p><p class="empty-sub">' + escHtml(T.templateEmptySub) + '</p></div>';
         return;
       }
       el.innerHTML = templates.map(function(tp) {
@@ -8735,6 +8751,7 @@
       document.documentElement.lang = lang;
       save(); render();
       if (activeTab === 'new') showTip();
+      checkExportReminder();
       const banner = document.getElementById('ios-banner');
       if (banner && banner.style.display !== 'none') {
         const T = t();
