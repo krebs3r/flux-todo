@@ -1,9 +1,9 @@
-# Flux — Your Todo App
+# Flux — Your ToDo App
 
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.6.0-blueviolet)
+![Version](https://img.shields.io/badge/version-1.6.0.1-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -171,6 +171,11 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.6.0.1
+- Empty Tags and Templates sections now show an SVG icon with hint text (matching Statistics, Archive & Notes)
+- Fix: export reminder banner now translates immediately when switching language
+- Fix: empty state SVG centered correctly on wide screens
 
 ### v1.6.0
 - Notes — cross-board notes view in the Tasks tab (toggle Tasks | Notes), with Markdown preview, edit and delete
