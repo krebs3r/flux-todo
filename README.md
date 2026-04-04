@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.5.6-blueviolet)
+![Version](https://img.shields.io/badge/version-1.6.0-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -41,7 +41,8 @@ The interface follows a glassmorphism / acrylic design language inspired by Wind
 - **Activity log** — every action logged with timestamp (up to 100,000 entries), collapsible in the archive tab
 - **Export & Import** — save and restore your tasks as a JSON file
 - **Bulk delete** — clear all tasks at once, with an optional export prompt
-- **Statistics view** — completion rate ring, tasks per week bar chart, current & longest streak
+- **Statistics & heatmap** — completion rate ring, tasks per week bar chart, streaks, and GitHub-style 52-week productivity heatmap in the Archive tab
+- **Notes** — cross-board notes with Markdown support, preview, edit and delete; included in JSON export
 - **Multiple tags** — assign multiple #hashtags per task (comma-separated), autocomplete, filter by tag, manage/rename/delete in settings
 - **Time tracking** — start/stop timer per task, independent from Pomodoro, pulsing badge shows elapsed time
 - **Task colors** — individual color stripe per task as a left-border accent, with settings toggle
@@ -69,6 +70,7 @@ The interface follows a glassmorphism / acrylic design language inspired by Wind
 - **Pull-to-refresh** — pull down to reload the app
 - **Haptic feedback** — tactile response on touch actions (iOS 17.4+ via checkbox-switch, Android via Vibration API)
 - **iOS HIG compliant** — 44pt touch targets, 16px input font size (prevents auto-zoom)
+- **iOS keyboard handling** — tab bar hides when the keyboard opens to keep content accessible
 
 ### Localization & Accessibility
 - **Language switcher** — German 🇩🇪 and English 🇬🇧
@@ -162,11 +164,22 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ### Ideas
 - [ ] **Kanban view** — column layout (Open / In Progress / Done)
 - [x] **Productivity heatmap** — GitHub-style contribution graph in archive tab
+- [x] **Notes** — cross-board notes with Markdown and preview in the Tasks tab
+- [ ] **IndexedDB storage** — replace localStorage with IndexedDB for more robust, larger-capacity storage less likely to be cleared by the browser
 - [ ] **Cross-device sync** — end-to-end encrypted data sync via a passphrase-derived key; server stores only ciphertext, no account required
 
 ---
 
 ## Changelog
+
+### v1.6.0
+- Notes — cross-board notes view in the Tasks tab (toggle Tasks | Notes), with Markdown preview, edit and delete
+- Notes are included in JSON export and fully restored on import
+- Tab heading switches dynamically between "Tasks" and "Notes"; board switch resets to Tasks view
+- Export reminder: banner in Settings when data has not been backed up for a configurable number of days (7 / 14 / 30)
+- Empty states for Statistics, Archive and Notes now show an SVG icon with hint text
+- iOS PWA: tab bar hides when the keyboard opens and reappears on close
+- Help tab redesigned: manual in its own box, table of contents separate, consistent text colors throughout
 
 ### v1.5.6
 - Statistics moved into the Archive tab (no longer a separate modal/header button)
@@ -569,4 +582,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.5.6</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.0</p>
