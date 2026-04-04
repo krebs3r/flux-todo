@@ -6429,6 +6429,10 @@
       if (!todo) return;
       todo.done = !todo.done;
       if (todo.done) {
+        if (todo.timerStarted) {
+          todo.timeSpent = (todo.timeSpent || 0) + (Date.now() - todo.timerStarted);
+          delete todo.timerStarted;
+        }
         todo.completedAt = Date.now();
         addHistory('done', todo.text);
         confetti();
@@ -9123,6 +9127,7 @@
             <div class="archive-item-content">
               <div class="archive-item-text">${escHtml(todo.text)}</div>
               <div class="archive-item-meta">${todo.completedAt ? T.metaDone + ': ' + formatDate(todo.completedAt) : T.metaCreated + ': ' + formatDate(todo.created)}</div>
+              ${todo.timeSpent ? `<div class="todo-badges-row"><span class="timer-badge">${SVG.stopwatch} <span class="timer-value">${formatElapsed(todo.timeSpent)}</span></span></div>` : ''}
               ${(todo.categories || []).length ? `<div class="todo-cat-row">${(todo.categories || []).map(c => `<span class="cat-badge" style="${catStyle(c)}">#${escHtml(c)}</span>`).join(' ')}</div>` : ''}
             </div>
             <div class="archive-item-actions">
