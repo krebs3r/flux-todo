@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.6.0.1-blueviolet)
+![Version](https://img.shields.io/badge/version-1.6.0.2-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -28,7 +28,7 @@ The interface follows a glassmorphism / acrylic design language inspired by Wind
 
 ### Core
 - **Create, edit & delete tasks** — inline editing with Save / Cancel buttons
-- **Priority levels** — High / Medium / Low with color-coded badges per task
+- **Priority levels** — High / Medium / Low with color-coded badges, shown in the task badges row alongside timer and due date; set via the edit form
 - **Notes field** — add a longer description or details to any task
 - **Subtasks** — checklists within a task, with progress badge
 - **Drag & drop reordering** — rearrange tasks intuitively
@@ -44,7 +44,8 @@ The interface follows a glassmorphism / acrylic design language inspired by Wind
 - **Statistics & heatmap** — completion rate ring, tasks per week bar chart, streaks, and GitHub-style 52-week productivity heatmap in the Archive tab
 - **Notes** — cross-board notes with Markdown support, preview, edit and delete; included in JSON export
 - **Multiple tags** — assign multiple #hashtags per task (comma-separated), autocomplete, filter by tag, manage/rename/delete in settings
-- **Time tracking** — start/stop timer per task, independent from Pomodoro, pulsing badge shows elapsed time
+- **Time tracking** — start/stop timer per task, independent from Pomodoro, pulsing badge shows elapsed time; active timer button highlighted in red
+- **Labeled action buttons** — task actions (Start/Stop, Pomodoro, Edit, Delete) show icon + text label; on touch devices displayed as a 2×2 grid
 - **Task colors** — individual color stripe per task as a left-border accent, with settings toggle
 - **Sort options** — manual, priority, due date, creation date
 - **Undo** — reverse the last action with a 5-second toast
@@ -149,7 +150,7 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] Multiple tags — comma-separated #hashtags per task with autocomplete, filter and tag manager
 - [x] Task colors — individual color stripe per task as left-border accent
 - [x] Keyboard shortcuts — N, F, D, S, Z, 1/2/0, [ ], Esc, ?
-- [x] Tab navigation — bottom nav bar (New, Tasks, Archive, Settings)
+- [x] Tab navigation — bottom nav bar (New, Tasks, Archive, Help, Settings)
 - [x] Quick-Add via URL — pre-fill tasks with URL parameters
 - [x] Recurring tasks — daily, weekly, biweekly, monthly with auto-creation
 - [x] Focus mode — fullscreen overlay showing the most important task
@@ -171,6 +172,19 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.6.0.2
+- Action-Buttons in der Aufgabenliste haben jetzt Text-Labels neben dem Icon (Starten/Stoppen, Pomodoro, Bearbeiten, Löschen)
+- Auf Touch-Geräten werden die Buttons im 2×2-Grid dargestellt (passt auch auf iPhone SE)
+- Prio-Badge aus der Aktionszeile in die Badges-Row verschoben (neben Timer, Fälligkeit, Tags) — nicht mehr direkt klickbar
+- Priorität wird jetzt im Bearbeiten-Formular über Prio-Chips gesetzt
+- Aktiver Timer-Button wird rot hervorgehoben (Hintergrund + Border + Schrift)
+- Dark Mode: Action-Button-Farbe auf `--muted-dark` geändert, Hover/Aktiv-Zustand zeigt `--text-dark` statt Accent-Blau
+- Datum- und Uhrzeit-Felder im Bearbeiten-Formular zeigen jetzt Placeholder-Labels auf Safari/iOS
+- Datum/Uhrzeit-Felder im 3:2-Verhältnis aufgeteilt
+- Abstands-Fix: Markdown-Vorschau-Button und Tag-Eingabe haben jetzt korrekten Abstand
+- Prio-Badge: `cursor: default`, kein Hover-Effekt mehr (nicht interaktiv)
+- Touch-Overrides für Prio-Badge-Größe entfernt (Badge ist jetzt einheitlich klein wie Timer- und Tag-Badges)
 
 ### v1.6.0.1
 - Empty Tags and Templates sections now show an SVG icon with hint text (matching Statistics, Archive & Notes)
@@ -587,4 +601,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.0</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.0.2</p>
