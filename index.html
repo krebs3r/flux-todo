@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Flux">
   <meta name="theme-color" content="#c8d6e5" id="theme-color-meta">
-  <script>try{var _saved=localStorage.getItem('dark');var _dk=_saved!==null?_saved==='1':window.matchMedia('(prefers-color-scheme:dark)').matches;var _th=localStorage.getItem('theme')||'flux';if(_dk)document.documentElement.classList.add('dark');if(_th!=='flux')document.documentElement.classList.add('theme-'+_th);var _tc={'flux':['#c8d6e5','#0c1648'],'ocean':['#6dd5ed','#041530'],'sunset':['#ffd166','#2e1206'],'forest':['#74c69d','#152b20'],'rose':['#ffb3c6','#2a0e1a'],'mono':['#c5c9d0','#141618'],'bender':['#b8c8e0','#0e1828'],'lumpi':['#e2d0b8','#1c100a'],'nobler':['#d0d0d8','#10101a']};var _p=_tc[_th]||_tc['flux'];document.getElementById('theme-color-meta').content=_dk?_p[1]:_p[0];}catch(e){}</script>
+  <script>try{var _saved=localStorage.getItem('dark');var _dk=(_saved==='1')||(_saved!=='0'&&_saved!=='1'&&window.matchMedia('(prefers-color-scheme:dark)').matches);var _th=localStorage.getItem('theme')||'flux';if(_dk)document.documentElement.classList.add('dark');if(_th!=='flux')document.documentElement.classList.add('theme-'+_th);var _tc={'flux':['#c8d6e5','#0c1648'],'ocean':['#6dd5ed','#041530'],'sunset':['#ffd166','#2e1206'],'forest':['#74c69d','#152b20'],'rose':['#ffb3c6','#2a0e1a'],'mono':['#c5c9d0','#141618'],'bender':['#b8c8e0','#0e1828'],'lumpi':['#e2d0b8','#1c100a'],'nobler':['#d0d0d8','#10101a']};var _p=_tc[_th]||_tc['flux'];document.getElementById('theme-color-meta').content=_dk?_p[1]:_p[0];}catch(e){}</script>
   <meta property="og:title" content="Flux — Your Todo App">
   <meta property="og:description" content="A lightweight, browser-only todo app with glassmorphism design. No server. No dependencies. Just one HTML file.">
   <meta property="og:image" content="https://flux-todo.eu/og-image.png">
@@ -242,6 +242,19 @@
     }
     .toggle-switch input:checked ~ .toggle-track .toggle-thumb { transform: translateX(18px); }
 
+    /* ── Dark Mode Chips ─────────────────────────────────────── */
+    .dm-chips { display: flex; gap: 4px; }
+    .dm-chip {
+      padding: 4px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600;
+      border: 1px solid var(--gl-border-subtle); background: none;
+      color: var(--muted); cursor: pointer; transition: background 0.15s, color 0.15s;
+    }
+    .dm-chip:hover { background: rgba(255,255,255,0.3); color: var(--text); }
+    .dm-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    body.dark .dm-chip { border-color: var(--gl-border-subtle-dark); color: var(--muted-dark); }
+    body.dark .dm-chip:hover { background: rgba(255,255,255,0.10); color: var(--text-dark); }
+    body.dark .dm-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
     /* ── Theme Picker ────────────────────────────────────────── */
     .theme-picker-wrap { position: relative; }
     .theme-popover {
@@ -290,6 +303,7 @@
       width: 100%;
       flex: 1;
       overflow-y: auto;
+      scrollbar-gutter: stable both-edges;
       padding-top: max(32px, calc(env(safe-area-inset-top) + 16px));
       padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 16px);
       padding-left: max(16px, env(safe-area-inset-left));
@@ -4248,10 +4262,11 @@
             <div class="setting-label" id="darkmode-setting-label"></div>
             <div class="setting-sub" id="darkmode-setting-sub"></div>
           </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="darkmode-setting-toggle" onchange="toggleDark()" />
-            <div class="toggle-track"><div class="toggle-thumb"></div></div>
-          </label>
+          <div class="dm-chips" id="dm-chips">
+            <button type="button" class="dm-chip" data-dm="auto" onclick="setDarkMode('auto')" id="dm-chip-auto"></button>
+            <button type="button" class="dm-chip" data-dm="dark" onclick="setDarkMode('dark')" id="dm-chip-dark"></button>
+            <button type="button" class="dm-chip" data-dm="light" onclick="setDarkMode('light')" id="dm-chip-light"></button>
+          </div>
         </div>
         <div class="setting-row">
           <div>
@@ -4292,7 +4307,7 @@
           </div>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.6.0.2</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.6.0.3</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -4506,6 +4521,7 @@
     const SVG = {
       moon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`,
       sun:  `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`,
+      autoMode: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 0 0 20z" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="10"/></svg>`,
       grip: `<svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><circle cx="3" cy="2.5" r="1.3"/><circle cx="9" cy="2.5" r="1.3"/><circle cx="3" cy="7" r="1.3"/><circle cx="9" cy="7" r="1.3"/><circle cx="3" cy="11.5" r="1.3"/><circle cx="9" cy="11.5" r="1.3"/></svg>`,
       edit: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
       trash:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`,
@@ -4537,6 +4553,7 @@
     let currentFilter = 'open';
     let lang = 'de';
     let dark = false;
+    let darkPref = 'auto'; // 'auto' | 'dark' | 'light'
     let currentTheme = 'flux';
     let themePickerOpen = false;
     let dragSrcIndex = null;
@@ -4611,7 +4628,8 @@
         tabHelp: 'Hilfe',
         tabManage: 'Einstellungen',
         darkModeSettingLabel: 'Dark Mode',
-        darkModeSettingSub: 'Dunkles Farbschema für die App aktivieren',
+        darkModeSettingSub: 'Folgt dem System oder manuell erzwingen',
+        darkModeAuto: 'Auto', darkModeLight: 'Hell', darkModeDark: 'Dunkel',
         notifySettingLabel: 'Benachrichtigungen',
         notifySettingSub: 'Erinnerungen für fällige Aufgaben anzeigen',
         helpTitle: 'Schnellhilfe',
@@ -4935,6 +4953,16 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.6.0.3',
+            entries: [
+              'Dark Mode: Auto-Modus folgt der Systemeinstellung (Hell/Dunkel), reagiert live auf Systemwechsel',
+              'Dark Mode: 3 Zustände — Auto / Dunkel / Hell — wählbar über Chips in den Einstellungen',
+              'Header-Button zeigt Halb-Kreis-Icon im Auto-Modus, wechselt durch alle 3 Zustände',
+              'Sprache wird beim ersten Start automatisch aus der Browser-Einstellung erkannt (Deutsch oder Englisch)',
+              'Fix: Navbar/Content-Versatz auf Desktop durch Scrollbalken behoben (scrollbar-gutter)',
+            ],
+          },
           {
             version: 'v1.6.0.2',
             entries: [
@@ -5608,7 +5636,8 @@
         tabHelp: 'Help',
         tabManage: 'Settings',
         darkModeSettingLabel: 'Dark Mode',
-        darkModeSettingSub: 'Enable the app dark color scheme',
+        darkModeSettingSub: 'Follows system preference or override manually',
+        darkModeAuto: 'Auto', darkModeLight: 'Light', darkModeDark: 'Dark',
         notifySettingLabel: 'Notifications',
         notifySettingSub: 'Show reminders for due tasks',
         helpTitle: 'Quick Help',
@@ -5932,6 +5961,16 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.6.0.3',
+            entries: [
+              'Dark mode: Auto mode follows system preference (light/dark), reacts live to system changes',
+              'Dark mode: 3 states — Auto / Dark / Light — selectable via chips in Settings',
+              'Header button shows half-circle icon in Auto mode, cycles through all 3 states',
+              'Language auto-detected from browser settings on first launch (German or English)',
+              'Fix: navbar/content offset on desktop caused by scrollbar width (scrollbar-gutter)',
+            ],
+          },
           {
             version: 'v1.6.0.2',
             entries: [
@@ -6606,7 +6645,7 @@
       }
     }
     function load() {
-      lang = localStorage.getItem('lang') || 'de';
+      lang = localStorage.getItem('lang') || (navigator.language && navigator.language.startsWith('de') ? 'de' : 'en');
       const boardsRaw = localStorage.getItem('boards');
       const legacyTodos = localStorage.getItem('todos');
       if (boardsRaw) {
@@ -6635,7 +6674,8 @@
       });
       activateBoard(currentBoardId);
       const savedDark = localStorage.getItem('dark');
-      dark = savedDark !== null ? savedDark === '1' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      darkPref = savedDark === '1' ? 'dark' : savedDark === '0' ? 'light' : 'auto';
+      dark = darkPref === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : darkPref === 'dark';
       currentTheme = localStorage.getItem('theme') || 'flux';
       notifyEnabled = localStorage.getItem('notify') === '1' && 'Notification' in window && Notification.permission === 'granted';
       const savedTaskColors = localStorage.getItem('taskColors');
@@ -8546,8 +8586,10 @@
     function applySettingsToggles() {
       const colorsEl = document.getElementById('task-colors-toggle');
       if (colorsEl) colorsEl.checked = taskColorsEnabled;
-      const darkEl = document.getElementById('darkmode-setting-toggle');
-      if (darkEl) darkEl.checked = !!dark;
+      ['auto','dark','light'].forEach(function(p) {
+        const el = document.getElementById('dm-chip-' + p);
+        if (el) el.classList.toggle('active', darkPref === p);
+      });
       const notifyEl = document.getElementById('notify-setting-toggle');
       if (notifyEl) notifyEl.checked = !!notifyEnabled;
     }
@@ -8823,11 +8865,18 @@
 
     // ── Theme / Lang ─────────────────────────────────────────────────────────
     function toggleDark() {
-      dark = !dark; localStorage.setItem('dark', dark ? '1' : '0'); applyDark(); save(); haptic('light');
+      const next = darkPref === 'auto' ? 'dark' : darkPref === 'dark' ? 'light' : 'auto';
+      setDarkMode(next);
     }
-    // Follow system dark mode when user hasn't set a manual preference
+    function setDarkMode(pref) {
+      darkPref = pref;
+      localStorage.setItem('dark', pref === 'dark' ? '1' : pref === 'light' ? '0' : 'auto');
+      dark = pref === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : pref === 'dark';
+      applyDark(); save(); haptic('light');
+    }
+    // Follow system when in auto mode
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-      if (localStorage.getItem('dark') !== null) return;
+      if (darkPref !== 'auto') return;
       dark = e.matches; applyDark(); render();
     });
     function updateNavbarColor() {
@@ -8837,7 +8886,7 @@
     function applyDark() {
       document.body.classList.toggle('dark', dark);
       document.documentElement.classList.toggle('dark', dark);
-      document.getElementById('dark-icon').innerHTML = dark ? SVG.sun : SVG.moon;
+      document.getElementById('dark-icon').innerHTML = darkPref === 'auto' ? SVG.autoMode : (dark ? SVG.sun : SVG.moon);
       const th = THEMES[currentTheme] || THEMES.flux;
       document.getElementById('theme-color-meta').content = dark ? th.dark : th.light;
       updateNavbarColor();
@@ -9800,6 +9849,9 @@
       document.getElementById('download-app-label').textContent = T.downloadAppLabel;
       document.getElementById('darkmode-setting-label').textContent = T.darkModeSettingLabel;
       document.getElementById('darkmode-setting-sub').textContent = T.darkModeSettingSub;
+      document.getElementById('dm-chip-auto').textContent = T.darkModeAuto;
+      document.getElementById('dm-chip-dark').textContent = T.darkModeDark;
+      document.getElementById('dm-chip-light').textContent = T.darkModeLight;
       document.getElementById('notify-setting-label').textContent = T.notifySettingLabel;
       document.getElementById('notify-setting-sub').textContent = T.notifySettingSub;
       document.getElementById('task-colors-label').textContent = T.taskColorsLabel;

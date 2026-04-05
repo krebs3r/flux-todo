@@ -3,7 +3,7 @@
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just one HTML file.
 
-![Version](https://img.shields.io/badge/version-1.6.0.2-blueviolet)
+![Version](https://img.shields.io/badge/version-1.6.0.3-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -172,6 +172,13 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.6.0.3
+- Dark mode: Auto mode follows system preference, reacts live to system changes
+- Dark mode: 3 states (Auto / Dark / Light) selectable via chips in Settings
+- Header button cycles through Auto → Dark → Light with a half-circle icon for Auto
+- Language auto-detected from browser settings on first launch (German or English)
+- Fix: navbar/content misalignment on desktop caused by scrollbar width (scrollbar-gutter)
 
 ### v1.6.0.2
 - Action-Buttons in der Aufgabenliste haben jetzt Text-Labels neben dem Icon (Starten/Stoppen, Pomodoro, Bearbeiten, Löschen)
@@ -601,4 +608,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.0.2</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.0.3</p>
