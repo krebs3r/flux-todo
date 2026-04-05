@@ -811,15 +811,13 @@
       border: 1px solid transparent;
       white-space: nowrap;
       flex-shrink: 0;
-      cursor: pointer;
+      cursor: default;
       -webkit-user-select: none;
       user-select: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.2s, filter 0.2s;
     }
-    .prio-badge:hover { filter: brightness(0.9); }
     .prio-badge[data-p="high"]   { background: rgba(229,57,53,0.12); border-color: rgba(229,57,53,0.30); color: #c62828; }
     .prio-badge[data-p="medium"] { background: rgba(245,124,0,0.12);  border-color: rgba(245,124,0,0.30);  color: #bf360c; }
     .prio-badge[data-p="low"]    { background: rgba(56,142,60,0.12);  border-color: rgba(56,142,60,0.30);  color: #1b5e20; }
@@ -1404,7 +1402,26 @@
       box-shadow: 0 0 0 3px var(--accent-muted);
       color-scheme: light;
     }
-    .due-edit-input.due-time { flex: 0 0 auto; width: 110px; }
+    .due-edit-input.due-time { width: 100%; }
+    .due-edit-wrap { position: relative; flex: 3; min-width: 0; }
+    .due-edit-wrap.time-wrap { flex: 2; }
+    .due-edit-wrap .due-edit-input { width: 100%; }
+    .due-edit-wrap .due-edit-input:not(.has-value) { color: transparent; }
+    .due-edit-wrap .due-edit-input:not(.has-value)::-webkit-datetime-edit { color: transparent; }
+    .due-edit-wrap .due-edit-input.has-value { color: var(--text); }
+    body.dark .due-edit-wrap .due-edit-input.has-value { color: var(--text-dark); }
+    .due-edit-label {
+      position: absolute;
+      top: 50%; left: 14px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--muted);
+      font-size: 0.88rem;
+      z-index: 2;
+      transition: opacity 0.2s;
+    }
+    body.dark .due-edit-label { color: var(--muted-dark); }
+    .due-edit-wrap .due-edit-input.has-value ~ .due-edit-label { opacity: 0; }
     body.dark .due-edit-input {
       background: rgba(255,255,255,0.08);
       color: var(--text-dark);
@@ -1794,24 +1811,32 @@
       display: flex;
       align-items: center;
       gap: 4px;
+      width: 100%;
     }
+    .todo-actions .action-btn { justify-content: center; }
 
     .action-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
+      gap: 4px;
+      width: auto;
       height: 28px;
+      padding: 0 7px;
       background: none;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       color: var(--muted);
       transition: background 0.2s, color 0.2s;
+      font-size: 0.65rem;
+      font-weight: 500;
+      white-space: nowrap;
     }
     .action-btn:hover { background: rgba(255,255,255,0.42); color: var(--accent); }
     .action-btn.danger:hover { background: var(--danger-muted); color: var(--danger); }
-    body.dark .action-btn:hover { background: rgba(255,255,255,0.10); color: var(--accent); }
+    body.dark .action-btn { color: var(--muted-dark); }
+    body.dark .action-btn:hover { background: rgba(255,255,255,0.10); color: var(--text-dark); }
     body.dark .action-btn.danger:hover { background: rgba(229,57,53,0.15); color: #ef5350; }
 
     .divider {
@@ -3357,7 +3382,16 @@
     }
     .pomo-mini:hover { background: var(--accent-hover); }
     .action-btn.pomo-active { color: var(--accent); }
-    .action-btn.timer-active { color: #66bb6a; }
+    .action-btn.timer-active {
+      background: rgba(229,57,53,0.15);
+      border: 1px solid rgba(229,57,53,0.35);
+      color: #ef5350;
+    }
+    body.dark .action-btn.timer-active {
+      background: rgba(239,83,80,0.15);
+      border-color: rgba(239,83,80,0.30);
+      color: #ef5350;
+    }
     .timer-badge {
       display: inline-flex;
       align-items: center;
@@ -3664,7 +3698,12 @@
       .color-picker-swatches { flex-wrap: nowrap; overflow-x: auto; gap: 6px; scrollbar-width: none; padding-bottom: 2px; padding-right: 4px; }
       .color-picker-swatches::-webkit-scrollbar { display: none; }
       /* Actions always visible — no hover on touch */
-      .todo-actions { gap: 6px; }
+      .todo-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+        width: 100%;
+      }
       .action-btn {
         background: rgba(255,255,255,0.18);
         border: 1px solid rgba(255,255,255,0.25);
@@ -3678,8 +3717,6 @@
       .drag-handle { color: rgba(255,255,255,0.45); }
       body.dark .drag-handle { color: rgba(255,255,255,0.25); }
       /* Prio badge: larger touch target */
-      .prio-badge { min-width: 44px; min-height: 44px; padding: 6px 10px; font-size: 0.68rem; }
-      .prio-badge[data-p=""] { min-width: 44px; min-height: 44px; }
       /* Active state feedback (replaces hover) */
       .btn-add:active        { border-color: var(--accent); color: var(--accent); }
       .ctrl-btn:active       { background: rgba(255,255,255,0.50); color: var(--accent); }
@@ -3779,6 +3816,7 @@
 
       /* Action buttons: 44px tap targets */
       .action-btn { width: 44px; height: 44px; }
+      .todo-actions .action-btn { width: auto; height: 40px; }
 
       /* Filter buttons: 44px min height */
       .filter-btn { padding: 11px 12px; font-size: 0.85rem; }
@@ -4254,7 +4292,7 @@
           </div>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.6.0.1</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.6.0.2</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -4831,6 +4869,8 @@
         historyRecurring: 'Nächste Wiederholung erstellt',
         timeTrackStart: 'Zeiterfassung starten',
         timeTrackStop: 'Zeiterfassung stoppen',
+        timeTrackShortStart: 'Starten',
+        timeTrackShortStop: 'Stoppen',
         timeTrackReset: 'Zeiterfassung zurücksetzen',
         timeTrackLabel: 'Zeiterfassung',
         pomodoroStart: 'Pomodoro starten',
@@ -4895,6 +4935,20 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.6.0.2',
+            entries: [
+              'Action-Buttons zeigen jetzt Text-Labels neben dem Icon (Starten/Stoppen, Pomodoro, Bearbeiten, Löschen)',
+              'Touch-Geräte: Buttons im 2×2-Grid — passt auch auf iPhone SE',
+              'Prio-Badge in die Badges-Row verschoben (neben Timer/Fälligkeit) — Priorität nur noch im Bearbeiten-Formular änderbar',
+              'Aktiver Timer-Button wird rot hervorgehoben',
+              'Dark Mode: Button-Farben verbessert (muted-dark / text-dark statt Accent-Blau)',
+              'Fix: Datum/Uhrzeit-Felder im Bearbeiten-Formular zeigen Placeholder-Labels auf Safari/iOS',
+              'Datum/Uhrzeit-Felder im 3:2-Verhältnis aufgeteilt',
+              'Fix: Abstand zwischen Markdown-Vorschau-Button und Tag-Eingabe',
+              'Fix: Prio-Badge-Größe auf Touch-Geräten — jetzt einheitlich mit anderen Badges',
+            ],
+          },
           {
             version: 'v1.6.0.1',
             entries: [
@@ -5812,6 +5866,8 @@
         historyRecurring: 'Next recurrence created',
         timeTrackStart: 'Start time tracking',
         timeTrackStop: 'Stop time tracking',
+        timeTrackShortStart: 'Start',
+        timeTrackShortStop: 'Stop',
         timeTrackReset: 'Reset time tracking',
         timeTrackLabel: 'Time tracking',
         pomodoroStart: 'Start Pomodoro',
@@ -5876,6 +5932,20 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.6.0.2',
+            entries: [
+              'Action buttons now show text labels next to the icon (Start/Stop, Pomodoro, Edit, Delete)',
+              'Touch devices: buttons displayed in a 2×2 grid — fits iPhone SE and narrow screens',
+              'Priority badge moved to the badges row (next to timer/due date) — priority now only editable via Edit form',
+              'Active timer button highlighted in red',
+              'Dark mode: button colors improved (muted-dark / text-dark instead of accent blue)',
+              'Fix: date/time fields in edit form show placeholder labels on Safari/iOS',
+              'Date/time fields split in 3:2 ratio',
+              'Fix: spacing between Markdown preview button and tag input',
+              'Fix: priority badge size on touch devices — now consistent with other badges',
+            ],
+          },
           {
             version: 'v1.6.0.1',
             entries: [
@@ -7535,13 +7605,19 @@
           <button type="button" class="note-preview-toggle" id="edit-note-preview-toggle-${id}">${T.notePreviewToggle}</button>
         </div>
         <div class="note-preview" id="edit-note-preview-${id}" style="display:none"></div>
-        <div class="cat-input-wrap" style="margin-top:0">
+        <div class="cat-input-wrap">
           <input class="cat-input" type="text" id="edit-cat-${id}" value="${escHtml(oldCat)}" maxlength="100" autocomplete="off" placeholder="${T.catPlaceholder}" />
           <div class="cat-ac" id="edit-cat-ac-${id}"></div>
         </div>
         <div class="due-edit-row">
-          <input class="due-edit-input" type="date" id="edit-todo-due" value="${oldDueDate}" />
-          <input class="due-edit-input due-time" type="time" value="${oldDueTime}" />
+          <div class="due-edit-wrap">
+            <input class="due-edit-input${oldDueDate ? ' has-value' : ''}" type="date" id="edit-todo-due" value="${oldDueDate}" />
+            <span class="due-edit-label">${T.formDate}</span>
+          </div>
+          <div class="due-edit-wrap time-wrap">
+            <input class="due-edit-input due-time${oldDueTime ? ' has-value' : ''}" type="time" value="${oldDueTime}" />
+            <span class="due-edit-label">${T.formTime}</span>
+          </div>
         </div>
         <div class="recur-input-row">
           <span class="due-input-icon">${SVG.repeat}</span>
@@ -7586,6 +7662,11 @@
           </select>
         </div>` : ''}
         <div class="color-picker-row" id="edit-color-picker-${id}"></div>
+        <div class="prio-chips" id="edit-prio-chips-${id}">
+          <button class="prio-chip${todo.priority === 'high' ? ' active' : ''}" data-p="high">${T.priorityHigh}</button>
+          <button class="prio-chip${todo.priority === 'medium' ? ' active' : ''}" data-p="medium">${T.priorityMedium}</button>
+          <button class="prio-chip${todo.priority === 'low' ? ' active' : ''}" data-p="low">${T.priorityLow}</button>
+        </div>
         ${getTaskElapsed(todo) ? `<div class="recur-input-row">
           <span class="due-input-icon">${SVG.stopwatch}</span>
           <span style="flex:1;font-size:0.82rem;opacity:0.8">${T.timeTrackLabel}: ${formatElapsed(getTaskElapsed(todo))}</span>
@@ -7603,6 +7684,8 @@
       if (catInp && editCatAc) bindTagAC(catInp, editCatAc);
       const dueDateInp = wrap.querySelector('.due-edit-input[type="date"]');
       const dueTimeInp = wrap.querySelector('.due-edit-input[type="time"]');
+      if (dueDateInp) dueDateInp.addEventListener('change', function() { this.classList.toggle('has-value', !!this.value); });
+      if (dueTimeInp) dueTimeInp.addEventListener('change', function() { this.classList.toggle('has-value', !!this.value); });
       const editPreviewBtn = document.getElementById('edit-note-preview-toggle-' + id);
       const editPreview = document.getElementById('edit-note-preview-' + id);
       noteInp.placeholder = T.notePlaceholder;
@@ -7662,6 +7745,15 @@
       }
       let editColor = oldColor;
       renderColorPicker('edit-color-picker-' + id, editColor, function(c) { editColor = c; });
+      let editPriority = todo.priority || '';
+      document.getElementById('edit-prio-chips-' + id).querySelectorAll('.prio-chip').forEach(function(chip) {
+        chip.onclick = function() {
+          editPriority = editPriority === this.dataset.p ? '' : this.dataset.p;
+          document.getElementById('edit-prio-chips-' + id).querySelectorAll('.prio-chip').forEach(function(c) {
+            c.classList.toggle('active', c.dataset.p === editPriority);
+          });
+        };
+      });
       inp.focus(); inp.select();
       function getEditDue() {
         const d = dueDateInp.value;
@@ -7674,25 +7766,25 @@
       }
       inp.onkeydown = e => {
         if (e.key === 'Enter') { e.preventDefault(); noteInp.focus(); }
-        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null, oldColor);
+        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null, oldColor, todo.priority);
       };
       noteInp.onkeydown = e => {
-        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null, oldColor);
+        if (e.key === 'Escape') commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null, oldColor, todo.priority);
       };
       document.getElementById('edit-save-' + id).onclick = () => {
         const moveSel = document.getElementById('edit-move-board-' + id);
         if (moveSel && parseInt(moveSel.value) !== currentBoardId) {
-          commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value, getRecurValue('edit'), getEditSubtasks(), editColor);
+          commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value, getRecurValue('edit'), getEditSubtasks(), editColor, editPriority);
           moveTodoToBoard(id, parseInt(moveSel.value));
           return;
         }
-        commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value, getRecurValue('edit'), getEditSubtasks(), editColor);
+        commitEdit(id, inp.value, oldText, noteInp.value, getEditDue(), catInp.value, getRecurValue('edit'), getEditSubtasks(), editColor, editPriority);
       };
       document.getElementById('edit-cancel-' + id).onclick = () => {
-        commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null, oldColor);
+        commitEdit(id, oldText, oldText, oldNote, oldDue, oldCat, oldRecur, null, oldColor, todo.priority);
       };
     }
-    function commitEdit(id, newText, oldText, newNote, newDue, newCat, newRecur, newSubtasks, newColor) {
+    function commitEdit(id, newText, oldText, newNote, newDue, newCat, newRecur, newSubtasks, newColor, newPriority) {
       newText = newText.trim();
       if (!newText) { render(); return; }
       const todo = todos.find(t => t.id === id);
@@ -7704,7 +7796,8 @@
       const subtasksValue = newSubtasks !== null && newSubtasks !== undefined ? newSubtasks : (todo.subtasks || []);
       const subtasksChanged = JSON.stringify(subtasksValue) !== JSON.stringify(todo.subtasks || []);
       const colorValue = newColor !== undefined ? (newColor || undefined) : todo.color;
-      if (newText === oldText && noteValue === (todo.note || '') && dueValue === (todo.dueDate || '') && JSON.stringify(catsValue) === JSON.stringify(todo.categories || []) && recurValue === (todo.recurrence || '') && !subtasksChanged && colorValue === todo.color) { render(); return; }
+      const priorityValue = newPriority !== undefined ? (newPriority || undefined) : todo.priority;
+      if (newText === oldText && noteValue === (todo.note || '') && dueValue === (todo.dueDate || '') && JSON.stringify(catsValue) === JSON.stringify(todo.categories || []) && recurValue === (todo.recurrence || '') && !subtasksChanged && colorValue === todo.color && priorityValue === todo.priority) { render(); return; }
       saveUndo();
       todo.text = newText;
       todo.note = noteValue;
@@ -7713,6 +7806,7 @@
       todo.recurrence = recurValue;
       todo.subtasks = subtasksValue.length ? subtasksValue : undefined;
       todo.color = colorValue;
+      todo.priority = priorityValue;
       save(); render();
     }
 
@@ -9774,21 +9868,18 @@
                       ? T.metaDone + ': ' + formatDate(todo.completedAt)
                       : T.metaCreated + ': ' + formatDate(todo.created)
                   }</div>
-                  ${dc || todo.recurrence || getTaskElapsed(todo) ? `<div class="todo-badges-row">${isRecurFuture ? `<span class="recur-scheduled-badge">${T.recurScheduled}</span>` : ''}${dc ? `<span class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</span>` : ''}${todo.recurrence ? `<span class="recur-badge">${SVG.repeat} ${recurrenceLabel(todo.recurrence)}</span>` : ''}${getTaskElapsed(todo) ? `<span class="timer-badge${todo.timerStarted ? ' running' : ''}" data-task-id="${todo.id}">${SVG.stopwatch} <span class="timer-value">${formatElapsed(getTaskElapsed(todo))}</span></span>` : ''}</div>` : ''}
+                  ${todo.priority || dc || todo.recurrence || getTaskElapsed(todo) ? `<div class="todo-badges-row">${todo.priority ? `<span class="prio-badge" data-p="${todo.priority}">${prioLabel[todo.priority]}</span>` : ''}${isRecurFuture ? `<span class="recur-scheduled-badge">${T.recurScheduled}</span>` : ''}${dc ? `<span class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</span>` : ''}${todo.recurrence ? `<span class="recur-badge">${SVG.repeat} ${recurrenceLabel(todo.recurrence)}</span>` : ''}${getTaskElapsed(todo) ? `<span class="timer-badge${todo.timerStarted ? ' running' : ''}" data-task-id="${todo.id}">${SVG.stopwatch} <span class="timer-value">${formatElapsed(getTaskElapsed(todo))}</span></span>` : ''}</div>` : ''}
                   ${todo.categories && todo.categories.length ? `<div class="todo-cat-row">${todo.categories.map(function(c) { return `<span class="cat-badge todo-cat-filter" style="${catStyle(c)}" data-tag="${escHtml(c)}">#${escHtml(c)}</span>`; }).join(' ')}</div>` : ''}
                   ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
                   ${todo.subtasks && todo.subtasks.length ? `<div class="subtask-list">${todo.subtasks.map((st, si) => `<div class="subtask-item${st.done ? ' done' : ''}" onclick="toggleSubtask(${todo.id},${si})"><span class="subtask-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="subtask-text">${escHtml(st.text)}</span></div>`).join('')}</div>` : ''}
                 </div>
                 <div class="todo-bottom-row">
-                  <div class="todo-actions-row">
-                    <span class="prio-badge" data-p="${todo.priority||''}" onclick="cycleTodoPriority(${todo.id})">${prioLabel[todo.priority] || '+'}</span>
-                    ${todo.subtasks && todo.subtasks.length ? `<span class="subtask-progress">${T.subtaskProgress(todo.subtasks.filter(s=>s.done).length, todo.subtasks.length)}</span>` : ''}
-                  </div>
+                  ${todo.subtasks && todo.subtasks.length ? `<div class="todo-actions-row"><span class="subtask-progress">${T.subtaskProgress(todo.subtasks.filter(s=>s.done).length, todo.subtasks.length)}</span></div>` : ''}
                   <div class="todo-actions">
-                    ${!todo.done ? `<button class="action-btn${todo.timerStarted ? ' timer-active' : ''}" title="${todo.timerStarted ? T.timeTrackStop : T.timeTrackStart}" onclick="toggleTaskTimer(${todo.id})" aria-label="${T.timeTrackLabel}">${SVG.stopwatch}</button>` : ''}
-                    ${!todo.done ? `<button class="action-btn${pomodoroState && pomodoroState.taskId === todo.id ? ' pomo-active' : ''}" title="${T.pomodoroStart}" onclick="startPomodoro(${todo.id})">${SVG.timer}</button>` : ''}
-                    <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}</button>
-                    <button class="action-btn danger" title="${T.deleteTitle}" onclick="deleteTodo(${todo.id})">${SVG.trash}</button>
+                    ${!todo.done ? `<button class="action-btn${todo.timerStarted ? ' timer-active' : ''}" title="${todo.timerStarted ? T.timeTrackStop : T.timeTrackStart}" onclick="toggleTaskTimer(${todo.id})" aria-label="${T.timeTrackLabel}">${SVG.stopwatch}<span>${todo.timerStarted ? T.timeTrackShortStop : T.timeTrackShortStart}</span></button>` : ''}
+                    ${!todo.done ? `<button class="action-btn${pomodoroState && pomodoroState.taskId === todo.id ? ' pomo-active' : ''}" title="${T.pomodoroStart}" onclick="startPomodoro(${todo.id})">${SVG.timer}<span>Pomodoro</span></button>` : ''}
+                    <button class="action-btn" title="${T.editTitle}" onclick="startEdit(${todo.id})">${SVG.edit}<span>${T.editTitle}</span></button>
+                    <button class="action-btn danger" title="${T.deleteTitle}" onclick="deleteTodo(${todo.id})">${SVG.trash}<span>${T.deleteTitle}</span></button>
                   </div>
                 </div>
               </div>
