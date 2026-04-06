@@ -3051,6 +3051,11 @@
     }
 
     function setupIOSBanner() {
+      if (customElements.get('pwa-install') && document.getElementById('pwa-install')) {
+        const banner = document.getElementById('ios-banner');
+        if (banner) banner.style.display = 'none';
+        return;
+      }
       const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
       const isSafari = /safari/i.test(navigator.userAgent) && !/chrome|crios|fxios/i.test(navigator.userAgent);
       const isStandalone = window.navigator.standalone === true;

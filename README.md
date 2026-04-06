@@ -3,7 +3,7 @@
 > A lightweight, local-first todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just static files.
 
-![Version](https://img.shields.io/badge/version-1.6.5-blueviolet)
+![Version](https://img.shields.io/badge/version-1.6.6-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -117,6 +117,14 @@ That's it. No `npm install`, no build step.
 
 ---
 
+## Third-Party Components
+
+- `@khmyznikov/pwa-install` — optional vendored web component for cross-browser PWA install guidance
+  MIT license, source: https://github.com/khmyznikov/pwa-install
+  see [THIRD_PARTY_NOTICES.md](/c:/Users/krebs3r/coding/flux-todo/THIRD_PARTY_NOTICES.md)
+
+---
+
 ## Browser Support
 
 Flux works in all modern browsers that support `backdrop-filter`. Offline mode requires Service Worker support.
@@ -180,6 +188,13 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.6.6
+- Added a local vendored PWA install component based on `@khmyznikov/pwa-install`
+- Added `manifest.json` as a tool-friendly JSON manifest alongside `manifest.webmanifest`
+- Replaced the old custom iOS install banner with the new cross-browser install guidance component
+- Added third-party notices and bundled MIT license files for the vendored install component
+- Cached the new install assets in the Service Worker app shell
 
 ### v1.6.5
 - Main app storage moved to IndexedDB, while lightweight UI settings remain in localStorage
@@ -626,4 +641,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.5</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.6</p>

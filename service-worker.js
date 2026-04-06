@@ -10,7 +10,7 @@
 //     Strategy: network-first with targeted app-shell caching.
 //     Old cache versions are cleaned up during activation.
 
-const CACHE = 'flux-v17';
+const CACHE = 'flux-v18';
 const APP_SHELL = [
   './',
   './icons/apple-touch-icon.png',
@@ -25,6 +25,8 @@ const APP_SHELL = [
   './js/i18n.js',
   './js/notes.js',
   './js/storage.js',
+  './js/vendor/pwa-install.js',
+  './manifest.json',
   './manifest.webmanifest',
   './og-image.png',
   './service-worker.js',
