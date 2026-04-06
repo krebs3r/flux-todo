@@ -77,7 +77,7 @@
     let touchDragActive = false;
     let newPriority = '';
     let searchQuery = '';
-    let currentSort = 'manual';
+    let currentSort = 'priority';
     let currentCategory = '';
     let activeTab = 'tasks';
     let newAdvancedOpen = false;
@@ -97,6 +97,157 @@
     let minuteSignature = '';
 
     const t = () => window.i18n[lang];
+
+    function getStarterCatalog(langCode) {
+      const T = window.i18n[langCode] || window.i18n.de;
+      return {
+        boardName: T.starterBoardName || 'Welcome',
+        tasks: {
+          tryComplete: { text: T.starterTaskTryComplete },
+          explore: {
+            text: T.starterTaskExplore,
+            note: T.starterTaskExploreNote,
+            subtasks: {
+              edit: T.starterSubtaskEdit,
+              color: T.starterSubtaskColor,
+              tag: T.starterSubtaskTag
+            }
+          },
+          due: { text: T.starterTaskDue },
+          today: { text: T.starterTaskToday },
+          recurring: { text: T.starterTaskRecurring },
+          weekly: { text: T.starterTaskWeekly },
+          focus: { text: T.starterTaskFocus },
+          search: { text: T.starterTaskSearch },
+          boards: { text: T.starterTaskBoards },
+          inbox: { text: T.starterTaskInbox },
+          done: { text: T.starterTaskDone }
+        }
+      };
+    }
+
+    function createStarterContent(langCode) {
+      const starter = getStarterCatalog(langCode || lang);
+      const now = Date.now();
+      const day = 86400000;
+      const welcomeBoardId = now - 1000;
+      const inboxBoardId = now - 999;
+      const completedAt = now - day;
+
+      function datePlus(daysFromNow, time) {
+        const d = new Date(now + daysFromNow * day);
+        const iso = formatDateISO(d);
+        return time ? iso + 'T' + time : iso;
+      }
+      function weekdayPlus(daysFromNow) {
+        return new Date(now + daysFromNow * day).getDay();
+      }
+
+      return {
+        boards: [
+          {
+            id: welcomeBoardId,
+            name: starter.boardName,
+            starterBoard: true,
+            todos: [
+              { id: now - 700, text: starter.tasks.tryComplete.text, done: false, created: now - day * 6, priority: 'high', categories: ['welcome'], starterKey: 'tryComplete' },
+              {
+                id: now - 699,
+                text: starter.tasks.explore.text,
+                done: false,
+                created: now - day * 5,
+                priority: 'medium',
+                note: starter.tasks.explore.note,
+                categories: ['welcome', 'demo'],
+                color: '#3d5afe',
+                starterKey: 'explore',
+                subtasks: [
+                  { text: starter.tasks.explore.subtasks.edit, done: false, starterSubtaskKey: 'edit' },
+                  { text: starter.tasks.explore.subtasks.color, done: false, starterSubtaskKey: 'color' },
+                  { text: starter.tasks.explore.subtasks.tag, done: false, starterSubtaskKey: 'tag' }
+                ]
+              },
+              { id: now - 698, text: starter.tasks.due.text, done: false, created: now - day * 4, dueDate: datePlus(1, '09:30'), categories: ['planning'], starterKey: 'due' },
+              { id: now - 697, text: starter.tasks.today.text, done: false, created: now - day * 4 + 1, dueDate: datePlus(0), priority: 'high', categories: ['today'], starterKey: 'today' },
+              { id: now - 696, text: starter.tasks.recurring.text, done: false, created: now - day * 3, dueDate: datePlus(1, '09:00'), recurrence: 'daily', categories: ['routine'], starterKey: 'recurring' },
+              { id: now - 695, text: starter.tasks.weekly.text, done: false, created: now - day * 3 + 1, dueDate: datePlus(3, '16:00'), recurrence: 'weekly:' + weekdayPlus(3), categories: ['routine'], starterKey: 'weekly' },
+              { id: now - 694, text: starter.tasks.focus.text, done: false, created: now - day * 2, priority: 'low', categories: ['focus'], starterKey: 'focus' },
+              { id: now - 693, text: starter.tasks.search.text, done: false, created: now - day * 2 + 1, categories: ['demo', 'search'], color: '#26c6da', starterKey: 'search' },
+              { id: now - 692, text: starter.tasks.boards.text, done: false, created: now - day, categories: ['boards'], starterKey: 'boards' },
+              { id: now - 691, text: starter.tasks.inbox.text, done: false, created: now - day + 1, categories: ['welcome'], starterKey: 'inbox' },
+              { id: now - 690, text: starter.tasks.done.text, done: true, created: now - day * 3, completedAt, categories: ['archive'], starterKey: 'done' }
+            ],
+            history: [
+              { type: 'done', text: starter.tasks.done.text, ts: completedAt }
+            ]
+          },
+          {
+            id: inboxBoardId,
+            name: (window.i18n[langCode || lang] || window.i18n.de).boardDefault || 'Inbox',
+            todos: [],
+            history: []
+          }
+        ],
+        currentBoardId: welcomeBoardId
+      };
+    }
+
+    function translateStarterBoardContent(prevLang, nextLang) {
+      const prevStarter = getStarterCatalog(prevLang);
+      const nextStarter = getStarterCatalog(nextLang);
+      const welcomeBoard = boards.find(function(board) {
+        return board && (board.starterBoard || board.name === prevStarter.boardName || board.name === nextStarter.boardName);
+      });
+      if (!welcomeBoard) return;
+
+      welcomeBoard.starterBoard = true;
+      if (welcomeBoard.name === prevStarter.boardName || welcomeBoard.name === nextStarter.boardName) {
+        welcomeBoard.name = nextStarter.boardName;
+      }
+
+      const starterKeys = Object.keys(nextStarter.tasks);
+      const subtaskKeys = ['edit', 'color', 'tag'];
+      (welcomeBoard.todos || []).forEach(function(todo) {
+        if (!todo || typeof todo.text !== 'string') return;
+        let key = todo.starterKey || starterKeys.find(function(starterKey) {
+          const prevText = prevStarter.tasks[starterKey] && prevStarter.tasks[starterKey].text;
+          const nextText = nextStarter.tasks[starterKey] && nextStarter.tasks[starterKey].text;
+          return todo.text === prevText || todo.text === nextText;
+        });
+        if (!key || !nextStarter.tasks[key]) return;
+        todo.starterKey = key;
+        const prevTask = prevStarter.tasks[key] || {};
+        const nextTask = nextStarter.tasks[key] || {};
+        if (todo.text === prevTask.text || todo.text === nextTask.text) {
+          todo.text = nextTask.text;
+        }
+        if (Object.prototype.hasOwnProperty.call(prevTask, 'note') || Object.prototype.hasOwnProperty.call(nextTask, 'note')) {
+          const currentNote = todo.note || '';
+          if (currentNote === (prevTask.note || '') || currentNote === (nextTask.note || '')) {
+            if (nextTask.note) todo.note = nextTask.note;
+            else delete todo.note;
+          }
+        }
+        if (Array.isArray(todo.subtasks) && prevTask.subtasks && nextTask.subtasks) {
+          todo.subtasks.forEach(function(subtask) {
+            if (!subtask || typeof subtask.text !== 'string') return;
+            let subKey = subtask.starterSubtaskKey || subtaskKeys.find(function(candidate) {
+              return subtask.text === prevTask.subtasks[candidate] || subtask.text === nextTask.subtasks[candidate];
+            });
+            if (!subKey) return;
+            subtask.starterSubtaskKey = subKey;
+            subtask.text = nextTask.subtasks[subKey];
+          });
+        }
+      });
+
+      (welcomeBoard.history || []).forEach(function(entry) {
+        if (!entry || typeof entry.text !== 'string') return;
+        if (entry.text === prevStarter.tasks.done.text || entry.text === nextStarter.tasks.done.text) {
+          entry.text = nextStarter.tasks.done.text;
+        }
+      });
+    }
 
     // ── History helpers ──────────────────────────────────────────────────────
     function addHistory(type, text) {
@@ -2150,7 +2301,9 @@
     }
     function toggleLang() {
       haptic('light');
+      const prevLang = lang;
       lang = lang === 'de' ? 'en' : 'de';
+      translateStarterBoardContent(prevLang, lang);
       document.getElementById('lang-label').textContent = lang === 'de' ? 'DE' : 'EN';
       document.documentElement.lang = lang;
       syncPwaInstall();
@@ -3354,6 +3507,8 @@
       if (!indexedSnapshot || (loadResult && loadResult.usedLegacyMigration)) {
         scheduleIndexedDbPersist();
       }
+      translateStarterBoardContent('de', lang);
+      translateStarterBoardContent('en', lang);
       setupIOSTabBarKeyboardPin();
       setupPreventDoubleTapZoomOnNavControls();
       applyDark();
@@ -3442,6 +3597,8 @@
     bootstrapApp().catch(function() {
       const loadResult = load();
       if (loadResult && loadResult.usedLegacyMigration) save();
+      translateStarterBoardContent('de', lang);
+      translateStarterBoardContent('en', lang);
       setupIOSTabBarKeyboardPin();
       setupPreventDoubleTapZoomOnNavControls();
       applyDark();

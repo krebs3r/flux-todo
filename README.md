@@ -3,7 +3,7 @@
 > A lightweight, local-first todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just static files.
 
-![Version](https://img.shields.io/badge/version-1.6.6-blueviolet)
+![Version](https://img.shields.io/badge/version-1.6.7-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -188,6 +188,11 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.6.7
+- Added a localized `Welcome` board with starter tasks for first-time visitors so key features are easier to explore
+- Changed the default task sorting to `Priority` and moved `Manual` to the end of the sort menu
+- Fixed Safari/iOS/macOS PWA scrolling in shorter tabs by moving bottom tab-bar spacing from scroll padding to the active tab panel
 
 ### v1.6.6
 - Added a local vendored PWA install component based on `@khmyznikov/pwa-install`
@@ -641,4 +646,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.6</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.7</p>
