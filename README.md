@@ -1,6 +1,6 @@
 # Flux — Your ToDo App
 
-> A lightweight, browser-only todo app with a glassmorphism / acrylic design.
+> A lightweight, local-first todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just static files.
 
 ![Version](https://img.shields.io/badge/version-1.6.5-blueviolet)

@@ -2,7 +2,7 @@
   "id": "/",
   "name": "Flux",
   "short_name": "Flux",
-  "description": "A lightweight, browser-only todo app with offline support, reminders, and a glassmorphism design.",
+  "description": "A lightweight, local-first todo app with offline support, reminders, and a glassmorphism design.",
   "lang": "de",
   "start_url": "./",
   "scope": "./",
