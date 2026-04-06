@@ -281,7 +281,7 @@
       overflow-y: auto;
       scrollbar-gutter: stable both-edges;
       padding-top: max(32px, calc(env(safe-area-inset-top) + 16px));
-      padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 16px);
+      padding-bottom: 0;
       padding-left: max(16px, env(safe-area-inset-left));
       padding-right: max(16px, env(safe-area-inset-right));
       display: flex;
@@ -482,10 +482,6 @@
     .tab-panel > .card:last-child {
       flex: 1;
       margin-bottom: 0;
-    }
-    #panel-tasks > .card:last-child {
-      flex: 0 0 auto;
-      min-height: 0;
     }
     body.dark .card {
       background: var(--gl-dark);
@@ -3274,6 +3270,7 @@
       display: flex;
       flex-direction: column;
       flex: 1;
+      margin-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 16px);
       animation: tabFadeIn 0.15s ease;
     }
     @keyframes tabFadeIn {
@@ -3832,8 +3829,9 @@
         padding-top: max(16px, calc(env(safe-area-inset-top) + 12px));
         padding-left: max(12px, env(safe-area-inset-left));
         padding-right: max(12px, env(safe-area-inset-right));
-        padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 12px);
+        padding-bottom: 0;
       }
+      .tab-panel.active { margin-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 12px); }
       .card { padding: 14px 16px; }
 
       /* Header controls: 44px touch targets */
