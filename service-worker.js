@@ -10,8 +10,26 @@
 //     Strategy: network-first with targeted app-shell caching.
 //     Old cache versions are cleaned up during activation.
 
-const CACHE = 'flux-v6';
-const APP_SHELL = ['./', './index.html', './service-worker.js', './og-image.png'];
+const CACHE = 'flux-v17';
+const APP_SHELL = [
+  './',
+  './icons/apple-touch-icon.png',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/icon.svg',
+  './index.html',
+  './js/app.js',
+  './js/boards.js',
+  './js/calendar.js',
+  './js/help.js',
+  './js/i18n.js',
+  './js/notes.js',
+  './js/storage.js',
+  './manifest.webmanifest',
+  './og-image.png',
+  './service-worker.js',
+  './styles.css'
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(
