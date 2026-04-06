@@ -383,6 +383,16 @@
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
+            version: 'v1.6.6',
+            entries: [
+              'Lokale Integration von `@khmyznikov/pwa-install` als neuer Install-Hinweis für mehrere Browser und Plattformen',
+              'Zusätzliche `manifest.json` für Tools ergänzt, ohne das bestehende `manifest.webmanifest` zu ersetzen',
+              'Alter eigener iOS-Installationsbanner durch die neue PWA-Install-Komponente abgelöst',
+              'Third-Party-Notices und MIT-Lizenzkopie für die eingebundene Vendor-Komponente ergänzt',
+              'Neue Install-Dateien in die Service-Worker-App-Shell aufgenommen',
+            ],
+          },
+          {
             version: 'v1.6.5',
             entries: [
               'Daten liegen jetzt primär in IndexedDB; nur leichtgewichtige UI-Einstellungen bleiben in localStorage',
@@ -1416,6 +1426,16 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.6.6',
+            entries: [
+              'Added a local vendored `@khmyznikov/pwa-install` component for install guidance across browsers and platforms',
+              'Added a tool-friendly `manifest.json` alongside the existing `manifest.webmanifest`',
+              'Replaced the old custom iOS install banner with the new PWA install component',
+              'Added third-party notices and an MIT license copy for the bundled vendor component',
+              'Included the new install files in the Service Worker app shell',
+            ],
+          },
           {
             version: 'v1.6.5',
             entries: [
