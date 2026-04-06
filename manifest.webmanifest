@@ -1,0 +1,30 @@
+{
+  "id": "/",
+  "name": "Flux - Your ToDo App",
+  "short_name": "Flux",
+  "description": "A lightweight, browser-only todo app with offline support, reminders, and a glassmorphism design.",
+  "lang": "de",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#c8d6e5",
+  "theme_color": "#c8d6e5",
+  "categories": [
+    "productivity",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

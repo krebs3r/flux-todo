@@ -1,9 +1,9 @@
 # Flux — Your ToDo App
 
 > A lightweight, browser-only todo app with a glassmorphism / acrylic design.
-> No server. No dependencies. Just one HTML file.
+> No server. No dependencies. Just static files.
 
-![Version](https://img.shields.io/badge/version-1.6.0.4-blueviolet)
+![Version](https://img.shields.io/badge/version-1.6.5-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -18,9 +18,9 @@ Works on any device — desktop, tablet, phone. Install it as a PWA for the full
 
 ## Overview
 
-**Flux** is a single-file todo application that runs entirely in the browser. All data is stored locally via `localStorage` — no account, no backend, no tracking. Your data stays on your device, always.
+**Flux** is a local-first todo application that runs entirely in the browser. All data is stored locally on your device in browser storage (`IndexedDB` with lightweight local settings fallback) — no account, no backend, no tracking. Your data stays on your device, always.
 
-The interface follows a glassmorphism / acrylic design language inspired by Windows 11 and macOS — with 9 theme presets, dark mode, and smooth animations. It feels like a native app, but it's just one HTML file.
+The interface follows a glassmorphism / acrylic design language inspired by Windows 11 and macOS — with 9 theme presets, dark mode, and smooth animations. It feels like a native app, but stays simple as a static web app without build tooling.
 
 ---
 
@@ -73,26 +73,34 @@ The interface follows a glassmorphism / acrylic design language inspired by Wind
 - **iOS HIG compliant** — 44pt touch targets, 16px input font size (prevents auto-zoom)
 - **iOS keyboard handling** — tab bar hides when the keyboard opens to keep content accessible
 
+`manifest.webmanifest` defines how Flux behaves when installed as a Progressive Web App. It provides metadata such as the app name, icons, theme colors, start URL and display mode, so browsers and app stores can recognize, install and present Flux like an app instead of a normal website.
+
 ### Localization & Accessibility
 - **Language switcher** — German 🇩🇪 and English 🇬🇧
 - **Section headings** — clear labels for input and task areas
 - **Favicon** — SVG checkmark icon matching the app design
-- **No installation required** — open `index.html` in any modern browser
+- **No installation required** — run Flux from any static host or local web server in a modern browser
 
 ---
 
 ## Getting Started
 
 1. Download or clone this repository
-2. Open `index.html` in your browser
+2. For a quick visual check, you can open `index.html` directly in your browser
+3. For realistic local development, start a small local web server in the project folder
+4. Open the shown localhost URL in your browser
 
 ```bash
 git clone https://github.com/krebs3r/flux-todo.git
 cd flux-todo
-open index.html
+python -m http.server 8000
 ```
 
-That's it. No `npm install`, no build step, no server.
+Then open `http://localhost:8000`.
+
+Opening `index.html` directly is still fine for quick UI checks. For PWA features, Manifest, Service Worker, installability, and realistic local testing, `http://localhost:8000` is the recommended way.
+
+That's it. No `npm install`, no build step.
 
 ---
 
@@ -103,7 +111,7 @@ That's it. No `npm install`, no build step, no server.
 | Structure | HTML5 |
 | Styling | CSS3 (custom properties, `backdrop-filter`, CSS Grid/Flex) |
 | Logic | Vanilla JavaScript (ES6+) |
-| Storage | `localStorage` |
+| Storage | `IndexedDB` + lightweight `localStorage` fallback |
 | Offline | Service Worker (network-first caching) |
 | Dependencies | None |
 
@@ -161,17 +169,24 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] Task templates — save and reuse pre-configured tasks
 - [x] Markdown in notes — bold, italic, links with safe preview
 - [x] CSV export — export tasks as spreadsheet-friendly file
+- [x] Productivity heatmap — GitHub-style contribution graph in archive tab
+- [x] Notes — cross-board notes with Markdown and preview in the Tasks tab
+- [x] IndexedDB storage — main app data now uses IndexedDB, while a few lightweight UI settings remain in localStorage
 
 ### Ideas
 - [ ] **Kanban view** — column layout (Open / In Progress / Done)
-- [x] **Productivity heatmap** — GitHub-style contribution graph in archive tab
-- [x] **Notes** — cross-board notes with Markdown and preview in the Tasks tab
-- [ ] **IndexedDB storage** — replace localStorage with IndexedDB for more robust, larger-capacity storage less likely to be cleared by the browser
 - [ ] **Cross-device sync** — end-to-end encrypted data sync via a passphrase-derived key; server stores only ciphertext, no account required
 
 ---
 
 ## Changelog
+
+### v1.6.5
+- Main app storage moved to IndexedDB, while lightweight UI settings remain in localStorage
+- App structure split into dedicated files: `styles.css`, `js/app.js`, `js/storage.js`, `js/notes.js`, `js/calendar.js`, `js/boards.js`, `js/help.js`, `js/i18n.js`
+- PWA packaging improved with dedicated manifest/icons and updated Service Worker app-shell caching
+- Tasks view refined with the shared `Tasks | Notes | Calendar` switch, clearer board section, and board management in Settings
+- UI/accessibility polish: stronger labels/icons, clearer destructive actions, improved help content, and a larger responsive undo toast for small screens
 
 ### v1.6.0.4
 - Storage persistence: app requests persistent storage from the browser — prevents automatic data loss under storage pressure (Chrome/Edge)
@@ -611,4 +626,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.0.4</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.5</p>
