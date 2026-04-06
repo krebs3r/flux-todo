@@ -84,7 +84,7 @@
         theme: currentTheme || 'flux',
         notify: notifyEnabled ? '1' : '0',
         taskColors: taskColorsEnabled ? '1' : '0',
-        sort: currentSort || 'manual',
+        sort: currentSort || 'priority',
         catFilter: currentCategory || '',
         activeTab: activeTab || 'tasks',
         exportReminder: exportReminderEnabled ? '1' : '0',
@@ -265,7 +265,7 @@
         theme: getUiValue('theme') || 'flux',
         notify: getUiValue('notify') === '1',
         taskColors: getUiValue('taskColors'),
-        sort: getUiValue('sort') || 'manual',
+        sort: getUiValue('sort') || 'priority',
         catFilter: getUiValue('catFilter') || '',
         activeTab: getUiValue('activeTab') || 'tasks',
         exportReminder: getUiValue('exportReminder'),
@@ -318,6 +318,16 @@
       const appState = loadAppStateData(sourceSnapshot);
       const uiSettings = loadUiSettings(sourceSnapshot);
       lang = uiSettings.lang;
+      const shouldSeedStarterContent = !appState.usedLegacyMigration && !appState.boards.length && !appState.notes.length && !appState.templates.length;
+      if (shouldSeedStarterContent && typeof createStarterContent === 'function') {
+        const starter = createStarterContent();
+        if (starter && Array.isArray(starter.boards) && starter.boards.length) {
+          appState.boards = starter.boards;
+          appState.currentBoardId = starter.currentBoardId || starter.boards[0].id;
+          if (Array.isArray(starter.notes)) appState.notes = starter.notes;
+          if (Array.isArray(starter.templates)) appState.templates = starter.templates;
+        }
+      }
       boards = appState.boards;
       if (appState.usedLegacyMigration) {
         removeStoredValue('todos');
