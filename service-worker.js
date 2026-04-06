@@ -27,7 +27,6 @@ const APP_SHELL = [
   './js/storage.js',
   './js/vendor/pwa-install.js',
   './manifest.json',
-  './manifest.webmanifest',
   './og-image.png',
   './service-worker.js',
   './styles.css'
