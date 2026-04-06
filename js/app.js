@@ -2153,6 +2153,7 @@
       lang = lang === 'de' ? 'en' : 'de';
       document.getElementById('lang-label').textContent = lang === 'de' ? 'DE' : 'EN';
       document.documentElement.lang = lang;
+      syncPwaInstall();
       save(); render();
       if (activeTab === 'new') showTip();
       checkExportReminder();
@@ -2166,6 +2167,15 @@
     function applyLang() {
       document.getElementById('lang-label').textContent = lang === 'de' ? 'DE' : 'EN';
       document.documentElement.lang = lang;
+      syncPwaInstall();
+    }
+    function syncPwaInstall() {
+      const el = document.getElementById('pwa-install');
+      if (!el) return;
+      const T = t();
+      el.setAttribute('name', T.appTitle);
+      el.setAttribute('description', T.claim);
+      el.setAttribute('icon', './icons/icon-192.png');
     }
 
     // ── Theme Picker ──────────────────────────────────────────────────────────

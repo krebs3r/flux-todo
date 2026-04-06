@@ -73,7 +73,7 @@ The interface follows a glassmorphism / acrylic design language inspired by Wind
 - **iOS HIG compliant** — 44pt touch targets, 16px input font size (prevents auto-zoom)
 - **iOS keyboard handling** — tab bar hides when the keyboard opens to keep content accessible
 
-`manifest.webmanifest` defines how Flux behaves when installed as a Progressive Web App. It provides metadata such as the app name, icons, theme colors, start URL and display mode, so browsers and app stores can recognize, install and present Flux like an app instead of a normal website.
+`manifest.json` defines how Flux behaves when installed as a Progressive Web App. It provides metadata such as the app name, icons, theme colors, start URL and display mode, so browsers and app stores can recognize, install and present Flux like an app instead of a normal website.
 
 ### Localization & Accessibility
 - **Language switcher** — German 🇩🇪 and English 🇬🇧
@@ -191,7 +191,7 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ### v1.6.6
 - Added a local vendored PWA install component based on `@khmyznikov/pwa-install`
-- Added `manifest.json` as a tool-friendly JSON manifest alongside `manifest.webmanifest`
+- Unified the app manifest into a single `manifest.json` for both browsers and tooling
 - Replaced the old custom iOS install banner with the new cross-browser install guidance component
 - Added third-party notices and bundled MIT license files for the vendored install component
 - Cached the new install assets in the Service Worker app shell
