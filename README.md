@@ -3,7 +3,7 @@
 > A lightweight, local-first todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just static files.
 
-![Version](https://img.shields.io/badge/version-1.6.8-blueviolet)
+![Version](https://img.shields.io/badge/version-1.6.9-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -188,6 +188,11 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.6.9
+- Expanded the PWA/manifest metadata for PWABuilder and stores with a proper screenshot gallery for mobile/desktop, app shortcuts, and additional manifest fields
+- Hardened Service Worker registration so browsers and PWA audits detect offline support more reliably
+- Fixed cramped iPhone SE layouts in the new-task and inline edit forms and improved iOS tab-bar behavior while the keyboard is open
 
 ### v1.6.8
 - Expanded the localized `Welcome` onboarding with more demo tasks, richer task notes, extra tips, and automatic demo reload after a full reset
@@ -652,4 +657,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.8</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.9</p>
