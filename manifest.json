@@ -1,6 +1,6 @@
 {
   "id": "/",
-  "name": "Flux",
+  "name": "Flux — Your ToDo App",
   "short_name": "Flux",
   "description": "A lightweight, local-first todo app with offline support, reminders, and a glassmorphism design.",
   "lang": "de",
