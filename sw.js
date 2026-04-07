@@ -1,4 +1,4 @@
-// Flux — Service Worker
+// Flux — Service Worker (sw.js)
 //
 // DE: Diese Datei muss separat zur index.html existieren, da Browser
 //     Service Worker nur aus eigenständigen JS-Dateien registrieren können.
@@ -10,7 +10,7 @@
 //     Strategy: network-first with targeted app-shell caching.
 //     Old cache versions are cleaned up during activation.
 
-const CACHE = 'flux-v18';
+const CACHE = 'flux-v19';
 const APP_SHELL = [
   './',
   './icons/apple-touch-icon.png',
@@ -28,7 +28,7 @@ const APP_SHELL = [
   './js/vendor/pwa-install.js',
   './manifest.json',
   './og-image.png',
-  './service-worker.js',
+  './sw.js',
   './styles.css'
 ];
 

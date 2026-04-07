@@ -3,7 +3,7 @@
 > A lightweight, local-first todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just static files.
 
-![Version](https://img.shields.io/badge/version-1.6.9-blueviolet)
+![Version](https://img.shields.io/badge/version-1.6.9.1-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -188,6 +188,10 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.6.9.1
+- Renamed the Service Worker to `sw.js` to follow the common convention used by PWA tooling
+- Removed the old `service-worker.js` file and updated registration plus app-shell caching to the new worker path
 
 ### v1.6.9
 - Expanded the PWA/manifest metadata for PWABuilder and stores with a proper screenshot gallery for mobile/desktop, app shortcuts, and additional manifest fields
@@ -657,4 +661,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.9</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.9.1</p>
