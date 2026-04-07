@@ -61,12 +61,6 @@
           </svg>
           <span id="lang-label">EN</span>
         </button>
-        <div class="theme-picker-wrap" id="theme-picker-wrap">
-          <button class="ctrl-btn" id="theme-btn" onclick="toggleThemePicker()" title="Theme">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
-          </button>
-          <div class="theme-popover" id="theme-popover"></div>
-        </div>
         <button class="ctrl-btn" id="dark-btn" onclick="toggleDark()" aria-label="Toggle dark mode">
           <span id="dark-icon"></span>
         </button>
@@ -91,60 +85,73 @@
           </button>
         </div>
         <div class="new-advanced" id="new-advanced" style="display:none">
-          <div class="new-group-title" id="new-group-plan-label"></div>
-          <div class="prio-chips" id="prio-chips">
-            <button class="prio-chip" data-p="high" onclick="setPriority('high')" aria-label="Hohe Priorität" title="Hohe Priorität"></button>
-            <button class="prio-chip" data-p="medium" onclick="setPriority('medium')" aria-label="Mittlere Priorität" title="Mittlere Priorität"></button>
-            <button class="prio-chip" data-p="low" onclick="setPriority('low')" aria-label="Niedrige Priorität" title="Niedrige Priorität"></button>
-          </div>
-          <div class="color-picker-row" id="new-color-picker"></div>
-          <div class="form-grid">
-            <div class="form-field-wrap">
-              <input class="form-field" type="date" id="new-todo-due" aria-labelledby="new-todo-due-label" title="Datum" />
-              <span class="form-field-label" id="new-todo-due-label"></span>
+          <section class="new-section-card">
+            <div class="new-group-title" id="new-group-plan-label"></div>
+            <div class="new-field-label" id="new-field-priority-label"></div>
+            <div class="prio-chips" id="prio-chips">
+              <button class="prio-chip" data-p="high" onclick="setPriority('high')" aria-label="Hohe Priorität" title="Hohe Priorität"></button>
+              <button class="prio-chip" data-p="medium" onclick="setPriority('medium')" aria-label="Mittlere Priorität" title="Mittlere Priorität"></button>
+              <button class="prio-chip" data-p="low" onclick="setPriority('low')" aria-label="Niedrige Priorität" title="Niedrige Priorität"></button>
             </div>
-            <div class="form-field-wrap">
-              <input class="form-field" type="time" id="new-todo-time" aria-labelledby="new-todo-time-label" title="Uhrzeit" />
-              <span class="form-field-label" id="new-todo-time-label"></span>
+            <div class="color-picker-row" id="new-color-picker"></div>
+            <div class="new-field-label" id="new-field-schedule-label"></div>
+            <div class="form-grid new-plan-schedule-grid">
+              <div class="form-field-wrap">
+                <input class="form-field" type="date" id="new-todo-due" aria-labelledby="new-todo-due-label" title="Datum" />
+                <span class="form-field-label" id="new-todo-due-label"></span>
+              </div>
+              <div class="form-field-wrap">
+                <input class="form-field" type="time" id="new-todo-time" aria-labelledby="new-todo-time-label" title="Uhrzeit" />
+                <span class="form-field-label" id="new-todo-time-label"></span>
+              </div>
             </div>
-            <div id="new-todo-recur-wrap">
-              <button type="button" class="sort-select recur-dd-btn" id="new-todo-recur-btn" onclick="toggleRecurDD('new-todo-recur')" aria-label="Wiederholung wählen" title="Wiederholung wählen">
-                <span id="new-todo-recur-label"></span>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <div class="sort-ac recur-dd-ac" id="new-todo-recur-ac"></div>
+            <div class="new-field-label" id="new-field-recur-label"></div>
+            <div class="new-plan-recur-wrap">
+              <div id="new-todo-recur-wrap">
+                <button type="button" class="sort-select recur-dd-btn" id="new-todo-recur-btn" onclick="toggleRecurDD('new-todo-recur')" aria-label="Wiederholung wählen" title="Wiederholung wählen">
+                  <span id="new-todo-recur-label"></span>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="sort-ac recur-dd-ac" id="new-todo-recur-ac"></div>
+              </div>
+              <div id="new-todo-recur-detail-wrap" style="display:none">
+                <button type="button" class="sort-select recur-dd-btn" id="new-todo-recur-detail-btn" onclick="toggleRecurDD('new-todo-recur-detail')" aria-label="Wiederholungsdetail wählen" title="Wiederholungsdetail wählen">
+                  <span id="new-todo-recur-detail-label"></span>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="sort-ac recur-dd-ac" id="new-todo-recur-detail-ac"></div>
+              </div>
+              <select id="new-todo-recur" style="display:none" aria-label="Wiederholung"></select>
+              <select id="new-todo-recur-detail" style="display:none" aria-label="Wiederholungsdetail"></select>
             </div>
-            <div id="new-todo-recur-detail-wrap" style="display:none">
-              <button type="button" class="sort-select recur-dd-btn" id="new-todo-recur-detail-btn" onclick="toggleRecurDD('new-todo-recur-detail')" aria-label="Wiederholungsdetail wählen" title="Wiederholungsdetail wählen">
-                <span id="new-todo-recur-detail-label"></span>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <div class="sort-ac recur-dd-ac" id="new-todo-recur-detail-ac"></div>
+          </section>
+          <section class="new-section-card">
+            <div class="new-group-title" id="new-group-details-label"></div>
+            <div class="form-details" id="form-details">
+              <div class="new-field-label" id="new-field-note-label"></div>
+              <textarea class="note-input" id="new-todo-note" rows="2" aria-label="Notiz" title="Notiz"></textarea>
+              <div class="note-md-help" id="new-note-md-help"></div>
+              <div class="note-preview-toolbar">
+                <button type="button" class="note-preview-toggle" id="new-note-preview-toggle" onclick="toggleNewNotePreview()" aria-label="Markdown-Vorschau" title="Markdown-Vorschau"></button>
+              </div>
+              <div class="note-preview" id="new-note-preview" style="display:none"></div>
+              <div class="new-field-label" id="new-field-tags-label"></div>
+              <div class="cat-input-wrap">
+                <input class="cat-input" type="text" id="new-todo-cat" maxlength="100" autocomplete="off" oninput="updateTagCounter('new-todo-cat','tag-counter')" aria-label="Tags" title="Tags" />
+                <span class="tag-counter" id="tag-counter"></span>
+                <div class="cat-ac" id="cat-ac"></div>
+              </div>
             </div>
-            <select id="new-todo-recur" style="display:none" aria-label="Wiederholung"></select>
-            <select id="new-todo-recur-detail" style="display:none" aria-label="Wiederholungsdetail"></select>
-          </div>
-          <div class="new-group-title" id="new-group-details-label"></div>
-          <div class="form-details" id="form-details">
-            <textarea class="note-input" id="new-todo-note" rows="2" aria-label="Notiz" title="Notiz"></textarea>
-            <div class="note-md-help" id="new-note-md-help"></div>
-            <div class="note-preview-toolbar">
-              <button type="button" class="note-preview-toggle" id="new-note-preview-toggle" onclick="toggleNewNotePreview()" aria-label="Markdown-Vorschau" title="Markdown-Vorschau"></button>
+          </section>
+          <section class="new-section-card">
+            <div class="new-group-title" id="new-group-templates-label"></div>
+            <div class="io-row new-template-actions">
+              <button class="io-btn" id="new-template-save-btn" onclick="createTemplateFromForm()" aria-label="Als Vorlage speichern" title="Als Vorlage speichern"><span id="new-template-save-label"></span></button>
+              <button class="io-btn" id="new-template-use-btn" onclick="openTemplatePicker()" aria-label="Vorlage laden" title="Vorlage laden"><span id="new-template-use-label"></span></button>
+              <button class="io-btn" id="new-template-update-btn" onclick="updateEditingTemplateFromForm()" style="display:none" aria-label="Vorlage aktualisieren" title="Vorlage aktualisieren"><span id="new-template-update-label"></span></button>
+              <button class="io-btn danger" id="new-template-cancel-btn" onclick="cancelTemplateEdit()" style="display:none" aria-label="Bearbeiten abbrechen" title="Bearbeiten abbrechen"><span id="new-template-cancel-label"></span></button>
             </div>
-            <div class="note-preview" id="new-note-preview" style="display:none"></div>
-            <div class="cat-input-wrap">
-              <input class="cat-input" type="text" id="new-todo-cat" maxlength="100" autocomplete="off" oninput="updateTagCounter('new-todo-cat','tag-counter')" aria-label="Tags" title="Tags" />
-              <span class="tag-counter" id="tag-counter"></span>
-              <div class="cat-ac" id="cat-ac"></div>
-            </div>
-          </div>
-          <div class="new-group-title" id="new-group-templates-label"></div>
-          <div class="io-row" style="margin-top:8px">
-            <button class="io-btn" id="new-template-save-btn" onclick="createTemplateFromForm()" aria-label="Als Vorlage speichern" title="Als Vorlage speichern"><span id="new-template-save-label"></span></button>
-            <button class="io-btn" id="new-template-use-btn" onclick="openTemplatePicker()" aria-label="Vorlage laden" title="Vorlage laden"><span id="new-template-use-label"></span></button>
-            <button class="io-btn" id="new-template-update-btn" onclick="updateEditingTemplateFromForm()" style="display:none" aria-label="Vorlage aktualisieren" title="Vorlage aktualisieren"><span id="new-template-update-label"></span></button>
-            <button class="io-btn danger" id="new-template-cancel-btn" onclick="cancelTemplateEdit()" style="display:none" aria-label="Bearbeiten abbrechen" title="Bearbeiten abbrechen"><span id="new-template-cancel-label"></span></button>
-          </div>
+          </section>
         </div>
         <button class="btn-add" id="add-btn" onclick="addTodo()" title="Hinzufügen">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
@@ -360,14 +367,6 @@
             </svg>
             <span id="import-label"></span>
           </button>
-          <button class="io-btn danger" id="clear-btn" onclick="clearHistory()" aria-label="Verlauf leeren" title="Verlauf leeren">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6"/>
-              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-              <path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
-            </svg>
-            <span id="clear-label"></span>
-          </button>
         </div>
         <div class="io-row" style="margin-top:8px">
           <button class="io-btn danger" id="delete-all-btn" onclick="clearAllTodos()" aria-label="Alle Inhalte löschen" title="Alle Inhalte löschen">
@@ -410,16 +409,14 @@
         <div id="template-manager-body" style="display:none">
           <div class="template-list" id="template-list"></div>
         </div>
-        <div class="io-row" style="margin-top:8px">
-          <button class="io-btn" id="download-app-btn" onclick="downloadApp()" aria-label="App lokal speichern" title="App lokal speichern">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-            <span id="download-app-label"></span>
-          </button>
+        <div class="setting-row setting-row-stack">
+          <div>
+            <div class="setting-label" id="theme-setting-label"></div>
+            <div class="setting-sub" id="theme-setting-sub"></div>
+          </div>
+          <div class="theme-settings-grid" id="theme-settings-grid"></div>
         </div>
-        <div class="setting-row" style="margin-top:16px">
+        <div class="setting-row">
           <div>
             <div class="setting-label" id="darkmode-setting-label"></div>
             <div class="setting-sub" id="darkmode-setting-sub"></div>
@@ -469,7 +466,7 @@
           </div>
         </div>
         <div class="footer" style="margin-top:24px">
-          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.6.7</span>
+          <span onclick="openChangelog()">Flux &nbsp;·&nbsp; v1.6.8</span>
           <a class="footer-github" href="https://github.com/krebs3r/flux-todo" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
@@ -477,6 +474,7 @@
             krebs3r/flux-todo
           </a>
           <p id="footer-disclaimer" style="font-size:.75rem;opacity:.55;line-height:1.5;margin:12px 0 0"></p>
+          <p id="footer-project-hint" style="font-size:.75rem;opacity:.55;line-height:1.5;margin:8px 0 0"></p>
 
         </div>
       </div>

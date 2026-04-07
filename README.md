@@ -3,7 +3,7 @@
 > A lightweight, local-first todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just static files.
 
-![Version](https://img.shields.io/badge/version-1.6.7-blueviolet)
+![Version](https://img.shields.io/badge/version-1.6.8-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -40,7 +40,7 @@ The interface follows a glassmorphism / acrylic design language inspired by Wind
 - **Archive** — completed tasks stored as cards, restore or permanently delete them
 - **Activity log** — every action logged with timestamp (up to 100,000 entries), collapsible in the archive tab
 - **Export & Import** — save and restore your tasks as a JSON file
-- **Bulk delete** — clear all tasks at once, with an optional export prompt
+- **Bulk reset** — remove local tasks, boards, notes and templates with an optional export prompt, then reload the starter demo content
 - **Statistics & heatmap** — completion rate ring, tasks per week bar chart, streaks, and GitHub-style 52-week productivity heatmap in the Archive tab
 - **Notes** — cross-board notes with Markdown support, preview, edit and delete; included in JSON export
 - **Multiple tags** — assign multiple #hashtags per task (comma-separated), autocomplete, filter by tag, manage/rename/delete in settings
@@ -66,7 +66,7 @@ The interface follows a glassmorphism / acrylic design language inspired by Wind
 ### Mobile & PWA
 - **Offline-capable PWA** — Service Worker with network-first caching
 - **iOS PWA** — add to home screen, true fullscreen (no gaps), safe area support for Dynamic Island/notch
-- **iOS install hint** — banner in Safari guides users to add the app to their home screen
+- **Install guidance** — bundled PWA install component across browsers, including add-to-home-screen guidance on iOS Safari
 - **Swipe gestures** — swipe left to delete, right to complete
 - **Pull-to-refresh** — pull down to reload the app
 - **Haptic feedback** — tactile response on touch actions (iOS 17.4+ via checkbox-switch, Android via Vibration API)
@@ -86,7 +86,7 @@ The interface follows a glassmorphism / acrylic design language inspired by Wind
 ## Getting Started
 
 1. Download or clone this repository
-2. For a quick visual check, you can open `index.html` directly in your browser
+2. For a very quick static UI check, you can open `index.html` directly in your browser
 3. For realistic local development, start a small local web server in the project folder
 4. Open the shown localhost URL in your browser
 
@@ -98,7 +98,7 @@ python -m http.server 8000
 
 Then open `http://localhost:8000`.
 
-Opening `index.html` directly is still fine for quick UI checks. For PWA features, Manifest, Service Worker, installability, and realistic local testing, `http://localhost:8000` is the recommended way.
+Opening `index.html` directly is still fine for a fast layout check. For manifest loading, Service Worker, install guidance, and realistic PWA behavior, `http://localhost:8000` is the recommended way. Running from `file://` can also produce browser-specific CORS or console warnings.
 
 That's it. No `npm install`, no build step.
 
@@ -121,7 +121,7 @@ That's it. No `npm install`, no build step.
 
 - `@khmyznikov/pwa-install` — optional vendored web component for cross-browser PWA install guidance
   MIT license, source: https://github.com/khmyznikov/pwa-install
-  see [THIRD_PARTY_NOTICES.md](/c:/Users/krebs3r/coding/flux-todo/THIRD_PARTY_NOTICES.md)
+  see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
 
 ---
 
@@ -148,7 +148,7 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 - [x] Priorities — High / Medium / Low
 - [x] Search — real-time filtering by title, notes and tags
 - [x] Notes field — details per task
-- [x] 9 theme presets — palette picker in header
+- [x] 9 theme presets — palette picker in Settings
 - [x] Dark mode — default on first launch
 - [x] Swipe gestures — left to delete, right to complete
 - [x] Pull-to-refresh — reload on pull down
@@ -188,6 +188,12 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.6.8
+- Expanded the localized `Welcome` onboarding with more demo tasks, richer task notes, extra tips, and automatic demo reload after a full reset
+- Refined the task UI with clearer task cards plus structured section layouts for both the new-task form and inline editing
+- Moved theme selection into Settings, relocated the activity-log clear action to Archive, and replaced the old local app-save action with a GitHub project hint
+- Improved everyday clarity with Markdown rendering in task notes, better tag contrast in light/dark mode, and a `?` shortcut that jumps directly to keyboard shortcuts
 
 ### v1.6.7
 - Added a localized `Welcome` board with starter tasks for first-time visitors so key features are easier to explore
@@ -646,4 +652,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.7</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.8</p>

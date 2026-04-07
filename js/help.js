@@ -29,6 +29,18 @@
       if (!el) return;
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+    function openHelpSection(blockId) {
+      if (typeof switchTab === 'function') switchTab('help');
+      const targetId = blockId || 'help-shortcuts';
+      const runScroll = function() { scrollHelpTo(targetId); };
+      if (window.requestAnimationFrame) {
+        requestAnimationFrame(function() {
+          requestAnimationFrame(runScroll);
+        });
+        return;
+      }
+      setTimeout(runScroll, 30);
+    }
     function renderHelpPanel(T) {
       const sections = [
         { title: T.helpQuickTitle, items: T.helpQuickItems },

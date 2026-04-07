@@ -72,7 +72,6 @@
     let dark = false;
     let darkPref = 'auto'; // 'auto' | 'dark' | 'light'
     let currentTheme = 'flux';
-    let themePickerOpen = false;
     let dragSrcIndex = null;
     let touchDragActive = false;
     let newPriority = '';
@@ -97,13 +96,14 @@
     let minuteSignature = '';
 
     const t = () => window.i18n[lang];
+    const STARTER_NOTES_VERSION = 1;
 
     function getStarterCatalog(langCode) {
       const T = window.i18n[langCode] || window.i18n.de;
       return {
         boardName: T.starterBoardName || 'Welcome',
         tasks: {
-          tryComplete: { text: T.starterTaskTryComplete },
+          tryComplete: { text: T.starterTaskTryComplete, note: T.starterTaskTryCompleteNote },
           explore: {
             text: T.starterTaskExplore,
             note: T.starterTaskExploreNote,
@@ -113,15 +113,15 @@
               tag: T.starterSubtaskTag
             }
           },
-          due: { text: T.starterTaskDue },
-          today: { text: T.starterTaskToday },
-          recurring: { text: T.starterTaskRecurring },
-          weekly: { text: T.starterTaskWeekly },
-          focus: { text: T.starterTaskFocus },
-          search: { text: T.starterTaskSearch },
-          boards: { text: T.starterTaskBoards },
-          inbox: { text: T.starterTaskInbox },
-          done: { text: T.starterTaskDone }
+          due: { text: T.starterTaskDue, note: T.starterTaskDueNote },
+          today: { text: T.starterTaskToday, note: T.starterTaskTodayNote },
+          recurring: { text: T.starterTaskRecurring, note: T.starterTaskRecurringNote },
+          weekly: { text: T.starterTaskWeekly, note: T.starterTaskWeeklyNote },
+          focus: { text: T.starterTaskFocus, note: T.starterTaskFocusNote },
+          search: { text: T.starterTaskSearch, note: T.starterTaskSearchNote },
+          boards: { text: T.starterTaskBoards, note: T.starterTaskBoardsNote },
+          inbox: { text: T.starterTaskInbox, note: T.starterTaskInboxNote },
+          done: { text: T.starterTaskDone, note: T.starterTaskDoneNote }
         }
       };
     }
@@ -133,6 +133,18 @@
       const welcomeBoardId = now - 1000;
       const inboxBoardId = now - 999;
       const completedAt = now - day;
+
+      function starterTodo(taskKey, extra) {
+        const task = starter.tasks[taskKey] || {};
+        return Object.assign(
+          {
+            text: task.text,
+            starterKey: taskKey
+          },
+          task.note ? { note: task.note } : {},
+          extra || {}
+        );
+      }
 
       function datePlus(daysFromNow, time) {
         const d = new Date(now + daysFromNow * day);
@@ -149,33 +161,31 @@
             id: welcomeBoardId,
             name: starter.boardName,
             starterBoard: true,
+            starterNotesVersion: STARTER_NOTES_VERSION,
             todos: [
-              { id: now - 700, text: starter.tasks.tryComplete.text, done: false, created: now - day * 6, priority: 'high', categories: ['welcome'], starterKey: 'tryComplete' },
-              {
+              starterTodo('tryComplete', { id: now - 700, done: false, created: now - day * 6, priority: 'high', categories: ['welcome'] }),
+              starterTodo('explore', {
                 id: now - 699,
-                text: starter.tasks.explore.text,
                 done: false,
                 created: now - day * 5,
                 priority: 'medium',
-                note: starter.tasks.explore.note,
                 categories: ['welcome', 'demo'],
                 color: '#3d5afe',
-                starterKey: 'explore',
                 subtasks: [
                   { text: starter.tasks.explore.subtasks.edit, done: false, starterSubtaskKey: 'edit' },
                   { text: starter.tasks.explore.subtasks.color, done: false, starterSubtaskKey: 'color' },
                   { text: starter.tasks.explore.subtasks.tag, done: false, starterSubtaskKey: 'tag' }
                 ]
-              },
-              { id: now - 698, text: starter.tasks.due.text, done: false, created: now - day * 4, dueDate: datePlus(1, '09:30'), categories: ['planning'], starterKey: 'due' },
-              { id: now - 697, text: starter.tasks.today.text, done: false, created: now - day * 4 + 1, dueDate: datePlus(0), priority: 'high', categories: ['today'], starterKey: 'today' },
-              { id: now - 696, text: starter.tasks.recurring.text, done: false, created: now - day * 3, dueDate: datePlus(1, '09:00'), recurrence: 'daily', categories: ['routine'], starterKey: 'recurring' },
-              { id: now - 695, text: starter.tasks.weekly.text, done: false, created: now - day * 3 + 1, dueDate: datePlus(3, '16:00'), recurrence: 'weekly:' + weekdayPlus(3), categories: ['routine'], starterKey: 'weekly' },
-              { id: now - 694, text: starter.tasks.focus.text, done: false, created: now - day * 2, priority: 'low', categories: ['focus'], starterKey: 'focus' },
-              { id: now - 693, text: starter.tasks.search.text, done: false, created: now - day * 2 + 1, categories: ['demo', 'search'], color: '#26c6da', starterKey: 'search' },
-              { id: now - 692, text: starter.tasks.boards.text, done: false, created: now - day, categories: ['boards'], starterKey: 'boards' },
-              { id: now - 691, text: starter.tasks.inbox.text, done: false, created: now - day + 1, categories: ['welcome'], starterKey: 'inbox' },
-              { id: now - 690, text: starter.tasks.done.text, done: true, created: now - day * 3, completedAt, categories: ['archive'], starterKey: 'done' }
+              }),
+              starterTodo('due', { id: now - 698, done: false, created: now - day * 4, dueDate: datePlus(1, '09:30'), categories: ['planning'] }),
+              starterTodo('today', { id: now - 697, done: false, created: now - day * 4 + 1, dueDate: datePlus(0), priority: 'high', categories: ['today'] }),
+              starterTodo('recurring', { id: now - 696, done: false, created: now - day * 3, dueDate: datePlus(1, '09:00'), recurrence: 'daily', categories: ['routine'] }),
+              starterTodo('weekly', { id: now - 695, done: false, created: now - day * 3 + 1, dueDate: datePlus(3, '16:00'), recurrence: 'weekly:' + weekdayPlus(3), categories: ['routine'] }),
+              starterTodo('focus', { id: now - 694, done: false, created: now - day * 2, priority: 'low', categories: ['focus'] }),
+              starterTodo('search', { id: now - 693, done: false, created: now - day * 2 + 1, categories: ['demo', 'search'], color: '#26c6da' }),
+              starterTodo('boards', { id: now - 692, done: false, created: now - day, categories: ['boards'] }),
+              starterTodo('inbox', { id: now - 691, done: false, created: now - day + 1, categories: ['welcome'] }),
+              starterTodo('done', { id: now - 690, done: true, created: now - day * 3, completedAt, categories: ['archive'] })
             ],
             history: [
               { type: 'done', text: starter.tasks.done.text, ts: completedAt }
@@ -198,13 +208,21 @@
       const welcomeBoard = boards.find(function(board) {
         return board && (board.starterBoard || board.name === prevStarter.boardName || board.name === nextStarter.boardName);
       });
-      if (!welcomeBoard) return;
+      if (!welcomeBoard) return false;
+      let didChange = false;
 
-      welcomeBoard.starterBoard = true;
+      if (!welcomeBoard.starterBoard) {
+        welcomeBoard.starterBoard = true;
+        didChange = true;
+      }
       if (welcomeBoard.name === prevStarter.boardName || welcomeBoard.name === nextStarter.boardName) {
-        welcomeBoard.name = nextStarter.boardName;
+        if (welcomeBoard.name !== nextStarter.boardName) {
+          welcomeBoard.name = nextStarter.boardName;
+          didChange = true;
+        }
       }
 
+      const shouldBackfillStarterNotes = (welcomeBoard.starterNotesVersion || 0) < STARTER_NOTES_VERSION;
       const starterKeys = Object.keys(nextStarter.tasks);
       const subtaskKeys = ['edit', 'color', 'tag'];
       (welcomeBoard.todos || []).forEach(function(todo) {
@@ -215,17 +233,35 @@
           return todo.text === prevText || todo.text === nextText;
         });
         if (!key || !nextStarter.tasks[key]) return;
-        todo.starterKey = key;
+        if (todo.starterKey !== key) {
+          todo.starterKey = key;
+          didChange = true;
+        }
         const prevTask = prevStarter.tasks[key] || {};
         const nextTask = nextStarter.tasks[key] || {};
         if (todo.text === prevTask.text || todo.text === nextTask.text) {
-          todo.text = nextTask.text;
+          if (todo.text !== nextTask.text) {
+            todo.text = nextTask.text;
+            didChange = true;
+          }
         }
         if (Object.prototype.hasOwnProperty.call(prevTask, 'note') || Object.prototype.hasOwnProperty.call(nextTask, 'note')) {
           const currentNote = todo.note || '';
-          if (currentNote === (prevTask.note || '') || currentNote === (nextTask.note || '')) {
-            if (nextTask.note) todo.note = nextTask.note;
-            else delete todo.note;
+          if (shouldBackfillStarterNotes && !currentNote && nextTask.note) {
+            if (todo.note !== nextTask.note) {
+              todo.note = nextTask.note;
+              didChange = true;
+            }
+          } else if (currentNote === (prevTask.note || '') || currentNote === (nextTask.note || '')) {
+            if (nextTask.note) {
+              if (todo.note !== nextTask.note) {
+                todo.note = nextTask.note;
+                didChange = true;
+              }
+            } else if (Object.prototype.hasOwnProperty.call(todo, 'note')) {
+              delete todo.note;
+              didChange = true;
+            }
           }
         }
         if (Array.isArray(todo.subtasks) && prevTask.subtasks && nextTask.subtasks) {
@@ -235,8 +271,14 @@
               return subtask.text === prevTask.subtasks[candidate] || subtask.text === nextTask.subtasks[candidate];
             });
             if (!subKey) return;
-            subtask.starterSubtaskKey = subKey;
-            subtask.text = nextTask.subtasks[subKey];
+            if (subtask.starterSubtaskKey !== subKey) {
+              subtask.starterSubtaskKey = subKey;
+              didChange = true;
+            }
+            if (subtask.text !== nextTask.subtasks[subKey]) {
+              subtask.text = nextTask.subtasks[subKey];
+              didChange = true;
+            }
           });
         }
       });
@@ -244,9 +286,17 @@
       (welcomeBoard.history || []).forEach(function(entry) {
         if (!entry || typeof entry.text !== 'string') return;
         if (entry.text === prevStarter.tasks.done.text || entry.text === nextStarter.tasks.done.text) {
-          entry.text = nextStarter.tasks.done.text;
+          if (entry.text !== nextStarter.tasks.done.text) {
+            entry.text = nextStarter.tasks.done.text;
+            didChange = true;
+          }
         }
       });
+      if (welcomeBoard.starterNotesVersion !== STARTER_NOTES_VERSION) {
+        welcomeBoard.starterNotesVersion = STARTER_NOTES_VERSION;
+        didChange = true;
+      }
+      return didChange;
     }
 
     // ── History helpers ──────────────────────────────────────────────────────
@@ -659,8 +709,8 @@
     }
     function catStyle(tag) {
       const h = catHue(tag);
-      if (dark) return 'background:hsla(' + h + ',60%,50%,0.20);border:1px solid hsla(' + h + ',60%,50%,0.35);color:hsl(' + h + ',70%,70%)';
-      return 'background:hsla(' + h + ',60%,45%,0.10);border:1px solid hsla(' + h + ',60%,45%,0.25);color:hsl(' + h + ',70%,35%)';
+      if (dark) return 'background:hsla(' + h + ',72%,50%,0.18);border:1px solid hsla(' + h + ',72%,62%,0.34)';
+      return 'background:hsla(' + h + ',78%,40%,0.16);border:1px solid hsla(' + h + ',78%,36%,0.30)';
     }
     function getAllTags() {
       const tags = {};
@@ -678,6 +728,7 @@
       const T = t();
       document.getElementById('tag-manager-title').textContent = T.tagManagerTitle;
       document.getElementById('footer-disclaimer').innerHTML = T.footerDisclaimer;
+      document.getElementById('footer-project-hint').innerHTML = T.footerProjectHint;
       const el = document.getElementById('tag-manager-list');
       const counts = getTagCounts();
       const tags = Object.keys(counts).sort();
@@ -1023,84 +1074,106 @@
       const oldDueDate = oldDue.split('T')[0] || '';
       const oldDueTime = oldDue.includes('T') ? oldDue.split('T')[1] : '';
       const T = t();
+      const moveBoardLabel = (T.moveToBoardLabel || '').replace(/:\s*$/, '');
       wrap.innerHTML = `
-        <input class="todo-edit-input" value="${escHtml(oldText)}" maxlength="200" />
-        <textarea class="note-edit-input" rows="2" maxlength="1000">${escHtml(oldNote)}</textarea>
-        <div class="note-md-help">${escHtml(T.markdownHelp)}</div>
-        <div class="note-preview-toolbar">
-          <button type="button" class="note-preview-toggle" id="edit-note-preview-toggle-${id}">${T.notePreviewToggle}</button>
-        </div>
-        <div class="note-preview" id="edit-note-preview-${id}" style="display:none"></div>
-        <div class="cat-input-wrap">
-          <input class="cat-input" type="text" id="edit-cat-${id}" value="${escHtml(oldCat)}" maxlength="100" autocomplete="off" placeholder="${T.catPlaceholder}" />
-          <div class="cat-ac" id="edit-cat-ac-${id}"></div>
-        </div>
-        <div class="due-edit-row">
-          <div class="due-edit-wrap">
-            <input class="due-edit-input${oldDueDate ? ' has-value' : ''}" type="date" id="edit-todo-due" value="${oldDueDate}" />
-            <span class="due-edit-label">${T.formDate}</span>
-          </div>
-          <div class="due-edit-wrap time-wrap">
-            <input class="due-edit-input due-time${oldDueTime ? ' has-value' : ''}" type="time" value="${oldDueTime}" />
-            <span class="due-edit-label">${T.formTime}</span>
-          </div>
-        </div>
-        <div class="recur-input-row">
-          <span class="due-input-icon">${SVG.repeat}</span>
-          <div class="recur-dd-detail-wrap" id="edit-todo-recur-wrap">
-            <button type="button" class="sort-select recur-dd-btn-edit" id="edit-todo-recur-btn" onclick="toggleRecurDD('edit-todo-recur')">
-              <span id="edit-todo-recur-label">${T.recurNone}</span>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="sort-ac recur-dd-ac" id="edit-todo-recur-ac"></div>
-          </div>
-          <select id="edit-todo-recur" style="display:none"></select>
-        </div>
-        <div class="recur-input-row" id="edit-todo-recur-detail-wrap" style="display:none">
-          <span class="due-input-icon" style="visibility:hidden">${SVG.repeat}</span>
-          <div class="recur-dd-detail-wrap">
-            <button type="button" class="sort-select recur-dd-btn-edit" id="edit-todo-recur-detail-btn" onclick="toggleRecurDD('edit-todo-recur-detail')">
-              <span id="edit-todo-recur-detail-label"></span>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="sort-ac recur-dd-ac" id="edit-todo-recur-detail-ac"></div>
-          </div>
-          <select id="edit-todo-recur-detail" style="display:none"></select>
-        </div>
-        <div class="subtask-edit-list" id="edit-subtasks-${id}"></div>
-        <button class="subtask-add-btn" type="button" id="edit-subtask-add-${id}">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          ${T.subtaskAdd}
-        </button>
-        ${boards.length > 1 ? `<div class="recur-input-row">
-          <span class="due-input-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          <div class="recur-dd-detail-wrap">
-            <button type="button" class="sort-select recur-dd-btn-edit" id="edit-move-board-btn-${id}" title="${T.moveToBoardCurrent}" onclick="toggleRecurDD('edit-move-board-${id}')">
-              <span id="edit-move-board-label-${id}">${escHtml(boards.find(b => b.id === currentBoardId)?.name || '')}</span>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="sort-ac recur-dd-ac" id="edit-move-board-${id}-ac">
-              ${boards.map(b => '<div class="cat-ac-item' + (b.id === currentBoardId ? ' active' : '') + '" data-val="' + b.id + '" onclick="selectMoveBoardOpt(' + id + ',' + b.id + ',\'' + escHtml(b.name).replace(/'/g, "\\'") + '\')">' + escHtml(b.name) + (b.id === currentBoardId ? ' ' + T.moveToBoardCurrent : '') + '</div>').join('')}
+        <div class="todo-edit-layout">
+          <section class="new-section-card todo-edit-section">
+            <div class="new-group-title">${escHtml(T.newGroupDetails)}</div>
+            <div class="new-field-label">${escHtml(T.editFieldTitle)}</div>
+            <input class="todo-edit-input" value="${escHtml(oldText)}" maxlength="200" aria-label="${escHtml(T.editFieldTitle)}" />
+            <div class="new-field-label">${escHtml(T.newFieldNote)}</div>
+            <textarea class="note-edit-input" rows="4" maxlength="1000" aria-label="${escHtml(T.newFieldNote)}">${escHtml(oldNote)}</textarea>
+            <div class="note-md-help">${escHtml(T.markdownHelp)}</div>
+            <div class="note-preview-toolbar">
+              <button type="button" class="note-preview-toggle" id="edit-note-preview-toggle-${id}">${T.notePreviewToggle}</button>
             </div>
+            <div class="note-preview" id="edit-note-preview-${id}" style="display:none"></div>
+            <div class="new-field-label">${escHtml(T.newFieldTags)}</div>
+            <div class="cat-input-wrap">
+              <input class="cat-input" type="text" id="edit-cat-${id}" value="${escHtml(oldCat)}" maxlength="100" autocomplete="off" placeholder="${T.catPlaceholder}" aria-label="${escHtml(T.newFieldTags)}" />
+              <div class="cat-ac" id="edit-cat-ac-${id}"></div>
+            </div>
+          </section>
+          <section class="new-section-card todo-edit-section">
+            <div class="new-group-title">${escHtml(T.newGroupPlanning)}</div>
+            <div class="new-field-label">${escHtml(T.newFieldPriority)}</div>
+            <div class="prio-chips" id="edit-prio-chips-${id}">
+              <button class="prio-chip${todo.priority === 'high' ? ' active' : ''}" data-p="high">${T.priorityHigh}</button>
+              <button class="prio-chip${todo.priority === 'medium' ? ' active' : ''}" data-p="medium">${T.priorityMedium}</button>
+              <button class="prio-chip${todo.priority === 'low' ? ' active' : ''}" data-p="low">${T.priorityLow}</button>
+            </div>
+            <div class="color-picker-row" id="edit-color-picker-${id}"></div>
+            <div class="new-field-label">${escHtml(T.newFieldSchedule)}</div>
+            <div class="due-edit-row">
+              <div class="due-edit-wrap">
+                <input class="due-edit-input${oldDueDate ? ' has-value' : ''}" type="date" id="edit-todo-due" value="${oldDueDate}" />
+                <span class="due-edit-label">${T.formDate}</span>
+              </div>
+              <div class="due-edit-wrap time-wrap">
+                <input class="due-edit-input due-time${oldDueTime ? ' has-value' : ''}" type="time" value="${oldDueTime}" />
+                <span class="due-edit-label">${T.formTime}</span>
+              </div>
+            </div>
+            <div class="new-field-label">${escHtml(T.newFieldRecurrence)}</div>
+            <div class="todo-edit-recur-stack">
+              <div class="recur-input-row">
+                <span class="due-input-icon">${SVG.repeat}</span>
+                <div class="recur-dd-detail-wrap" id="edit-todo-recur-wrap">
+                  <button type="button" class="sort-select recur-dd-btn-edit" id="edit-todo-recur-btn" onclick="toggleRecurDD('edit-todo-recur')">
+                    <span id="edit-todo-recur-label">${T.recurNone}</span>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <div class="sort-ac recur-dd-ac" id="edit-todo-recur-ac"></div>
+                </div>
+                <select id="edit-todo-recur" style="display:none"></select>
+              </div>
+              <div class="recur-input-row" id="edit-todo-recur-detail-wrap" style="display:none">
+                <span class="due-input-icon" style="visibility:hidden">${SVG.repeat}</span>
+                <div class="recur-dd-detail-wrap">
+                  <button type="button" class="sort-select recur-dd-btn-edit" id="edit-todo-recur-detail-btn" onclick="toggleRecurDD('edit-todo-recur-detail')">
+                    <span id="edit-todo-recur-detail-label"></span>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <div class="sort-ac recur-dd-ac" id="edit-todo-recur-detail-ac"></div>
+                </div>
+                <select id="edit-todo-recur-detail" style="display:none"></select>
+              </div>
+            </div>
+            ${boards.length > 1 ? `<div class="new-field-label">${escHtml(moveBoardLabel)}</div>
+            <div class="recur-input-row">
+              <span class="due-input-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+              <div class="recur-dd-detail-wrap">
+                <button type="button" class="sort-select recur-dd-btn-edit" id="edit-move-board-btn-${id}" title="${T.moveToBoardCurrent}" onclick="toggleRecurDD('edit-move-board-${id}')">
+                  <span id="edit-move-board-label-${id}">${escHtml(boards.find(b => b.id === currentBoardId)?.name || '')}</span>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="sort-ac recur-dd-ac" id="edit-move-board-${id}-ac">
+                  ${boards.map(b => '<div class="cat-ac-item' + (b.id === currentBoardId ? ' active' : '') + '" data-val="' + b.id + '" onclick="selectMoveBoardOpt(' + id + ',' + b.id + ',\'' + escHtml(b.name).replace(/'/g, "\\'") + '\')">' + escHtml(b.name) + (b.id === currentBoardId ? ' ' + T.moveToBoardCurrent : '') + '</div>').join('')}
+                </div>
+              </div>
+              <select id="edit-move-board-${id}" style="display:none">
+                ${boards.map(b => '<option value="' + b.id + '"' + (b.id === currentBoardId ? ' selected' : '') + '>' + escHtml(b.name) + '</option>').join('')}
+              </select>
+            </div>` : ''}
+            ${getTaskElapsed(todo) ? `<div class="new-field-label">${escHtml(T.timeTrackLabel)}</div>
+            <div class="todo-edit-inline-meta">
+              <span class="due-input-icon">${SVG.stopwatch}</span>
+              <span class="todo-edit-inline-text">${T.timeTrackLabel}: ${formatElapsed(getTaskElapsed(todo))}</span>
+              <button type="button" class="edit-btn todo-edit-inline-btn" onclick="resetTaskTimer(${id})">${T.timeTrackReset}</button>
+            </div>` : ''}
+          </section>
+          <section class="new-section-card todo-edit-section">
+            <div class="new-group-title">${escHtml(T.editGroupSubtasks)}</div>
+            <div class="subtask-edit-list" id="edit-subtasks-${id}"></div>
+            <button class="subtask-add-btn" type="button" id="edit-subtask-add-${id}">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              ${T.subtaskAdd}
+            </button>
+          </section>
+          <div class="edit-btn-row todo-edit-actions">
+            <button class="edit-btn" id="edit-cancel-${id}">${T.editCancel}</button>
+            <button class="edit-btn edit-save" id="edit-save-${id}">${T.editSave}</button>
           </div>
-          <select id="edit-move-board-${id}" style="display:none">
-            ${boards.map(b => '<option value="' + b.id + '"' + (b.id === currentBoardId ? ' selected' : '') + '>' + escHtml(b.name) + '</option>').join('')}
-          </select>
-        </div>` : ''}
-        <div class="color-picker-row" id="edit-color-picker-${id}"></div>
-        <div class="prio-chips" id="edit-prio-chips-${id}">
-          <button class="prio-chip${todo.priority === 'high' ? ' active' : ''}" data-p="high">${T.priorityHigh}</button>
-          <button class="prio-chip${todo.priority === 'medium' ? ' active' : ''}" data-p="medium">${T.priorityMedium}</button>
-          <button class="prio-chip${todo.priority === 'low' ? ' active' : ''}" data-p="low">${T.priorityLow}</button>
-        </div>
-        ${getTaskElapsed(todo) ? `<div class="recur-input-row">
-          <span class="due-input-icon">${SVG.stopwatch}</span>
-          <span style="flex:1;font-size:0.82rem;opacity:0.8">${T.timeTrackLabel}: ${formatElapsed(getTaskElapsed(todo))}</span>
-          <button type="button" class="edit-btn" style="padding:4px 10px;font-size:0.72rem;margin:0" onclick="resetTaskTimer(${id})">${T.timeTrackReset}</button>
-        </div>` : ''}
-        <div class="edit-btn-row">
-          <button class="edit-btn" id="edit-cancel-${id}">${T.editCancel}</button>
-          <button class="edit-btn edit-save" id="edit-save-${id}">${T.editSave}</button>
         </div>
       `;
       const inp = wrap.querySelector('.todo-edit-input');
@@ -1517,15 +1590,6 @@
     })();
 
     // ── Import / Export ──────────────────────────────────────────────────────
-    function downloadApp() {
-      const html = document.documentElement.outerHTML;
-      const blob = new Blob(['<!DOCTYPE html>\n' + html], { type: 'text/html; charset=utf-8' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'flux.html';
-      a.click();
-      URL.revokeObjectURL(a.href);
-    }
     function exportData() {
       const board = boards.find(b => b.id === currentBoardId);
       if (board) { board.todos = todos; board.history = history; }
@@ -1757,8 +1821,11 @@
       const hasAnyContent = boards.some(function(board) {
         return (board.todos && board.todos.length) || (board.history && board.history.length);
       }) || notes.length || templates.length || boards.length > 1;
-      if (!hasAnyContent) return;
       const T = t();
+      if (!hasAnyContent) {
+        doDeleteAll();
+        return;
+      }
       showConfirm(T.confirmClearAll, () => {
         showConfirm(T.confirmExportFirst, () => {
           exportData();
@@ -1770,15 +1837,22 @@
     }
     function doDeleteAll() {
       const T = t();
-      boards.forEach(function(board) {
-        (board.todos || []).forEach(function(todo) { addHistory('deleted', todo.text); });
-      });
-      boards = [{ id: 1, name: T.boardDefault || 'Inbox', todos: [], history: [] }];
-      currentBoardId = boards[0].id;
+      const starter = typeof createStarterContent === 'function' ? createStarterContent(lang) : null;
+      if (starter && Array.isArray(starter.boards) && starter.boards.length) {
+        boards = starter.boards;
+        currentBoardId = starter.currentBoardId || starter.boards[0].id;
+        notes = Array.isArray(starter.notes) ? starter.notes : [];
+        templates = Array.isArray(starter.templates) ? starter.templates : [];
+      } else {
+        boards = [{ id: 1, name: T.boardDefault || 'Inbox', todos: [], history: [] }];
+        currentBoardId = boards[0].id;
+        notes = [];
+        templates = [];
+      }
       activateBoard(currentBoardId);
-      notes = [];
-      templates = [];
+      activeTab = 'tasks';
       activeTasksView = 'tasks';
+      currentFilter = 'open';
       currentCategory = '';
       searchQuery = '';
       const searchEl = document.getElementById('search-input');
@@ -1791,7 +1865,8 @@
       if (notesPreviewBtn) notesPreviewBtn.classList.remove('active');
       save();
       render();
-      showToast(T.toastAllCleared);
+      switchTab('tasks');
+      showToast(T.toastAppReset || T.toastAllCleared);
     }
 
     // ── Tab navigation ──────────────────────────────────────────────────────
@@ -2279,7 +2354,7 @@
       darkPref = pref;
       safeSetItem('dark', pref === 'dark' ? '1' : pref === 'light' ? '0' : 'auto');
       dark = pref === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : pref === 'dark';
-      applyDark(); save(); haptic('light');
+      applyDark(); render(); save(); haptic('light');
     }
     // Follow system when in auto mode
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
@@ -2345,20 +2420,20 @@
       applyTheme(id);
       haptic('light');
       save();
-      renderThemeSwatches();
+      renderSettingsThemeSwatches();
     }
-    function toggleThemePicker() {
-      themePickerOpen = !themePickerOpen;
-      document.getElementById('theme-popover').classList.toggle('open', themePickerOpen);
-      if (themePickerOpen) renderThemeSwatches();
-    }
-    function renderThemeSwatches() {
+    function getThemeSwatchesMarkup(extraClass) {
       const names = t().themeNames;
-      document.getElementById('theme-popover').innerHTML = Object.keys(THEMES).map(id => `
-        <button class="theme-swatch${currentTheme === id ? ' active' : ''}" onclick="selectTheme('${id}')">
+      const classSuffix = extraClass ? ' ' + extraClass : '';
+      return Object.keys(THEMES).map(id => `
+        <button type="button" class="theme-swatch${classSuffix}${currentTheme === id ? ' active' : ''}" onclick="selectTheme('${id}')" aria-label="${names[id]}" title="${names[id]}">
           <div class="swatch-circle" style="background:${SWATCH_BG[id]}"></div>
           <span class="swatch-label">${names[id]}</span>
         </button>`).join('');
+    }
+    function renderSettingsThemeSwatches() {
+      const grid = document.getElementById('theme-settings-grid');
+      if (grid) grid.innerHTML = getThemeSwatchesMarkup('settings-theme-swatch');
     }
 
     // ── Priority ─────────────────────────────────────────────────────────────
@@ -2837,7 +2912,6 @@
         if (document.getElementById('quick-actions-backdrop').classList.contains('show')) { closeQuickActions(); return; }
         if (document.getElementById('focus-overlay').style.display !== 'none') { exitFocusMode(); return; }
         if (document.getElementById('pomo-overlay').style.display !== 'none' && !pomodoroMinimized) { minimizePomodoro(); return; }
-        if (themePickerOpen) { themePickerOpen = false; document.getElementById('theme-popover').classList.remove('open'); return; }
         if (isInput) { document.activeElement.blur(); return; }
         return;
       }
@@ -2860,7 +2934,7 @@
       if (key === 'b') { e.preventDefault(); const idx = boards.findIndex(b => b.id === currentBoardId); switchBoard(boards[(idx + 1) % boards.length].id); return; }
       if (e.key === '[') { e.preventDefault(); cycleTabs(-1); return; }
       if (e.key === ']') { e.preventDefault(); cycleTabs(1); return; }
-      if (e.key === '?') { e.preventDefault(); switchTab('help'); return; }
+      if (e.key === '?') { e.preventDefault(); if (typeof openHelpSection === 'function') openHelpSection('help-shortcuts'); else switchTab('help'); return; }
     });
 
     // ── Utilities ────────────────────────────────────────────────────────────
@@ -2897,6 +2971,11 @@
       document.getElementById('new-template-update-label').textContent = T.templateUpdateLabel;
       document.getElementById('new-template-cancel-label').textContent = T.templateCancelLabel;
       document.getElementById('new-group-plan-label').textContent = T.newGroupPlanning;
+      document.getElementById('new-field-priority-label').textContent = T.newFieldPriority;
+      document.getElementById('new-field-schedule-label').textContent = T.newFieldSchedule;
+      document.getElementById('new-field-recur-label').textContent = T.newFieldRecurrence;
+      document.getElementById('new-field-note-label').textContent = T.newFieldNote;
+      document.getElementById('new-field-tags-label').textContent = T.newFieldTags;
       document.getElementById('new-group-details-label').textContent = T.newGroupDetails;
       document.getElementById('new-group-templates-label').textContent = T.newGroupTemplates;
       const isTplEdit = editingTemplateId !== null;
@@ -2917,7 +2996,6 @@
       document.getElementById('export-label').textContent = T.exportLabel;
       document.getElementById('export-csv-label').textContent = T.exportCsvLabel;
       document.getElementById('import-label').textContent = T.importLabel;
-      document.getElementById('clear-label').textContent = T.clearLabel;
       renderTemplateManager();
 
       document.getElementById('view-btn-tasks').innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> <span>' + escHtml(T.viewTasks) + '</span>';
@@ -2958,7 +3036,9 @@
       document.getElementById('tab-label-manage').textContent = T.tabManage;
       renderHelpPanel(T);
       document.getElementById('delete-all-label').textContent = T.deleteAllLabel;
-      document.getElementById('download-app-label').textContent = T.downloadAppLabel;
+      document.getElementById('theme-setting-label').textContent = T.themeSettingLabel;
+      document.getElementById('theme-setting-sub').textContent = T.themeSettingSub;
+      renderSettingsThemeSwatches();
       document.getElementById('darkmode-setting-label').textContent = T.darkModeSettingLabel;
       document.getElementById('darkmode-setting-sub').textContent = T.darkModeSettingSub;
       document.getElementById('dm-chip-auto').textContent = T.darkModeAuto;
@@ -3034,7 +3114,7 @@
                   }</div>
                   ${todo.priority || dc || todo.recurrence || getTaskElapsed(todo) ? `<div class="todo-badges-row">${todo.priority ? `<span class="prio-badge" data-p="${todo.priority}">${prioLabel[todo.priority]}</span>` : ''}${isRecurFuture ? `<span class="recur-scheduled-badge">${T.recurScheduled}</span>` : ''}${dc ? `<span class="todo-due ${dc}">${dueLabel[dc]}: ${formatDueDate(todo.dueDate)}</span>` : ''}${todo.recurrence ? `<span class="recur-badge">${SVG.repeat} ${recurrenceLabel(todo.recurrence)}</span>` : ''}${getTaskElapsed(todo) ? `<span class="timer-badge${todo.timerStarted ? ' running' : ''}" data-task-id="${todo.id}">${SVG.stopwatch} <span class="timer-value">${formatElapsed(getTaskElapsed(todo))}</span></span>` : ''}</div>` : ''}
                   ${todo.categories && todo.categories.length ? `<div class="todo-cat-row">${todo.categories.map(function(c) { return `<span class="cat-badge todo-cat-filter" style="${catStyle(c)}" data-tag="${escHtml(c)}">#${escHtml(c)}</span>`; }).join(' ')}</div>` : ''}
-                  ${todo.note ? `<div class="todo-note">${escHtml(todo.note)}</div>` : ''}
+                  ${todo.note ? `<div class="todo-note">${renderMarkdownSafe(todo.note)}</div>` : ''}
                   ${todo.subtasks && todo.subtasks.length ? `<div class="subtask-list">${todo.subtasks.map((st, si) => `<div class="subtask-item${st.done ? ' done' : ''}" onclick="toggleSubtask(${todo.id},${si})"><span class="subtask-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="subtask-text">${escHtml(st.text)}</span></div>`).join('')}</div>` : ''}
                 </div>
                 <div class="todo-bottom-row">
@@ -3148,7 +3228,8 @@
       if (history.length) {
         const hPct = Math.min(Math.round((history.length / 100000) * 100), 100);
         hUsage.innerHTML = `
-          <div class="stats-row" style="margin-top:8px;justify-content:flex-end">
+          <div class="stats-row" style="margin-top:8px">
+            <button class="clear-all-btn" onclick="clearHistory()">${T.clearLabel}</button>
             <div style="display:flex;align-items:center;gap:10px">
               <span class="stats-text">${T.historyUsage(history.length.toLocaleString())}</span>
               <div class="progress-bar"><div class="progress-fill" style="width:${hPct}%;background:${hPct > 80 ? 'var(--danger)' : 'var(--accent)'}"></div></div>
@@ -3507,8 +3588,10 @@
       if (!indexedSnapshot || (loadResult && loadResult.usedLegacyMigration)) {
         scheduleIndexedDbPersist();
       }
-      translateStarterBoardContent('de', lang);
-      translateStarterBoardContent('en', lang);
+      const starterContentChanged =
+        translateStarterBoardContent('de', lang) ||
+        translateStarterBoardContent('en', lang);
+      if (starterContentChanged) save();
       setupIOSTabBarKeyboardPin();
       setupPreventDoubleTapZoomOnNavControls();
       applyDark();
@@ -3556,14 +3639,6 @@
         if (val) setCategoryFilter(val);
       });
       document.addEventListener('click', function(e) {
-        if (!themePickerOpen) return;
-        const wrap = document.getElementById('theme-picker-wrap');
-        if (wrap && !wrap.contains(e.target)) {
-          themePickerOpen = false;
-          document.getElementById('theme-popover').classList.remove('open');
-        }
-      });
-      document.addEventListener('click', function(e) {
         const dd = document.getElementById('sort-dropdown');
         if (dd && !dd.contains(e.target)) {
           document.getElementById('sort-ac').classList.remove('open');
@@ -3597,8 +3672,10 @@
     bootstrapApp().catch(function() {
       const loadResult = load();
       if (loadResult && loadResult.usedLegacyMigration) save();
-      translateStarterBoardContent('de', lang);
-      translateStarterBoardContent('en', lang);
+      const starterContentChanged =
+        translateStarterBoardContent('de', lang) ||
+        translateStarterBoardContent('en', lang);
+      if (starterContentChanged) save();
       setupIOSTabBarKeyboardPin();
       setupPreventDoubleTapZoomOnNavControls();
       applyDark();
