@@ -7,11 +7,110 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#c8d6e5",
   "theme_color": "#c8d6e5",
   "categories": [
     "productivity",
     "utilities"
+  ],
+  "screenshots": [
+    {
+      "src": "./screenshots/flux-narrow-1-new.png",
+      "sizes": "1180x2026",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Flux new task view on mobile"
+    },
+    {
+      "src": "./screenshots/flux-narrow-2-tasks.png",
+      "sizes": "1180x2026",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Flux tasks view on mobile"
+    },
+    {
+      "src": "./screenshots/flux-narrow-3-archive.png",
+      "sizes": "1180x2026",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Flux archive view on mobile"
+    },
+    {
+      "src": "./screenshots/flux-narrow-4-settings.png",
+      "sizes": "1180x2026",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Flux settings view on mobile"
+    },
+    {
+      "src": "./screenshots/flux-narrow-5-help.png",
+      "sizes": "1180x2026",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Flux help view on mobile"
+    },
+    {
+      "src": "./screenshots/flux-wide-1-new.png",
+      "sizes": "2490x1956",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Flux new task view on desktop"
+    },
+    {
+      "src": "./screenshots/flux-wide-2-tasks.png",
+      "sizes": "2490x1956",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Flux tasks view on desktop"
+    },
+    {
+      "src": "./screenshots/flux-wide-3-archive.png",
+      "sizes": "2490x1956",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Flux archive view on desktop"
+    },
+    {
+      "src": "./screenshots/flux-wide-4-settings.png",
+      "sizes": "2490x1956",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Flux settings view on desktop"
+    },
+    {
+      "src": "./screenshots/flux-wide-5-help.png",
+      "sizes": "2490x1956",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Flux help view on desktop"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "New task",
+      "short_name": "New",
+      "description": "Open the new task view",
+      "url": "./?tab=new"
+    },
+    {
+      "name": "Tasks",
+      "short_name": "Tasks",
+      "description": "Open the task list",
+      "url": "./?tab=tasks"
+    },
+    {
+      "name": "Archive",
+      "short_name": "Archive",
+      "description": "Open archive and statistics",
+      "url": "./?tab=history"
+    },
+    {
+      "name": "Settings",
+      "short_name": "Settings",
+      "description": "Open the settings tab",
+      "url": "./?tab=manage"
+    }
   ],
   "icons": [
     {

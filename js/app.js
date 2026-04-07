@@ -3313,36 +3313,50 @@
     }
     // ── iOS PWA: hide tab-bar when keyboard opens ─────────────────────────────
     function setupIOSTabBarKeyboardPin() {
-      if (!window.navigator.standalone) return;
       const tabBar = document.getElementById('tab-bar');
+      if (!tabBar) return;
+      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      if (!isIOS) return;
       let keyboardOpen = false;
       let focusOutTimer = null;
+
+      function hasKeyboardTarget() {
+        const active = document.activeElement;
+        return !!(active && active.matches('input, textarea, [contenteditable]') && !active.readOnly && !active.disabled);
+      }
 
       function setKeyboard(open) {
         keyboardOpen = open;
         tabBar.classList.toggle('keyboard-open', open);
       }
 
+      function syncKeyboard() {
+        const viewport = window.visualViewport;
+        const diff = viewport ? window.innerHeight - viewport.height : 0;
+        const keyboardFromViewport = diff > 120;
+        const keyboardFromFocus = hasKeyboardTarget() && (!viewport || diff > 60);
+        setKeyboard(keyboardFromViewport || keyboardFromFocus);
+      }
+
       // Primary: input focus events (most reliable on iOS)
       document.addEventListener('focusin', function(e) {
         if (e.target.matches('input, textarea, [contenteditable]')) {
           clearTimeout(focusOutTimer);
-          setKeyboard(true);
+          syncKeyboard();
         }
       });
       document.addEventListener('focusout', function() {
         // Debounce: iOS keyboard close has ~1s delay
-        focusOutTimer = setTimeout(function() { setKeyboard(false); }, 150);
+        focusOutTimer = setTimeout(syncKeyboard, 150);
       });
 
       // Fallback: visualViewport for edge cases (e.g. autocomplete selection)
       if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', function() {
-          const diff = window.innerHeight - window.visualViewport.height;
-          if (diff > 120 && !keyboardOpen) setKeyboard(true);
-          if (diff < 50 && keyboardOpen) setKeyboard(false);
-        });
+        window.visualViewport.addEventListener('resize', syncKeyboard);
+        window.visualViewport.addEventListener('scroll', syncKeyboard);
       }
+      window.addEventListener('orientationchange', function() { setTimeout(syncKeyboard, 80); });
+      syncKeyboard();
     }
 
     function setupPreventDoubleTapZoomOnNavControls() {
@@ -3371,7 +3385,12 @@
     // ── PWA Setup ────────────────────────────────────────────────────────────
     function setupPWA() {
       if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-        navigator.serviceWorker.register('./service-worker.js', { updateViaCache: 'none' }).catch(() => {});
+        const swUrl = new URL('./service-worker.js', window.location.href);
+        const swScope = new URL('./', window.location.href).pathname;
+        navigator.serviceWorker.register(swUrl.pathname, {
+          scope: swScope,
+          updateViaCache: 'none'
+        }).catch(() => {});
       }
       if (navigator.storage && navigator.storage.persist) {
         navigator.storage.persist();
@@ -3598,7 +3617,6 @@
       applyTheme(currentTheme);
       applyLang();
       applyNotifyIcon();
-      setupPWA();
       setupIOSBanner();
       showTip();
       render();
@@ -3648,27 +3666,45 @@
       // ── Quick-Add via URL parameter ─────────────────────────────────────────
       (function() {
         const params = new URLSearchParams(window.location.search);
-        const addText = params.get('add');
-        if (!addText) return;
-        switchTab('new');
-        const input = document.getElementById('new-todo-input');
-        if (input) { input.value = addText.trim(); input.focus(); updateFieldLabels(); }
-        const note = params.get('note');
-        if (note) {
-          const n = document.getElementById('new-todo-note');
-          if (n) {
-            n.value = note.trim();
-            updateNewNotePreview();
+        let usedParams = false;
+        const tab = params.get('tab');
+        if (tab && ['new', 'tasks', 'history', 'manage', 'help'].includes(tab)) {
+          switchTab(tab);
+          usedParams = true;
+          if (tab === 'new') {
+            setTimeout(function() {
+              const input = document.getElementById('new-todo-input');
+              if (input) input.focus();
+            }, 20);
           }
         }
-        const prio = params.get('priority');
-        if (prio) { const p = prio.toLowerCase(); if (['high','medium','low'].includes(p)) { newPriority = p; updatePrioChips(); } }
-        const due = params.get('due');
-        if (due) { const d = document.getElementById('new-todo-due'); if (d) { d.value = due; updateFieldLabels(); } }
-        if (note || prio || due) setNewAdvancedOpen(true);
-        window.history.replaceState({}, '', window.location.pathname);
+        const addText = params.get('add');
+        if (addText) {
+          usedParams = true;
+          switchTab('new');
+          const input = document.getElementById('new-todo-input');
+          if (input) { input.value = addText.trim(); input.focus(); updateFieldLabels(); }
+          const note = params.get('note');
+          if (note) {
+            const n = document.getElementById('new-todo-note');
+            if (n) {
+              n.value = note.trim();
+              updateNewNotePreview();
+            }
+          }
+          const prio = params.get('priority');
+          if (prio) { const p = prio.toLowerCase(); if (['high','medium','low'].includes(p)) { newPriority = p; updatePrioChips(); } }
+          const due = params.get('due');
+          if (due) { const d = document.getElementById('new-todo-due'); if (d) { d.value = due; updateFieldLabels(); } }
+          if (note || prio || due) setNewAdvancedOpen(true);
+        }
+        if (usedParams) window.history.replaceState({}, '', window.location.pathname);
       })();
     }
+    // Register as early as possible so browsers and PWA auditors detect the
+    // service worker before the async app bootstrap finishes.
+    setupPWA();
+
     bootstrapApp().catch(function() {
       const loadResult = load();
       if (loadResult && loadResult.usedLegacyMigration) save();
@@ -3682,7 +3718,6 @@
       applyTheme(currentTheme);
       applyLang();
       applyNotifyIcon();
-      setupPWA();
       setupIOSBanner();
       showTip();
       render();

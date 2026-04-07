@@ -804,8 +804,12 @@
       margin-top: 10px;
       display: grid;
       gap: 10px;
+      min-width: 0;
     }
     .new-section-card {
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
       border: 1px solid var(--gl-border-subtle);
       border-radius: 14px;
       background: rgba(255,255,255,0.14);
@@ -855,15 +859,30 @@
     .new-plan-recur-wrap {
       display: grid;
       gap: 8px;
+      min-width: 0;
     }
     .new-template-actions { margin-top: 0; }
     .todo-edit-layout {
       display: grid;
       gap: 10px;
       margin-top: 8px;
+      min-width: 0;
     }
     .todo-edit-section {
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
       padding: 12px;
+    }
+    .new-section-card > *,
+    .todo-edit-section > *,
+    .form-details,
+    .form-grid > *,
+    .new-plan-recur-wrap > *,
+    .todo-edit-recur-stack > *,
+    .due-edit-row > *,
+    .recur-input-row > * {
+      min-width: 0;
     }
     .todo-edit-section .todo-edit-input,
     .todo-edit-section .note-edit-input {
@@ -907,13 +926,16 @@
     .todo-edit-recur-stack {
       display: grid;
       gap: 8px;
+      min-width: 0;
     }
     .todo-edit-inline-meta {
       display: flex;
       align-items: center;
       gap: 8px;
+      min-width: 0;
       min-height: 44px;
       padding: 8px 10px;
+      box-sizing: border-box;
       border-radius: 12px;
       border: 1px solid var(--gl-border-subtle);
       background: rgba(255,255,255,0.18);
@@ -1210,6 +1232,8 @@
     .subtask-edit-input {
       flex: 1;
       padding: 8px 12px;
+      min-width: 0;
+      box-sizing: border-box;
       border-radius: 12px;
       border: 1px solid var(--gl-border-subtle);
       background: rgba(255,255,255,0.18);
@@ -1249,7 +1273,9 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      width: 100%;
       padding: 8px 12px;
+      box-sizing: border-box;
       border: 1px dashed var(--gl-border-subtle);
       border-radius: 12px;
       background: none;
@@ -1299,6 +1325,7 @@
       width: 100%;
       margin-top: 8px;
       padding: 10px 14px;
+      box-sizing: border-box;
       border-radius: 12px;
       border: 1.5px solid var(--accent);
       background: rgba(255,255,255,0.45);
@@ -1562,6 +1589,7 @@
       display: flex;
       gap: 8px;
       margin-top: 8px;
+      min-width: 0;
     }
     .due-edit-input {
       flex: 1;
@@ -1787,6 +1815,12 @@
       transition: border-color 0.2s;
     }
     .sort-select:hover, .sort-select:focus { border-color: var(--accent); }
+    .sort-select > span:first-child {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     body.dark .sort-select {
       background: var(--gl-subtle-dark);
       border-color: var(--gl-border-subtle-dark);
@@ -1821,7 +1855,7 @@
     .recur-dd-btn-edit.placeholder { color: var(--muted); }
     body.dark .recur-dd-btn.placeholder,
     body.dark .recur-dd-btn-edit.placeholder { color: var(--muted-dark); }
-    .recur-dd-detail-wrap { flex: 1; position: relative; }
+    .recur-dd-detail-wrap { flex: 1; min-width: 0; position: relative; }
     .cat-filter-wrap { position: relative; width: 100%; }
 
     /* ── Todo List ──────────────────────────────────────────── */
@@ -2454,6 +2488,8 @@
     .todo-edit-input {
       width: 100%;
       padding: 10px 14px;
+      min-width: 0;
+      box-sizing: border-box;
       border-radius: 12px;
       border: 1.5px solid var(--accent);
       background: rgba(255,255,255,0.55);
@@ -3355,6 +3391,8 @@
 
     /* ── Bottom Tab Bar ─────────────────────────────────────── */
     .tab-bar {
+      --tab-bar-shift-x: 0px;
+      --tab-bar-shift-y: 0px;
       position: fixed;
       bottom: 0;
       left: 0;
@@ -3369,16 +3407,22 @@
       border-top: 1px solid var(--gl-border);
       box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
       z-index: 200;
-      transition: transform 0.2s ease;
+      transform: translate(var(--tab-bar-shift-x), var(--tab-bar-shift-y));
+      opacity: 1;
+      visibility: visible;
+      transition: transform 0.2s ease, opacity 0.2s ease, visibility 0.2s step-end;
     }
     .tab-bar.keyboard-open {
-      transform: translateY(150%);
+      --tab-bar-shift-y: calc(100% + env(safe-area-inset-bottom, 0px) + 24px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
     @media (min-width: 700px) {
       .tab-bar {
         left: 50%;
         right: auto;
-        transform: translateX(-50%);
+        --tab-bar-shift-x: -50%;
         width: 100%;
         max-width: 660px;
         border-radius: var(--radius) var(--radius) 0 0;
@@ -4094,6 +4138,37 @@
     }
 
     @media (max-width: 390px) {
+      .new-section-card,
+      .todo-edit-section {
+        padding: 12px 10px;
+      }
+      .form-grid,
+      .due-edit-row {
+        grid-template-columns: 1fr;
+      }
+      .due-edit-row {
+        display: grid;
+      }
+      .due-edit-wrap,
+      .due-edit-wrap.time-wrap {
+        flex: 1 1 auto;
+      }
+      .prio-chips {
+        flex-wrap: wrap;
+      }
+      .prio-chip {
+        flex: 1 1 calc(50% - 4px);
+        min-width: 0;
+      }
+      .todo-edit-section .prio-chip {
+        flex-basis: 100%;
+      }
+      .todo-edit-inline-meta {
+        flex-wrap: wrap;
+      }
+      .todo-edit-inline-btn {
+        width: 100%;
+      }
       .tag-mgr-btn, .template-btn {
         min-height: 36px;
         padding: 6px 8px;

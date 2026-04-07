@@ -427,6 +427,14 @@
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
+            version: 'v1.6.9',
+            entries: [
+              'PWA-/Manifest-Metadaten für PWABuilder und Stores ausgebaut: vollständige Screenshot-Galerie für Mobile/Desktop, App-Shortcuts und zusätzliche Manifest-Felder',
+              'Service-Worker-Registrierung robuster gemacht, damit Browser und PWA-Audits den Offline-Support zuverlässiger erkennen',
+              'iPhone-SE- und Small-Screen-Layouts im Neu- und Bearbeiten-Formular stabilisiert; iOS blendet die Tab-Bar bei geöffneter Tastatur wieder sauber aus',
+            ],
+          },
+          {
             version: 'v1.6.8',
             entries: [
               'Welcome-Onboarding erweitert: mehr Demo-Aufgaben, ausführlichere Hinweise in den Aufgaben-Notizen, zusätzliche Tipps und Demo-Neustart nach komplettem Reset',
@@ -1531,6 +1539,14 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.6.9',
+            entries: [
+              'Expanded the PWA/manifest metadata for PWABuilder and stores with a full screenshot gallery for mobile/desktop, app shortcuts, and additional manifest fields',
+              'Hardened Service Worker registration so browsers and PWA audits detect offline support more reliably',
+              'Stabilized iPhone SE and other small-screen layouts in the new-task and inline-edit forms, and made the iOS tab bar hide cleanly again while the keyboard is open',
+            ],
+          },
           {
             version: 'v1.6.8',
             entries: [
