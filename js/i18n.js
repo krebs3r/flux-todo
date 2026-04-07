@@ -427,6 +427,13 @@
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
+            version: 'v1.6.9.1',
+            entries: [
+              'Service Worker auf `sw.js` umbenannt, damit die App der gängigen PWA-Konvention folgt',
+              'Alte `service-worker.js` entfernt und Registrierung sowie App-Shell-Caching auf den neuen Worker-Pfad umgestellt',
+            ],
+          },
+          {
             version: 'v1.6.9',
             entries: [
               'PWA-/Manifest-Metadaten für PWABuilder und Stores ausgebaut: vollständige Screenshot-Galerie für Mobile/Desktop, App-Shortcuts und zusätzliche Manifest-Felder',
@@ -1539,6 +1546,13 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.6.9.1',
+            entries: [
+              'Renamed the Service Worker to `sw.js` so the app follows the common PWA convention',
+              'Removed the old `service-worker.js` file and switched registration plus app-shell caching to the new worker path',
+            ],
+          },
           {
             version: 'v1.6.9',
             entries: [

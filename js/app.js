@@ -3385,7 +3385,7 @@
     // ── PWA Setup ────────────────────────────────────────────────────────────
     function setupPWA() {
       if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-        const swUrl = new URL('./service-worker.js', window.location.href);
+        const swUrl = new URL('./sw.js', window.location.href);
         const swScope = new URL('./', window.location.href).pathname;
         navigator.serviceWorker.register(swUrl.pathname, {
           scope: swScope,
