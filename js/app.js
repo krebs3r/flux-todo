@@ -3390,6 +3390,23 @@
         navigator.serviceWorker.register(swUrl.pathname, {
           scope: swScope,
           updateViaCache: 'none'
+        }).then(function(registration) {
+          if ('sync' in registration) {
+            registration.sync.register('flux-sync-app-shell').catch(function() {});
+            window.addEventListener('online', function() {
+              registration.sync.register('flux-sync-app-shell').catch(function() {});
+            });
+          }
+          if ('periodicSync' in registration && navigator.permissions && navigator.permissions.query) {
+            navigator.permissions.query({ name: 'periodic-background-sync' }).then(function(status) {
+              if (status.state === 'granted') {
+                registration.periodicSync.register('flux-periodic-sync-app-shell', {
+                  minInterval: 24 * 60 * 60 * 1000
+                }).catch(function() {});
+              }
+            }).catch(function() {});
+          }
+          return registration;
         }).catch(() => {});
       }
       if (navigator.storage && navigator.storage.persist) {

@@ -10,7 +10,9 @@
 //     Strategy: network-first with targeted app-shell caching.
 //     Old cache versions are cleaned up during activation.
 
-const CACHE = 'flux-v19';
+const CACHE = 'flux-v20';
+const SYNC_TAG = 'flux-sync-app-shell';
+const PERIODIC_SYNC_TAG = 'flux-periodic-sync-app-shell';
 const APP_SHELL = [
   './',
   './icons/apple-touch-icon.png',
@@ -32,6 +34,23 @@ const APP_SHELL = [
   './styles.css'
 ];
 
+async function refreshAppShellCache() {
+  const cache = await caches.open(CACHE);
+  await Promise.all(APP_SHELL.map(async function(asset) {
+    try {
+      const response = await fetch(new Request(asset, { cache: 'reload' }));
+      if (response && response.ok) await cache.put(asset, response.clone());
+    } catch (e) {}
+  }));
+}
+
+async function postMessageToClients(message) {
+  const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+  windows.forEach(function(client) {
+    try { client.postMessage(message); } catch (e) {}
+  });
+}
+
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE).then(c => c.addAll(APP_SHELL)).then(() => self.skipWaiting())
@@ -43,6 +62,76 @@ self.addEventListener('activate', e => {
     caches.keys().then(keys =>
       Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
     ).then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('message', function(e) {
+  const data = e.data || {};
+  if (data && data.type === 'SKIP_WAITING') {
+    e.waitUntil(self.skipWaiting());
+    return;
+  }
+  if (data && data.type === 'REFRESH_APP_SHELL') {
+    e.waitUntil(
+      refreshAppShellCache().then(function() {
+        return postMessageToClients({ type: 'APP_SHELL_REFRESHED' });
+      })
+    );
+  }
+});
+
+self.addEventListener('sync', function(e) {
+  if (e.tag !== SYNC_TAG) return;
+  e.waitUntil(
+    refreshAppShellCache().then(function() {
+      return postMessageToClients({ type: 'APP_SHELL_SYNCED' });
+    })
+  );
+});
+
+self.addEventListener('periodicsync', function(e) {
+  if (e.tag !== PERIODIC_SYNC_TAG) return;
+  e.waitUntil(
+    refreshAppShellCache().then(function() {
+      return postMessageToClients({ type: 'APP_SHELL_PERIODIC_SYNCED' });
+    })
+  );
+});
+
+self.addEventListener('push', function(e) {
+  let payload = {};
+  try {
+    payload = e.data ? e.data.json() : {};
+  } catch (err) {
+    payload = { body: e.data ? e.data.text() : '' };
+  }
+  const title = payload.title || 'Flux';
+  const options = {
+    body: payload.body || 'New activity is available in Flux.',
+    icon: payload.icon || './icons/icon-192.png',
+    badge: payload.badge || './icons/icon-192.png',
+    tag: payload.tag || 'flux-push',
+    data: {
+      url: payload.url || './'
+    }
+  };
+  e.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener('notificationclick', function(e) {
+  const targetUrl = (e.notification && e.notification.data && e.notification.data.url) || './';
+  e.notification.close();
+  e.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(clientList) {
+      for (const client of clientList) {
+        if ('focus' in client) {
+          client.postMessage({ type: 'FOCUS_FROM_NOTIFICATION', url: targetUrl });
+          return client.focus();
+        }
+      }
+      if (self.clients.openWindow) return self.clients.openWindow(targetUrl);
+      return undefined;
+    })
   );
 });
 
