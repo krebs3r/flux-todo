@@ -23,6 +23,71 @@
     }
     function onEscClose(e) { if (e.key === 'Escape') closeChangelog(); }
 
+    const MICROSOFT_STORE_BADGE_SCRIPT = 'https://get.microsoft.com/badge/ms-store-badge.bundled.js';
+    const MICROSOFT_STORE_PRODUCT_ID = '9nc9zvwtdj9v';
+    const MICROSOFT_STORE_PRODUCT_NAME = 'Flux — Your ToDo App';
+    const MICROSOFT_STORE_PRODUCT_URL = 'https://apps.microsoft.com/detail/9nc9zvwtdj9v';
+    let microsoftStoreBadgeRequested = false;
+
+    function ensureMicrosoftStoreBadgeScript() {
+      if (typeof customElements !== 'undefined' && customElements.get('ms-store-badge')) return;
+      if (document.querySelector('script[data-ms-store-badge="1"]')) return;
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = MICROSOFT_STORE_BADGE_SCRIPT;
+      script.dataset.msStoreBadge = '1';
+      document.head.appendChild(script);
+    }
+
+    function renderMicrosoftStoreBadge(languageCode, linkLabel) {
+      const container = document.getElementById('help-microsoft-store-badge');
+      if (!container) return;
+      const isMobileDevice = isMobileDeviceContext();
+      const badgeTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+      if (!microsoftStoreBadgeRequested) {
+        microsoftStoreBadgeRequested = true;
+        ensureMicrosoftStoreBadgeScript();
+      }
+      container.innerHTML = '';
+      if (!isMobileDevice) {
+        const badge = document.createElement('ms-store-badge');
+        badge.setAttribute('productid', MICROSOFT_STORE_PRODUCT_ID);
+        badge.setAttribute('productname', MICROSOFT_STORE_PRODUCT_NAME);
+        badge.setAttribute('window-mode', 'direct');
+        badge.setAttribute('theme', badgeTheme);
+        badge.setAttribute('size', 'small');
+        badge.setAttribute('language', languageCode);
+        badge.setAttribute('animation', 'on');
+        container.appendChild(badge);
+      }
+
+      const link = document.createElement('a');
+      link.className = 'help-store-link';
+      link.href = MICROSOFT_STORE_PRODUCT_URL;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.textContent = linkLabel;
+      container.appendChild(link);
+    }
+
+    function isMobileDeviceContext() {
+      const ua = navigator.userAgent || '';
+      const uaDataMobile = !!(navigator.userAgentData && navigator.userAgentData.mobile);
+      const touchMac = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+      const mobileUa = /android|iphone|ipad|ipod|mobile|windows phone|blackberry|kindle|silk/i.test(ua);
+      return uaDataMobile || mobileUa || touchMac;
+    }
+
+    function isInstalledDesktopAppContext() {
+      if (window.chrome && window.chrome.webview) return true;
+      if (!window.matchMedia) return false;
+      try {
+        return window.matchMedia('(display-mode: window-controls-overlay)').matches;
+      } catch (e) {
+        return false;
+      }
+    }
+
     // ── Help / Keyboard Shortcuts ───────────────────────────────────────────
     function scrollHelpTo(blockId) {
       const el = document.getElementById(blockId);
@@ -42,6 +107,9 @@
       setTimeout(runScroll, 30);
     }
     function renderHelpPanel(T) {
+      const showMicrosoftStoreBlock =
+        !isMobileDeviceContext() &&
+        !isInstalledDesktopAppContext();
       const sections = [
         { title: T.helpQuickTitle, items: T.helpQuickItems },
         { title: T.helpMobileTitle, items: T.helpMobileItems },
@@ -86,6 +154,15 @@
         title: T.kbUrlHeading,
         html: '<table class="kb-url-table">' + urlRows + '</table>'
       });
+      if (showMicrosoftStoreBlock) {
+        blocks.push({
+          id: 'help-microsoft-store',
+          title: T.helpStoreTitle,
+          html:
+            '<p class="help-store-copy">' + escHtml(T.helpStoreIntro) + '</p>' +
+            '<div class="help-store-badge-wrap" id="help-microsoft-store-badge"></div>'
+        });
+      }
       document.getElementById('help-title').textContent = T.helpTitle;
       document.getElementById('help-intro').textContent = T.helpIntro;
       document.getElementById('help-manual-box').innerHTML =
@@ -104,6 +181,9 @@
         '</div>';
       }).join('') +
       '';
+      if (showMicrosoftStoreBlock) {
+        renderMicrosoftStoreBadge((lang === 'de' ? 'de' : 'en-us'), T.helpStoreLink);
+      }
     }
     function openKB() {
       const T = t();

@@ -1253,7 +1253,15 @@
           });
         };
       });
-      inp.focus(); inp.select();
+      const touchMac = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+      const isMobileEditContext =
+        /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent) ||
+        touchMac ||
+        !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches && navigator.maxTouchPoints > 0);
+      if (!isMobileEditContext) {
+        inp.focus();
+        inp.select();
+      }
       function getEditDue() {
         const d = dueDateInp.value;
         if (!d) return '';
@@ -3334,7 +3342,7 @@
         const viewport = window.visualViewport;
         const diff = viewport ? window.innerHeight - viewport.height : 0;
         const keyboardFromViewport = diff > 120;
-        const keyboardFromFocus = hasKeyboardTarget() && (!viewport || diff > 60);
+        const keyboardFromFocus = hasKeyboardTarget();
         setKeyboard(keyboardFromViewport || keyboardFromFocus);
       }
 
@@ -3342,7 +3350,8 @@
       document.addEventListener('focusin', function(e) {
         if (e.target.matches('input, textarea, [contenteditable]')) {
           clearTimeout(focusOutTimer);
-          syncKeyboard();
+          setKeyboard(true);
+          setTimeout(syncKeyboard, 40);
         }
       });
       document.addEventListener('focusout', function() {

@@ -90,6 +90,9 @@
           '[Link](https://example.com)',
           'Zeilenumbruch: Enter drücken (kein Markdown nötig)'
         ],
+        helpStoreTitle: 'Auch im Microsoft Store',
+        helpStoreIntro: 'Wenn du Flux unter Windows lieber direkt als Store-App installieren möchtest, kannst du die veröffentlichte Version auch über den Microsoft Store öffnen.',
+        helpStoreLink: 'Im Microsoft Store öffnen',
         helpManualHeading: 'Handbuch',
         helpManualIntro: 'Dieses Handbuch gibt dir einen kompakten Überblick über Aufbau, Funktionen und den besten Workflow in Flux. Es hilft dir beim Einstieg und dient gleichzeitig als schnelle Referenz für den Alltag. Wenn du einzelne Punkte nachlesen willst, kannst du direkt über das Inhaltsverzeichnis zu den passenden Abschnitten springen.',
         helpManualSections: [
@@ -426,6 +429,15 @@
         themeNames: { flux: 'Flux', ocean: 'Ozean', sunset: 'Abendrot', forest: 'Wald', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.7.0',
+            entries: [
+              'Microsoft-Store-Support weiter verfeinert: App-Name für Windows-Pakete ausgerichtet, kompakter Fenstertitel und ein Desktop-only-Store-Hinweis im Hilfe-Tab',
+              'Service Worker um Sync- und Push-Hooks erweitert, damit PWA-Tooling und Stores robustere Worker-Funktionen erkennen',
+              'iOS-/Mobile-Bearbeiten stabilisiert: Die Bottom-Tab-Bar blendet sich bei geöffneter Tastatur jetzt zuverlässiger aus, auch im Filter „Erledigt“',
+              'Mobiles Inline-Bearbeiten öffnet nicht mehr sofort den Titel mit Autofokus, damit die Tastatur nicht direkt ins Layout springt',
+            ],
+          },
           {
             version: 'v1.6.9.1',
             entries: [
@@ -1210,6 +1222,9 @@
           '[Link](https://example.com)',
           'Line break: press Enter (no Markdown needed)'
         ],
+        helpStoreTitle: 'Also on Microsoft Store',
+        helpStoreIntro: 'If you prefer installing Flux on Windows as a Store app, you can also open the published version directly in Microsoft Store.',
+        helpStoreLink: 'Open in Microsoft Store',
         helpManualHeading: 'Manual',
         helpManualIntro: 'This manual gives you a compact overview of Flux structure, features, and the best workflow. It helps you get started and also works as a quick day-to-day reference. If you want to look up a specific topic, you can jump to the matching section via the table of contents.',
         helpManualSections: [
@@ -1546,6 +1561,15 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.7.0',
+            entries: [
+              'Further polished Microsoft Store support with aligned app naming for Windows packages, a compact window title, and a desktop-only store hint in the Help tab',
+              'Expanded the Service Worker with sync and push hooks so richer PWA tooling and store checks detect more robust worker capabilities',
+              'Stabilized iOS/mobile editing so the bottom tab bar hides more reliably while the keyboard is open, including in the Done filter',
+              'Removed the automatic title-field autofocus for inline editing on mobile, so the keyboard no longer jumps in immediately',
+            ],
+          },
           {
             version: 'v1.6.9.1',
             entries: [
