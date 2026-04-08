@@ -3,7 +3,7 @@
 > A lightweight, local-first todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just static files.
 
-![Version](https://img.shields.io/badge/version-1.6.9.1-blueviolet)
+![Version](https://img.shields.io/badge/version-1.7.0-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -188,6 +188,12 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.7.0
+- Polished Microsoft Store support with aligned app naming for Windows packaging, a compact desktop window title, and a desktop-only store badge in the Help tab
+- Expanded the Service Worker with sync and push hooks to satisfy richer PWA tooling requirements
+- Improved iOS/mobile editing behavior so the bottom tab bar hides more reliably while the keyboard is open, including in the Done filter
+- Removed the automatic title-field focus on mobile when opening inline task editing, so editing no longer jumps straight into the keyboard
 
 ### v1.6.9.1
 - Renamed the Service Worker to `sw.js` to follow the common convention used by PWA tooling
@@ -661,4 +667,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.6.9.1</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.7.0</p>
