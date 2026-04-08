@@ -2948,7 +2948,7 @@
       const T = t();
 
       document.getElementById('app-title').textContent = T.appTitle;
-      document.title = T.appTitle;
+      document.title = 'Flux';
       document.getElementById('app-claim').textContent = T.claim;
       renderBoardBar();
       document.getElementById('header-badges').innerHTML = T.headerBadges.map(b => `<span class="header-badge">${b}</span>`).join('');
