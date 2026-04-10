@@ -430,6 +430,13 @@
         changelogHeading: 'Changelog',
         changelogVersions: [
           {
+            version: 'v1.7.1',
+            entries: [
+              'Android-/Mobile-PWA-Layout verbessert: Aufgaben-Aktionen wechseln in der installierten mobilen App jetzt robuster in ein 2x2-Raster',
+              'Theme-Color-Steuerung für Android verfeinert, damit die Systemleiste besser zur App-Farbe passt statt schwarz zu wirken',
+            ],
+          },
+          {
             version: 'v1.7.0',
             entries: [
               'Microsoft-Store-Support weiter verfeinert: App-Name für Windows-Pakete ausgerichtet, kompakter Fenstertitel und ein Desktop-only-Store-Hinweis im Hilfe-Tab',
@@ -1561,6 +1568,13 @@
         themeNames: { flux: 'Flux', ocean: 'Ocean', sunset: 'Sunset', forest: 'Forest', rose: 'Rose', mono: 'Mono', bender: 'Bender', lumpi: 'Lumpi', nobler: 'Nobler' },
         changelogHeading: 'Changelog',
         changelogVersions: [
+          {
+            version: 'v1.7.1',
+            entries: [
+              'Improved the Android/mobile PWA layout so task action buttons switch more reliably into a 2x2 grid in standalone mobile app mode',
+              'Refined Android theme-color handling so the system bar can better match the app color instead of falling back to black',
+            ],
+          },
           {
             version: 'v1.7.0',
             entries: [

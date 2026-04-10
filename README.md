@@ -3,7 +3,7 @@
 > A lightweight, local-first todo app with a glassmorphism / acrylic design.
 > No server. No dependencies. Just static files.
 
-![Version](https://img.shields.io/badge/version-1.7.0-blueviolet)
+![Version](https://img.shields.io/badge/version-1.7.1-blueviolet)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
@@ -188,6 +188,10 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 ---
 
 ## Changelog
+
+### v1.7.1
+- Improved Android/mobile PWA task cards by switching task action buttons to a more robust 2x2 layout in standalone mobile app mode
+- Adjusted the app theme color handling so Android system bars can better match the app instead of falling back to black
 
 ### v1.7.0
 - Polished Microsoft Store support with aligned app naming for Windows packaging, a compact desktop window title, and a desktop-only store badge in the Help tab
@@ -667,4 +671,4 @@ Flux works in all modern browsers that support `backdrop-filter`. Offline mode r
 
 ---
 
-<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.7.0</p>
+<p align="center">Made with focus &nbsp;·&nbsp; Flux v1.7.1</p>

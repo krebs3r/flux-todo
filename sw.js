@@ -10,7 +10,7 @@
 //     Strategy: network-first with targeted app-shell caching.
 //     Old cache versions are cleaned up during activation.
 
-const CACHE = 'flux-v20';
+const CACHE = 'flux-v21';
 const SYNC_TAG = 'flux-sync-app-shell';
 const PERIODIC_SYNC_TAG = 'flux-periodic-sync-app-shell';
 const APP_SHELL = [
