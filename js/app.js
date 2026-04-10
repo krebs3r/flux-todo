@@ -22,6 +22,17 @@
       lumpi:  { light: '#ecdec8', dark: '#2c1c12' },
       nobler: { light: '#e0e0e8', dark: '#1c1c26' },
     };
+    const THEME_SYSTEM_BAR = {
+      flux:   { light: '#b7c6d8', dark: '#160832' },
+      ocean:  { light: '#80dcec', dark: '#0a2a52' },
+      sunset: { light: '#f3a56d', dark: '#4a2210' },
+      forest: { light: '#87cda8', dark: '#1e4030' },
+      rose:   { light: '#f6b7c8', dark: '#421828' },
+      mono:   { light: '#d5d9df', dark: '#22252a' },
+      bender: { light: '#bfd0e3', dark: '#182638' },
+      lumpi:  { light: '#ddccb6', dark: '#2c1c12' },
+      nobler: { light: '#d7d7df', dark: '#1c1c26' },
+    };
     const SWATCH_BG = {
       flux:   'linear-gradient(to bottom,#c8d6e5,#b0bfd4,#a8b8d0)',
       ocean:  'linear-gradient(to bottom,#48cae4,#00b4d8,#90e0ef)',
@@ -2369,16 +2380,44 @@
       if (darkPref !== 'auto') return;
       dark = e.matches; applyDark(); render();
     });
+    function isStandaloneApp() {
+      return !!(
+        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+        (window.matchMedia && window.matchMedia('(display-mode: window-controls-overlay)').matches) ||
+        navigator.standalone === true
+      );
+    }
+    function isMobileLikeDevice() {
+      const uaDataMobile = !!(navigator.userAgentData && navigator.userAgentData.mobile);
+      const coarsePointer = !!(
+        window.matchMedia &&
+        (
+          window.matchMedia('(pointer: coarse)').matches ||
+          window.matchMedia('(any-pointer: coarse)').matches
+        )
+      );
+      const compactViewport = !!(window.matchMedia && window.matchMedia('(max-width: 900px)').matches);
+      const touchCapable = navigator.maxTouchPoints > 0;
+      return uaDataMobile || (touchCapable && coarsePointer) || (touchCapable && compactViewport);
+    }
+    function syncMobileUiMode() {
+      const mobileLike = isMobileLikeDevice();
+      const standalone = isStandaloneApp();
+      document.documentElement.classList.toggle('mobile-device-ui', mobileLike);
+      document.documentElement.classList.toggle('mobile-pwa-ui', mobileLike && standalone);
+    }
     function updateNavbarColor() {
       const bg = THEME_BG[currentTheme] || THEME_BG.flux;
-      document.body.style.backgroundColor = dark ? bg.dark : bg.light;
+      const system = THEME_SYSTEM_BAR[currentTheme] || THEME_SYSTEM_BAR.flux;
+      const bgColor = dark ? bg.dark : bg.light;
+      document.body.style.backgroundColor = bgColor;
+      document.documentElement.style.backgroundColor = bgColor;
+      document.getElementById('theme-color-meta').content = dark ? system.dark : system.light;
     }
     function applyDark() {
       document.body.classList.toggle('dark', dark);
       document.documentElement.classList.toggle('dark', dark);
       document.getElementById('dark-icon').innerHTML = darkPref === 'auto' ? SVG.autoMode : (dark ? SVG.moon : SVG.sun);
-      const th = THEMES[currentTheme] || THEMES.flux;
-      document.getElementById('theme-color-meta').content = dark ? th.dark : th.light;
       updateNavbarColor();
       applySettingsToggles();
     }
@@ -2420,8 +2459,6 @@
       const html = document.documentElement;
       Object.keys(THEMES).forEach(k => html.classList.remove('theme-' + k));
       if (id !== 'flux') html.classList.add('theme-' + id);
-      const th = THEMES[id] || THEMES.flux;
-      document.getElementById('theme-color-meta').content = dark ? th.dark : th.light;
       updateNavbarColor();
     }
     function selectTheme(id) {
@@ -3729,6 +3766,11 @@
     }
     // Register as early as possible so browsers and PWA auditors detect the
     // service worker before the async app bootstrap finishes.
+    syncMobileUiMode();
+    window.addEventListener('resize', syncMobileUiMode, { passive: true });
+    window.addEventListener('orientationchange', syncMobileUiMode, { passive: true });
+    try { window.matchMedia('(display-mode: standalone)').addEventListener('change', syncMobileUiMode); } catch (e) {}
+    try { window.matchMedia('(pointer: coarse)').addEventListener('change', syncMobileUiMode); } catch (e) {}
     setupPWA();
 
     bootstrapApp().catch(function() {

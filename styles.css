@@ -2040,6 +2040,22 @@
       width: 100%;
     }
     .todo-actions .action-btn { justify-content: center; }
+    html.mobile-pwa-ui .todo-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      width: 100%;
+    }
+    html.mobile-pwa-ui .todo-actions .action-btn {
+      width: 100%;
+      min-width: 0;
+      min-height: 40px;
+      padding: 0 10px;
+    }
+    html.mobile-pwa-ui .todo-actions .action-btn span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     .action-btn {
       display: flex;
